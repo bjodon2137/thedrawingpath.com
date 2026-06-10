@@ -1263,4 +1263,30 @@
     let totalDone = 0;
     for (let i = 1; i <= 6; i++) totalDone += renderLesson(i);
     const overallPct = Math.round((totalDone / TOTAL_TRACKABLE) * 100);
-    document.getElementById('overall-bar').styl
+    document.getElementById('overall-bar').style.width = overallPct + '%';
+    document.getElementById('overall-pct').textContent = overallPct + '%';
+  }
+
+  function showLesson(num, btn) {
+    document.querySelectorAll('.lesson-panel').forEach(function(p) { p.classList.remove('active'); });
+    var target = document.getElementById('lesson-' + num);
+    if (target) target.classList.add('active');
+    document.querySelectorAll('.lesson-btn').forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showTier(btn, panelId) {
+    var tabs = btn.closest('.cc-tier-tabs').querySelectorAll('.cc-tier-btn');
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+    btn.classList.add('active');
+    var panels = btn.closest('.cc-tiers').querySelectorAll('.cc-tier-panel');
+    panels.forEach(function(p) { p.classList.remove('active'); });
+    document.getElementById(panelId).classList.add('active');
+  }
+
+  renderAll();
+
+</script>
+</body>
+</html>
