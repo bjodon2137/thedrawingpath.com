@@ -52,10 +52,10 @@
     .nav-section-label { padding: 22px 28px 8px; font-size: 9px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
     .lesson-btn {
       display: flex; align-items: center; gap: 14px;
-      width: 100%; padding: 13px 28px; background: none;
+      width: 100%; padding: 13px 28px 14px; background: none;
       border: none; border-left: 2px solid transparent;
       cursor: pointer; text-align: left; transition: all .18s;
-      color: var(--text); font-family: var(--sans);
+      color: var(--text); font-family: var(--sans); position: relative; overflow: hidden;
     }
     .lesson-btn:hover { color: var(--text); background: rgba(255,255,255,.015); border-left-color: var(--dim); }
     .lesson-btn.active { color: var(--text); border-left-color: var(--gold); background: var(--gold-glow); }
@@ -278,29 +278,30 @@
   <div class="nav-section-label">Lessons</div>
   <button class="lesson-btn active" onclick="showLesson(1,this)">
     <span class="lnum">1</span><span class="lesson-title-text">Linework &amp; Basic Shapes</span><span class="done-mark">◆</span>
+    <div class="btn-prog"><div class="btn-prog-fill" id="l1-btn-prog"></div></div>
   </button>
   <button class="lesson-btn" onclick="showLesson(2,this)">
     <span class="lnum">2</span><span class="lesson-title-text">Perspective &amp; Volume</span><span class="done-mark">◆</span>
-  </button>
+  <div class="btn-prog"><div class="btn-prog-fill" id="l2-btn-prog"></div></div></button>
   <button class="lesson-btn" onclick="showLesson(3,this)">
     <span class="lnum">3</span><span class="lesson-title-text">Proportions</span><span class="done-mark">◆</span>
-  </button>
+  <div class="btn-prog"><div class="btn-prog-fill" id="l3-btn-prog"></div></div></button>
   <button class="lesson-btn" onclick="showLesson(4,this)">
     <span class="lnum">4</span><span class="lesson-title-text">Light &amp; Shadow</span><span class="done-mark">◆</span>
-  </button>
+  <div class="btn-prog"><div class="btn-prog-fill" id="l4-btn-prog"></div></div></button>
   <button class="lesson-btn" onclick="showLesson(5,this)">
     <span class="lnum">5</span><span class="lesson-title-text">Shading &amp; Texture</span><span class="done-mark">◆</span>
-  </button>
+  <div class="btn-prog"><div class="btn-prog-fill" id="l5-btn-prog"></div></div></button>
   <button class="lesson-btn" onclick="showLesson(6,this)">
     <span class="lnum">6</span><span class="lesson-title-text">Color Fundamentals</span><span class="done-mark">◆</span>
-  </button>
+  <div class="btn-prog"><div class="btn-prog-fill" id="l6-btn-prog"></div></div></button>
   <div class="nav-section-label">2nd Term</div>
-<button class="lesson-btn" onclick="showLesson(7,this)"><span class="lnum">7</span><span class="lesson-title-text">Composition &amp; Visual Design</span><span class="done-mark">&#9670;</span></button>
-<button class="lesson-btn" onclick="showLesson(8,this)"><span class="lnum">8</span><span class="lesson-title-text">Gesture &amp; Figure Drawing</span><span class="done-mark">&#9670;</span></button>
-<button class="lesson-btn" onclick="showLesson(9,this)"><span class="lnum">9</span><span class="lesson-title-text">Anatomy for Artists</span><span class="done-mark">&#9670;</span></button>
-<button class="lesson-btn" onclick="showLesson(10,this)"><span class="lnum">10</span><span class="lesson-title-text">Advanced Color &amp; Light</span><span class="done-mark">&#9670;</span></button>
-<button class="lesson-btn" onclick="showLesson(11,this)"><span class="lnum">11</span><span class="lesson-title-text">Environment &amp; Background Design</span><span class="done-mark">&#9670;</span></button>
-<button class="lesson-btn" onclick="showLesson(12,this)"><span class="lnum">12</span><span class="lesson-title-text">Developing Your Style</span><span class="done-mark">&#9670;</span></button>
+<button class="lesson-btn" onclick="showLesson(7,this)"><span class="lnum">7</span><span class="lesson-title-text">Composition &amp; Visual Design</span><span class="done-mark">&#9670;</span><div class="btn-prog"><div class="btn-prog-fill" id="l7-btn-prog"></div></div></button>
+<button class="lesson-btn" onclick="showLesson(8,this)"><span class="lnum">8</span><span class="lesson-title-text">Gesture &amp; Figure Drawing</span><span class="done-mark">&#9670;</span><div class="btn-prog"><div class="btn-prog-fill" id="l8-btn-prog"></div></div></button>
+<button class="lesson-btn" onclick="showLesson(9,this)"><span class="lnum">9</span><span class="lesson-title-text">Anatomy for Artists</span><span class="done-mark">&#9670;</span><div class="btn-prog"><div class="btn-prog-fill" id="l9-btn-prog"></div></div></button>
+<button class="lesson-btn" onclick="showLesson(10,this)"><span class="lnum">10</span><span class="lesson-title-text">Advanced Color &amp; Light</span><span class="done-mark">&#9670;</span><div class="btn-prog"><div class="btn-prog-fill" id="l10-btn-prog"></div></div></button>
+<button class="lesson-btn" onclick="showLesson(11,this)"><span class="lnum">11</span><span class="lesson-title-text">Environment &amp; Background Design</span><span class="done-mark">&#9670;</span><div class="btn-prog"><div class="btn-prog-fill" id="l11-btn-prog"></div></div></button>
+<button class="lesson-btn" onclick="showLesson(12,this)"><span class="lnum">12</span><span class="lesson-title-text">Developing Your Style</span><span class="done-mark">&#9670;</span><div class="btn-prog"><div class="btn-prog-fill" id="l12-btn-prog"></div></div></button>
 <!-- EMAIL CAPTURE — replace YOUR_FORM_ID with your Formspree form ID -->
   <div class="sidebar-email">
     <div class="sidebar-email-lbl">Stay in the loop</div>
@@ -1726,6 +1727,8 @@
     const btns = document.querySelectorAll('.lesson-btn');
     if (pct === 100 && btns[num - 1]) btns[num - 1].classList.add('done');
     else if (btns[num - 1]) btns[num - 1].classList.remove('done');
+    const btnProg = document.getElementById('l' + num + '-btn-prog');
+    if (btnProg) btnProg.style.width = pct + '%';
     return done;
   }
 
@@ -1801,6 +1804,34 @@
     _origShowLesson(num, btn);
     closeMobileMenu();
   };
+
+  // Keyboard navigation: ← → between lessons
+  (function() {
+    var currentLesson = 1;
+    // Track which lesson is shown
+    var _kbShowLesson = showLesson;
+    showLesson = function(num, btn) {
+      currentLesson = num;
+      _kbShowLesson(num, btn);
+    };
+    document.addEventListener('keydown', function(e) {
+      // Don't fire when typing in inputs
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        var next = Math.min(currentLesson + 1, 12);
+        if (next !== currentLesson) {
+          var btn = document.querySelector('.lesson-btn[onclick*="showLesson(' + next + ',"]');
+          showLesson(next, btn);
+        }
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        var prev = Math.max(currentLesson - 1, 1);
+        if (prev !== currentLesson) {
+          var btn = document.querySelector('.lesson-btn[onclick*="showLesson(' + prev + ',"]');
+          showLesson(prev, btn);
+        }
+      }
+    });
+  })();
 </script>
 </body>
 </html>
