@@ -4,11 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Drawing Path — Teach Yourself to See</title>
-  <meta name="description" content="The Drawing Path is a self-directed drawing course covering linework, perspective, proportion, light, shading, and color. Teach yourself to see." />
+  <meta name="description" content="The Drawing Path is a self-directed drawing course spanning 12 lessons across two terms — from linework and perspective through figure drawing, anatomy, advanced color, and developing your style." />
   <meta property="og:title" content="The Drawing Path — Teach Yourself to See" />
-  <meta property="og:description" content="A self-directed drawing course. Six lessons. No fluff." />
+  <meta property="og:description" content="A self-directed drawing course. Twelve lessons across two terms. No fluff." />
   <meta property="og:url" content="https://thedrawingpath.com" />
   <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The Drawing Path — Teach Yourself to See" />
+  <meta name="twitter:description" content="A self-directed drawing course. Twelve lessons across two terms. No fluff." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230d0d0d'/><path d='M8 24 Q16 6 24 24' stroke='%23c9a84c' stroke-width='2' fill='none' stroke-linecap='round'/><circle cx='16' cy='12' r='2' fill='%23c9a84c'/></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -197,15 +201,50 @@
     .lg-pdf-viewer { display: none; margin-top: 14px; border-top: 1px solid var(--border-dim); padding-top: 14px; }
     .lg-pdf-viewer.open { display: block; }
     .lg-iframe { width: 100%; height: 600px; border: none; display: block; background: #111; }
+
+    /* MOBILE NAV */
+    #mobile-header {
+      display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 52px; background: #080808; border-bottom: 1px solid var(--border-dim);
+      align-items: center; padding: 0 16px; gap: 12px;
+    }
+    #mobile-menu-btn {
+      background: none; border: none; cursor: pointer; padding: 8px;
+      display: flex; flex-direction: column; gap: 5px;
+    }
+    #mobile-menu-btn span {
+      display: block; width: 20px; height: 1.5px; background: var(--text);
+      transition: all .2s;
+    }
+    .mobile-title {
+      font-family: var(--serif); font-size: 16px; font-weight: 300; color: var(--text);
+      flex: 1;
+    }
+    .mobile-title em { font-style: italic; color: var(--gold); }
+    #sidebar-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 150;
+    }
+    #sidebar-overlay.open { display: block; }
     @media (max-width: 860px) {
-      #sidebar { display: none; }
-      #main { margin-left: 0; }
-      .lesson-hero { padding: 40px 24px 0; }
+      #mobile-header { display: flex; }
+      #sidebar {
+        display: flex !important;
+        transform: translateX(-100%); transition: transform .25s ease;
+        top: 0; z-index: 160;
+      }
+      #sidebar.open { transform: translateX(0); }
+      #main { margin-left: 0; padding-top: 52px; }
+      .lesson-hero { padding: 40px 20px 0; }
       .ghost-num { display: none; }
-      .art-frame { margin: 28px 24px 0; }
-      .lesson-body { padding: 32px 24px 64px; }
+      .art-frame { margin: 28px 20px 0; }
+      .lesson-body { padding: 32px 20px 64px; }
       .weeks-grid { grid-template-columns: repeat(2, 1fr); }
-      .concepts-grid { grid-template-columns: 1fr 1fr; }
+      .concepts-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 500px) {
+      .concepts-grid { grid-template-columns: 1fr; }
+      .weeks-grid { grid-template-columns: 1fr; }
+      .lesson-body { padding: 24px 16px 64px; }
     }
   
 /* ── Three-Tier Concept Expansion ─────────────────────────── */
@@ -223,10 +262,18 @@
 </head>
 <body>
 
+<div id="sidebar-overlay" onclick="closeMobileMenu()"></div>
+<div id="mobile-header">
+  <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Open lesson menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="mobile-title">The Drawing Path &mdash; <em>Teach Yourself to See</em></div>
+</div>
 <nav id="sidebar">
   <div class="sidebar-header">
     <div class="sidebar-term">The Drawing Path</div>
     <div class="sidebar-logo"><em>Teach Yourself</em><strong>to See.</strong></div>
+    <button id="sidebar-close-btn" onclick="closeMobileMenu()" aria-label="Close menu">&#10005;</button>
   </div>
   <div class="nav-section-label">Lessons</div>
   <button class="lesson-btn active" onclick="showLesson(1,this)">
@@ -1739,6 +1786,21 @@
       }
     });
   })();
+
+  function toggleMobileMenu() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebar-overlay').classList.toggle('open');
+  }
+  function closeMobileMenu() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebar-overlay').classList.remove('open');
+  }
+  // Close mobile menu when a lesson is selected
+  var _origShowLesson = showLesson;
+  showLesson = function(num, btn) {
+    _origShowLesson(num, btn);
+    closeMobileMenu();
+  };
 </script>
 </body>
 </html>
