@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Caricature — The Drawing Path</title>
+  <meta name="description" content="Likeness, structure, and the art of intelligent exaggeration — from portrait reading to a finished caricature in your own voice." />
+  <link rel="canonical" href="https://thedrawingpath.com/caricature.html" />
+  <meta property="og:title" content="Caricature — The Drawing Path" />
+  <meta property="og:description" content="Likeness, structure, and the art of intelligent exaggeration — from portrait reading to a finished caricature in your own voice." />
+  <meta property="og:image" content="https://thedrawingpath.com/og-image.png" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d0d; --surface: #141414; --surface2: #1a1a1a;
+      --border: rgba(255,255,255,.07); --border2: rgba(255,255,255,.12);
+      --gold: #c9a84c; --gold-dim: rgba(201,168,76,.18); --gold-mid: rgba(201,168,76,.35);
+      --text: #e8e4dc; --muted: #7a7469; --subtle: #3a3632;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Inter', system-ui, sans-serif;
+      --sidebar-w: 260px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar { width: var(--sidebar-w); min-height: 100vh; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; }
+    .sidebar-home { display: block; padding: 18px 20px 0; font-family: var(--sans); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); text-decoration: none; opacity: .7; transition: opacity .2s; }
+    .sidebar-home:hover { opacity: 1; }
+    .sidebar-title { padding: 20px 20px 4px; font-family: var(--serif); font-size: 19px; font-weight: 400; letter-spacing: .03em; color: var(--text); }
+    .sidebar-tagline { padding: 0 20px 16px; font-family: var(--sans); font-size: 11px; color: var(--muted); letter-spacing: .04em; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
+    .track-label { padding: 14px 20px 8px; font-family: var(--sans); font-size: 9px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+    .lesson-btn { display: flex; flex-direction: column; gap: 2px; width: 100%; padding: 10px 20px; background: none; border: none; border-left: 2px solid transparent; cursor: pointer; text-align: left; transition: background .15s, border-color .15s; }
+    .lesson-btn:hover { background: var(--surface2); }
+    .lesson-btn.active { border-left-color: var(--gold); background: var(--gold-dim); }
+    .lesson-btn-num { font-family: var(--sans); font-size: 9px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+    .lesson-btn.active .lesson-btn-num { color: var(--gold); }
+    .lesson-btn-title { font-family: var(--serif); font-size: 15px; font-weight: 400; color: var(--text); }
+    .lesson-btn-prog-wrap { height: 2px; background: var(--subtle); border-radius: 1px; margin-top: 4px; overflow: hidden; }
+    .lesson-btn-prog { height: 100%; background: var(--gold); border-radius: 1px; width: 0%; transition: width .4s; }
+    .overall-progress { margin-top: auto; padding: 16px 20px; border-top: 1px solid var(--border); }
+    .op-label { font-family: var(--sans); font-size: 9px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .op-bar-wrap { height: 3px; background: var(--subtle); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
+    .op-bar { height: 100%; background: var(--gold); border-radius: 2px; width: 0%; transition: width .5s; }
+    .op-pct { font-family: var(--sans); font-size: 11px; color: var(--gold); }
+    #sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 150; }
+    #sidebar-overlay.open { display: block; }
+    #mobile-header { display: none; }
+
+    /* MAIN */
+    .main { flex: 1; min-width: 0; }
+    .lesson-panel { display: none; animation: fadeIn .25s ease; }
+    .lesson-panel.active { display: block; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+    /* LESSON HEADER */
+    .lesson-header { border-bottom: 1px solid var(--border); padding: 52px 56px 40px; }
+    .lesson-header-inner { max-width: 680px; }
+    .lesson-eyebrow { font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+    .lesson-title { font-family: var(--serif); font-size: clamp(32px,4vw,48px); font-weight: 300; color: var(--text); margin-bottom: 10px; }
+    .lesson-subtitle { font-family: var(--sans); font-size: 14px; color: var(--muted); font-style: italic; }
+
+    /* LESSON BODY */
+    .lesson-body { padding: 48px 56px 80px; max-width: 900px; }
+    .art-frame { margin-bottom: 48px; }
+    .art-placeholder { height: 180px; background: var(--surface); border: 1px solid var(--border); border-radius: 2px; }
+
+    /* SECTION */
+    .section { margin-bottom: 48px; }
+    .section-head { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+    .section-label { font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+    .section-rule { flex: 1; height: 1px; background: var(--border); }
+
+    /* CALLOUT */
+    .callout { background: var(--surface); border: 1px solid var(--border); padding: 20px 24px; border-radius: 2px; margin-bottom: 16px; }
+
+    /* CONCEPT CARDS */
+    .concepts-grid { display: flex; flex-direction: column; gap: 2px; }
+    .concept-card { background: var(--surface); border: 1px solid var(--border); padding: 28px 28px 24px; transition: border-color .2s; }
+    .concept-card:hover { border-color: var(--border2); }
+    .cc-title { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--text); margin-bottom: 6px; }
+    .cc-desc { font-family: var(--sans); font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+    .cc-tiers { margin-bottom: 20px; }
+    .cc-tier-tabs { display: flex; gap: 0; margin-bottom: 0; border-bottom: 1px solid var(--border); }
+    .cc-tier-tab { background: none; border: none; border-bottom: 2px solid transparent; padding: 8px 16px; font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); cursor: pointer; margin-bottom: -1px; transition: color .15s, border-color .15s; }
+    .cc-tier-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .cc-tier-panel { display: none; padding: 20px 0 8px; font-family: var(--sans); font-size: 14px; color: var(--text); line-height: 1.75; }
+    .cc-tier-panel.active { display: block; }
+    .cc-pdf-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+    .cc-view-btn { background: var(--gold-dim); border: 1px solid var(--gold-mid); color: var(--gold); font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; padding: 8px 16px; cursor: pointer; transition: background .2s; }
+    .cc-view-btn:hover, .cc-view-btn.open { background: rgba(201,168,76,.28); }
+    .cc-dl-btn { background: transparent; border: 1px solid var(--border2); color: var(--muted); font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; padding: 8px 14px; text-decoration: none; transition: border-color .2s, color .2s; }
+    .cc-dl-btn:hover { border-color: var(--gold-mid); color: var(--gold); }
+    .cc-pdf-viewer { display: none; width: 100%; margin-top: 12px; }
+    .cc-pdf-viewer.open { display: block; }
+    .cc-iframe { width: 100%; height: 500px; border: none; background: #1a1a1a; }
+    .btn-prog { background: none; border: 1px solid var(--border2); color: var(--muted); font-family: var(--sans); font-size: 10px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; padding: 6px 14px; cursor: pointer; transition: all .2s; }
+    .btn-prog:hover { border-color: var(--gold-mid); color: var(--gold); }
+    .btn-prog.done { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+
+    /* LESSON PROGRESS */
+    .lesson-progress { margin-top: 40px; padding: 20px; background: var(--surface); border: 1px solid var(--border); }
+    .lp-label { font-family: var(--sans); font-size: 9px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .lp-bar-wrap { height: 3px; background: var(--subtle); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
+    .lp-bar { height: 100%; background: var(--gold); width: 0%; transition: width .4s; border-radius: 2px; }
+    .lp-pct { font-family: var(--sans); font-size: 12px; color: var(--gold); }
+
+    /* LESSON FOOTER */
+    .lesson-footer { display: flex; justify-content: space-between; align-items: center; padding: 32px 56px; border-top: 1px solid var(--border); margin-top: 24px; gap: 16px; }
+    .lf-btn { background: none; border: 1px solid var(--border2); color: var(--muted); font-family: var(--sans); font-size: 12px; padding: 12px 20px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all .2s; text-align: left; }
+    .lf-btn:hover { border-color: var(--gold-mid); color: var(--text); }
+    .lf-btn.primary { background: var(--gold-dim); border-color: var(--gold-mid); color: var(--text); }
+    .lf-btn.primary:hover { background: rgba(201,168,76,.28); }
+    .lf-num { font-size: 10px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); display: block; }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      body { flex-direction: column; }
+      .sidebar { display: none; width: 100%; position: fixed; top: 0; left: 0; height: 100vh; z-index: 200; transform: translateX(-100%); transition: transform .3s; }
+      .sidebar.open { display: flex; transform: translateX(0); }
+      #mobile-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+      .mobile-menu-btn { background: none; border: 1px solid var(--border2); color: var(--muted); font-size: 18px; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+      .mobile-title { font-family: var(--serif); font-size: 17px; color: var(--text); }
+      .lesson-header { padding: 32px 24px 28px; }
+      .lesson-body { padding: 28px 24px 60px; }
+      .lesson-footer { padding: 24px; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="sidebar-overlay" onclick="closeMobileMenu()"></div>
+  <div id="mobile-header">
+    <button class="mobile-menu-btn" onclick="openMobileMenu()">&#9776;</button>
+    <span class="mobile-title">Caricature</span>
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <a class="sidebar-home" href="/">&#8592; The Drawing Path</a>
+    <div class="sidebar-title">Caricature</div>
+    <div class="sidebar-tagline">Find the truth by exaggerating it.</div>
+    <div class="track-label">Lessons</div>
+    
+      <button class="lesson-btn" id="l1-btn" onclick="showLesson(1,this)">
+        <span class="lesson-btn-num">Lesson 1</span>
+        <span class="lesson-btn-title">Reading the Face</span>
+        <div class="lesson-btn-prog-wrap"><div class="lesson-btn-prog" id="l1-btn-prog"></div></div>
+      </button>
+      <button class="lesson-btn" id="l2-btn" onclick="showLesson(2,this)">
+        <span class="lesson-btn-num">Lesson 2</span>
+        <span class="lesson-btn-title">Structure &amp; Form</span>
+        <div class="lesson-btn-prog-wrap"><div class="lesson-btn-prog" id="l2-btn-prog"></div></div>
+      </button>
+      <button class="lesson-btn" id="l3-btn" onclick="showLesson(3,this)">
+        <span class="lesson-btn-num">Lesson 3</span>
+        <span class="lesson-btn-title">The Art of Exaggeration</span>
+        <div class="lesson-btn-prog-wrap"><div class="lesson-btn-prog" id="l3-btn-prog"></div></div>
+      </button>
+      <button class="lesson-btn" id="l4-btn" onclick="showLesson(4,this)">
+        <span class="lesson-btn-num">Lesson 4</span>
+        <span class="lesson-btn-title">Feature by Feature</span>
+        <div class="lesson-btn-prog-wrap"><div class="lesson-btn-prog" id="l4-btn-prog"></div></div>
+      </button>
+      <button class="lesson-btn" id="l5-btn" onclick="showLesson(5,this)">
+        <span class="lesson-btn-num">Lesson 5</span>
+        <span class="lesson-btn-title">Expression &amp; Character</span>
+        <div class="lesson-btn-prog-wrap"><div class="lesson-btn-prog" id="l5-btn-prog"></div></div>
+      </button>
+      <button class="lesson-btn" id="l6-btn" onclick="showLesson(6,this)">
+        <span class="lesson-btn-num">Lesson 6</span>
+        <span class="lesson-btn-title">Rendering &amp; Finish</span>
+        <div class="lesson-btn-prog-wrap"><div class="lesson-btn-prog" id="l6-btn-prog"></div></div>
+      </button>
+    <div class="overall-progress">
+      <div class="op-label">Track Progress</div>
+      <div class="op-bar-wrap"><div class="op-bar" id="overall-bar"></div></div>
+      <div class="op-pct" id="overall-pct">0%</div>
+    </div>
+  </div>
+
+  <div class="main">
+    
+    <div class="lesson-panel" id="lesson-1">
+      <div class="lesson-header">
+        <div class="lesson-header-inner">
+          <div class="lesson-eyebrow">Lesson 1</div>
+          <h2 class="lesson-title">Reading the Face</h2>
+          <p class="lesson-subtitle">See before you exaggerate</p>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="art-frame">
+          <div class="art-placeholder"></div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Concepts</span><span class="section-rule"></span></div>
+          <div class="concepts-grid">
+        <div class="concept-card" data-id="c1-1">
+          <div class="cc-title">The Face as Shapes</div>
+          <div class="cc-desc">Before drawing, break the face into its essential geometric components.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c1-1-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c1-1-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c1-1-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c1-1-tier-0"><p>Every face is a collection of shapes before it is a collection of features. Squint at any portrait photograph and identify the dominant shape of the head — oval, square, heart, pear. Then find the shapes inside: almond eyes, triangular nose, bow-shaped mouth. This is your first act of seeing. <br><br><strong>Exercise:</strong> Take three magazine portraits. Trace the dominant shape of each head, then list the three most prominent sub-shapes you see inside it. Don't draw the person yet — just name the shapes.</p></div><div class="cc-tier-panel" id="c1-1-tier-1"><p>The shape-reading habit becomes your most important analytical tool. Start grouping: the eye socket is a depression that creates shadow; the nose is a wedge casting shadow beneath; the mouth sits on a cylinder. When you see shapes rather than 'eyes' and 'nose,' you detach from symbol-drawing and start seeing the actual person. <br><br><strong>Practice:</strong> Do five 5-minute portrait sketches where you block in only the major shapes before committing any details. Resist features until the shape architecture is in place.</p></div><div class="cc-tier-panel" id="c1-1-tier-2"><p>At a professional level, shape reading happens instantly and unconsciously — but you can still be wrong. The trap is defaulting to the shape vocabulary of faces you've drawn before. Each subject has a unique shape language. Develop the habit of identifying the two or three shape choices that are most specific to this face. Those are the shapes that will carry the caricature. <br><br><strong>Drill:</strong> Sketch a public figure from memory. Then look at the reference and identify every shape you got wrong or generalized. That gap is exactly where your caricature instinct needs refinement.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c1-1.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c1-1.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c1-1-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c1-1')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c1-2">
+          <div class="cc-title">Golden Triangle of Features</div>
+          <div class="cc-desc">The relationship between eyes, nose tip, and mouth that defines a face.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c1-2-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c1-2-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c1-2-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c1-2-tier-0"><p>The golden triangle is the triangle formed by connecting the two eyes and the tip of the nose — or alternatively the eyes and the mouth. Every face has a unique version of this triangle: wide or narrow, tall or flat, symmetric or tilted. This is the first proportional map you draw before adding anything else. <br><br><strong>Exercise:</strong> On five portrait references, draw only this triangle. Note how different each one is — this is the skeleton of likeness.</p></div><div class="cc-tier-panel" id="c1-2-tier-1"><p>Now extend the triangle into a full proportional analysis: how far is the bottom of the nose from the mouth? How far from the chin? Where do the eyes sit relative to the true midpoint of the head (usually lower than people expect)? These ratios are what you will later distort — but you can't exaggerate what you haven't first measured. <br><br><strong>Practice:</strong> Create a proportional map for a face you're going to caricature. Write down the ratios. Then identify which ratio is most unusual — that is your exaggeration target.</p></div><div class="cc-tier-panel" id="c1-2-tier-2"><p>The golden triangle becomes a calibration device: when a likeness slips, go back to the triangle first. Most likeness failures are triangle failures — the relationships are wrong even when individual features look correct. In caricature, this triangle is also what you choose to distort: compressing it creates one emotion, stretching it creates another. Use it consciously.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c1-2.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c1-2.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c1-2-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c1-2')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c1-3">
+          <div class="cc-title">Dominant Features</div>
+          <div class="cc-desc">Every face has one or two features that define recognition — find them first.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c1-3-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c1-3-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c1-3-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c1-3-tier-0"><p>Some people are known by their eyes, others by an enormous nose, an unusually wide mouth, or a distinctive jawline. This dominant feature is your anchor. Draw it first and draw it right — the rest of the face exists to support it. <br><br><strong>Exercise:</strong> Look at five celebrity portraits and name, in one word, the dominant feature. Don't second-guess yourself. Your first instinct is usually right.</p></div><div class="cc-tier-panel" id="c1-3-tier-1"><p>Dominant features are often compound: someone might be known by the combination of heavy brows and close-set eyes, neither of which would be as powerful alone. Learn to identify feature relationships, not just isolated features. In caricature, you exaggerate the dominant feature most — and support features least. <br><br><strong>Practice:</strong> Draw the same face twice: once exaggerating the dominant feature strongly and the support features weakly; once doing the opposite. Compare the likeness. The first version is almost always stronger.</p></div><div class="cc-tier-panel" id="c1-3-tier-2"><p>Professional caricaturists develop a personal catalog of dominant feature types. You recognize jaw types, nose families, eye shapes instantly. This pattern library speeds analysis but also creates a trap — you may draw your catalog rather than the actual face. Stay curious. Every face has at least one truly unexpected specific detail. Find it.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c1-3.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c1-3.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c1-3-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c1-3')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c1-4">
+          <div class="cc-title">Measuring Proportions</div>
+          <div class="cc-desc">Use the eyes as a unit of measure to map any face accurately.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c1-4-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c1-4-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c1-4-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c1-4-tier-0"><p>The eye is the natural measuring unit for the face. Use one eye-width to measure: the space between the eyes is usually about one eye-width; the face is usually about five eye-widths across. These classic proportions give you a baseline to compare against any specific face. <br><br><strong>Exercise:</strong> Measure your own face using one eye-width as a unit. How many eye-widths wide is your face? How many from hairline to chin? Note any surprises.</p></div><div class="cc-tier-panel" id="c1-4-tier-1"><p>Beyond the eye unit, use the nose length to measure vertical intervals: hairline to brow, brow to nose tip, nose tip to chin. The classic thirds. Now measure an actual face against those thirds — most people break them in an interesting way. The person whose middle third is compressed has a different energy entirely from the person whose lower third is long. <br><br><strong>Practice:</strong> Do a proportion map for a target face. Find every ratio that diverges from the classical ideal. Rank the divergences. Your top three are your primary exaggeration material.</p></div><div class="cc-tier-panel" id="c1-4-tier-2"><p>At speed — and caricature is often a speed sport — proportional measurement becomes internalized. You look once, absorb the proportions, and begin. The way to build this is through repetition with feedback: draw, compare, identify specific errors, adjust. Keep a page of proportional measurements for faces you've drawn multiple times. Note what you consistently get wrong. Those are your measurement blind spots.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c1-4.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c1-4.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c1-4-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c1-4')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c1-5">
+          <div class="cc-title">Negative Space in Portraits</div>
+          <div class="cc-desc">What surrounds the features tells you as much as the features themselves.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c1-5-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c1-5-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c1-5-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c1-5-tier-0"><p>Negative space in portraiture means the spaces between and around features: the space between the eye and the brow, between the corner of the mouth and the edge of the jaw, between the nose and the upper lip. These spaces are as unique as the features themselves and are easier to see objectively because they carry no symbolic meaning. <br><br><strong>Exercise:</strong> Draw only the negative spaces of a face — the light areas between features. Don't draw a single feature directly. What emerges?</p></div><div class="cc-tier-panel" id="c1-5-tier-1"><p>Skilled portrait drawers constantly check negative spaces as error-correction. When a feature looks wrong, look at the space next to it — the space is measurable and concrete while the feature's 'wrongness' is often hard to name. In caricature, negative space changes are often the most dramatic: compressing the space between nose and lip, or dramatically widening the space between eyes, creates powerful visual effect. <br><br><strong>Practice:</strong> Draw a caricature. Then study only its negative spaces. Are they interesting? Negative spaces in a good caricature are as designed as the features themselves.</p></div><div class="cc-tier-panel" id="c1-5-tier-2"><p>Negative space design is the difference between a caricature that reads instantly at distance and one that requires close inspection. Strong negative shapes create strong silhouettes. When refining a caricature, ask: can I read the emotion and the likeness from the pure shape relationships, without any detail? If not, the composition still needs work.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c1-5.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c1-5.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c1-5-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c1-5')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c1-6">
+          <div class="cc-title">Face Memory</div>
+          <div class="cc-desc">Train yourself to hold a face in memory — the foundation of caricature from life.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c1-6-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c1-6-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c1-6-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c1-6-tier-0"><p>Caricature from life requires a stronger face memory than portrait drawing from a photograph. You need to absorb the essential character of a face in a glance. Start training this by looking at a face for 30 seconds, then turning away and listing the three most memorable things about it. Do this before ever drawing. <br><br><strong>Exercise:</strong> Look at a portrait for 30 seconds. Close the book. Write six observations about the face before you open it again.</p></div><div class="cc-tier-panel" id="c1-6-tier-1"><p>Move from observation lists to rapid thumbnail sketches. Look 30 seconds, draw for 2 minutes without reference, then compare. Your drawing will be wrong in specific ways — those specific errors are your blind spots. The goal isn't accuracy from memory; it's to identify which elements your eye genuinely captured and which you invented. <br><br><strong>Practice:</strong> Do this five times with the same portrait on different days. Watch your accuracy improve and your inventions stabilize into habits. The habits reveal your visual biases.</p></div><div class="cc-tier-panel" id="c1-6-tier-2"><p>Professional from-life caricaturists develop what feels like photographic memory for faces — but it's actually a trained vocabulary. They have stored thousands of face-readings and can rapidly classify: this nose belongs to this family, this eye shape to that type. Your goal is a vocabulary large enough that every new face is a slight variant on something you know, plus two or three genuinely novel specifics. Those specifics are the caricature.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c1-6.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c1-6.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c1-6-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c1-6')">Mark Complete</button>
+        </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Practice Sheet</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/practice-caricature-l1.pdf')">&#9654; View Practice Sheet</button>
+            <a class="cc-dl-btn" href="/pdfs/practice-caricature-l1.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Lesson Guide</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/guide-caricature-l1.pdf')">&#9654; View Lesson Guide</button>
+            <a class="cc-dl-btn" href="/pdfs/guide-caricature-l1.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="lesson-progress">
+          <div class="lp-label">Lesson Progress</div>
+          <div class="lp-bar-wrap"><div class="lp-bar" id="l1-bar"></div></div>
+          <div class="lp-pct" id="l1-pct">0%</div>
+        </div>
+      </div>
+    </div>
+    <div class="lesson-panel" id="lesson-2">
+      <div class="lesson-header">
+        <div class="lesson-header-inner">
+          <div class="lesson-eyebrow">Lesson 2</div>
+          <h2 class="lesson-title">Structure &amp; Form</h2>
+          <p class="lesson-subtitle">The skull beneath the surface</p>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="art-frame">
+          <div class="art-placeholder"></div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Concepts</span><span class="section-rule"></span></div>
+          <div class="concepts-grid">
+        <div class="concept-card" data-id="c2-1">
+          <div class="cc-title">The Skull as Foundation</div>
+          <div class="cc-desc">Understand the bony structure underneath — it determines everything above.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c2-1-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c2-1-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c2-1-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c2-1-tier-0"><p>The face is not a flat surface — it's the front of a skull, a three-dimensional object with a specific architecture. The brow ridge overhangs the eyes. The cheekbones project outward. The jaw hinges at the ear. Understanding these anchor points lets you draw the face convincingly from any angle. <br><br><strong>Exercise:</strong> Study a skull diagram for 10 minutes. Then draw a simple face over a skull outline, aligning each feature to its underlying bone.</p></div><div class="cc-tier-panel" id="c2-1-tier-1"><p>In caricature, skeletal differences between people are your raw material. Some people have prominent brow ridges, others have receding ones. Some have wide zygomatic arches (cheekbones), others have narrow ones. These structural differences cannot be changed by weight gain or hairstyle — they define the face even in old age. Focus your structural analysis on the bony landmarks. <br><br><strong>Practice:</strong> Draw the skull shape of three different public figures. Don't add features yet — just the architectural differences in cranium, brow, cheek, and jaw.</p></div><div class="cc-tier-panel" id="c2-1-tier-2"><p>Professional caricaturists working in animation or comics need this structural understanding to move faces across angles and expressions while maintaining likeness. If you only know a face from the front, you know a photograph. If you understand the skull, you know the person. Develop the ability to draw a face you know well from a ¾ angle you've never seen in reference.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c2-1.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c2-1.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c2-1-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c2-1')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c2-2">
+          <div class="cc-title">Planes of the Face</div>
+          <div class="cc-desc">Simplify the face into flat planes to understand its three-dimensional form.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c2-2-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c2-2-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c2-2-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c2-2-tier-0"><p>The face is not curved everywhere — it's a collection of relatively flat planes that change direction at the brow, cheekbone, nose bridge, and chin. Learning to see these planes (rather than drawing every subtle contour) gives your faces structure and makes lighting predictable. <br><br><strong>Exercise:</strong> Draw a face as if it were made of flat cardboard facets, like a low-poly 3D model. Name each plane: forehead plane, cheek plane, nose side planes, chin plane.</p></div><div class="cc-tier-panel" id="c2-2-tier-1"><p>Planar analysis directly supports caricature because the planes are what change angle when a face tilts, and the planes are what receive light. When you exaggerate a jaw in caricature, you're also exaggerating the jaw plane's angle. This means your exaggerations will read three-dimensionally rather than looking like a flat stretch. <br><br><strong>Practice:</strong> Take a caricature you've drawn and redraw it using only flat planes — no curves. Then shade each plane as if lit from one side. Does the form read? If not, your structure needs work before style.</p></div><div class="cc-tier-panel" id="c2-2-tier-2"><p>The planes of the face change subtly between individuals — this is structural likeness. A face with high, flat cheekbones has different plane transitions than a face with round, full cheeks. Capturing these plane differences in addition to feature shapes is what separates a caricature that looks like a type from one that looks like a specific person.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c2-2.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c2-2.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c2-2-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c2-2')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c2-3">
+          <div class="cc-title">Head Tilt &amp; Angle</div>
+          <div class="cc-desc">The same face reads completely differently at different angles — and caricature exploits this.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c2-3-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c2-3-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c2-3-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c2-3-tier-0"><p>A tilted head changes everything: the center line curves, the features align differently, eye levels shift. Most beginners draw every face with the head perfectly level and perfectly frontal, which produces lifeless results. Start drawing heads at slight tilts. Use a vertical center line and a horizontal eye line to anchor you. <br><br><strong>Exercise:</strong> Draw the same simplified face five times with five different head tilts. Focus on keeping the feature alignments consistent through the tilt.</p></div><div class="cc-tier-panel" id="c2-3-tier-1"><p>Angle choice in caricature is expressive. A slightly upward tilt with the chin up reads as arrogance or confidence. A slight downward tilt with the brow forward reads as aggression or intensity. A tilted head reads as curiosity or charm. These are not accidental — the best caricaturists choose the angle that amplifies the subject's personality. <br><br><strong>Practice:</strong> Choose a subject with a strong personality trait. Sketch three angles of their face and assess which angle most amplifies that trait. Use that angle for your caricature.</p></div><div class="cc-tier-panel" id="c2-3-tier-2"><p>In professional caricature from life, you often capture a subject at whatever angle they give you — then shift the angle mentally to the most expressive version. This requires knowing the face well enough to redraw it at a new angle from imagination. Build this skill by practicing angle rotations of faces you know well.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c2-3.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c2-3.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c2-3-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c2-3')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c2-4">
+          <div class="cc-title">The Brow Ridge</div>
+          <div class="cc-desc">The most expressive structural feature — it shapes both emotion and likeness.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c2-4-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c2-4-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c2-4-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c2-4-tier-0"><p>The brow ridge is the shelf of bone above the eyes. It varies enormously between people: prominent and overhanging in some, barely present in others. This ridge determines how deep-set the eyes appear, whether the face looks aggressive or open, and how strong the shadow above the eyes is. <br><br><strong>Exercise:</strong> Draw five sets of eyes with five different brow ridge configurations. Notice how dramatically the character of the face changes with each.</p></div><div class="cc-tier-panel" id="c2-4-tier-1"><p>In caricature, the brow ridge is powerful because it's structural — it doesn't move with expression the way the eyebrows do. An exaggerated brow ridge on a specific person is a permanent character note. Combined with the angle and heaviness of the brow, it can communicate intelligence, menace, vulnerability, or thoughtfulness. <br><br><strong>Practice:</strong> Identify two public figures with very different brow ridges. Exaggerate both. Notice how the ridge exaggeration alone shifts the entire emotional reading.</p></div><div class="cc-tier-panel" id="c2-4-tier-2"><p>The brow ridge works with the eye socket depth to control how much white shows in the eye — and how much shadow the brow creates. These two elements together determine the 'weight' a face carries. Heavy brow, deep socket: dramatic, heavy. Light brow, shallow socket: open, accessible, possibly weak. Use this deliberately.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c2-4.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c2-4.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c2-4-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c2-4')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c2-5">
+          <div class="cc-title">Jaw Shapes</div>
+          <div class="cc-desc">The jaw defines more of a person's character than almost any other structure.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c2-5-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c2-5-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c2-5-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c2-5-tier-0"><p>Jaws come in remarkable variety: square, round, pointed, receding, jutting, wide, narrow. The jaw is the base of the face and its shape anchors everything above it. In caricature, a strong jaw exaggerated becomes authority or toughness; a receding jaw exaggerated becomes timidity or passivity. <br><br><strong>Exercise:</strong> Draw six jaw shapes from imagination: square, heart, diamond, round, receding, protruding. Then find a real face that matches each type.</p></div><div class="cc-tier-panel" id="c2-5-tier-1"><p>Jaw analysis in caricature goes beyond the profile. In three-quarter view, the jaw width and the angle of the jaw line at the corners matter enormously. Some jaws are wide at the angle then taper sharply; others are uniformly wide. The space between jaw angle and ear is another variable. These details compound to make a jaw unique. <br><br><strong>Practice:</strong> Draw the jaw of three different subjects accurately before exaggerating. Note what is specifically different about each one — not just 'wide jaw' but exactly where and how it's wide.</p></div><div class="cc-tier-panel" id="c2-5-tier-2"><p>The jaw in animation and comics must remain consistent through expressions — it's the structural anchor that doesn't move (much) when the face animates. Develop the ability to draw a specific jaw shape in multiple expressions and angles. The jaw that only works in one view is a half-understood jaw.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c2-5.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c2-5.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c2-5-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c2-5')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c2-6">
+          <div class="cc-title">Ear Placement</div>
+          <div class="cc-desc">Ears are a likeness anchor that most beginners misplace — and ignore.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c2-6-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c2-6-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c2-6-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c2-6-tier-0"><p>The ears sit between the eye line and the nose-tip line on the side of the head. Their exact height, angle, and projection vary significantly between people. Most beginners either omit ears or treat them as afterthoughts stuck to the side of the head. Ears placed incorrectly destroy the likeness even when everything else is accurate. <br><br><strong>Exercise:</strong> Draw only the ear placement in five portraits — a circle where the ear goes and a line for its angle. Don't draw the ear yet. Just get the position right.</p></div><div class="cc-tier-panel" id="c2-6-tier-1"><p>Ears in caricature are actually a significant detail. Prominent, fleshy ears can be exaggerated expressively. Very flat, close ears are their own type. The earlobes, the helix shape, the tragus — when a specific person has notable ear architecture, it becomes part of the caricature language for that person. Never skip the ears. <br><br><strong>Practice:</strong> Find a subject with distinctive ears. Make the ears a deliberate element of the caricature rather than an afterthought. See how much they contribute to recognition.</p></div><div class="cc-tier-panel" id="c2-6-tier-2"><p>In profile views, ear placement determines the balance of the whole composition. Too far forward and the face looks crushed; too far back and it looks elongated. Ear position also affects how hair and neck read. Make ear placement a conscious choice in every portrait, not a default.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c2-6.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c2-6.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c2-6-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c2-6')">Mark Complete</button>
+        </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Practice Sheet</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/practice-caricature-l2.pdf')">&#9654; View Practice Sheet</button>
+            <a class="cc-dl-btn" href="/pdfs/practice-caricature-l2.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Lesson Guide</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/guide-caricature-l2.pdf')">&#9654; View Lesson Guide</button>
+            <a class="cc-dl-btn" href="/pdfs/guide-caricature-l2.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="lesson-progress">
+          <div class="lp-label">Lesson Progress</div>
+          <div class="lp-bar-wrap"><div class="lp-bar" id="l2-bar"></div></div>
+          <div class="lp-pct" id="l2-pct">0%</div>
+        </div>
+      </div>
+    </div>
+    <div class="lesson-panel" id="lesson-3">
+      <div class="lesson-header">
+        <div class="lesson-header-inner">
+          <div class="lesson-eyebrow">Lesson 3</div>
+          <h2 class="lesson-title">The Art of Exaggeration</h2>
+          <p class="lesson-subtitle">Push with intelligence, not randomness</p>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="art-frame">
+          <div class="art-placeholder"></div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Concepts</span><span class="section-rule"></span></div>
+          <div class="concepts-grid">
+        <div class="concept-card" data-id="c3-1">
+          <div class="cc-title">What Makes a Caricature</div>
+          <div class="cc-desc">Exaggeration without likeness is a cartoon. Likeness without exaggeration is a portrait. Caricature is both.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c3-1-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c3-1-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c3-1-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c3-1-tier-0"><p>A caricature must do two things simultaneously: it must be recognizable as a specific person, and it must say something about that person beyond mere appearance. The exaggeration is the comment. A good caricature is a visual opinion — it takes a position on what is most essential about a face. <br><br><strong>Exercise:</strong> Look at five professional caricatures of people you know. What is the exaggeration saying? What position is the artist taking? Even if you disagree with their read, identify it clearly.</p></div><div class="cc-tier-panel" id="c3-1-tier-1"><p>The fundamental challenge of caricature is that exaggeration reduces the information in a face while likeness requires specific information. You solve this tension by choosing carefully what to reduce and what to amplify. Rule of thumb: exaggerate the characteristic, simplify the neutral. If someone has an unusually small mouth, make it smaller. If their forehead is average, simplify it — don't add detail that draws attention to a non-distinctive zone. <br><br><strong>Practice:</strong> Draw a subject twice: once with all features proportionally exaggerated, once with only the distinctive features exaggerated and the others simplified. The second will look more like the person.</p></div><div class="cc-tier-panel" id="c3-1-tier-2"><p>The best caricatures have an argument. They aren't just stretched faces — they convey something about personality, power, vulnerability, or absurdity. Develop a pre-drawing discipline: before you put pencil to paper, form a sentence about this person. 'She projects relentless cheerfulness that hints at control.' 'He is physically imposing but the eyes are uncertain.' Then let that sentence guide every exaggeration decision.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c3-1.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c3-1.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c3-1-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c3-1')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c3-2">
+          <div class="cc-title">Finding the Handle</div>
+          <div class="cc-desc">Every face has one exaggeration that unlocks the whole caricature.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c3-2-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c3-2-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c3-2-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c3-2-tier-0"><p>The 'handle' is caricature slang for the one exaggeration that makes the whole drawing work. It might be the size of a nose, the angle of a brow, the extreme narrowness of a mouth. Once you find the handle and commit to it, all other exaggerations arrange themselves in support. Without a handle, you have a drawing that is exaggerated everywhere equally — and feels like nothing. <br><br><strong>Exercise:</strong> Identify one dominant feature in five different faces. That's your handle practice. Just finding it — not drawing it yet.</p></div><div class="cc-tier-panel" id="c3-2-tier-1"><p>Finding the handle requires the courage to commit. Students often pull back from the most effective exaggeration because it feels extreme. The rule: if you're not sure whether it's enough, push it further. A caricature that falls short is just a bad portrait. A caricature that overshoots at least communicates something. You can refine from too-far more easily than from not-far-enough. <br><br><strong>Practice:</strong> Draw the same subject three times, each time pushing the handle 25% further than the previous. Keep all three. Which has the most life?</p></div><div class="cc-tier-panel" id="c3-2-tier-2"><p>At a professional level, finding the handle is nearly instantaneous. But the more sophisticated skill is finding the second-order handle — the structural or proportional relationship that makes the dominant feature work. A large nose works because of how it relates to the compressed space above the lip. Push both. A heavy brow works because of how it relates to the size of the eye beneath it. Push both. Handles compound.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c3-2.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c3-2.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c3-2-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c3-2')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c3-3">
+          <div class="cc-title">Pushing vs. Breaking</div>
+          <div class="cc-desc">How far is too far — and what happens when you cross that line?</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c3-3-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c3-3-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c3-3-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c3-3-tier-0"><p>There is a threshold in every caricature where likeness breaks. Push past it and the drawing becomes a generic cartoon, not a specific person. Stay below it and the drawing lacks conviction. The zone just below the breaking point is where great caricature lives. <br><br><strong>Exercise:</strong> Draw a simple face and then draw six increasingly exaggerated versions of it. Number them 1-6. Identify the number where you feel likeness breaks. That is your threshold — and your target is one number below it.</p></div><div class="cc-tier-panel" id="c3-3-tier-1"><p>The breaking point is different for each face and each feature. A large nose can be pushed very far before it stops reading as a nose; a mouth can break into abstraction much more quickly. Learning where each feature type breaks requires experimentation. Additionally, the breaking point shifts based on rendering style — a more graphic, reduced line style can push further than a realistic shading approach. <br><br><strong>Practice:</strong> Do a series of 'push tests' for each major feature type: how far can you push a nose, an eye, a jaw before it breaks likeness? Keep these as reference.</p></div><div class="cc-tier-panel" id="c3-3-tier-2"><p>Some professional caricaturists deliberately break certain features while keeping others strictly realistic. This creates a productive tension — the face is recognizable through the realistic elements and startling through the broken ones. It is a compositional strategy, not an accident. Develop the ability to make deliberate choices about what you will break and what you will hold.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c3-3.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c3-3.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c3-3-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c3-3')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c3-4">
+          <div class="cc-title">Directional Exaggeration</div>
+          <div class="cc-desc">Features can be pushed in multiple dimensions — choose the right direction.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c3-4-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c3-4-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c3-4-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c3-4-tier-0"><p>A nose can be exaggerated in multiple ways: longer, wider, more bulbous, more hooked, more upturned. These are all different exaggerations of the same feature. The wrong directional exaggeration can lose the likeness entirely even while pushing the right feature. Always identify the direction before pushing. <br><br><strong>Exercise:</strong> Draw the same nose five times, pushing it in a different direction each time: longer, wider, more curved, more upturned, more hooked. Identify which direction matches the reference.</p></div><div class="cc-tier-panel" id="c3-4-tier-1"><p>Directional exaggeration also applies to proportional relationships. The space between features can be compressed or expanded horizontally or vertically. Features can be moved upward or downward on the face, forward or back in space. A skilled caricaturist has a large vocabulary of directional moves and chooses among them based on what the face actually offers. <br><br><strong>Practice:</strong> For your next caricature, list the directional exaggeration for every feature before you draw it. 'Nose: longer and wider at the tip.' 'Eyes: farther apart and slightly lower.' This pre-analysis sharpens your execution.</p></div><div class="cc-tier-panel" id="c3-4-tier-2"><p>The most sophisticated directional exaggerations are structural: compressing the face vertically while widening it horizontally creates a very different character from doing the opposite. These global distortions affect the whole face simultaneously and can be used to create a unifying visual idea — the face of someone who is expansive, or compressed, or stretched, or rounded.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c3-4.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c3-4.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c3-4-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c3-4')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c3-5">
+          <div class="cc-title">Graphic vs. Realistic Caricature</div>
+          <div class="cc-desc">The same face can be interpreted in radically different visual languages.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c3-5-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c3-5-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c3-5-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c3-5-tier-0"><p>Caricature exists on a spectrum from highly realistic (subtle exaggeration in a detailed rendering) to extremely graphic (reduced to a few essential lines with wild distortion). Both can achieve powerful likeness and powerful comment. Most beginners default to one end without realizing the choice exists. <br><br><strong>Exercise:</strong> Find an example of a highly realistic caricature and a highly graphic one of the same person (political figures are good for this). Analyze what each style emphasizes and sacrifices.</p></div><div class="cc-tier-panel" id="c3-5-tier-1"><p>Your position on the graphic-to-realistic spectrum should be a deliberate choice that matches your intent. Graphic caricature amplifies political or social comment; it has a bluntness and immediacy. Realistic caricature works better for intimate portraiture where nuance matters. Many professionals develop a signature style that sits in a specific zone and apply it consistently — the style becomes part of the voice. <br><br><strong>Practice:</strong> Draw the same face at three points on the spectrum: realistic caricature, mid-graphic, fully graphic. Note what you gain and lose at each extreme.</p></div><div class="cc-tier-panel" id="c3-5-tier-2"><p>Style in caricature is not decoration — it is argument. The graphic reductiveness of a newspaper caricature makes a political statement about the subject. The lush realistic exaggeration of a magazine portrait makes a different one. Be intentional about where your style positions you and what that positioning communicates to the audience.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c3-5.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c3-5.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c3-5-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c3-5')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c3-6">
+          <div class="cc-title">The Signature Feature</div>
+          <div class="cc-desc">Every famous caricaturist has two or three subjects they own — and a signature way of drawing them.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c3-6-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c3-6-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c3-6-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c3-6-tier-0"><p>Some subjects are so closely associated with one caricaturist's interpretation that the interpretation becomes canonical. Nixon's ski-jump nose, Reagan's swept hair, Trump's pursed lips — the caricature becomes the cultural shorthand. Study how these canonical images were formed. <br><br><strong>Exercise:</strong> Find three iconic caricatures of the same subject by different artists. What does each artist emphasize? What is the 'truth' that all three share? What is idiosyncratic to each artist?</p></div><div class="cc-tier-panel" id="c3-6-tier-1"><p>Developing your signature involves drawing the same subject many times until you find your own specific exaggeration language for them. The first drawing is tentative; the tenth has conviction. Professional caricaturists often have a stable of twenty or thirty well-developed subjects they can draw from memory with confidence. Build your stable. <br><br><strong>Practice:</strong> Choose three public figures and commit to drawing each of them ten times over the coming weeks. Document the evolution from first to tenth.</p></div><div class="cc-tier-panel" id="c3-6-tier-2"><p>Your signature across subjects — not just on individual faces — is your style. It's the angle you typically choose, the features you typically emphasize, the way your lines move. This signature develops through volume. The artist who has drawn five hundred caricatures has a signature. The artist who has drawn twenty does not yet. Volume is the only path.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c3-6.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c3-6.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c3-6-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c3-6')">Mark Complete</button>
+        </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Practice Sheet</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/practice-caricature-l3.pdf')">&#9654; View Practice Sheet</button>
+            <a class="cc-dl-btn" href="/pdfs/practice-caricature-l3.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Lesson Guide</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/guide-caricature-l3.pdf')">&#9654; View Lesson Guide</button>
+            <a class="cc-dl-btn" href="/pdfs/guide-caricature-l3.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="lesson-progress">
+          <div class="lp-label">Lesson Progress</div>
+          <div class="lp-bar-wrap"><div class="lp-bar" id="l3-bar"></div></div>
+          <div class="lp-pct" id="l3-pct">0%</div>
+        </div>
+      </div>
+    </div>
+    <div class="lesson-panel" id="lesson-4">
+      <div class="lesson-header">
+        <div class="lesson-header-inner">
+          <div class="lesson-eyebrow">Lesson 4</div>
+          <h2 class="lesson-title">Feature by Feature</h2>
+          <p class="lesson-subtitle">Mastering each element of the face</p>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="art-frame">
+          <div class="art-placeholder"></div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Concepts</span><span class="section-rule"></span></div>
+          <div class="concepts-grid">
+        <div class="concept-card" data-id="c4-1">
+          <div class="cc-title">Eyes &amp; Eyebrows</div>
+          <div class="cc-desc">The eyes communicate more than any other feature — in caricature, they anchor the soul.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c4-1-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c4-1-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c4-1-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c4-1-tier-0"><p>Eyes vary enormously: almond, round, hooded, wide-set, close-set, with or without a visible crease, with heavy or absent upper lids. The eyebrow shape above dramatically affects how eyes read — arched brows create surprise, flat brows create intensity, one raised brow creates skepticism. <br><br><strong>Exercise:</strong> Draw ten pairs of eyes with ten different configurations. Change the shape, the lid heaviness, and the brow separately and observe each change's effect.</p></div><div class="cc-tier-panel" id="c4-1-tier-1"><p>In caricature, the eyes are often the one feature where likeness is non-negotiable — even when everything else is distorted, something in the eyes must be recognized. The specific quality of someone's eyes — their aliveness, their wariness, their warmth — is what the audience connects to. Get the eyes right structurally, then use the brows and surrounding area for exaggeration. <br><br><strong>Practice:</strong> Draw the eyes of five different subjects with maximum accuracy. Then, separately, exaggerate the brows and surrounding architecture. Note how much character change you can create without touching the eye itself.</p></div><div class="cc-tier-panel" id="c4-1-tier-2"><p>The eyes in animation must work from every angle and in every expression while remaining recognizable. Develop the ability to rotate a specific eye shape around a three-dimensional axis. This means understanding the eye not as a flat almond but as an eye in a socket on a skull, with a curved eyeball behind the lid. Draw the eye in profile, in ¾, from above, from below — it must be the same eye.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c4-1.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c4-1.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c4-1-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c4-1')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c4-2">
+          <div class="cc-title">The Nose</div>
+          <div class="cc-desc">The most cartoonable feature on the face — a landscape of caricature possibility.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c4-2-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c4-2-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c4-2-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c4-2-tier-0"><p>The nose is a wedge of cartilage and bone with enormous variation in tip shape, bridge width, nostril flare, and length. In caricature, the nose is frequently the primary exaggeration target because it sits at the center of the face and changes substantially between individuals. <br><br><strong>Exercise:</strong> Draw 12 different nose types in profile: hawk, button, upturned, flat, bulbous, narrow bridge, wide bridge, and combinations. Label each. Build a nose vocabulary.</p></div><div class="cc-tier-panel" id="c4-2-tier-1"><p>Noses work in three dimensions in caricature: the profile angle (from the side) is usually the most distinctive view, but the front view (bridge width, nostril shape) and the ¾ view (where bridge meets tip) are equally important for likeness. Draw noses from all three views. Exaggeration that only works in one view will fail in another. <br><br><strong>Practice:</strong> Choose a subject with a distinctive nose. Draw it accurately in profile, front, and ¾. Identify the specific qualities that make it distinctive in each view. Then exaggerate, preserving those specific qualities.</p></div><div class="cc-tier-panel" id="c4-2-tier-2"><p>The nose in profile view determines the character of the face's silhouette — it's the most powerful single element in a profile caricature. But in the frontal view, noses are notoriously difficult because their three-dimensionality is hardest to read from the front. Develop strong frontal nose drawing by studying how light defines the nose tip, the alar wings, and the columella (the piece between the nostrils).</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c4-2.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c4-2.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c4-2-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c4-2')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c4-3">
+          <div class="cc-title">Mouth &amp; Lips</div>
+          <div class="cc-desc">The most expressive feature — also the most difficult to make specific.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c4-3-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c4-3-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c4-3-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c4-3-tier-0"><p>Mouths are notoriously hard to make specific because they move constantly and we are deeply attuned to their emotional state. In caricature, the mouth must do two things: convey the person's characteristic expression and capture the specific shape of their lips. These sometimes conflict. <br><br><strong>Exercise:</strong> Draw the same mouth shape in six expressions. Then draw six different people's mouths in the same neutral expression. Note which task is harder.</p></div><div class="cc-tier-panel" id="c4-3-tier-1"><p>Lip-specific details that read strongly in caricature: the cupid's bow shape of the upper lip, the fullness ratio between upper and lower lip, the width of the mouth relative to the face, the presence or absence of a strong philtrum (the groove from nose to lip). These are structural details that don't change with expression. Identify them before drawing any expression. <br><br><strong>Practice:</strong> For three different subjects, draw their mouth in neutral position with maximum structural accuracy. Then draw it in their characteristic expression. The neutral is the skeleton; the expression is the gesture.</p></div><div class="cc-tier-panel" id="c4-3-tier-2"><p>In caricature, the mouth is often the hardest feature to exaggerate without losing likeness. The reason: unlike noses and ears, mouths are the primary channel of expression, and we read expression first. An exaggerated mouth in a wrong expression reads as the wrong emotion. Always resolve what emotion the mouth is expressing before exaggerating its shape.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c4-3.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c4-3.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c4-3-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c4-3')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c4-4">
+          <div class="cc-title">Hair as Shape</div>
+          <div class="cc-desc">Hair is a design element, not a texture exercise — treat it as a defining shape.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c4-4-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c4-4-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c4-4-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c4-4-tier-0"><p>Hair in caricature is not drawn strand by strand — it's drawn as a large shape with an internal texture suggestion. The silhouette of the hair is almost always the most important element. Many famous political figures are identified instantly by their hair silhouette: the swept pompadour, the precise side part, the wild mane. <br><br><strong>Exercise:</strong> Draw ten hair silhouettes without drawing any detail inside them. Make each one immediately recognizable as a distinct hair type. The silhouette must do all the work.</p></div><div class="cc-tier-panel" id="c4-4-tier-1"><p>Hair in caricature is an extension of personality expression. Wild hair equals chaotic energy. Perfectly controlled hair equals control. The choice of how to render hair texture — thick brush strokes, fine crosshatch, bold graphic shapes — carries stylistic meaning. Choose your hair rendering style to match your intent. <br><br><strong>Practice:</strong> Take a subject with distinctive hair. Draw their hair silhouette at 150% of actual size, 125%, 100%, and 75%. Which exaggeration level carries the most character with the most likeness?</p></div><div class="cc-tier-panel" id="c4-4-tier-2"><p>Hair creates framing for the face and must be designed accordingly. Too much hair detail draws the eye away from the face. Too simple and it misses the person entirely. The professional solution: draw the hair with enough information to identify it unambiguously, then stop. Every additional line you add to hair competes with the face.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c4-4.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c4-4.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c4-4-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c4-4')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c4-5">
+          <div class="cc-title">The Neck &amp; Shoulders</div>
+          <div class="cc-desc">Caricature doesn't end at the chin — the posture below shapes the whole reading.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c4-5-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c4-5-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c4-5-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c4-5-tier-0"><p>Most beginning caricaturists draw the face beautifully and then add a perfunctory neck and shoulders that are generic. But neck length, width, and the angle at which it meets the shoulders are as individual as facial features. A very long thin neck says one thing; a short, thick neck says something else entirely. <br><br><strong>Exercise:</strong> Collect five portraits showing the neck and shoulders. Analyze: how long is each neck relative to the head? How wide at the shoulder? What is the angle? Draw the silhouette of each neck-shoulder unit.</p></div><div class="cc-tier-panel" id="c4-5-tier-1"><p>In caricature, the neck and shoulders express personality and physical type as powerfully as the face. Exaggerating a short, broad neck on a power figure amplifies their physical authority. Exaggerating an elongated neck on an aristocratic figure amplifies their refinement. These body choices compound the facial exaggerations rather than contradicting them. <br><br><strong>Practice:</strong> For your next full caricature (head, neck, and shoulders), write down the personality note you want the body to convey before drawing it. Then see if your body choices support that note.</p></div><div class="cc-tier-panel" id="c4-5-tier-2"><p>In full-body caricature, the posture and gesture of the body must be as exaggerated and as specific as the face. But even in head-and-shoulders caricature, the neck-shoulder architecture frames and supports the face. Think of the neck and shoulders as the stage on which the face performs.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c4-5.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c4-5.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c4-5-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c4-5')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c4-6">
+          <div class="cc-title">Ears</div>
+          <div class="cc-desc">Overlooked by beginners, indispensable in a strong caricature.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c4-6-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c4-6-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c4-6-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c4-6-tier-0"><p>Ears are complex structures with their own distinctive shapes: the helix (outer rim), antihelix (inner ridge), tragus, antitragus, and lobe. Most people have never noticed these sub-structures because ears are background information. In caricature, when someone has unusually prominent ears, those sub-structures become critical detail. <br><br><strong>Exercise:</strong> Draw five different ear shapes, studying real references for each. Focus on the helix angle, lobe size, and overall ear projection from the head.</p></div><div class="cc-tier-panel" id="c4-6-tier-1"><p>Ears in caricature are often exaggerated as a whole unit rather than in sub-detail: the ear size increases, or its angle of projection changes. The most famous ear-based caricature choices involve ears that stick out prominently or are unusually large. But even subtle ear differences — slightly lower-set ears, or ears with very long lobes — can be used when the subject has them. <br><br><strong>Practice:</strong> Find two subjects with notably different ears. Make the ears a conscious exaggeration element in caricatures of both. Study how much the ears contribute to recognition.</p></div><div class="cc-tier-panel" id="c4-6-tier-2"><p>In profile caricature, the ear is critical for two reasons: it anchors the head to the side and it is one of the few features that can be seen clearly in profile. In profile view, ear shape and placement relative to the eye and nose determines the character of the back half of the head. Don't neglect it.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c4-6.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c4-6.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c4-6-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c4-6')">Mark Complete</button>
+        </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Practice Sheet</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/practice-caricature-l4.pdf')">&#9654; View Practice Sheet</button>
+            <a class="cc-dl-btn" href="/pdfs/practice-caricature-l4.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Lesson Guide</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/guide-caricature-l4.pdf')">&#9654; View Lesson Guide</button>
+            <a class="cc-dl-btn" href="/pdfs/guide-caricature-l4.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="lesson-progress">
+          <div class="lp-label">Lesson Progress</div>
+          <div class="lp-bar-wrap"><div class="lp-bar" id="l4-bar"></div></div>
+          <div class="lp-pct" id="l4-pct">0%</div>
+        </div>
+      </div>
+    </div>
+    <div class="lesson-panel" id="lesson-5">
+      <div class="lesson-header">
+        <div class="lesson-header-inner">
+          <div class="lesson-eyebrow">Lesson 5</div>
+          <h2 class="lesson-title">Expression &amp; Character</h2>
+          <p class="lesson-subtitle">Beyond the surface into personality</p>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="art-frame">
+          <div class="art-placeholder"></div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Concepts</span><span class="section-rule"></span></div>
+          <div class="concepts-grid">
+        <div class="concept-card" data-id="c5-1">
+          <div class="cc-title">Reading Emotion</div>
+          <div class="cc-desc">Before you can draw emotion, you must see it — and see past the performance of it.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c5-1-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c5-1-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c5-1-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c5-1-tier-0"><p>Emotion shows in the face through muscle contractions that move features in specific ways. Surprise raises the brows and opens the eyes and mouth. Anger lowers the brow and compresses the mouth. Disgust raises the upper lip. These are universal across cultures. Learning to recognize these muscular patterns is the first step. <br><br><strong>Exercise:</strong> Make each of the seven basic emotions in front of a mirror: happiness, sadness, anger, surprise, fear, disgust, contempt. Observe precisely which muscles move for each. Sketch the movement, not the idea.</p></div><div class="cc-tier-panel" id="c5-1-tier-1"><p>Caricature typically shows a subject in their characteristic expression — the face they wear most often in public. This is different from their momentary emotion and requires observation over time (or close study of multiple photographs). The characteristic expression becomes the emotional argument of the caricature. <br><br><strong>Practice:</strong> Collect ten photographs of a single public figure. Identify the expression that appears most consistently. That is their characteristic expression. Draw the caricature in that expression.</p></div><div class="cc-tier-panel" id="c5-1-tier-2"><p>Subtle emotions — blended states, suppressed emotions, performed emotions — are the richest territory for caricature because they reveal something the subject may not intend to show. Practiced caricaturists can read the difference between genuine warmth and performed friendliness, between confident authority and concealed anxiety. These subtle readings make for the most penetrating caricatures.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c5-1.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c5-1.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c5-1-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c5-1')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c5-2">
+          <div class="cc-title">Asymmetry &amp; Life</div>
+          <div class="cc-desc">No face is perfectly symmetrical — and asymmetry is where character lives.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c5-2-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c5-2-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c5-2-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c5-2-tier-0"><p>Perfectly symmetrical faces look like computer renderings — they lack the life and specificity of a real person. Real faces are subtly asymmetrical: one eye slightly different from the other, one corner of the mouth slightly higher, one eyebrow with a different arc. These asymmetries are not flaws — they are the fingerprints of a specific person. <br><br><strong>Exercise:</strong> Take a portrait photograph and cut it in half vertically. Double each half to make two perfectly symmetrical faces. Compare both to the original. Note how different and how wrong each symmetrical version looks.</p></div><div class="cc-tier-panel" id="c5-2-tier-1"><p>In caricature, asymmetry can be a tool. A face that is exaggerated asymmetrically often reads as more alive than a symmetrically exaggerated one — because it echoes how real faces actually work. Some subjects have very distinctive asymmetries (a crooked smile, a perpetually raised eyebrow) that become part of the caricature signature. <br><br><strong>Practice:</strong> In your next caricature, deliberately identify and preserve (or amplify) the subject's natural asymmetries. Then compare this drawing to one where you drew symmetrically. Which has more life?</p></div><div class="cc-tier-panel" id="c5-2-tier-2"><p>Managing asymmetry is also a compositional skill — too much asymmetry reads as sloppiness or error; controlled asymmetry reads as life and intention. The difference is in whether the asymmetry is consistent with the subject's actual asymmetry or a random drawing inconsistency. Know your reference well enough to tell the difference.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c5-2.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c5-2.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c5-2-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c5-2')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c5-3">
+          <div class="cc-title">Age in Caricature</div>
+          <div class="cc-desc">Age changes everything about how a face reads — and how it should be exaggerated.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c5-3-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c5-3-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c5-3-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c5-3-tier-0"><p>Age in faces shows through a predictable set of changes: skin texture increases, features begin to droop under gravity, the brow descends over the eyes, the jawline softens, the neck thickens or loosens. Volume in the face redistributes — young faces are plump; older faces are more skeletal in the upper regions and softer in the lower. <br><br><strong>Exercise:</strong> Draw a simple face at three ages: 25, 50, 75. Use only structural changes — no wrinkle texture yet. Show how the structure changes with age.</p></div><div class="cc-tier-panel" id="c5-3-tier-1"><p>In caricature, age markers are a design decision. A caricature that looks younger than the subject is flattering; one that looks older is aggressive. The choice of how much age to show is part of the caricature's editorial position. For many subjects, the combination of their characteristic expression and the evidence of age is where the truest caricature lives. <br><br><strong>Practice:</strong> Caricature a subject of 60 or older. Find the balance between the structural age markers (which create truth) and the youthful energy of the characteristic expression. These two elements in tension create complexity.</p></div><div class="cc-tier-panel" id="c5-3-tier-2"><p>When drawing aging public figures repeatedly over decades (as editorial caricaturists do), you face the challenge of updating a caricature as the subject ages. The core exaggerations — the handle, the signature features — must remain recognizable even as the face changes substantially. This requires a mental model of the face's structure, not just its surface.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c5-3.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c5-3.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c5-3-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c5-3')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c5-4">
+          <div class="cc-title">Posture &amp; Body Language</div>
+          <div class="cc-desc">In full-figure caricature, the body speaks as loudly as the face.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c5-4-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c5-4-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c5-4-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c5-4-tier-0"><p>Posture is the body's emotional statement: shoulders back and chin raised is authority; shoulders forward and chin down is defeat; body turned away from another person is conflict. In full-figure caricature, posture must be as exaggerated and as deliberate as facial features. <br><br><strong>Exercise:</strong> Draw five stick figures with five different postures, each clearly communicating a different emotional state: dominance, submission, anxiety, ease, hostility. No faces yet — just posture.</p></div><div class="cc-tier-panel" id="c5-4-tier-1"><p>Different public figures have characteristic postures that are as recognizable as their faces. The way someone holds their arms, the way they walk, the angle of their head on their neck — these are part of the caricature language for that subject. Full-body caricature that ignores these characteristic gestures fails even if the face is perfect. <br><br><strong>Practice:</strong> Identify the characteristic posture of a well-known public figure. Exaggerate that posture in a full-body drawing before you add the face. The posture should be recognizable on its own.</p></div><div class="cc-tier-panel" id="c5-4-tier-2"><p>The interaction between posture and expression creates the full emotional statement of a caricature. A face expressing confidence combined with a slightly defensive posture creates ambiguity and complexity. A face expressing uncertainty combined with an imposing posture creates a different kind of complexity. The most powerful caricatures use this tension deliberately.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c5-4.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c5-4.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c5-4-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c5-4')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c5-5">
+          <div class="cc-title">Personality vs. Likeness</div>
+          <div class="cc-desc">The highest level of caricature captures the person, not just the face.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c5-5-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c5-5-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c5-5-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c5-5-tier-0"><p>Likeness is technical: it's getting the shapes and proportions right. Personality is interpretive: it's conveying something about who this person is. A caricature that achieves likeness without personality is a good drawing of a face. A caricature that achieves personality (however exaggerated) without likeness is a character study of someone imaginary. The goal is both. <br><br><strong>Exercise:</strong> Draw a portrait of someone you know well from memory. Ask them to identify what personality trait, if any, the drawing conveys. If they can't identify one, the personality reading is absent.</p></div><div class="cc-tier-panel" id="c5-5-tier-1"><p>Personality in caricature comes from three sources: the specific exaggerations you choose, the expression you show, and the compositional choices (angle, framing, posture). All three must be aligned. A caricature of an arrogant person should have exaggerations that read as arrogance, an expression that reads as arrogance, and a framing that amplifies it (slightly low angle, chin raised). <br><br><strong>Practice:</strong> Before drawing, write one sentence describing the personality trait you want your caricature to convey. After drawing, ask an uninformed viewer what personality they read. How close are these two statements?</p></div><div class="cc-tier-panel" id="c5-5-tier-2"><p>The best editorial caricaturists convey complex, sometimes contradictory personality readings: the powerful figure who is also secretly afraid; the charming figure who is also corrupt. These compound readings require sophisticated control of all the elements simultaneously. A simple personality read is achievable early. A complex, nuanced one requires significant practice.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c5-5.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c5-5.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c5-5-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c5-5')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c5-6">
+          <div class="cc-title">Caricature vs. Portrait</div>
+          <div class="cc-desc">Understanding the line between them — and why you'd choose each.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c5-6-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c5-6-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c5-6-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c5-6-tier-0"><p>A portrait seeks to represent a person as they are, with care for dignity and accuracy. A caricature seeks to reveal something about a person through strategic distortion. Both require strong drawing skills, but they are different goals with different ethics. The portrait is generous; the caricature is penetrating. <br><br><strong>Exercise:</strong> Draw the same person as both a careful portrait and a caricature. Identify what the caricature reveals that the portrait cannot.</p></div><div class="cc-tier-panel" id="c5-6-tier-1"><p>There is a spectrum between portrait and caricature: the 'character portrait' sits in the middle — it has caricature-like exaggeration but respectful intent, looking for the subject's best or most interesting qualities rather than their most absurd. Editorial caricature often sits near one extreme; celebrity caricature sits near the middle. Know where your work sits and why. <br><br><strong>Practice:</strong> Draw the same subject three times: once as a respectful portrait, once as a character portrait with subtle positive exaggeration, once as a full satirical caricature. Present all three and discuss what each communicates.</p></div><div class="cc-tier-panel" id="c5-6-tier-2"><p>The ethics of caricature are real. Caricature has historically been used to dehumanize as well as to hold power accountable. The professional caricaturist is aware of this history and makes intentional choices about what and how they exaggerate. Exaggerating a political leader's pomposity is different from exaggerating a private citizen's appearance. Know the difference and own your choices.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c5-6.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c5-6.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c5-6-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c5-6')">Mark Complete</button>
+        </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Practice Sheet</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/practice-caricature-l5.pdf')">&#9654; View Practice Sheet</button>
+            <a class="cc-dl-btn" href="/pdfs/practice-caricature-l5.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Lesson Guide</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/guide-caricature-l5.pdf')">&#9654; View Lesson Guide</button>
+            <a class="cc-dl-btn" href="/pdfs/guide-caricature-l5.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="lesson-progress">
+          <div class="lp-label">Lesson Progress</div>
+          <div class="lp-bar-wrap"><div class="lp-bar" id="l5-bar"></div></div>
+          <div class="lp-pct" id="l5-pct">0%</div>
+        </div>
+      </div>
+    </div>
+    <div class="lesson-panel" id="lesson-6">
+      <div class="lesson-header">
+        <div class="lesson-header-inner">
+          <div class="lesson-eyebrow">Lesson 6</div>
+          <h2 class="lesson-title">Rendering &amp; Finish</h2>
+          <p class="lesson-subtitle">From sketch to complete caricature</p>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="art-frame">
+          <div class="art-placeholder"></div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Concepts</span><span class="section-rule"></span></div>
+          <div class="concepts-grid">
+        <div class="concept-card" data-id="c6-1">
+          <div class="cc-title">Line Weight in Caricature</div>
+          <div class="cc-desc">Line weight is not decoration — it's information about light, depth, and emphasis.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c6-1-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c6-1-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c6-1-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c6-1-tier-0"><p>Line weight variation — using thick and thin lines deliberately — is one of the most important technical skills in caricature. Thick lines read as close to the viewer, in shadow, or as the boundary between major forms. Thin lines read as far, in light, or as surface detail. Uniform line weight produces flat, lifeless drawings regardless of how good the exaggerations are. <br><br><strong>Exercise:</strong> Draw a simple face using only two line weights: thick for outer contours and shadow boundaries, thin for inner detail. Notice how the face gains depth.</p></div><div class="cc-tier-panel" id="c6-1-tier-1"><p>In caricature, line weight is also emphasis — a thicker line on a feature draws the eye to it. This means your handle, your dominant exaggerated feature, should receive the heaviest line. Support features can be drawn with lighter lines. The eye naturally follows the heaviest line first, so control line weight and you control the viewer's reading path. <br><br><strong>Practice:</strong> Take an existing caricature sketch and redraw it varying only the line weight — make the handle's outline significantly heavier than everything else. Compare the two versions.</p></div><div class="cc-tier-panel" id="c6-1-tier-2"><p>Professional ink work in caricature uses line weight to simulate the entire vocabulary of light and shadow without any fill or tone. A master like Jack Davis or Al Hirschfeld creates complete tonal illusions through line weight variation alone. Study their originals and try to identify every place where weight is doing the work of tone.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c6-1.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c6-1.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c6-1-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c6-1')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c6-2">
+          <div class="cc-title">Crosshatching &amp; Tone</div>
+          <div class="cc-desc">Build tone without a brush — the crosshatch as a caricature's shadow language.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c6-2-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c6-2-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c6-2-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c6-2-tier-0"><p>Crosshatching is the technique of building tone through overlapping sets of parallel lines. Used in caricature, it adds shadow and depth without blocking out sections entirely. The density of the crosshatch controls the darkness. Basic crosshatching goes one direction; cross-crosshatching adds a second direction at roughly 45 degrees to the first. <br><br><strong>Exercise:</strong> Practice a crosshatch value scale: from very open (white) to very dense (near black) in six steps. Then apply two of these values to a simple face to indicate shadow.</p></div><div class="cc-tier-panel" id="c6-2-tier-1"><p>Crosshatch direction carries meaning: lines that follow the form's surface (contour crosshatching) reinforce the three-dimensionality of the face. Lines that go in one flat direction are more graphic and reduce the form to texture. Choose your approach based on whether you want a three-dimensional or a flat, graphic caricature. <br><br><strong>Practice:</strong> Draw the same caricature twice — once with contour crosshatching (lines following the face surface) and once with flat crosshatching (lines going in one direction). Study the different spatial effects.</p></div><div class="cc-tier-panel" id="c6-2-tier-2"><p>The most efficient crosshatching in professional caricature places the minimum lines necessary to read the lighting situation clearly. Too much crosshatch obscures line detail; too little reads as unresolved. Find the economy point — the minimum crosshatch that completes the tonal illusion. This is a mark of professionalism.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c6-2.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c6-2.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c6-2-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c6-2')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c6-3">
+          <div class="cc-title">Digital vs. Traditional</div>
+          <div class="cc-desc">Two different toolsets with different strengths — know both.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c6-3-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c6-3-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c6-3-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c6-3-tier-0"><p>Traditional caricature (pencil, ink, brush) has physical commitment and irreversibility — every mark is a decision. Digital caricature (tablet and stylus) has infinite undo and layer flexibility. Both are legitimate and both produce professional work. The starting point should be wherever you are most comfortable — you can add the other later. <br><br><strong>Exercise:</strong> Draw the same simple caricature in pencil on paper and in any digital program. Without judgment, note what was easier and harder in each.</p></div><div class="cc-tier-panel" id="c6-3-tier-1"><p>Digital tools have changed the speed of professional caricature work dramatically. Layers allow experimentation without risk; undo allows failure without consequence; color is infinitely adjustable. But the freedom of digital can also inhibit commitment. The artist who never learned to commit to a mark in traditional media often draws tentatively in digital as well. The commitment problem must be solved at a fundamental level before the tool matters. <br><br><strong>Practice:</strong> If you work digitally, try drawing directly in ink without penciling first — no undo. If you work traditionally, try drawing on a tablet for a session. Notice what the pressure of irreversibility does to your mark-making.</p></div><div class="cc-tier-panel" id="c6-3-tier-2"><p>Many professional caricaturists use a hybrid approach: sketch traditionally, scan, and finish digitally. Or sketch on tablet and print traditionally. The workflow that serves speed and quality for your specific market is the right one. Don't let tool purism limit your efficiency. The audience doesn't care what tool you used.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c6-3.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c6-3.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c6-3-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c6-3')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c6-4">
+          <div class="cc-title">Speed Sketching</div>
+          <div class="cc-desc">Quick caricature is its own discipline — spontaneity and accuracy under time pressure.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c6-4-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c6-4-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c6-4-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c6-4-tier-0"><p>Speed sketching for caricature means getting to the essential character of a face in under 5 minutes. At this speed, you cannot second-guess — you must commit immediately to your read of the dominant feature and work outward from there. Speed forces hierarchy: you draw what matters most first. <br><br><strong>Exercise:</strong> Set a timer for 3 minutes. Draw a caricature of a simple subject. Do five of these in a row. Compare the first to the last. Speed usually improves quality by forcing commitment.</p></div><div class="cc-tier-panel" id="c6-4-tier-1"><p>Live caricature at events (theme parks, parties, corporate events) requires a 5–8 minute turnaround from study to finished drawing. This is a real professional skill with its own practice demands. The key is a practiced workflow: quick analysis, committed sketch, rapid rendering in your established style. Speed comes from an internalized sequence, not from rushing. <br><br><strong>Practice:</strong> Practice a timed sequence: 30 seconds of pure observation, 30 seconds of analysis (dominant feature, key ratios), 3 minutes of drawing. Do five subjects in a row without stopping to study your work. Review after.</p></div><div class="cc-tier-panel" id="c6-4-tier-2"><p>Speed caricature at professional level requires a catalog of pre-solved problems: you don't reinvent how to draw a bulbous nose every time — you have a vocabulary of bulbous-nose solutions and choose the right one. Building this vocabulary requires volume: hundreds of caricatures of dozens of face types. The speed is a downstream result of the preparation.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c6-4.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c6-4.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c6-4-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c6-4')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c6-5">
+          <div class="cc-title">Color in Caricature</div>
+          <div class="cc-desc">Color amplifies the emotional reading — or undermines it.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c6-5-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c6-5-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c6-5-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c6-5-tier-0"><p>Color in caricature serves emotion, not naturalism. A red face amplifies anger or embarrassment. Cool blues and grays create distance or menace. Warm golds and ambers create accessibility and warmth. You are not painting someone's skin tone — you are making an emotional color choice. <br><br><strong>Exercise:</strong> Draw the same caricature three times. Color each with a different emotional palette: warm, cool, high contrast. Note how completely different each reads emotionally.</p></div><div class="cc-tier-panel" id="c6-5-tier-1"><p>Color in editorial caricature often references iconography: certain colors carry political meaning (reds and blues for political parties, gold for wealth, black for menace). Being aware of color's cultural meanings in your context allows you to use it as a second layer of editorial comment. <br><br><strong>Practice:</strong> Choose a subject and identify the emotional and cultural color language you want to use. Write the palette down before you start coloring. Stay committed to that palette through the rendering.</p></div><div class="cc-tier-panel" id="c6-5-tier-2"><p>At a professional level, color in caricature must also work in reproduction — it must hold up as small digital thumbnails and in print. High contrast, clear color shapes, and limited palettes reproduce better than complex, subtle color work. Test your caricature at small sizes before considering it complete.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c6-5.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c6-5.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c6-5-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c6-5')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="c6-6">
+          <div class="cc-title">Finding Your Voice</div>
+          <div class="cc-desc">The destination of all this practice — a style that is unmistakably yours.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'c6-6-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'c6-6-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'c6-6-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="c6-6-tier-0"><p>Your voice in caricature develops through imitation before it develops through originality. Study artists you love, copy their work deliberately, understand their choices. Your own preferences will gradually diverge from your influences — and those divergences are where your voice begins. <br><br><strong>Exercise:</strong> Identify three caricaturists whose work you love. For each, draw one caricature in their style as closely as you can. Then draw a fourth caricature and, without deciding, see which elements from all three appear. That hybrid is a voice.</p></div><div class="cc-tier-panel" id="c6-6-tier-1"><p>Voice in caricature is not just style — it's editorial position. What subjects do you gravitate toward? What do you find worth caricaturing? What aspects of faces do you find most interesting to exaggerate? The answers to these questions define your artistic identity as much as your line quality. <br><br><strong>Practice:</strong> Look at your last twenty caricatures. What patterns emerge in subject choice, exaggeration type, rendering approach? Name the tendencies. Those tendencies, owned and amplified, become a voice.</p></div><div class="cc-tier-panel" id="c6-6-tier-2"><p>A professional caricature voice is sustainable — it serves a market reliably, can be produced at speed and quality consistently, and is recognizable enough to build an audience. Building this voice requires years of production, not weeks of experimentation. The voice you have after 5,000 drawings is the voice worth having. Get the drawings done.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-caricature-c6-6.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c6-6.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-caricature-c6-6-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'c6-6')">Mark Complete</button>
+        </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Practice Sheet</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/practice-caricature-l6.pdf')">&#9654; View Practice Sheet</button>
+            <a class="cc-dl-btn" href="/pdfs/practice-caricature-l6.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Lesson Guide</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/guide-caricature-l6.pdf')">&#9654; View Lesson Guide</button>
+            <a class="cc-dl-btn" href="/pdfs/guide-caricature-l6.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="lesson-progress">
+          <div class="lp-label">Lesson Progress</div>
+          <div class="lp-bar-wrap"><div class="lp-bar" id="l6-bar"></div></div>
+          <div class="lp-pct" id="l6-pct">0%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var LESSON_COUNTS = {1: 6,2: 6,3: 6,4: 6,5: 6,6: 6};
+    var TOTAL_TRACKABLE = 36;
+    var LS_KEY = 'thedrawingpath_caricature_v1';
+    var LAST_KEY = 'tdp_caricature_last';
+    var _currentLesson = 1;
+
+    function getState() {
+      try { return JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch(e) { return {}; }
+    }
+    function saveState(s) { try { localStorage.setItem(LS_KEY, JSON.stringify(s)); } catch(e) {} }
+
+    function showLesson(num, btn) {
+      _currentLesson = num;
+      document.querySelectorAll('.lesson-panel').forEach(function(p) { p.classList.remove('active'); });
+      var target = document.getElementById('lesson-' + num);
+      if (target) target.classList.add('active');
+      document.querySelectorAll('.lesson-btn').forEach(function(b) { b.classList.remove('active'); });
+      if (!btn) btn = document.querySelector('.lesson-btn[onclick*="showLesson(' + num + ',"]');
+      if (btn) btn.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      closeMobileMenu();
+      try { localStorage.setItem(LAST_KEY, num); } catch(e) {}
+    }
+
+    function switchTier(btn, panelId) {
+      var tabs = btn.closest('.cc-tiers').querySelectorAll('.cc-tier-tab');
+      var panels = btn.closest('.cc-tiers').querySelectorAll('.cc-tier-panel');
+      tabs.forEach(function(t) { t.classList.remove('active'); });
+      panels.forEach(function(p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById(panelId).classList.add('active');
+    }
+
+    function toggleConceptPdf(btn, src) {
+      var card = btn.closest('.concept-card') || btn.closest('.callout') || btn.parentElement;
+      var viewer = card ? card.querySelector('.cc-pdf-viewer') : null;
+      if (!viewer) return;
+      var iframe = viewer.querySelector('.cc-iframe');
+      var isOpen = viewer.classList.contains('open');
+      if (isOpen) {
+        viewer.classList.remove('open'); btn.classList.remove('open');
+        btn.textContent = btn.textContent.includes('Practice') ? '\u25b6 View Practice Sheet' : btn.textContent.includes('Guide') ? '\u25b6 View Lesson Guide' : '\u25b6 View PDF';
+        iframe.src = '';
+      } else {
+        viewer.classList.add('open'); btn.classList.add('open');
+        btn.textContent = btn.textContent.includes('Practice') ? '\u25bc Hide Practice Sheet' : btn.textContent.includes('Guide') ? '\u25bc Hide Lesson Guide' : '\u25bc Hide PDF';
+        iframe.src = src;
+      }
+    }
+
+    function markDone(btn, id) {
+      var s = getState();
+      if (s[id]) { delete s[id]; btn.classList.remove('done'); btn.textContent = 'Mark Complete'; }
+      else { s[id] = 1; btn.classList.add('done'); btn.textContent = '\u2713 Complete'; }
+      saveState(s); renderAll();
+    }
+
+    function renderLesson(num) {
+      var s = getState();
+      var total = LESSON_COUNTS[num] || 0;
+      var done = 0;
+      var panel = document.getElementById('lesson-' + num);
+      if (!panel) return 0;
+      panel.querySelectorAll('.btn-prog').forEach(function(btn) {
+        var id = btn.closest('.concept-card') ? btn.closest('.concept-card').dataset.id : null;
+        if (!id) return;
+        if (s[id]) { done++; btn.classList.add('done'); btn.textContent = '\u2713 Complete'; }
+        else { btn.classList.remove('done'); btn.textContent = 'Mark Complete'; }
+      });
+      var pct = total ? Math.round((done / total) * 100) : 0;
+      var bar = document.getElementById('l' + num + '-bar');
+      var pctEl = document.getElementById('l' + num + '-pct');
+      var btnProg = document.getElementById('l' + num + '-btn-prog');
+      if (bar) bar.style.width = pct + '%';
+      if (pctEl) pctEl.textContent = pct + '%';
+      if (btnProg) btnProg.style.width = pct + '%';
+      return done;
+    }
+
+    function renderAll() {
+      var totalDone = 0;
+      for (var i = 1; i <= 6; i++) totalDone += renderLesson(i);
+      var overallPct = Math.round((totalDone / TOTAL_TRACKABLE) * 100);
+      document.getElementById('overall-bar').style.width = overallPct + '%';
+      document.getElementById('overall-pct').textContent = overallPct + '%';
+    }
+
+    function openMobileMenu() {
+      document.getElementById('sidebar').classList.add('open');
+      document.getElementById('sidebar-overlay').classList.add('open');
+    }
+    function closeMobileMenu() {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebar-overlay').classList.remove('open');
+    }
+
+    // Keyboard nav
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'ArrowRight' && _currentLesson < 6) showLesson(_currentLesson + 1, null);
+      if (e.key === 'ArrowLeft' && _currentLesson > 1) showLesson(_currentLesson - 1, null);
+    });
+
+    // Footer nav injection
+    (function() {
+      var titles = {1: "Reading the Face",2: "Structure &amp; Form",3: "The Art of Exaggeration",4: "Feature by Feature",5: "Expression &amp; Character",6: "Rendering &amp; Finish"};
+      for (var n = 1; n <= 6; n++) {
+        var panel = document.getElementById('lesson-' + n);
+        if (!panel) continue;
+        var footer = document.createElement('div');
+        footer.className = 'lesson-footer';
+        var prevHTML = '';
+        if (n > 1) {
+          prevHTML = '<button class="lf-btn" onclick="showLesson(' + (n-1) + ',null)"><span style="opacity:.5">&#8592;</span><span><span class="lf-num">Lesson ' + (n-1) + '</span><br>' + titles[n-1] + '</span></button>';
+        } else {
+          prevHTML = '<div></div>';
+        }
+        var nextHTML = '';
+        if (n < 6) {
+          nextHTML = '<button class="lf-btn primary" onclick="showLesson(' + (n+1) + ',null)"><span><span class="lf-num">Lesson ' + (n+1) + '</span><br>' + titles[n+1] + '</span><span>&#8594;</span></button>';
+        } else {
+          nextHTML = '<div style="font-family:var(--serif);font-size:15px;font-style:italic;color:var(--muted)">Track complete. Keep drawing.</div>';
+        }
+        footer.innerHTML = prevHTML + nextHTML;
+        var body = panel.querySelector('.lesson-body');
+        if (body) body.appendChild(footer);
+        else panel.appendChild(footer);
+      }
+    })();
+
+    // Init
+    renderAll();
+    (function() {
+      var last = 1;
+      try { last = parseInt(localStorage.getItem(LAST_KEY)) || 1; } catch(e) {}
+      if (last < 1 || last > 6) last = 1;
+      showLesson(last, null);
+    })();
+  </script>
+</body>
+</html>

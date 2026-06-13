@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cartoon & Character Design — The Drawing Path</title>
+  <meta name="description" content="Shape language, archetypes, expression, color, and style — everything you need to design original characters that read instantly and feel alive." />
+  <link rel="canonical" href="https://thedrawingpath.com/cartoon.html" />
+  <meta property="og:title" content="Cartoon & Character Design — The Drawing Path" />
+  <meta property="og:description" content="Shape language, archetypes, expression, color, and style — everything you need to design original characters that read instantly and feel alive." />
+  <meta property="og:image" content="https://thedrawingpath.com/og-image.png" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d0d; --surface: #141414; --surface2: #1a1a1a;
+      --border: rgba(255,255,255,.07); --border2: rgba(255,255,255,.12);
+      --gold: #c9a84c; --gold-dim: rgba(201,168,76,.18); --gold-mid: rgba(201,168,76,.35);
+      --text: #e8e4dc; --muted: #7a7469; --subtle: #3a3632;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Inter', system-ui, sans-serif;
+      --sidebar-w: 260px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar { width: var(--sidebar-w); min-height: 100vh; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; }
+    .sidebar-home { display: block; padding: 18px 20px 0; font-family: var(--sans); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); text-decoration: none; opacity: .7; transition: opacity .2s; }
+    .sidebar-home:hover { opacity: 1; }
+    .sidebar-title { padding: 20px 20px 4px; font-family: var(--serif); font-size: 19px; font-weight: 400; letter-spacing: .03em; color: var(--text); }
+    .sidebar-tagline { padding: 0 20px 16px; font-family: var(--sans); font-size: 11px; color: var(--muted); letter-spacing: .04em; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
+    .track-label { padding: 14px 20px 8px; font-family: var(--sans); font-size: 9px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+    .lesson-btn { display: flex; flex-direction: column; gap: 2px; width: 100%; padding: 10px 20px; background: none; border: none; border-left: 2px solid transparent; cursor: pointer; text-align: left; transition: background .15s, border-color .15s; }
+    .lesson-btn:hover { background: var(--surface2); }
+    .lesson-btn.active { border-left-color: var(--gold); background: var(--gold-dim); }
+    .lesson-btn-num { font-family: var(--sans); font-size: 9px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+    .lesson-btn.active .lesson-btn-num { color: var(--gold); }
+    .lesson-btn-title { font-family: var(--serif); font-size: 15px; font-weight: 400; color: var(--text); }
+    .lesson-btn-prog-wrap { height: 2px; background: var(--subtle); border-radius: 1px; margin-top: 4px; overflow: hidden; }
+    .lesson-btn-prog { height: 100%; background: var(--gold); border-radius: 1px; width: 0%; transition: width .4s; }
+    .overall-progress { margin-top: auto; padding: 16px 20px; border-top: 1px solid var(--border); }
+    .op-label { font-family: var(--sans); font-size: 9px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .op-bar-wrap { height: 3px; background: var(--subtle); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
+    .op-bar { height: 100%; background: var(--gold); border-radius: 2px; width: 0%; transition: width .5s; }
+    .op-pct { font-family: var(--sans); font-size: 11px; color: var(--gold); }
+    #sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 150; }
+    #sidebar-overlay.open { display: block; }
+    #mobile-header { display: none; }
+
+    /* MAIN */
+    .main { flex: 1; min-width: 0; }
+    .lesson-panel { display: none; animation: fadeIn .25s ease; }
+    .lesson-panel.active { display: block; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+    /* LESSON HEADER */
+    .lesson-header { border-bottom: 1px solid var(--border); padding: 52px 56px 40px; }
+    .lesson-header-inner { max-width: 680px; }
+    .lesson-eyebrow { font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+    .lesson-title { font-family: var(--serif); font-size: clamp(32px,4vw,48px); font-weight: 300; color: var(--text); margin-bottom: 10px; }
+    .lesson-subtitle { font-family: var(--sans); font-size: 14px; color: var(--muted); font-style: italic; }
+
+    /* LESSON BODY */
+    .lesson-body { padding: 48px 56px 80px; max-width: 900px; }
+    .art-frame { margin-bottom: 48px; }
+    .art-placeholder { height: 180px; background: var(--surface); border: 1px solid var(--border); border-radius: 2px; }
+
+    /* SECTION */
+    .section { margin-bottom: 48px; }
+    .section-head { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+    .section-label { font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+    .section-rule { flex: 1; height: 1px; background: var(--border); }
+
+    /* CALLOUT */
+    .callout { background: var(--surface); border: 1px solid var(--border); padding: 20px 24px; border-radius: 2px; margin-bottom: 16px; }
+
+    /* CONCEPT CARDS */
+    .concepts-grid { display: flex; flex-direction: column; gap: 2px; }
+    .concept-card { background: var(--surface); border: 1px solid var(--border); padding: 28px 28px 24px; transition: border-color .2s; }
+    .concept-card:hover { border-color: var(--border2); }
+    .cc-title { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--text); margin-bottom: 6px; }
+    .cc-desc { font-family: var(--sans); font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+    .cc-tiers { margin-bottom: 20px; }
+    .cc-tier-tabs { display: flex; gap: 0; margin-bottom: 0; border-bottom: 1px solid var(--border); }
+    .cc-tier-tab { background: none; border: none; border-bottom: 2px solid transparent; padding: 8px 16px; font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); cursor: pointer; margin-bottom: -1px; transition: color .15s, border-color .15s; }
+    .cc-tier-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .cc-tier-panel { display: none; padding: 20px 0 8px; font-family: var(--sans); font-size: 14px; color: var(--text); line-height: 1.75; }
+    .cc-tier-panel.active { display: block; }
+    .cc-pdf-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+    .cc-view-btn { background: var(--gold-dim); border: 1px solid var(--gold-mid); color: var(--gold); font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; padding: 8px 16px; cursor: pointer; transition: background .2s; }
+    .cc-view-btn:hover, .cc-view-btn.open { background: rgba(201,168,76,.28); }
+    .cc-dl-btn { background: transparent; border: 1px solid var(--border2); color: var(--muted); font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; padding: 8px 14px; text-decoration: none; transition: border-color .2s, color .2s; }
+    .cc-dl-btn:hover { border-color: var(--gold-mid); color: var(--gold); }
+    .cc-pdf-viewer { display: none; width: 100%; margin-top: 12px; }
+    .cc-pdf-viewer.open { display: block; }
+    .cc-iframe { width: 100%; height: 500px; border: none; background: #1a1a1a; }
+    .btn-prog { background: none; border: 1px solid var(--border2); color: var(--muted); font-family: var(--sans); font-size: 10px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; padding: 6px 14px; cursor: pointer; transition: all .2s; }
+    .btn-prog:hover { border-color: var(--gold-mid); color: var(--gold); }
+    .btn-prog.done { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+
+    /* LESSON PROGRESS */
+    .lesson-progress { margin-top: 40px; padding: 20px; background: var(--surface); border: 1px solid var(--border); }
+    .lp-label { font-family: var(--sans); font-size: 9px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .lp-bar-wrap { height: 3px; background: var(--subtle); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
+    .lp-bar { height: 100%; background: var(--gold); width: 0%; transition: width .4s; border-radius: 2px; }
+    .lp-pct { font-family: var(--sans); font-size: 12px; color: var(--gold); }
+
+    /* LESSON FOOTER */
+    .lesson-footer { display: flex; justify-content: space-between; align-items: center; padding: 32px 56px; border-top: 1px solid var(--border); margin-top: 24px; gap: 16px; }
+    .lf-btn { background: none; border: 1px solid var(--border2); color: var(--muted); font-family: var(--sans); font-size: 12px; padding: 12px 20px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all .2s; text-align: left; }
+    .lf-btn:hover { border-color: var(--gold-mid); color: var(--text); }
+    .lf-btn.primary { background: var(--gold-dim); border-color: var(--gold-mid); color: var(--text); }
+    .lf-btn.primary:hover { background: rgba(201,168,76,.28); }
+    .lf-num { font-size: 10px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); display: block; }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      body { flex-direction: column; }
+      .sidebar { display: none; width: 100%; position: fixed; top: 0; left: 0; height: 100vh; z-index: 200; transform: translateX(-100%); transition: transform .3s; }
+      .sidebar.open { display: flex; transform: translateX(0); }
+      #mobile-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+      .mobile-menu-btn { background: none; border: 1px solid var(--border2); color: var(--muted); font-size: 18px; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+      .mobile-title { font-family: var(--serif); font-size: 17px; color: var(--text); }
+      .lesson-header { padding: 32px 24px 28px; }
+      .lesson-body { padding: 28px 24px 60px; }
+      .lesson-footer { padding: 24px; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="sidebar-overlay" onclick="closeMobileMenu()"></div>
+  <div id="mobile-header">
+    <button class="mobile-menu-btn" onclick="openMobileMenu()">&#9776;</button>
+    <span class="mobile-title">Cartoon & Character Design</span>
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <a class="sidebar-home" href="/">&#8592; The Drawing Path</a>
+    <div class="sidebar-title">Cartoon & Character Design</div>
+    <div class="sidebar-tagline">Build characters the world won't forget.</div>
+    <div class="track-label">Lessons</div>
+    
+      <button class="lesson-btn" id="l1-btn" onclick="showLesson(1,this)">
+        <span class="lesson-btn-num">Lesson 1</span>
+        <span class="lesson-btn-title">Shape Language</span>
+        <div class="lesson-btn-prog-wrap"><div class="lesson-btn-prog" id="l1-btn-prog"></div></div>
+      </button>
+      <button class="lesson-btn" id="l2-btn" onclick="showLesson(2,this)">
+        <span class="lesson-btn-num">Lesson 2</span>
+        <span class="lesson-btn-title">Character Archetypes</span>
+        <div class="lesson-btn-prog-wrap"><div class="lesson-btn-prog" id="l2-btn-prog"></div></div>
+      </button>
+      <button class="lesson-btn" id="l3-btn" onclick="showLesson(3,this)">
+        <span class="lesson-btn-num">Lesson 3</span>
+        <span class="lesson-btn-title">Expression Design</span>
+        <div class="lesson-btn-prog-wrap"><div class="lesson-btn-prog" id="l3-btn-prog"></div></div>
+      </button>
+      <button class="lesson-btn" id="l4-btn" onclick="showLesson(4,this)">
+        <span class="lesson-btn-num">Lesson 4</span>
+        <span class="lesson-btn-title">Color &amp; Character</span>
+        <div class="lesson-btn-prog-wrap"><div class="lesson-btn-prog" id="l4-btn-prog"></div></div>
+      </button>
+      <button class="lesson-btn" id="l5-btn" onclick="showLesson(5,this)">
+        <span class="lesson-btn-num">Lesson 5</span>
+        <span class="lesson-btn-title">Character Sheets &amp; Turnarounds</span>
+        <div class="lesson-btn-prog-wrap"><div class="lesson-btn-prog" id="l5-btn-prog"></div></div>
+      </button>
+      <button class="lesson-btn" id="l6-btn" onclick="showLesson(6,this)">
+        <span class="lesson-btn-num">Lesson 6</span>
+        <span class="lesson-btn-title">Finding Your Style</span>
+        <div class="lesson-btn-prog-wrap"><div class="lesson-btn-prog" id="l6-btn-prog"></div></div>
+      </button>
+    <div class="overall-progress">
+      <div class="op-label">Track Progress</div>
+      <div class="op-bar-wrap"><div class="op-bar" id="overall-bar"></div></div>
+      <div class="op-pct" id="overall-pct">0%</div>
+    </div>
+  </div>
+
+  <div class="main">
+    
+    <div class="lesson-panel" id="lesson-1">
+      <div class="lesson-header">
+        <div class="lesson-header-inner">
+          <div class="lesson-eyebrow">Lesson 1</div>
+          <h2 class="lesson-title">Shape Language</h2>
+          <p class="lesson-subtitle">The grammar of visual personality</p>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="art-frame">
+          <div class="art-placeholder"></div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Concepts</span><span class="section-rule"></span></div>
+          <div class="concepts-grid">
+        <div class="concept-card" data-id="ct1-1">
+          <div class="cc-title">Circles, Squares &amp; Triangles</div>
+          <div class="cc-desc">The three primary shapes carry three distinct emotional registers.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct1-1-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct1-1-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct1-1-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct1-1-tier-0"><p>Circles feel safe, friendly, and approachable — babies are round, puppies are round. Squares feel stable, dependable, and sometimes stubborn — blocky shapes suggest solidity and reliability. Triangles feel dynamic, dangerous, or cunning — sharp angles imply aggression or cleverness. These are not arbitrary: they are rooted in how we perceive the physical world. <br><br><strong>Exercise:</strong> Design three versions of the same character (a simple shopkeeper) using each primary shape as the dominant form. Note how different the personality reads in each version.</p></div><div class="cc-tier-panel" id="ct1-1-tier-1"><p>Shape language works at every scale: the overall body silhouette, the head shape, the hands, even the costume design all speak the same shape grammar. A hero designed in rounded squares (friendly but solid) should have rounded details throughout — rounded buttons, slightly rounded badge shapes, curved sword pommel. Consistency of shape language makes a character feel designed rather than assembled. <br><br><strong>Practice:</strong> Take one of your characters and audit every element for shape consistency. Replace any shapes that contradict the intended character language.</p></div><div class="cc-tier-panel" id="ct1-1-tier-2"><p>Sophisticated character design often plays with shape expectations deliberately — a villain with round shapes to suggest false friendliness, a hero with angular shapes to suggest dangerous competence. Subverting shape expectations is a narrative tool. Use it consciously and make sure the subversion is visible in the design — the round villain should still read as a villain through expression, color, and proportion even while the shape suggests friendliness.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct1-1.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct1-1.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct1-1-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct1-1')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct1-2">
+          <div class="cc-title">Combining Shapes</div>
+          <div class="cc-desc">Characters are built from shape combinations — not single shapes.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct1-2-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct1-2-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct1-2-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct1-2-tier-0"><p>No character is a pure circle or pure triangle. The most interesting designs combine shapes deliberately: a round body with a triangular head creates a character that reads as friendly-but-clever. A square body with a round head reads as tough-but-approachable. The combinations create the nuance. <br><br><strong>Exercise:</strong> Create a shape chart: combine each of the three primary shapes as body/head pair (9 combinations). For each, write one personality sentence based only on the shape combination.</p></div><div class="cc-tier-panel" id="ct1-2-tier-1"><p>Shape combination extends to proportional relationships. A character with a very large head relative to the body reads as young, naive, or comical. A small head on a large body reads as powerful or stupid, depending on other cues. A perfectly proportional head-to-body relationship reads as neutral or realistic. These ratios are design choices, not accidents. <br><br><strong>Practice:</strong> Redesign a character you've drawn before, changing only the head-to-body ratio three ways: head larger, head smaller, head matched. Write one sentence about how the personality changes in each version.</p></div><div class="cc-tier-panel" id="ct1-2-tier-2"><p>Professional character designers often start with the silhouette — a solid black filled shape with no details. If the character isn't immediately recognizable and readable in pure silhouette, the design needs work. Every major character element (head shape, costume silhouette, prop) should contribute to a unique, readable silhouette. Test your designs in silhouette before adding detail.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct1-2.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct1-2.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct1-2-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct1-2')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct1-3">
+          <div class="cc-title">Shape &amp; Personality</div>
+          <div class="cc-desc">Make the shape do the character work before a single expression is drawn.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct1-3-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct1-3-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct1-3-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct1-3-tier-0"><p>The goal of shape language in character design is that someone looking at your character in silhouette — without expression or color — should be able to guess the character's role and general personality. Is this the hero or the sidekick? The threat or the comedy relief? Shape alone should suggest this. <br><br><strong>Exercise:</strong> Create three character silhouettes for a simple story: a hero, a villain, a comic sidekick. Show them to someone unfamiliar with the story. Can they identify which is which?</p></div><div class="cc-tier-panel" id="ct1-3-tier-1"><p>Shape personality extends beyond role into specific trait expression. Nervousness can be expressed through unstable, asymmetrical shapes — angles that tilt slightly, irregular proportions. Confidence through balanced, solid shapes. Laziness through heavy, drooping shapes. These physical metaphors for personality translate directly into shape choices. <br><br><strong>Practice:</strong> Pick five personality traits and create a small shape study (just head and body) for each one that expresses that trait through shape alone, with no expression.</p></div><div class="cc-tier-panel" id="ct1-3-tier-2"><p>When designing a full cast of characters, shape differentiation is critical for readability — especially in animation where characters must be distinguishable at small sizes and during motion. Industry standard: no two main characters in a cast should have the same silhouette shape. Audit your cast for silhouette uniqueness.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct1-3.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct1-3.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct1-3-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct1-3')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct1-4">
+          <div class="cc-title">The Silhouette Test</div>
+          <div class="cc-desc">If the silhouette doesn't work, the design doesn't work.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct1-4-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct1-4-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct1-4-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct1-4-tier-0"><p>The silhouette test: fill your character with solid black. Can you still tell who it is? Can you still read their emotional state? Can you still identify what they're doing? A strong character design passes all three at a glance. A weak one requires color, expression, or detail to be readable. <br><br><strong>Exercise:</strong> Take five character designs you like from films or shows. Fill them in with solid black in your sketchbook. How readable are they in silhouette? What specifically makes some more readable than others?</p></div><div class="cc-tier-panel" id="ct1-4-tier-1"><p>The silhouette test also applies to poses. A character in a power pose should read as powerful in pure silhouette. A character surprised should read as surprised. The pose and gesture must carry the reading even without facial expression or color. This is especially important in animation, where characters are often viewed at small sizes. <br><br><strong>Practice:</strong> Draw five poses of your character and silhouette-test each one. Revise any pose that doesn't read clearly in silhouette.</p></div><div class="cc-tier-panel" id="ct1-4-tier-2"><p>In professional pipeline work, character designs are regularly evaluated at thumbnail size (1–2 inches) to simulate how they'll appear on screen in long shots. The design must hold at that scale. Details that only appear at full size should be treated as bonuses, not load-bearing elements.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct1-4.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct1-4.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct1-4-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct1-4')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct1-5">
+          <div class="cc-title">Organic vs. Geometric</div>
+          <div class="cc-desc">The tension between fluid organic shapes and hard geometric ones defines character energy.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct1-5-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct1-5-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct1-5-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct1-5-tier-0"><p>Organic shapes (irregular, curved, found in nature) feel alive, unpredictable, and emotionally complex. Geometric shapes (precise circles, squares, triangles) feel designed, controlled, and often associated with man-made environments. Characters built from primarily organic shapes feel more naturalistic and empathetic; characters from primarily geometric shapes feel more artificial, iconic, or even robotic. <br><br><strong>Exercise:</strong> Design two versions of the same character: one built from organic shapes, one from geometric shapes. Note how the character's energy changes completely.</p></div><div class="cc-tier-panel" id="ct1-5-tier-1"><p>The organic/geometric axis is especially useful for world-building. A world of organic-shaped characters feels warm, natural, and based in folk tradition. A world of geometric characters feels futuristic, designed, or corporate. Mixing organic heroes with geometric antagonists is a classic design strategy — organic = human, geometric = system. <br><br><strong>Practice:</strong> Design a small cast (3 characters) for a story concept. Use the organic/geometric axis deliberately to suggest alliance and opposition within the visual design.</p></div><div class="cc-tier-panel" id="ct1-5-tier-2"><p>The most sophisticated character designs find a unique ratio of organic to geometric and maintain it consistently. Disney's classic characters are mostly organic with carefully placed geometric accents. Many modern characters in gaming are more geometric overall. Find the ratio that defines your aesthetic and apply it consistently across your character's design elements.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct1-5.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct1-5.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct1-5-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct1-5')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct1-6">
+          <div class="cc-title">Modifying Shapes</div>
+          <div class="cc-desc">How you modify a basic shape is where your design style emerges.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct1-6-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct1-6-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct1-6-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct1-6-tier-0"><p>Two designers can both start from a circle and arrive at completely different characters — based on how they stretch, pinch, overlap, or combine it. The modification techniques you apply to basic shapes define your personal design vocabulary. Stretching a circle vertically creates a different character than compressing it horizontally. <br><br><strong>Exercise:</strong> Start with a circle. Apply five different modifications: stretch vertically, compress horizontally, add a flat bottom, pinch at the sides, offset another circle on top. Draw a head from each modified shape.</p></div><div class="cc-tier-panel" id="ct1-6-tier-1"><p>Shape modification is also where you find your stylistic fingerprint. Some designers tend toward sharp-cornered modifications of curves; others toward gentle bulging. Some stretch shapes to extreme proportions; others keep them compact. Study your own modification tendencies across multiple sketches. The patterns in how you modify shapes are your emerging style. <br><br><strong>Practice:</strong> Do twenty quick head designs in one session, all starting from the same basic circle. After, identify which modification strategies appeared most often. Those are your natural tendencies.</p></div><div class="cc-tier-panel" id="ct1-6-tier-2"><p>At a professional level, shape modification must serve story and character. The modification strategy for a character should reinforce their narrative role. A bureaucratic villain might have their shapes pinched and compressed — literally pinched off. A free-spirited character might have their shapes always slightly expanded, as if barely contained. Make modification choices serve meaning.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct1-6.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct1-6.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct1-6-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct1-6')">Mark Complete</button>
+        </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Practice Sheet</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/practice-cartoon-l1.pdf')">&#9654; View Practice Sheet</button>
+            <a class="cc-dl-btn" href="/pdfs/practice-cartoon-l1.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Lesson Guide</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/guide-cartoon-l1.pdf')">&#9654; View Lesson Guide</button>
+            <a class="cc-dl-btn" href="/pdfs/guide-cartoon-l1.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="lesson-progress">
+          <div class="lp-label">Lesson Progress</div>
+          <div class="lp-bar-wrap"><div class="lp-bar" id="l1-bar"></div></div>
+          <div class="lp-pct" id="l1-pct">0%</div>
+        </div>
+      </div>
+    </div>
+    <div class="lesson-panel" id="lesson-2">
+      <div class="lesson-header">
+        <div class="lesson-header-inner">
+          <div class="lesson-eyebrow">Lesson 2</div>
+          <h2 class="lesson-title">Character Archetypes</h2>
+          <p class="lesson-subtitle">The visual grammar of story roles</p>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="art-frame">
+          <div class="art-placeholder"></div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Concepts</span><span class="section-rule"></span></div>
+          <div class="concepts-grid">
+        <div class="concept-card" data-id="ct2-1">
+          <div class="cc-title">The Hero Shape</div>
+          <div class="cc-desc">What visual signals tell us 'this is someone to follow'?</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct2-1-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct2-1-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct2-1-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct2-1-tier-0"><p>Heroes in visual storytelling tend to have balanced, upright proportions — they feel physically and emotionally grounded. They're often built from combinations of shapes that suggest both strength and accessibility: a square jaw softened by round eyes, a broad shoulder line narrowing to a more approachable midline. They face forward or slightly upward. <br><br><strong>Exercise:</strong> Look at five animated heroes and identify the common visual elements. What shapes predominate? How are they posed? What does their eye design suggest?</p></div><div class="cc-tier-panel" id="ct2-1-tier-1"><p>Hero visual design often avoids extremes — a hero who is too large reads as a bully, one who is too small reads as incapable. The design sits in a 'credible capable' zone that can expand or contract based on genre (a comedic hero can be more extreme; a dramatic hero needs more naturalism). <br><br><strong>Practice:</strong> Design heroes for three different genres: action adventure, comedy, psychological thriller. Note how the visual extremity of the design shifts with the genre.</p></div><div class="cc-tier-panel" id="ct2-1-tier-2"><p>Heroes in ensemble casts must be visually dominant without overwhelming the cast. Techniques: hero placed slightly larger than others, hero's color contrasts most strongly with the background, hero's silhouette is the most unique in the cast, hero's face has the most complex emotional range in the design. Apply these hierarchy tools deliberately.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct2-1.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct2-1.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct2-1-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct2-1')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct2-2">
+          <div class="cc-title">The Villain Shape</div>
+          <div class="cc-desc">Visual language that signals threat, cunning, or corruption.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct2-2-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct2-2-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct2-2-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct2-2-tier-0"><p>Villains visually tend toward extremes — they're too large, too angular, too thin, too something. The visual extremity suggests an imbalance that echoes their psychological imbalance. Sharp angles, darker color palettes, more complex silhouettes, and downward-looking poses are classic villain signals. <br><br><strong>Exercise:</strong> Design the same antagonistic character three ways: subtly threatening (barely different from the hero), overtly monstrous, and somewhere in between. Note how credibility shifts with visual extremity.</p></div><div class="cc-tier-panel" id="ct2-2-tier-1"><p>The most interesting villains visually are those where the threat reads as elegance or beauty — the villain who is more visually refined than the hero creates a different narrative tension than the villain who is more monstrous. Both are valid. The choice communicates something about the nature of the threat. <br><br><strong>Practice:</strong> Design a 'beautiful villain' — someone whose visual design reads as attractive and refined but where the threat reads through specific design choices (asymmetry, a too-sharp element hidden in the design, unusual eye design).</p></div><div class="cc-tier-panel" id="ct2-2-tier-2"><p>In modern character design, the overtly monstrous villain is increasingly replaced by the quietly disturbing one — the character whose wrongness requires a second look to notice. This is more sophisticated and more narratively rich. Learn to design threat that reads subliminally before it reads overtly.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct2-2.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct2-2.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct2-2-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct2-2')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct2-3">
+          <div class="cc-title">The Sidekick</div>
+          <div class="cc-desc">The visual counterpoint that makes the hero feel more complete.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct2-3-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct2-3-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct2-3-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct2-3-tier-0"><p>Sidekicks in visual design are usually the complement of the hero: if the hero is tall and angular, the sidekick is round and short; if the hero is serious and restrained, the sidekick is expressive and loose. This visual pairing creates a natural comic and narrative dynamic and also ensures the two characters read clearly as a unit while being individually distinct. <br><br><strong>Exercise:</strong> Design a hero and a sidekick as a visual pair. Every design choice for the sidekick should be an intelligent counterpoint to the hero.</p></div><div class="cc-tier-panel" id="ct2-3-tier-1"><p>Sidekick design challenges you to create a character who is visually subordinate to the hero without being visually uninteresting. The sidekick needs their own visual personality and arc — but they shouldn't visually compete with the hero for dominance. Study how this balance is achieved in successful animated pairings. <br><br><strong>Practice:</strong> Look at five hero/sidekick pairs from animation. For each, identify the specific visual strategy used to make them complementary without making the sidekick forgettable.</p></div><div class="cc-tier-panel" id="ct2-3-tier-2"><p>In professional production, sidekick design often undergoes multiple iterations to find the correct visual hierarchy. The sidekick that starts as a minor character may be elevated as their narrative role grows — requiring design updates that increase their visual presence without disrupting their relationship to the hero. Design with this flexibility in mind.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct2-3.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct2-3.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct2-3-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct2-3')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct2-4">
+          <div class="cc-title">Character Contrast</div>
+          <div class="cc-desc">A cast reads as a cast — not just a collection of individuals.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct2-4-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct2-4-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct2-4-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct2-4-tier-0"><p>A well-designed cast of characters contrasts visually at every level: size, shape, color, texture, style of movement, expression style. If all characters are the same height, the same roundness, and the same color range, they become visually interchangeable regardless of how different their personalities are. <br><br><strong>Exercise:</strong> Design a group of five characters where no two have the same height, no two share a dominant shape family, and no two have similar silhouettes. This is the foundation of cast design.</p></div><div class="cc-tier-panel" id="ct2-4-tier-1"><p>Beyond the obvious contrasts (big/small, round/angular), strong cast design creates contrast in the quality of visual information: one character might be highly complex in design, another might be strikingly simple. This contrast creates visual rhythm in the cast and often signals narrative importance — simpler designs often read as more honest or straightforward. <br><br><strong>Practice:</strong> Redesign an existing simple cast (a family, a team, a crew) focusing specifically on the contrast in design complexity. Give the most complex design to the most narratively complex character.</p></div><div class="cc-tier-panel" id="ct2-4-tier-2"><p>Cast contrast must survive in motion and in groups — not just in side-by-side character sheet comparisons. Characters that look distinct in individual sheets sometimes become hard to distinguish in action scenes. Test your cast by drawing all of them in the same scene before finalizing designs.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct2-4.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct2-4.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct2-4-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct2-4')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct2-5">
+          <div class="cc-title">Breaking Archetypes</div>
+          <div class="cc-desc">The most interesting characters surprise us by defying visual expectation.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct2-5-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct2-5-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct2-5-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct2-5-tier-0"><p>Archetypal visual language is powerful precisely because it's universal — but it can also be limiting and predictable. The most interesting character designs often start from an archetype and then introduce a deliberate visual contradiction: the villain who is physically small, the hero who looks frightened, the wise mentor who looks immature. <br><br><strong>Exercise:</strong> Take a classic visual archetype (wise old wizard, cheerful sidekick, corrupt politician) and redesign it with one significant visual contradiction. What does the contradiction change about how we read the character?</p></div><div class="cc-tier-panel" id="ct2-5-tier-1"><p>Breaking archetypes requires confidence — the contradictions must be deliberate and committed, not accidental. A hero who looks villainous should look fully committed to that villain aesthetic, so that the contrast when their heroic nature reveals itself is powerful. A half-hearted contradiction just reads as unclear design. <br><br><strong>Practice:</strong> Design a character that fully visually reads as one archetype but functions narratively as its opposite. Make the design commitment total — there should be no visual hedging.</p></div><div class="cc-tier-panel" id="ct2-5-tier-2"><p>Archetype-breaking designs have significant narrative power when they're used to comment on the story's themes. A warrior designed with domestic, rounded shapes makes a statement about the nature of heroism. A caregiver designed with sharp, dangerous shapes makes a statement about protection. Let the archetype subversion be thematic, not just stylistic.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct2-5.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct2-5.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct2-5-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct2-5')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct2-6">
+          <div class="cc-title">Visual Storytelling Through Design</div>
+          <div class="cc-desc">The character's design tells their story before they speak.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct2-6-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct2-6-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct2-6-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct2-6-tier-0"><p>The best character designs contain the character's backstory and personality in the visual design itself — before any dialogue or action. A character whose clothes are subtly damaged tells us they live in hard circumstances. A character whose design contains elements from multiple cultures tells us about their origins. The design is narrative. <br><br><strong>Exercise:</strong> Design a character where at least three details of their appearance (costume, physical, prop) tell us something specific about their history or personality. Share the design with someone and see if they can read the story correctly.</p></div><div class="cc-tier-panel" id="ct2-6-tier-1"><p>Visual storytelling in character design operates at several levels: obvious narrative elements (a scar, a trophy, a damaged costume) tell the explicit story; subtler design choices (a nervous tick expressed in the character's off-balance design, or a detail that echoes the villain's design) tell the subtext. Both levels should be present. <br><br><strong>Practice:</strong> For a character you're designing, identify one explicit narrative design element and one subtle one. Make sure both are in the final design.</p></div><div class="cc-tier-panel" id="ct2-6-tier-2"><p>In long-form storytelling, character designs can evolve to reflect narrative arc — a character who loses innocence might have their round shapes slowly replaced with more angular ones across a series. This evolution must be planned from the beginning so it reads as intentional character development rather than design inconsistency.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct2-6.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct2-6.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct2-6-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct2-6')">Mark Complete</button>
+        </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Practice Sheet</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/practice-cartoon-l2.pdf')">&#9654; View Practice Sheet</button>
+            <a class="cc-dl-btn" href="/pdfs/practice-cartoon-l2.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Lesson Guide</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/guide-cartoon-l2.pdf')">&#9654; View Lesson Guide</button>
+            <a class="cc-dl-btn" href="/pdfs/guide-cartoon-l2.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="lesson-progress">
+          <div class="lp-label">Lesson Progress</div>
+          <div class="lp-bar-wrap"><div class="lp-bar" id="l2-bar"></div></div>
+          <div class="lp-pct" id="l2-pct">0%</div>
+        </div>
+      </div>
+    </div>
+    <div class="lesson-panel" id="lesson-3">
+      <div class="lesson-header">
+        <div class="lesson-header-inner">
+          <div class="lesson-eyebrow">Lesson 3</div>
+          <h2 class="lesson-title">Expression Design</h2>
+          <p class="lesson-subtitle">Making emotions live on the page</p>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="art-frame">
+          <div class="art-placeholder"></div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Concepts</span><span class="section-rule"></span></div>
+          <div class="concepts-grid">
+        <div class="concept-card" data-id="ct3-1">
+          <div class="cc-title">The Core Expressions</div>
+          <div class="cc-desc">Seven universal emotions — and how they translate into your cartoon style.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct3-1-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct3-1-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct3-1-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct3-1-tier-0"><p>The seven basic emotions (happiness, sadness, anger, fear, surprise, disgust, contempt) are universal across cultures and form the emotional vocabulary of cartoon acting. Each has a specific muscular pattern in the face. In cartoon, these patterns are stylized and exaggerated — but they must remain grounded in the real muscular movement or they won't read. <br><br><strong>Exercise:</strong> Draw your character in all seven basic emotions. Reference your own face in a mirror for each one. Commit to the muscular truth before stylizing.</p></div><div class="cc-tier-panel" id="ct3-1-tier-1"><p>Beyond the basic seven, cartoon expressions need to handle blended emotional states: wary curiosity, pleased surprise, reluctant admiration, gleeful malice. These compound emotions are where cartoon acting gets interesting — and where most beginners stop. Each blend requires understanding which muscles are active for each component emotion and combining them. <br><br><strong>Practice:</strong> Design five blended expressions for your character: smug satisfaction, nervous excitement, sad relief, angry guilt, happy exhaustion. Study how the blending changes both the muscles involved and the overall read.</p></div><div class="cc-tier-panel" id="ct3-1-tier-2"><p>Expression sheets in professional animation include not just the standard expressions but the transition poses between them — the anticipation of an expression, the peak, and the settle. The transitions are what make animated performances feel alive. Design your expressions with the transitions in mind, not just the peaks.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct3-1.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct3-1.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct3-1-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct3-1')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct3-2">
+          <div class="cc-title">Expression Sheets</div>
+          <div class="cc-desc">The definitive reference document for how your character emotes.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct3-2-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct3-2-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct3-2-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct3-2-tier-0"><p>An expression sheet is a single reference page showing your character in multiple expressions. It's the document that animators, artists, and writers use to understand how the character moves emotionally. A basic expression sheet includes the seven core emotions at minimum, clearly labeled and consistently styled. <br><br><strong>Exercise:</strong> Create your first expression sheet for a character: 7–9 expressions, all on one page, same size, clearly labeled. Pay attention to consistency — the expressions must read as the same character.</p></div><div class="cc-tier-panel" id="ct3-2-tier-1"><p>A production-ready expression sheet includes far more than the basics: specific expressions for the character's unique personality, dialogue mouth positions (for lip-sync if animated), special 'character moment' expressions that are specific to narrative beats, and notes on what changes (and what stays consistent) across expressions. <br><br><strong>Practice:</strong> Expand your basic expression sheet to 15–20 expressions, including at least 3 'character-specific' expressions that no other character in your story would make in quite the same way.</p></div><div class="cc-tier-panel" id="ct3-2-tier-2"><p>Expression sheets in professional animation go through multiple iterations and are often finalized during production rather than before it — expressions that work in a static drawing don't always work when animated. Build your expression sheets with this workflow in mind: start with the essentials, add as the character's performance needs become clear.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct3-2.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct3-2.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct3-2-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct3-2')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct3-3">
+          <div class="cc-title">Eyes in Cartoons</div>
+          <div class="cc-desc">Eyes are the primary channel of emotion — design them with intention.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct3-3-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct3-3-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct3-3-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct3-3-tier-0"><p>Cartoon eyes are simplified and stylized, but they must still communicate the full range of emotion. The key variables: pupil size (large = open/friendly/fearful, small = calculating/sinister/focused), iris/pupil ratio, eyelid height and shape, and whether whites are visible. Changing just one of these variables dramatically changes the emotional read. <br><br><strong>Exercise:</strong> Draw the same pair of eyes with only pupil size changing from very large to very small. Write what emotion each size suggests.</p></div><div class="cc-tier-panel" id="ct3-3-tier-1"><p>Eye design in cartoons is also a stylistic signature — some styles use enormous irises covering most of the eye (Japanese animation), others use small pupils in large whites (classic American cartoon). The ratio you choose affects the range of emotion available. Large irises can't express the cold-eyed evil that small pupils create. Choose your eye design knowing what emotional range it allows and limits. <br><br><strong>Practice:</strong> Test your character's eye design against their required emotional range. Can you express every emotion the story needs with your chosen eye design? If not, adjust the design before finalizing.</p></div><div class="cc-tier-panel" id="ct3-3-tier-2"><p>Eyes in professional character design must remain recognizable across all emotions and angles. The design must be rigid enough to be consistent (so different artists can all draw the same character's eyes) but flexible enough to express the full required range. This balance is one of the hardest problems in character design — solve it explicitly for each character.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct3-3.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct3-3.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct3-3-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct3-3')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct3-4">
+          <div class="cc-title">Mouth Shapes</div>
+          <div class="cc-desc">The mouth carries the speech and the subtext simultaneously.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct3-4-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct3-4-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct3-4-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct3-4-tier-0"><p>Cartoon mouths need to do two jobs: express emotion and (if animated) form recognizable speech shapes. The most basic cartoon expressions use simple line mouths — an upturned line for happiness, a downturned one for sadness — but these simple shapes miss most of the emotional spectrum. Study how adding lip volume, corner position, and mouth width changes the reading. <br><br><strong>Exercise:</strong> Draw your character's mouth in twenty different configurations. No other facial features — just the mouth. How many distinct emotional states can the mouth alone suggest?</p></div><div class="cc-tier-panel" id="ct3-4-tier-1"><p>The mouth-corners (the commissures) are the single most important element for emotional reading: corners up = positive, corners down = negative, one up one down = ambivalence or sarcasm. The degree of corner movement and the accompanying lip shape creates all the variations in between. Understand this one principle and your mouth range expands dramatically. <br><br><strong>Practice:</strong> Do a focused study of mouth corners: draw the same mouth shape (slightly open, mid-size) with different corner positions and see how many distinct emotions you can create through corner movement alone.</p></div><div class="cc-tier-panel" id="ct3-4-tier-2"><p>For animation, the mouth design must accommodate a standard set of phoneme positions (the mouth shapes that correspond to different speech sounds). These phoneme charts are a practical production requirement. Design your cartoon mouth with the full phoneme set in mind — some stylized mouth designs simply can't form all the required shapes.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct3-4.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct3-4.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct3-4-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct3-4')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct3-5">
+          <div class="cc-title">Eyebrow Acting</div>
+          <div class="cc-desc">Eyebrows are the headline — the rest of the face is the article.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct3-5-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct3-5-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct3-5-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct3-5-tier-0"><p>Eyebrows are among the most expressive facial elements precisely because they move across the brow ridge — they can go up, come down, angle inward, tilt outward, and do each of these separately for each brow. In cartoons, eyebrows are often simplified to a single curved or angled line — but that simplification makes every eyebrow position highly readable. <br><br><strong>Exercise:</strong> Draw twenty pairs of eyebrows in different positions and angles with no other facial features. Can you create distinct emotional reads from eyebrows alone? You should be able to.</p></div><div class="cc-tier-panel" id="ct3-5-tier-1"><p>Eyebrow design in cartoon characters is often the primary stylistic differentiator between characters in the same cast — thick brows, thin brows, connected brows, arched brows, flat brows all create immediately distinct personalities. The eyebrow design is often set at the character design stage and then animated within that established shape. Choose the eyebrow design that most directly expresses the character's dominant personality trait. <br><br><strong>Practice:</strong> Redesign the same character's face with five different eyebrow designs. Keep everything else identical. Note how dramatically the personality changes with each eyebrow change.</p></div><div class="cc-tier-panel" id="ct3-5-tier-2"><p>In professional animation, eyebrow positions are coded and cataloged as part of the expression library. This allows multiple animators to maintain eyebrow consistency. Develop a clear notation system for your character's eyebrow positions — it will be essential if collaborating with others or returning to the character after time away.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct3-5.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct3-5.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct3-5-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct3-5')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct3-6">
+          <div class="cc-title">Extreme Expressions</div>
+          <div class="cc-desc">Push the face past realism — this is where cartoons live.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct3-6-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct3-6-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct3-6-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct3-6-tier-0"><p>Cartoons have permission to push expressions far past what a real face can do — and this is where cartoon acting gets its power. A jaw that literally drops to the floor, eyes that bug out on stalks, a head that inflates with rage — these extreme expressions are metaphors for emotional states, not representations of facial movements. <br><br><strong>Exercise:</strong> Take five basic emotions and push them to their most extreme cartoon expression. Remove any inhibition about 'too much.' The goal is maximum emotional readability at maximum cartoon range.</p></div><div class="cc-tier-panel" id="ct3-6-tier-1"><p>Extreme expressions require understanding the underlying emotion's physical logic — then exaggerating in the direction the emotion is already moving. Anger already closes the brow and tightens the jaw — extreme anger presses the brow down over the eyes entirely and locks the jaw in a rigid clench. The extreme follows the real direction, just infinitely further. <br><br><strong>Practice:</strong> For each basic emotion, find the direction of its real muscular movement and push it 200% further than reality. Then 400%. Note where the expression becomes unreadable (this is useful to know) and where it peaks in clarity.</p></div><div class="cc-tier-panel" id="ct3-6-tier-2"><p>The most skilled cartoon animators find extreme expressions that are unmistakably specific to their character — the same 'fear' looks different on Bugs Bunny than on Mickey Mouse because their design vocabularies are different. Your extreme expressions must be in the language of your specific character, not just generic 'extreme cartoon face.' This is the hardest level to achieve and the most rewarding.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct3-6.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct3-6.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct3-6-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct3-6')">Mark Complete</button>
+        </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Practice Sheet</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/practice-cartoon-l3.pdf')">&#9654; View Practice Sheet</button>
+            <a class="cc-dl-btn" href="/pdfs/practice-cartoon-l3.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Lesson Guide</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/guide-cartoon-l3.pdf')">&#9654; View Lesson Guide</button>
+            <a class="cc-dl-btn" href="/pdfs/guide-cartoon-l3.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="lesson-progress">
+          <div class="lp-label">Lesson Progress</div>
+          <div class="lp-bar-wrap"><div class="lp-bar" id="l3-bar"></div></div>
+          <div class="lp-pct" id="l3-pct">0%</div>
+        </div>
+      </div>
+    </div>
+    <div class="lesson-panel" id="lesson-4">
+      <div class="lesson-header">
+        <div class="lesson-header-inner">
+          <div class="lesson-eyebrow">Lesson 4</div>
+          <h2 class="lesson-title">Color &amp; Character</h2>
+          <p class="lesson-subtitle">Color as personality, not decoration</p>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="art-frame">
+          <div class="art-placeholder"></div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Concepts</span><span class="section-rule"></span></div>
+          <div class="concepts-grid">
+        <div class="concept-card" data-id="ct4-1">
+          <div class="cc-title">Color &amp; Personality</div>
+          <div class="cc-desc">Color speaks before the eye reads the shape.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct4-1-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct4-1-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct4-1-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct4-1-tier-0"><p>Color carries emotional and psychological associations that audiences absorb instantly. Red: energy, danger, passion, appetite. Blue: calm, trustworthy, cold, melancholy. Yellow: optimism, caution, playfulness. Green: nature, envy, growth, sickness. Purple: mystery, royalty, creativity. Orange: warmth, extroversion, hunger. These associations are not absolute but are culturally established enough to be design tools. <br><br><strong>Exercise:</strong> Design three identical character shapes with three different color schemes, each intended to suggest a different personality. Ask someone unfamiliar with the characters to describe each one's personality from color alone.</p></div><div class="cc-tier-panel" id="ct4-1-tier-1"><p>Character color design goes beyond individual color associations to color relationships — how a character's colors relate to each other and to the world around them. A character who is visually warm in a cool world stands out; one who is cool in a warm world recedes. Color contrast against environment is a hierarchy tool as powerful as size. <br><br><strong>Practice:</strong> Design a character for a specific environment (desert, ocean, forest city). Make the color choices intentional: should this character stand out from or blend into their world? Apply that intention in the palette.</p></div><div class="cc-tier-panel" id="ct4-1-tier-2"><p>At a professional level, a character's color palette includes its full range of variations: the primary palette for normal scenes, modified versions for emotional scenes (desaturated for sadness, high saturation for joy), shadow and highlight palettes for different lighting conditions, and special variant palettes for flashback or fantasy sequences. Design all of these before production begins.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct4-1.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct4-1.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct4-1-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct4-1')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct4-2">
+          <div class="cc-title">The Color Script</div>
+          <div class="cc-desc">Map the emotional arc of your story in color before drawing a single scene.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct4-2-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct4-2-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct4-2-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct4-2-tier-0"><p>A color script is a sequence of small color studies showing the overall color mood of each scene or act in a story. It's one of the most powerful tools in visual storytelling because it forces you to think about color as a narrative arc — not just as individual scene choices. The colors should tell the story even when reduced to thumbnail-sized color blocks. <br><br><strong>Exercise:</strong> Create a simple 6-panel color script for a short story arc (character begins at home, faces danger, finds help, defeats challenge, returns changed). Just color blocks and light direction — no characters yet.</p></div><div class="cc-tier-panel" id="ct4-2-tier-1"><p>A strong color script creates emotional contrast between story beats. If act one is warm and golden, act two's danger feels colder by contrast. If the lowest emotional point of the story is the most desaturated, the final triumph feels more vivid by the contrast. The script creates the full color arc before any frame is drawn. <br><br><strong>Practice:</strong> Apply a color script to a story you're working on or have already written. Does the color arc parallel the emotional arc? Adjust where they diverge.</p></div><div class="cc-tier-panel" id="ct4-2-tier-2"><p>Color scripts in professional animation are created by the production designer or color stylist and serve as the bible for every colorist and background painter in production. Divergence from the color script requires explicit approval. Learn to create color scripts that are clear and specific enough to serve this production function — vague color scripts create expensive inconsistencies.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct4-2.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct4-2.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct4-2-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct4-2')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct4-3">
+          <div class="cc-title">Limited Palettes</div>
+          <div class="cc-desc">Constraint produces clarity — fewer colors make stronger designs.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct4-3-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct4-3-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct4-3-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct4-3-tier-0"><p>A limited palette means choosing a small set of colors (3–5) and using them for the entire character design. Constraints force creativity and produce more cohesive, readable results than unlimited color choice. Many iconic characters use surprisingly few colors: Mickey Mouse is essentially three colors. The Simpsons yellow family is built from yellow, blue, red, and a few neutrals. <br><br><strong>Exercise:</strong> Design a character using exactly four colors (including the darkest dark and lightest light). No additional colors — find all the variation you need within those four.</p></div><div class="cc-tier-panel" id="ct4-3-tier-1"><p>Limited palettes work through value relationships as much as hue relationships. A three-color palette that includes one dark value, one mid value, and one light value creates a complete tonal range. Hue variety within that value structure adds richness without complexity. The key principle: in any limited palette, the values must work even when the image is viewed in grayscale. <br><br><strong>Practice:</strong> Take one of your character color designs and convert it to grayscale. Does the value structure still read clearly? If not, the palette has a value problem. Fix the values before the hues.</p></div><div class="cc-tier-panel" id="ct4-3-tier-2"><p>Professional character palettes are specified in precise color values (RGB, HSB, or Pantone) to ensure consistency across different artists and across different production environments (print, screen, merchandise). Get in the habit of noting your palette values numerically, not just visually.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct4-3.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct4-3.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct4-3-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct4-3')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct4-4">
+          <div class="cc-title">Contrast &amp; Read</div>
+          <div class="cc-desc">A character who can't be read quickly is a failed design.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct4-4-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct4-4-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct4-4-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct4-4-tier-0"><p>Color contrast ensures your character reads quickly against different backgrounds. Light characters need dark outlines or dark backgrounds to read; dark characters need light outlines or light backgrounds. A character design that only reads clearly against one background color will cause problems in production. <br><br><strong>Exercise:</strong> Place your character against three backgrounds: white, mid-gray, and black. Does the character read clearly against all three? If not, identify why and adjust the design.</p></div><div class="cc-tier-panel" id="ct4-4-tier-1"><p>Beyond value contrast, color contrast uses complementary colors (opposite on the color wheel) for maximum pop. A red character against a green environment, a blue hero against an orange sky — these complementary relationships create visual energy and hierarchy. Study how professional character designs use color contrast to create visual hierarchy in every scene. <br><br><strong>Practice:</strong> Identify the dominant color of your character's palette. What is its complement? Design a test scene placing your character against their complementary environment color. Does the contrast work?</p></div><div class="cc-tier-panel" id="ct4-4-tier-2"><p>In animation production, character colors are specifically engineered to read against the specific backgrounds they'll appear in. When characters enter new environments, color adjustments (a 'color hold' in traditional animation or a composite adjustment in digital) maintain the contrast relationship. Plan your character's color for its primary environment with an eye toward how it will need to adjust elsewhere.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct4-4.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct4-4.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct4-4-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct4-4')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct4-5">
+          <div class="cc-title">Pattern &amp; Texture</div>
+          <div class="cc-desc">Surface detail as character information.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct4-5-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct4-5-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct4-5-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct4-5-tier-0"><p>Patterns and textures in character design carry social and cultural information: herringbone suits suggest traditionalism; floral patterns suggest either romanticism or quirkiness depending on character type; stripes create energy or formality depending on their weight and direction. Even the texture of a surface (shiny vs. matte, rough vs. smooth) communicates character. <br><br><strong>Exercise:</strong> Design the same character in three different costume patterns: a geometric pattern, a natural pattern (floral, animal), and a plain texture. Write one word describing how the pattern changes the character's social read.</p></div><div class="cc-tier-panel" id="ct4-5-tier-1"><p>Pattern use in cartoon design must be simplified to read at cartoon scale. Real patterns have too much detail — they become visual noise in animation. Cartoon patterns are abstracted to their essential element: a plaid becomes a simple grid, a floral becomes a regular geometric petal shape, a camouflage becomes an irregular blob shape. The pattern must read from a distance. <br><br><strong>Practice:</strong> Take a complex real-world pattern and simplify it to a cartoon version that reads clearly at 2 inches. Apply it to a character costume and evaluate its readability.</p></div><div class="cc-tier-panel" id="ct4-5-tier-2"><p>In professional animation, patterns on costumes must be tracked by the character layout department — especially for digitally animated 3D characters where patterns must follow the surface correctly. In 2D, patterns on curved or moving surfaces are simplified to avoid this complexity. Design patterns with production feasibility in mind.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct4-5.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct4-5.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct4-5-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct4-5')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct4-6">
+          <div class="cc-title">Color Variations</div>
+          <div class="cc-desc">One character, multiple looks — how to vary without losing identity.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct4-6-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct4-6-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct4-6-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct4-6-tier-0"><p>Characters in long-form stories often need color variations: different outfits for different settings, alternate costumes, seasonal variations. The challenge is maintaining recognizability across variations while creating genuine visual variety. The solution: identify the one or two color elements that are most essential to the character's identity and keep those constant across variations. <br><br><strong>Exercise:</strong> Design three outfit variations for a character. In each variation, keep the same signature color in at least one major element (the shoes, the hat, the hair). Note how this maintains recognition.</p></div><div class="cc-tier-panel" id="ct4-6-tier-1"><p>Color variations also include emotional or narrative color states: the character in their 'low point' has desaturated or cooled colors; the character in their triumphant moment has maximum saturation and warm tones. These emotional color states are not just background changes — the character's own coloring shifts. <br><br><strong>Practice:</strong> Design 'emotional color states' for a character: their normal palette, their lowest point palette (how does the color change?), their triumphant moment palette. The changes should be subtle but clearly intentional.</p></div><div class="cc-tier-panel" id="ct4-6-tier-2"><p>Professional character color management requires a color bible — a reference document with all approved color variations, their precise specifications, and the narrative context in which each should be used. This document prevents inconsistencies across a production with multiple artists. Develop the discipline to create and maintain color bibles for your characters.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct4-6.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct4-6.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct4-6-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct4-6')">Mark Complete</button>
+        </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Practice Sheet</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/practice-cartoon-l4.pdf')">&#9654; View Practice Sheet</button>
+            <a class="cc-dl-btn" href="/pdfs/practice-cartoon-l4.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Lesson Guide</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/guide-cartoon-l4.pdf')">&#9654; View Lesson Guide</button>
+            <a class="cc-dl-btn" href="/pdfs/guide-cartoon-l4.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="lesson-progress">
+          <div class="lp-label">Lesson Progress</div>
+          <div class="lp-bar-wrap"><div class="lp-bar" id="l4-bar"></div></div>
+          <div class="lp-pct" id="l4-pct">0%</div>
+        </div>
+      </div>
+    </div>
+    <div class="lesson-panel" id="lesson-5">
+      <div class="lesson-header">
+        <div class="lesson-header-inner">
+          <div class="lesson-eyebrow">Lesson 5</div>
+          <h2 class="lesson-title">Character Sheets &amp; Turnarounds</h2>
+          <p class="lesson-subtitle">Documenting a character completely</p>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="art-frame">
+          <div class="art-placeholder"></div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Concepts</span><span class="section-rule"></span></div>
+          <div class="concepts-grid">
+        <div class="concept-card" data-id="ct5-1">
+          <div class="cc-title">The Model Sheet</div>
+          <div class="cc-desc">The definitive reference document for every artist who draws your character.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct5-1-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct5-1-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct5-1-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct5-1-tier-0"><p>A model sheet is a single page that shows a character in their primary pose, typically front/back/side views, with key proportions indicated by guidelines. It's the first document created when a character enters production and serves as the reference that keeps the character consistent across different artists. <br><br><strong>Exercise:</strong> Create a basic model sheet for a character: front view, side view, and back view, all at the same scale, with a consistent set of height guidelines.</p></div><div class="cc-tier-panel" id="ct5-1-tier-1"><p>A complete model sheet includes more than the basic views: a head close-up, hand details, any complex costume elements, and at least one or two action poses that show how the character's proportions read in motion. The goal is to answer any question an artist might have about this character without showing additional references. <br><br><strong>Practice:</strong> Expand a basic model sheet to a full production model sheet: include head details, hands, any distinctive accessories, and two action poses. The sheet should be usable as the sole reference for an unfamiliar artist to draw the character correctly.</p></div><div class="cc-tier-panel" id="ct5-1-tier-2"><p>Professional model sheets are rigorously standardized for production: specific line weights for character outlines, specific color fills for production-ready coloring, hair and costume guidelines at enlarged scale. They're created in a format that can be printed and pinned at an artist's desk. Learn the production standards for your target medium.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct5-1.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct5-1.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct5-1-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct5-1')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct5-2">
+          <div class="cc-title">Three-View Turnaround</div>
+          <div class="cc-desc">Prove your character works in three dimensions.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct5-2-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct5-2-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct5-2-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct5-2-tier-0"><p>A three-view turnaround shows the character from the front, side (usually right), and back — all at the same scale and with consistent alignments. This confirms that the character is truly three-dimensional and not just a flat front-view design that doesn't hold from other angles. Most first character designs fail in the side view. <br><br><strong>Exercise:</strong> Draw your character in front and back view easily. Then draw the side view — genuinely construct it rather than improvising. Note every element that you didn't know until you tried to draw it from the side.</p></div><div class="cc-tier-panel" id="ct5-2-tier-1"><p>A five-view turnaround adds ¾ front and ¾ back views to the standard three. These diagonal views are where most animation drawing actually happens — they're more dynamic than the orthogonal views and require the most thorough understanding of the character's three-dimensional form. <br><br><strong>Practice:</strong> Create a five-view turnaround for a character. The ¾ views will require genuine three-dimensional thinking — you can't derive them from the front and side alone. Study reference and problem-solve each element.</p></div><div class="cc-tier-panel" id="ct5-2-tier-2"><p>For 3D animation, a full turnaround is the primary reference for the modeling department. For 2D animation, turnarounds prevent the 'flat character' problem where characters only look right in their primary view. In either case, the turnaround is a production document, not just a design exploration. It must be correct, not just attractive.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct5-2.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct5-2.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct5-2-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct5-2')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct5-3">
+          <div class="cc-title">Scale Charts</div>
+          <div class="cc-desc">How your character reads relative to others defines their world.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct5-3-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct5-3-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct5-3-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct5-3-tier-0"><p>A scale chart shows multiple characters from your cast side by side at their relative sizes. It answers the essential question: how big is each character relative to the others? These relative scales carry enormous narrative meaning — the largest character is usually the most physically powerful, though subverting this can be intentional. <br><br><strong>Exercise:</strong> Place all your main characters side by side in a scale chart. Is the size hierarchy intentional? Does it serve the story?</p></div><div class="cc-tier-panel" id="ct5-3-tier-1"><p>Scale charts in animation include not just character heights but head heights — because in animation, proportional ratios (especially head-to-body) are often more important than absolute height. A tall character with a tiny head looks different from a short character with the same head-to-height ratio. <br><br><strong>Practice:</strong> Create a scale chart that includes both the full body heights and the head heights of your cast. Analyze the head-to-body ratios across the cast. Are they serving the narrative and personality goals?</p></div><div class="cc-tier-panel" id="ct5-3-tier-2"><p>In professional productions, scale charts include background elements (a door, a chair, a car) to anchor the character sizes to the world they inhabit. Without these anchors, characters can feel correctly sized relative to each other but wrong in their environment. Always include one or two environmental scale references in production scale charts.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct5-3.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct5-3.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct5-3-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct5-3')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct5-4">
+          <div class="cc-title">Action Poses Sheet</div>
+          <div class="cc-desc">Show the character in motion to reveal their personality.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct5-4-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct5-4-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct5-4-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct5-4-tier-0"><p>An action poses sheet shows the character in a range of characteristic poses — not the static front/side/back of the model sheet but active, posed, personality-expressive stances. Running, thinking, fighting, celebrating, sneaking — whatever poses define this character's physical personality. <br><br><strong>Exercise:</strong> Draw six action poses for a character, each showing a different aspect of their personality or capability. The poses should feel like they could only be this specific character, not any generic action figure.</p></div><div class="cc-tier-panel" id="ct5-4-tier-1"><p>Action poses reveal whether a character design actually works in motion. Sometimes a design that looks great in its model sheet becomes awkward in action — the costume element gets in the way, the hair obscures the expression, the proportions that worked static become unbalanced in motion. The action poses sheet is the test. <br><br><strong>Practice:</strong> Create an action poses sheet and then critically evaluate each pose: does the design work in this motion? Are there elements that become problematic? Note and resolve any issues before finalizing the design.</p></div><div class="cc-tier-panel" id="ct5-4-tier-2"><p>In feature animation production, action poses sheets are created early enough to inform the design revision process. Issues identified in action testing can be resolved before the character enters full production. Build action testing into your design process as a gate — not a phase to skip.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct5-4.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct5-4.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct5-4-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct5-4')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct5-5">
+          <div class="cc-title">Accessory Design</div>
+          <div class="cc-desc">Props and accessories are extensions of character personality.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct5-5-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct5-5-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct5-5-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct5-5-tier-0"><p>A character's accessories — their hat, bag, weapon, glasses, watch, book — are not decoration. They are character information. What a person carries and wears tells us who they are and how they see themselves. In character design, every accessory is a choice, and every choice should be intentional. <br><br><strong>Exercise:</strong> Design three completely different character accessories (a bag, a weapon, a tool) for the same character, each suggesting a different aspect of their personality or role. Note how each changes the character reading.</p></div><div class="cc-tier-panel" id="ct5-5-tier-1"><p>Accessory design in cartoon characters must balance narrative function (what the accessory is for in the story) with design function (how it contributes to the character's visual read). The best accessories do both: they're narratively useful and they visually complete the character's design language. A round character's accessory should have round qualities; a sharp character's should be sharp. <br><br><strong>Practice:</strong> Design the primary accessory for a character following the shape language established for that character. The accessory should look like it belongs to this specific character, not just any character in the world.</p></div><div class="cc-tier-panel" id="ct5-5-tier-2"><p>In production, accessories require their own model sheets — especially if they transform, change state, or need to be drawn by multiple artists. A hero's sword needs a front, side, and back view just as the hero does. Develop the discipline to create accessory documentation to the same standard as character documentation.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct5-5.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct5-5.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct5-5-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct5-5')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct5-6">
+          <div class="cc-title">Style Consistency</div>
+          <div class="cc-desc">Every element of a character must speak the same visual language.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct5-6-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct5-6-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct5-6-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct5-6-tier-0"><p>Style consistency means that every element in a character design — shape choices, line quality, level of detail, color approach — all feel like they come from the same design universe. A character where the face is highly stylized but the hands are realistically drawn, or the costume has cartoon simplicity but the hair has photorealistic complexity, reads as inconsistent and unresolved. <br><br><strong>Exercise:</strong> Audit a character design for style consistency. Check: face, hands, costume, hair, accessories. Do they all have the same level of detail? The same line quality? The same approach to form?</p></div><div class="cc-tier-panel" id="ct5-6-tier-1"><p>Style consistency extends across a character's full range of expressions, poses, and contexts. A character that looks fully on-model in their primary pose but loses their style in action is not yet fully designed — the design language hasn't been deeply enough understood to apply consistently. <br><br><strong>Practice:</strong> Draw your character in ten different poses and expressions without reference to the model sheet. Compare to the sheet. Where does the style drift? Identify the elements most prone to inconsistency and study them explicitly.</p></div><div class="cc-tier-panel" id="ct5-6-tier-2"><p>Professional on-model drawing is the single most important technical skill in traditional animation production. It requires understanding a character's design so thoroughly that you can reconstruct it correctly from any angle and in any context without reference. Build this understanding through volume — draw each character hundreds of times until they live in your hand, not just on the page.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct5-6.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct5-6.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct5-6-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct5-6')">Mark Complete</button>
+        </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Practice Sheet</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/practice-cartoon-l5.pdf')">&#9654; View Practice Sheet</button>
+            <a class="cc-dl-btn" href="/pdfs/practice-cartoon-l5.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Lesson Guide</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/guide-cartoon-l5.pdf')">&#9654; View Lesson Guide</button>
+            <a class="cc-dl-btn" href="/pdfs/guide-cartoon-l5.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="lesson-progress">
+          <div class="lp-label">Lesson Progress</div>
+          <div class="lp-bar-wrap"><div class="lp-bar" id="l5-bar"></div></div>
+          <div class="lp-pct" id="l5-pct">0%</div>
+        </div>
+      </div>
+    </div>
+    <div class="lesson-panel" id="lesson-6">
+      <div class="lesson-header">
+        <div class="lesson-header-inner">
+          <div class="lesson-eyebrow">Lesson 6</div>
+          <h2 class="lesson-title">Finding Your Style</h2>
+          <p class="lesson-subtitle">Developing a voice that is unmistakably yours</p>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="art-frame">
+          <div class="art-placeholder"></div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Concepts</span><span class="section-rule"></span></div>
+          <div class="concepts-grid">
+        <div class="concept-card" data-id="ct6-1">
+          <div class="cc-title">Influences vs. Copying</div>
+          <div class="cc-desc">All artists absorb influences — the question is what you do with them.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct6-1-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct6-1-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct6-1-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct6-1-tier-0"><p>Every artist starts by imitating the artists they love. This is not a shortcut — it's the essential first stage of learning. Copying builds technical skills and trains the eye to see how another artist solves problems. The goal is not to copy forever but to absorb until you have what you need, then diverge. <br><br><strong>Exercise:</strong> Choose one cartoon artist whose style you love. Copy three of their character designs as accurately as you can. Write notes on every design choice you observe: shape ratios, line quality, detail level, color approach.</p></div><div class="cc-tier-panel" id="ct6-1-tier-1"><p>The path from influence to originality runs through honest self-observation. After deeply studying and copying your influences, draw from your imagination without reference. Your choices under pressure (when you don't have a model to follow) reveal what you've actually internalized versus what you were merely copying. Your internalized choices are the seeds of your style. <br><br><strong>Practice:</strong> Do twenty quick character sketches from imagination with no reference. After, compare them to your studied influences. Where did your choices diverge from theirs? Those divergences are your style.</p></div><div class="cc-tier-panel" id="ct6-1-tier-2"><p>Professionals are transparent about their influences because influence and originality are not in conflict — every professional has influences, and the work of a mature artist clearly shows its origins while being unmistakably its own. Being explicit about your influences helps you understand your own aesthetic DNA and make more deliberate choices about what to keep and what to push against.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct6-1.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct6-1.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct6-1-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct6-1')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct6-2">
+          <div class="cc-title">Style Deconstruction</div>
+          <div class="cc-desc">Understand any style by breaking it into its component decisions.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct6-2-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct6-2-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct6-2-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct6-2-tier-0"><p>Style deconstruction means analyzing an artist's work and identifying the specific decisions that create their style: What is the head-to-body ratio? How are eyes simplified? What level of detail exists in the hands? What line quality do they use? When you can answer these questions, you can reproduce the style technically — and more importantly, you understand the decisions well enough to adapt them. <br><br><strong>Exercise:</strong> Deconstruct one artist's style into ten specific decisions. Write them as a list. Then try to apply those decisions to a character you design, without directly copying any existing character.</p></div><div class="cc-tier-panel" id="ct6-2-tier-1"><p>Style deconstruction reveals that 'style' is actually a collection of consistent choices across many elements. No element is random. When you see the choices clearly, you begin to understand which ones are essential to the style (change them and the style breaks) and which are peripheral (change them and the style adapts). This distinction is the foundation of creative style adaptation. <br><br><strong>Practice:</strong> Take a deconstructed style and create a variant: keep the essential choices, change the peripheral ones. How different does the resulting character look while still clearly being 'in the style'?</p></div><div class="cc-tier-panel" id="ct6-2-tier-2"><p>Style deconstruction is a professional skill used when artists need to work 'in the style of' another artist (for hire work, for continuity on a long-running property, for style development on a team). The ability to quickly identify and replicate another artist's essential stylistic decisions is valuable production experience.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct6-2.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct6-2.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct6-2-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct6-2')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct6-3">
+          <div class="cc-title">Style Consistency</div>
+          <div class="cc-desc">Your personal style must be consistent enough to be recognizable.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct6-3-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct6-3-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct6-3-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct6-3-tier-0"><p>A style that changes dramatically from drawing to drawing is not yet a style — it's a phase of searching. Style consistency means that someone looking at ten of your drawings would immediately identify all ten as yours. This requires understanding your own consistent choices well enough to apply them deliberately and not accidentally vary them. <br><br><strong>Exercise:</strong> Collect ten of your drawings from the past three months. Can a stranger identify them all as yours? If not, what varies? What elements would you need to standardize to create consistent style?</p></div><div class="cc-tier-panel" id="ct6-3-tier-1"><p>Style consistency develops naturally with volume — the more you draw, the more your natural tendencies solidify into reliable choices. But it can also be developed intentionally by identifying your strongest stylistic choices and applying them consciously. The goal is not rigid sameness but a recognizable aesthetic DNA that appears across diverse subjects and contexts. <br><br><strong>Practice:</strong> Identify three specific design decisions that you want to be consistent across all your work. Apply them consciously in your next ten drawings. Note where they feel natural and where they feel forced. The forced ones need more internalization.</p></div><div class="cc-tier-panel" id="ct6-3-tier-2"><p>Style consistency across a portfolio is essential for professional opportunities. Art directors and creative directors are hiring a style, not just a skill set. A portfolio that shows dramatic stylistic inconsistency reads as an artist without a clear voice. Develop your consistency before presenting your work professionally.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct6-3.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct6-3.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct6-3-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct6-3')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct6-4">
+          <div class="cc-title">Style Evolution</div>
+          <div class="cc-desc">Style should grow — stagnation is its own kind of failure.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct6-4-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct6-4-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct6-4-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct6-4-tier-0"><p>No artist's style is fixed — it evolves over time as they encounter new influences, develop new skills, and explore new territories. The artists whose styles seem most timeless were all continuously evolving. Looking at early and late work of great artists shows dramatic evolution even within a consistent visual identity. <br><br><strong>Exercise:</strong> Find an artist whose work spans at least ten years and compare their earliest available work to their most recent. List five specific ways their style evolved. Note what remained consistent.</p></div><div class="cc-tier-panel" id="ct6-4-tier-1"><p>Allowing your style to evolve requires the confidence to let go of solutions that worked in the past. The drawing habit that produces reliable, comfortable results is also the habit that prevents growth. Deliberately enter uncomfortable territory: draw subjects you avoid, try techniques that feel wrong, work in scales or formats that challenge you. The discomfort is the growing edge. <br><br><strong>Practice:</strong> Identify one element of your style that feels stale or automatic. Spend two weeks experimenting with alternatives. You won't necessarily keep the experiments — but the experimentation will either reinvigorate the original approach or open a better one.</p></div><div class="cc-tier-panel" id="ct6-4-tier-2"><p>Professional style evolution is managed carefully — too sudden a change can confuse an existing audience; too slow a change produces stagnation. The most successful professional evolutions are clearly the same artist growing rather than suddenly becoming a different artist. Understand your audience's relationship to your style before making dramatic changes.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct6-4.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct6-4.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct6-4-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct6-4')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct6-5">
+          <div class="cc-title">Genre &amp; Audience</div>
+          <div class="cc-desc">Style serves the story and the reader — not the artist's ego.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct6-5-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct6-5-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct6-5-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct6-5-tier-0"><p>Different genres and audiences expect different visual languages. Children's picture books use simplified, warm, round styles. Young adult comics use more angular, stylized approaches. Adult graphic novels span from journalistic realism to pure abstraction. Understanding these conventions is not a limitation — it's context that lets you make intentional choices. <br><br><strong>Exercise:</strong> Design the same character for three different target audiences: picture book children (ages 3–6), middle grade (ages 9–12), young adult (ages 14–18). Note how the design changes for each.</p></div><div class="cc-tier-panel" id="ct6-5-tier-1"><p>Genre conventions exist for good reasons — they've evolved to match audience expectations and reading habits. Breaking conventions should be deliberate and should serve a purpose: a children's book with an unexpectedly dark visual style makes a statement. That statement should be intentional, not accidental. <br><br><strong>Practice:</strong> Identify the genre you most want to work in. Study 10–15 examples of successful design in that genre. List the visual conventions that appear consistently. Then identify two or three places where you could work within the conventions while bringing something new.</p></div><div class="cc-tier-panel" id="ct6-5-tier-2"><p>Professional artists often work across multiple genres for different clients, which requires style flexibility — the ability to adapt your approach to genre requirements while maintaining the quality and craft that defines your professional identity. Develop the ability to work in at least two distinct visual registers: your signature style and an adaptable professional style.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct6-5.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct6-5.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct6-5-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct6-5')">Mark Complete</button>
+        </div>
+        <div class="concept-card" data-id="ct6-6">
+          <div class="cc-title">Building a Portfolio</div>
+          <div class="cc-desc">The drawing is the practice — the portfolio is the argument.</div>
+          <div class="cc-tiers">
+            <div class="cc-tier-tabs"><button class="cc-tier-tab active" onclick="switchTier(this,'ct6-6-tier-0')">Beginner</button><button class="cc-tier-tab" onclick="switchTier(this,'ct6-6-tier-1')">Hobbyist</button><button class="cc-tier-tab" onclick="switchTier(this,'ct6-6-tier-2')">Professional</button></div>
+            <div class="cc-tier-panel active" id="ct6-6-tier-0"><p>A portfolio is not a collection of your best individual drawings — it's a curated argument for your abilities and your style. The question a portfolio answers is: 'What can this artist do consistently and what kind of work do they want to make?' Both components matter. Strong individual pieces without consistency signal a student; strong consistency signals a professional. <br><br><strong>Exercise:</strong> If you were to create a portfolio today, what would be in it? List 10 pieces. Then ask: do they all show the same style and skill level? Do they represent the work you want to be hired for?</p></div><div class="cc-tier-panel" id="ct6-6-tier-1"><p>A portfolio for character design specifically should include: character sheets (model sheets, expression sheets, turnarounds), character-in-context pieces showing the character in their world, and possibly a sample sequential or animation test. The portfolio should answer the specific question: can this artist create fully developed, production-ready characters? <br><br><strong>Practice:</strong> Create a 'portfolio piece' — not just a sketch but a polished, complete character sheet for a character of your own design. This should be the standard for your professional portfolio work.</p></div><div class="cc-tier-panel" id="ct6-6-tier-2"><p>Professional character design portfolios are targeted: they're developed for specific types of studios or publishers you want to work with. A portfolio built for feature animation is different from one built for mobile game character design, which is different from one built for picture book illustration. Know your target and build toward it. Aim for ten to fifteen polished, targeted pieces rather than fifty sketches.</p></div>
+          </div>
+          <div class="cc-pdf-row">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/concept-cartoon-ct6-6.pdf')">&#9654; View PDF</button>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct6-6.pdf" download>&#8595; Download</a>
+            <a class="cc-dl-btn" href="/pdfs/concept-cartoon-ct6-6-deep-dive.pdf" download style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;">&#8595; Deep Dive</a>
+            <div class="cc-pdf-viewer"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+          <button class="btn-prog" onclick="markDone(this,'ct6-6')">Mark Complete</button>
+        </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Practice Sheet</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/practice-cartoon-l6.pdf')">&#9654; View Practice Sheet</button>
+            <a class="cc-dl-btn" href="/pdfs/practice-cartoon-l6.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><span class="section-label">Lesson Guide</span><span class="section-rule"></span></div>
+          <div class="callout" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <button class="cc-view-btn" onclick="toggleConceptPdf(this,'/pdfs/guide-cartoon-l6.pdf')">&#9654; View Lesson Guide</button>
+            <a class="cc-dl-btn" href="/pdfs/guide-cartoon-l6.pdf" download>&#8595; Download</a>
+            <div class="cc-pdf-viewer" style="width:100%"><iframe class="cc-iframe" src="" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <div class="lesson-progress">
+          <div class="lp-label">Lesson Progress</div>
+          <div class="lp-bar-wrap"><div class="lp-bar" id="l6-bar"></div></div>
+          <div class="lp-pct" id="l6-pct">0%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var LESSON_COUNTS = {1: 6,2: 6,3: 6,4: 6,5: 6,6: 6};
+    var TOTAL_TRACKABLE = 36;
+    var LS_KEY = 'thedrawingpath_cartoon_v1';
+    var LAST_KEY = 'tdp_cartoon_last';
+    var _currentLesson = 1;
+
+    function getState() {
+      try { return JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch(e) { return {}; }
+    }
+    function saveState(s) { try { localStorage.setItem(LS_KEY, JSON.stringify(s)); } catch(e) {} }
+
+    function showLesson(num, btn) {
+      _currentLesson = num;
+      document.querySelectorAll('.lesson-panel').forEach(function(p) { p.classList.remove('active'); });
+      var target = document.getElementById('lesson-' + num);
+      if (target) target.classList.add('active');
+      document.querySelectorAll('.lesson-btn').forEach(function(b) { b.classList.remove('active'); });
+      if (!btn) btn = document.querySelector('.lesson-btn[onclick*="showLesson(' + num + ',"]');
+      if (btn) btn.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      closeMobileMenu();
+      try { localStorage.setItem(LAST_KEY, num); } catch(e) {}
+    }
+
+    function switchTier(btn, panelId) {
+      var tabs = btn.closest('.cc-tiers').querySelectorAll('.cc-tier-tab');
+      var panels = btn.closest('.cc-tiers').querySelectorAll('.cc-tier-panel');
+      tabs.forEach(function(t) { t.classList.remove('active'); });
+      panels.forEach(function(p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById(panelId).classList.add('active');
+    }
+
+    function toggleConceptPdf(btn, src) {
+      var card = btn.closest('.concept-card') || btn.closest('.callout') || btn.parentElement;
+      var viewer = card ? card.querySelector('.cc-pdf-viewer') : null;
+      if (!viewer) return;
+      var iframe = viewer.querySelector('.cc-iframe');
+      var isOpen = viewer.classList.contains('open');
+      if (isOpen) {
+        viewer.classList.remove('open'); btn.classList.remove('open');
+        btn.textContent = btn.textContent.includes('Practice') ? '\u25b6 View Practice Sheet' : btn.textContent.includes('Guide') ? '\u25b6 View Lesson Guide' : '\u25b6 View PDF';
+        iframe.src = '';
+      } else {
+        viewer.classList.add('open'); btn.classList.add('open');
+        btn.textContent = btn.textContent.includes('Practice') ? '\u25bc Hide Practice Sheet' : btn.textContent.includes('Guide') ? '\u25bc Hide Lesson Guide' : '\u25bc Hide PDF';
+        iframe.src = src;
+      }
+    }
+
+    function markDone(btn, id) {
+      var s = getState();
+      if (s[id]) { delete s[id]; btn.classList.remove('done'); btn.textContent = 'Mark Complete'; }
+      else { s[id] = 1; btn.classList.add('done'); btn.textContent = '\u2713 Complete'; }
+      saveState(s); renderAll();
+    }
+
+    function renderLesson(num) {
+      var s = getState();
+      var total = LESSON_COUNTS[num] || 0;
+      var done = 0;
+      var panel = document.getElementById('lesson-' + num);
+      if (!panel) return 0;
+      panel.querySelectorAll('.btn-prog').forEach(function(btn) {
+        var id = btn.closest('.concept-card') ? btn.closest('.concept-card').dataset.id : null;
+        if (!id) return;
+        if (s[id]) { done++; btn.classList.add('done'); btn.textContent = '\u2713 Complete'; }
+        else { btn.classList.remove('done'); btn.textContent = 'Mark Complete'; }
+      });
+      var pct = total ? Math.round((done / total) * 100) : 0;
+      var bar = document.getElementById('l' + num + '-bar');
+      var pctEl = document.getElementById('l' + num + '-pct');
+      var btnProg = document.getElementById('l' + num + '-btn-prog');
+      if (bar) bar.style.width = pct + '%';
+      if (pctEl) pctEl.textContent = pct + '%';
+      if (btnProg) btnProg.style.width = pct + '%';
+      return done;
+    }
+
+    function renderAll() {
+      var totalDone = 0;
+      for (var i = 1; i <= 6; i++) totalDone += renderLesson(i);
+      var overallPct = Math.round((totalDone / TOTAL_TRACKABLE) * 100);
+      document.getElementById('overall-bar').style.width = overallPct + '%';
+      document.getElementById('overall-pct').textContent = overallPct + '%';
+    }
+
+    function openMobileMenu() {
+      document.getElementById('sidebar').classList.add('open');
+      document.getElementById('sidebar-overlay').classList.add('open');
+    }
+    function closeMobileMenu() {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebar-overlay').classList.remove('open');
+    }
+
+    // Keyboard nav
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'ArrowRight' && _currentLesson < 6) showLesson(_currentLesson + 1, null);
+      if (e.key === 'ArrowLeft' && _currentLesson > 1) showLesson(_currentLesson - 1, null);
+    });
+
+    // Footer nav injection
+    (function() {
+      var titles = {1: "Shape Language",2: "Character Archetypes",3: "Expression Design",4: "Color &amp; Character",5: "Character Sheets &amp; Turnarounds",6: "Finding Your Style"};
+      for (var n = 1; n <= 6; n++) {
+        var panel = document.getElementById('lesson-' + n);
+        if (!panel) continue;
+        var footer = document.createElement('div');
+        footer.className = 'lesson-footer';
+        var prevHTML = '';
+        if (n > 1) {
+          prevHTML = '<button class="lf-btn" onclick="showLesson(' + (n-1) + ',null)"><span style="opacity:.5">&#8592;</span><span><span class="lf-num">Lesson ' + (n-1) + '</span><br>' + titles[n-1] + '</span></button>';
+        } else {
+          prevHTML = '<div></div>';
+        }
+        var nextHTML = '';
+        if (n < 6) {
+          nextHTML = '<button class="lf-btn primary" onclick="showLesson(' + (n+1) + ',null)"><span><span class="lf-num">Lesson ' + (n+1) + '</span><br>' + titles[n+1] + '</span><span>&#8594;</span></button>';
+        } else {
+          nextHTML = '<div style="font-family:var(--serif);font-size:15px;font-style:italic;color:var(--muted)">Track complete. Keep drawing.</div>';
+        }
+        footer.innerHTML = prevHTML + nextHTML;
+        var body = panel.querySelector('.lesson-body');
+        if (body) body.appendChild(footer);
+        else panel.appendChild(footer);
+      }
+    })();
+
+    // Init
+    renderAll();
+    (function() {
+      var last = 1;
+      try { last = parseInt(localStorage.getItem(LAST_KEY)) || 1; } catch(e) {}
+      if (last < 1 || last > 6) last = 1;
+      showLesson(last, null);
+    })();
+  </script>
+</body>
+</html>
