@@ -1832,6 +1832,58 @@
       }
     });
   })();
+
+  // ── Resume last lesson ──────────────────────────────────────────────────────
+  (function() {
+    var last = parseInt(localStorage.getItem('tdp_last_lesson') || '1', 10);
+    if (last > 1 && last <= 12) {
+      var btn = document.querySelector('.lesson-btn[onclick*="showLesson(' + last + ',"]');
+      showLesson(last, btn);
+    }
+  })();
+
+  // ── Prev / Next footer for each lesson ─────────────────────────────────────
+  (function() {
+    var titles = {
+      1:'Linework & Basic Shapes', 2:'Perspective & Volume', 3:'Proportions',
+      4:'Light & Shadow', 5:'Shading & Texture', 6:'Color Fundamentals',
+      7:'Composition & Visual Design', 8:'Gesture & Figure Drawing',
+      9:'Anatomy for Artists', 10:'Advanced Color & Light',
+      11:'Environment & Background Design', 12:'Developing Your Style'
+    };
+    for (var n = 1; n <= 12; n++) {
+      var panel = document.getElementById('lesson-' + n);
+      if (!panel) continue;
+      var footer = document.createElement('div');
+      footer.className = 'lesson-footer';
+      var prevHTML = '';
+      if (n > 1) {
+        prevHTML = '<button class="lf-btn" onclick="showLesson(' + (n-1) + ',document.querySelector('[onclick*=\"showLesson(' + (n-1) + ',\"]'))">' +
+          '<span style="opacity:.5">←</span><span><span class="lf-num">Lesson ' + (n-1) + '</span><br>' + titles[n-1] + '</span></button>';
+      } else {
+        prevHTML = '<div></div>';
+      }
+      var nextHTML = '';
+      if (n < 12) {
+        nextHTML = '<button class="lf-btn primary" onclick="showLesson(' + (n+1) + ',document.querySelector('[onclick*=\"showLesson(' + (n+1) + ',\"]'))">' +
+          '<span><span class="lf-num">Lesson ' + (n+1) + '</span><br>' + titles[n+1] + '</span><span>→</span></button>';
+      } else {
+        nextHTML = '<div style="font-family:var(--serif);font-size:15px;font-style:italic;color:var(--muted)">End of the path. Keep drawing.</div>';
+      }
+      footer.innerHTML = prevHTML + nextHTML;
+      // Append into the lesson-body div (last child of panel)
+      var body = panel.querySelector('.lesson-body');
+      if (body) body.appendChild(footer);
+      else panel.appendChild(footer);
+    }
+
+    // ── Track last-viewed lesson ──────────────────────────────────────────────
+    var _trackShow = showLesson;
+    showLesson = function(num, btn) {
+      _trackShow(num, btn);
+      localStorage.setItem('tdp_last_lesson', num);
+    };
+  })();
 </script>
 </body>
 </html>
