@@ -1742,13 +1742,19 @@
     document.getElementById('overall-pct').textContent = overallPct + '%';
   }
 
+  var _currentLesson = 1;
   function showLesson(num, btn) {
+    _currentLesson = num;
     document.querySelectorAll('.lesson-panel').forEach(function(p) { p.classList.remove('active'); });
     var target = document.getElementById('lesson-' + num);
     if (target) target.classList.add('active');
     document.querySelectorAll('.lesson-btn').forEach(function(b) { b.classList.remove('active'); });
+    if (!btn) btn = document.querySelector('.lesson-btn[onclick*="showLesson(' + num + ',"]');
     if (btn) btn.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Side effects: close mobile menu, persist last lesson
+    closeMobileMenu();
+    try { localStorage.setItem('tdp_last_lesson', num); } catch(e) {}
   }
 
   function showTier(btn, panelId) {
@@ -1800,40 +1806,18 @@
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('sidebar-overlay').classList.remove('open');
   }
-  // Close mobile menu when a lesson is selected
-  var _origShowLesson = showLesson;
-  showLesson = function(num, btn) {
-    _origShowLesson(num, btn);
-    closeMobileMenu();
-  };
 
   // Keyboard navigation: ← → between lessons
-  (function() {
-    var currentLesson = 1;
-    // Track which lesson is shown
-    var _kbShowLesson = showLesson;
-    showLesson = function(num, btn) {
-      currentLesson = num;
-      _kbShowLesson(num, btn);
-    };
-    document.addEventListener('keydown', function(e) {
-      // Don't fire when typing in inputs
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        var next = Math.min(currentLesson + 1, 12);
-        if (next !== currentLesson) {
-          var btn = document.querySelector('.lesson-btn[onclick*="showLesson(' + next + ',"]');
-          showLesson(next, btn);
-        }
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        var prev = Math.max(currentLesson - 1, 1);
-        if (prev !== currentLesson) {
-          var btn = document.querySelector('.lesson-btn[onclick*="showLesson(' + prev + ',"]');
-          showLesson(prev, btn);
-        }
-      }
-    });
-  })();
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      var next = Math.min(_currentLesson + 1, 12);
+      if (next !== _currentLesson) showLesson(next);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      var prev = Math.max(_currentLesson - 1, 1);
+      if (prev !== _currentLesson) showLesson(prev);
+    }
+  });
 
   // ── Resume last lesson ──────────────────────────────────────────────────────
   (function() {
@@ -1879,14 +1863,8 @@
       else panel.appendChild(footer);
     }
 
-    // ── Track last-viewed lesson ──────────────────────────────────────────────
-    var _trackShow = showLesson;
-    showLesson = function(num, btn) {
-      _trackShow(num, btn);
-      localStorage.setItem('tdp_last_lesson', num);
-    };
+    // last lesson tracked inside showLesson()
   })();
 </script>
 </body>
 </html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
