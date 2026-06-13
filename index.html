@@ -1743,7 +1743,9 @@
 <script>
 
   function toggleConceptPdf(btn, src) {
-    var viewer = btn.closest('.concept-card').querySelector('.cc-pdf-viewer');
+    var card = btn.closest('.concept-card') || btn.closest('.callout') || btn.parentElement;
+    var viewer = card ? card.querySelector('.cc-pdf-viewer') : null;
+    if (!viewer) return;
     var iframe = viewer.querySelector('.cc-iframe');
     var isOpen = viewer.classList.contains('open');
     if (isOpen) {
@@ -1921,14 +1923,14 @@
       footer.className = 'lesson-footer';
       var prevHTML = '';
       if (n > 1) {
-        prevHTML = '<button class="lf-btn" onclick="showLesson(' + (n-1) + ',document.querySelector('[onclick*=\"showLesson(' + (n-1) + ',\"]'))">' +
+        prevHTML = '<button class="lf-btn" onclick="showLesson(' + (n-1) + ',null)">' +
           '<span style="opacity:.5">←</span><span><span class="lf-num">Lesson ' + (n-1) + '</span><br>' + titles[n-1] + '</span></button>';
       } else {
         prevHTML = '<div></div>';
       }
       var nextHTML = '';
       if (n < 12) {
-        nextHTML = '<button class="lf-btn primary" onclick="showLesson(' + (n+1) + ',document.querySelector('[onclick*=\"showLesson(' + (n+1) + ',\"]'))">' +
+        nextHTML = '<button class="lf-btn primary" onclick="showLesson(' + (n+1) + ',null)">' +
           '<span><span class="lf-num">Lesson ' + (n+1) + '</span><br>' + titles[n+1] + '</span><span>→</span></button>';
       } else {
         nextHTML = '<div style="font-family:var(--serif);font-size:15px;font-style:italic;color:var(--muted)">End of the path. Keep drawing.</div>';
