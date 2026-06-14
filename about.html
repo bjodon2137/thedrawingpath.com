@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — The Drawing Path</title>
+  <meta name="description" content="The Drawing Path was built by two artists who believed that drawing education should meet students where they are — not where a syllabus says they should be." />
+  <link rel="canonical" href="https://thedrawingpath.com/about.html" />
+  <meta property="og:title" content="About — The Drawing Path" />
+  <meta property="og:description" content="Two artists. One conviction: that anyone can learn to see." />
+  <meta property="og:url" content="https://thedrawingpath.com/about.html" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0d0d0d;
+      --surface:  #141414;
+      --border:   rgba(255,255,255,.07);
+      --gold:     #c9a84c;
+      --gold-dim: rgba(201,168,76,.18);
+      --gold-mid: rgba(201,168,76,.35);
+      --text:     #e8e4dc;
+      --muted:    #7a7469;
+      --serif:    'Cormorant Garamond', Georgia, serif;
+      --sans:     'Inter', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: .04em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .logo span { color: var(--gold); }
+
+    nav {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    nav a {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    nav a:hover { color: var(--text); }
+    nav a.active { color: var(--gold); }
+
+    /* HERO */
+    .page-hero {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 88px 48px 72px;
+      text-align: center;
+    }
+
+    .page-eyebrow {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    .page-title {
+      font-family: var(--serif);
+      font-size: clamp(44px, 6vw, 68px);
+      font-weight: 300;
+      line-height: 1.08;
+      letter-spacing: .01em;
+      margin-bottom: 28px;
+    }
+
+    .page-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .page-intro {
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    .page-rule {
+      width: 40px;
+      height: 1px;
+      background: var(--gold-mid);
+      margin: 52px auto 0;
+    }
+
+    /* ORIGIN STORY */
+    .origin-section {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 48px;
+    }
+
+    .origin-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 40px;
+    }
+
+    .origin-text {
+      font-family: var(--serif);
+      font-size: clamp(20px, 2.8vw, 26px);
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--text);
+    }
+
+    .origin-text em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .origin-text p + p {
+      margin-top: 1.4em;
+    }
+
+    /* TEAM */
+    .team-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 88px 48px 100px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-top: 48px;
+    }
+
+    .team-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 52px 44px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .4s ease;
+    }
+
+    .team-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .team-initial {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1px solid var(--gold-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--gold);
+      margin-bottom: 28px;
+    }
+
+    .team-name {
+      font-family: var(--serif);
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+
+    .team-role {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+    }
+
+    .team-bio {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .team-bio p + p {
+      margin-top: 1em;
+    }
+
+    .team-divider {
+      width: 32px;
+      height: 1px;
+      background: var(--gold-dim);
+      margin: 28px 0;
+    }
+
+    .team-focus-label {
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .team-focus-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .team-focus-list li {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--muted);
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .team-focus-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 10px;
+    }
+
+    /* PHILOSOPHY SECTION */
+    .philosophy-section {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 48px;
+      text-align: center;
+    }
+
+    .philosophy-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .philosophy-quote {
+      font-family: var(--serif);
+      font-size: clamp(22px, 3.5vw, 34px);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 28px;
+    }
+
+    .philosophy-quote strong {
+      color: var(--text);
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    .philosophy-attr {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* PRINCIPLES */
+    .principles-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 88px 48px 100px;
+    }
+
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 48px;
+    }
+
+    .principle-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 40px 36px;
+    }
+
+    .principle-num {
+      font-family: var(--serif);
+      font-size: 48px;
+      font-weight: 300;
+      color: var(--gold-dim);
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .principle-title {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 400;
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+
+    .principle-body {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* CTA */
+    .cta-section {
+      border-top: 1px solid var(--border);
+      padding: 88px 48px 96px;
+      text-align: center;
+    }
+
+    .cta-inner {
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    .cta-title {
+      font-family: var(--serif);
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .cta-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .cta-sub {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 40px;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      padding: 16px 36px;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+
+    .cta-btn:hover { opacity: .85; }
+
+    /* FOOTER */
+    footer {
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-logo {
+      font-family: var(--serif);
+      font-size: 15px;
+      color: var(--muted);
+      letter-spacing: .04em;
+    }
+
+    .footer-copy {
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--muted);
+      opacity: .5;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 820px) {
+      header { padding: 20px; }
+      nav { display: none; }
+      .page-hero { padding: 60px 24px 48px; }
+      .origin-section { padding: 60px 24px; }
+      .team-section { padding: 60px 24px 80px; }
+      .team-grid { grid-template-columns: 1fr; }
+      .philosophy-section { padding: 60px 24px; }
+      .principles-section { padding: 60px 24px 80px; }
+      .principles-grid { grid-template-columns: 1fr; }
+      .cta-section { padding: 64px 24px 72px; }
+      footer { padding: 28px 20px; flex-direction: column; gap: 10px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a class="logo" href="/">The Drawing <span>Path</span></a>
+    <nav>
+      <a href="/foundations.html">Foundations</a>
+      <a href="/figure.html">Figure</a>
+      <a href="/portrait.html">Portrait</a>
+      <a href="/about.html" class="active">About</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="page-eyebrow">Who We Are</div>
+    <h1 class="page-title">Two Artists.<br><em>One Conviction.</em></h1>
+    <p class="page-intro">The Drawing Path was built by a husband and wife who spent years frustrated by drawing education — by the gatekeeping, the prerequisites, the implicit message that some people are allowed to learn and others are not.</p>
+    <div class="page-rule"></div>
+  </section>
+
+  <!-- ORIGIN -->
+  <div class="origin-section">
+    <div class="origin-inner">
+      <div class="section-label">The Origin</div>
+      <div class="origin-text">
+        <p>We started The Drawing Path because we couldn't find what we needed.</p>
+        <p>Every resource we encountered was either too rigid — locked behind prerequisites, structured around a single teacher's vision of the right order — or too shallow, promising mastery in 30 days without ever asking the student to really <em>look</em> at anything.</p>
+        <p>We wanted something different. A school that trusted students to know what called to them. That let someone who burns to draw faces start with faces, not with box perspective exercises they'll abandon before finishing. That treated drawing not as a credential to earn but as a <em>way of seeing</em> to develop — slowly, personally, on your own terms.</p>
+        <p>So we built it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEAM -->
+  <section class="team-section">
+    <div class="section-label">The Team</div>
+    <div class="team-grid">
+
+      <div class="team-card">
+        <div class="team-initial">M</div>
+        <div class="team-name">Marcus Hale</div>
+        <div class="team-role">Curriculum &amp; Editorial</div>
+        <div class="team-bio">
+          <p>Marcus has been drawing since he could hold a pencil and teaching since he realized most drawing instruction was failing people in the same predictable ways. He spent a decade studying under working illustrators, caricaturists, and figure drawing instructors before deciding the thing he most wanted to build was a school with no locked doors.</p>
+          <p>He writes the curriculum for every track on The Drawing Path — which means he's spent a significant portion of his adult life thinking about how to explain the same visual idea seven different ways until one of them clicks.</p>
+        </div>
+        <div class="team-divider"></div>
+        <div class="team-focus-label">Focus areas</div>
+        <ul class="team-focus-list">
+          <li>Figure drawing &amp; anatomy</li>
+          <li>Portrait and caricature</li>
+          <li>Curriculum structure</li>
+          <li>Visual pedagogy</li>
+        </ul>
+      </div>
+
+      <div class="team-card">
+        <div class="team-initial">L</div>
+        <div class="team-name">Lena Hale</div>
+        <div class="team-role">Design &amp; Visual Direction</div>
+        <div class="team-bio">
+          <p>Lena is a designer and illustrator whose work sits somewhere at the edge of graphic arts and fine art. She came to drawing the hard way — through years of trying and failing and trying again — which is why she has a particular sensitivity to the places where drawing instruction loses people.</p>
+          <p>She shapes everything about how The Drawing Path looks, feels, and moves. The color, the typography, the rhythm of a lesson — all of it runs through her. She's also the reason the site doesn't look like every other drawing tutorial on the internet.</p>
+        </div>
+        <div class="team-divider"></div>
+        <div class="team-focus-label">Focus areas</div>
+        <ul class="team-focus-list">
+          <li>Color theory &amp; design</li>
+          <li>Visual systems</li>
+          <li>Illustration</li>
+          <li>Learning experience design</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY QUOTE -->
+  <div class="philosophy-section">
+    <div class="philosophy-inner">
+      <p class="philosophy-quote">"We never set out to teach people to draw. We set out to teach people to <strong>see</strong> — and discovered that once someone really learns to see, the drawing follows on its own."</p>
+      <div class="philosophy-attr">Marcus &amp; Lena Hale — The Drawing Path</div>
+    </div>
+  </div>
+
+  <!-- PRINCIPLES -->
+  <section class="principles-section">
+    <div class="section-label">What We Believe</div>
+    <div class="principles-grid">
+
+      <div class="principle-card">
+        <div class="principle-num">01</div>
+        <div class="principle-title">No prerequisites. No gatekeeping.</div>
+        <div class="principle-body">Drawing education has a long tradition of making students earn access to the subjects they actually want to draw. We think that's backwards. Any artist can enter any track at any time. The curriculum meets you where you are.</div>
+      </div>
+
+      <div class="principle-card">
+        <div class="principle-num">02</div>
+        <div class="principle-title">Depth over breadth. Always.</div>
+        <div class="principle-body">Every concept on The Drawing Path has three tiers — Beginner, Hobbyist, Professional — because the same idea looks different depending on how deep you want to go. We'd rather do fewer things properly than many things superficially.</div>
+      </div>
+
+      <div class="principle-card">
+        <div class="principle-num">03</div>
+        <div class="principle-title">The student sets the pace.</div>
+        <div class="principle-body">There's no schedule here. No weekly assignments, no cohort pressure, no right speed. Some people spend a week on a single concept. Some move through a full track in a month. Both are correct. This is a school that works around your life.</div>
+      </div>
+
+      <div class="principle-card">
+        <div class="principle-num">04</div>
+        <div class="principle-title">Seeing is the skill.</div>
+        <div class="principle-body">Most drawing problems are observation problems. The hand can learn to make any mark the eye can clearly see. We build drawing instruction around developing the eye first — because that's where the real skill lives.</div>
+      </div>
+
+      <div class="principle-card">
+        <div class="principle-num">05</div>
+        <div class="principle-title">Every artist has a path.</div>
+        <div class="principle-body">Not every artist wants to draw figures. Not every artist wants to learn perspective. The tracks exist because different artists are called to different subjects — and the best drawing education follows that call rather than overriding it.</div>
+      </div>
+
+      <div class="principle-card">
+        <div class="principle-num">06</div>
+        <div class="principle-title">Practice over theory. Always.</div>
+        <div class="principle-body">We care about color theory only insofar as it makes your paintings better. We care about anatomy only insofar as it makes your figures more convincing. Every lesson ends with something to make. The idea is the vehicle; the drawing is the destination.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="cta-inner">
+      <h2 class="cta-title">Ready to start<br><em>looking?</em></h2>
+      <p class="cta-sub">Choose the track that calls to you. There is no wrong starting point. There is only the next drawing.</p>
+      <a class="cta-btn" href="/#tracks">Explore All Tracks</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">The Drawing Path</div>
+    <div class="footer-copy">&copy; 2025 The Drawing Path</div>
+  </footer>
+
+</body>
+</html>
