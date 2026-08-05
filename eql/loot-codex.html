@@ -4,31 +4,31 @@
 <meta charset="UTF-8">
 <title>Antonica Codex — Named Mob Loot</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
 
 :root{
-  --void:#0b0f0d;
-  --stone:#141c18;
-  --stone-2:#1c2621;
-  --bone:#d8cba9;
-  --bone-dim:#a89a78;
-  --bronze:#b08a4e;
-  --accent: #6f9c6a;
-  --accent-2: #c2513f;
+  --void:#F7F8FA;
+  --stone:#FFFFFF;
+  --stone-2:#F0F2F5;
+  --bone:#1A1D23;
+  --bone-dim:#5B6270;
+  --bronze:#2B5B8C;
+  --accent: #3A7D5C;
+  --accent-2: #B5883A;
 }
 
 *{box-sizing:border-box;}
-html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-family:'Spectral',serif;}
+html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
 .wrap{max-width:1180px;margin:0 auto;padding:0 24px 80px;}
 
 /* ---------- ZONE TABS ---------- */
 .zone-tabs{
-  display:flex; gap:0; border-bottom:1px solid rgba(216,203,169,0.12);
+  display:flex; gap:0; border-bottom:1px solid rgba(26,29,35,0.12);
   background:var(--void); position:sticky; top:0; z-index:20;
 }
 .zone-tab{
   flex:1; text-align:center; padding:18px 12px;
-  font-family:'Cinzel',serif; font-weight:700; font-size:13px; letter-spacing:.1em; text-transform:uppercase;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-weight:700; font-size:13px; letter-spacing:.1em; text-transform:uppercase;
   color:var(--bone-dim); cursor:pointer; border-bottom:3px solid transparent;
   transition:all .2s; background:none; border-top:none; border-left:none; border-right:none;
 }
@@ -39,8 +39,8 @@ html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-famil
 /* ---------- HERO ---------- */
 .hero{
   position:relative; padding:56px 24px 44px; overflow:hidden;
-  border-bottom:1px solid rgba(216,203,169,0.12);
-  background: radial-gradient(ellipse 800px 380px at 30% -10%, rgba(111,156,106,0.08), transparent 60%), var(--void);
+  border-bottom:1px solid rgba(26,29,35,0.12);
+  background: radial-gradient(ellipse 800px 380px at 30% -10%, rgba(58,125,92,0.08), transparent 60%), var(--void);
   transition:background .3s;
 }
 .hero-inner{max-width:1180px;margin:0 auto;position:relative;z-index:2;}
@@ -50,22 +50,22 @@ html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-famil
 }
 .eyebrow::before{content:"";width:26px;height:1px;background:var(--bronze);}
 h1{
-  font-family:'Cinzel',serif; font-weight:900; font-size:clamp(32px,5.2vw,58px); line-height:1.0;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-weight:900; font-size:clamp(32px,5.2vw,58px); line-height:1.0;
   margin:0 0 14px; letter-spacing:.01em; color:var(--bone);
 }
 .sub{font-size:16px; color:var(--bone-dim); max-width:600px; line-height:1.6; font-style:italic;}
 .stats-row{display:flex; gap:14px; margin-top:26px; flex-wrap:wrap;}
 .stat-chip{
   font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--bone-dim);
-  border:1px solid rgba(216,203,169,0.18); background:rgba(255,255,255,0.02);
+  border:1px solid rgba(26,29,35,0.18); background:rgba(26,29,35,0.03);
   padding:8px 14px; border-radius:3px;
 }
 .stat-chip b{color:var(--bone);}
 
 /* ---------- REGION LEGEND ---------- */
-.legend{display:flex; flex-wrap:wrap; gap:1px; background:rgba(216,203,169,0.1);}
+.legend{display:flex; flex-wrap:wrap; gap:1px; background:rgba(26,29,35,0.1);}
 .legend-item{padding:18px 24px; background:var(--void); flex:1; min-width:200px;}
-.legend-item h3{font-family:'Cinzel',serif; font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; margin:0 0 6px;}
+.legend-item h3{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; margin:0 0 6px;}
 .legend-item p{margin:0; font-size:12.5px; color:var(--bone-dim); line-height:1.5;}
 
 /* ---------- CONTROLS ---------- */
@@ -75,16 +75,16 @@ h1{
 }
 .search-box{flex:1 1 260px; position:relative;}
 .search-box input{
-  width:100%; background:var(--stone); border:1px solid rgba(216,203,169,0.16); color:var(--bone);
-  font-family:'Spectral',serif; font-size:14.5px; padding:12px 16px 12px 38px; border-radius:3px; outline:none;
+  width:100%; background:var(--stone); border:1px solid rgba(26,29,35,0.16); color:var(--bone);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:14.5px; padding:12px 16px 12px 38px; border-radius:3px; outline:none;
   transition:border-color .2s, box-shadow .2s;
 }
-.search-box input:focus{border-color:var(--bronze); box-shadow:0 0 0 3px rgba(176,138,78,0.15);}
+.search-box input:focus{border-color:var(--bronze); box-shadow:0 0 0 3px rgba(43,91,140,0.15);}
 .search-box::before{content:"⚲"; position:absolute; left:14px; top:50%; transform:translateY(-50%) rotate(90deg); color:var(--bone-dim); font-size:14px;}
 .pill-group{display:flex; gap:6px; flex-wrap:wrap;}
 .pill{
   font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.04em; padding:9px 14px; border-radius:20px;
-  border:1px solid rgba(216,203,169,0.18); background:transparent; color:var(--bone-dim); cursor:pointer;
+  border:1px solid rgba(26,29,35,0.18); background:transparent; color:var(--bone-dim); cursor:pointer;
   transition:all .15s; text-transform:uppercase;
 }
 .pill:hover{border-color:var(--bronze); color:var(--bone);}
@@ -94,13 +94,13 @@ h1{
 /* ---------- CARDS ---------- */
 .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); gap:16px;}
 .card{
-  position:relative; background:var(--stone); border:1px solid rgba(216,203,169,0.10); border-radius:4px;
+  position:relative; background:var(--stone); border:1px solid rgba(26,29,35,0.10); border-radius:4px;
   padding:20px 20px 18px; transition:transform .18s ease, background .18s ease; cursor:default;
 }
 .card:hover{transform:translateY(-2px); background:var(--stone-2);}
 .card.hidden{display:none;}
 .card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:6px;}
-.card-name{font-family:'Cinzel',serif; font-weight:700; font-size:16px; color:var(--bone); line-height:1.25;}
+.card-name{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-weight:700; font-size:16px; color:var(--bone); line-height:1.25;}
 .card-meta{font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--bone-dim); white-space:nowrap; padding-top:3px;}
 .region-badge{
   display:inline-block; font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase;
@@ -108,28 +108,28 @@ h1{
 }
 .card-loc{font-size:12.5px; color:var(--bone-dim); margin-bottom:14px; font-style:italic;}
 .drops{display:flex; flex-direction:column; gap:8px;}
-.drop-row{display:flex; align-items:baseline; gap:8px; font-size:13px; padding:8px 10px; border-radius:3px; background:rgba(255,255,255,0.02); transition:opacity .2s;}
+.drop-row{display:flex; align-items:baseline; gap:8px; font-size:13px; padding:8px 10px; border-radius:3px; background:rgba(26,29,35,0.03); transition:opacity .2s;}
 .drop-row.found{opacity:.4;}
 .drop-row.found .drop-item{text-decoration:line-through;}
-.drop-check{appearance:none; -webkit-appearance:none; width:15px; height:15px; flex-shrink:0; margin-top:1px; border:1px solid rgba(216,203,169,0.35); border-radius:3px; background:transparent; cursor:pointer; position:relative; transition:all .15s;}
+.drop-check{appearance:none; -webkit-appearance:none; width:15px; height:15px; flex-shrink:0; margin-top:1px; border:1px solid rgba(26,29,35,0.35); border-radius:3px; background:transparent; cursor:pointer; position:relative; transition:all .15s;}
 .drop-check:checked{background:var(--bronze); border-color:var(--bronze);}
 .drop-check:checked::after{content:"✓"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--void); font-weight:700;}
 .drop-tag{font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; padding:2px 7px; border-radius:2px; flex-shrink:0;}
-.drop-tag.common{color:#6f9c6a; border:1px solid rgba(111,156,106,0.4);}
-.drop-tag.rare{color:#c2513f; border:1px solid rgba(194,81,63,0.45); box-shadow:0 0 14px rgba(194,81,63,0.3);}
+.drop-tag.common{color:#3A7D5C; border:1px solid rgba(58,125,92,0.4);}
+.drop-tag.rare{color:#B5883A; border:1px solid rgba(181,136,58,0.45); background:rgba(181,136,58,0.08);}
 .drop-item{color:var(--bone); line-height:1.4;}
 .drop-stats{display:block; color:var(--bone-dim); font-size:11.5px; margin-top:2px;}
 .empty-state{grid-column:1/-1; text-align:center; padding:70px 20px; color:var(--bone-dim); font-style:italic; font-size:15px;}
-.zone-badge{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; padding:3px 9px; border-radius:2px; margin-bottom:8px; margin-right:6px; background:rgba(176,138,78,0.15); color:var(--bronze); border:1px solid rgba(176,138,78,0.4); cursor:pointer;}
-.zone-badge:hover{background:rgba(176,138,78,0.28);}
-.global-toggle{display:flex; align-items:center; gap:7px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); cursor:pointer; padding:9px 14px; border:1px solid rgba(216,203,169,0.18); border-radius:20px; user-select:none; transition:all .15s;}
+.zone-badge{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; padding:3px 9px; border-radius:2px; margin-bottom:8px; margin-right:6px; background:rgba(43,91,140,0.15); color:var(--bronze); border:1px solid rgba(43,91,140,0.4); cursor:pointer;}
+.zone-badge:hover{background:rgba(43,91,140,0.28);}
+.global-toggle{display:flex; align-items:center; gap:7px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); cursor:pointer; padding:9px 14px; border:1px solid rgba(26,29,35,0.18); border-radius:20px; user-select:none; transition:all .15s;}
 .global-toggle:hover{border-color:var(--bronze);}
 .global-toggle.active{background:var(--bronze); color:var(--void); border-color:var(--bronze); font-weight:600;}
 .global-toggle input{display:none;}
 .tracker-chip{cursor:pointer;}
 .tracker-chip:hover{border-color:var(--bronze);}
-footer{margin-top:50px; padding-top:24px; border-top:1px solid rgba(216,203,169,0.1); font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); line-height:1.7; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;}
-.reset-btn{font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--bone-dim); background:none; border:1px solid rgba(216,203,169,0.18); padding:7px 12px; border-radius:3px; cursor:pointer; text-transform:uppercase; letter-spacing:.05em;}
+footer{margin-top:50px; padding-top:24px; border-top:1px solid rgba(26,29,35,0.1); font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); line-height:1.7; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;}
+.reset-btn{font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--bone-dim); background:none; border:1px solid rgba(26,29,35,0.18); padding:7px 12px; border-radius:3px; cursor:pointer; text-transform:uppercase; letter-spacing:.05em;}
 .reset-btn:hover{border-color:var(--accent-2); color:var(--accent-2);}
 </style>
 </head>
@@ -180,10 +180,10 @@ const ZONES = {
     title: "The Ruins of Guk", eyebrow: "Zone Codex · Lower Guk",
     sub: "Living Frogloks vs. the Ghoul Lord's undead — two warring halves of the same throne room.",
     levels: "30–50+", respawn: "28 min",
-    regions: { live: { label:"Live Side", color:"#6f9c6a" }, dead: { label:"Dead Side", color:"#c2513f" } },
+    regions: { live: { label:"Live Side", color:"#3A7D5C" }, dead: { label:"Dead Side", color:"#B5883A" } },
     legend: [
-      {label:"Live Side", color:"#6f9c6a", text:"Living Frogloks under the Froglok King. Killing them costs faction — the maze here is disorienting."},
-      {label:"Dead Side", color:"#c2513f", text:"Ghoul-form Frogloks under the Ghoul Lord. Undead, see through Invis vs. Undead more than you'd like."}
+      {label:"Live Side", color:"#3A7D5C", text:"Living Frogloks under the Froglok King. Killing them costs faction — the maze here is disorienting."},
+      {label:"Dead Side", color:"#B5883A", text:"Ghoul-form Frogloks under the Ghoul Lord. Undead, see through Invis vs. Undead more than you'd like."}
     ],
     mobs: [
       {name:"A minotaur elder", region:"live", cls:"Cleric", lvl:"33", loc:"Elder Room, bottom of ladder in the pit", common:{name:"Carved Ivory Mask", stats:"AC 2 · AGI+4/HP+10 · Reanimation Haste I"}, rare:{name:"Chrysoberyl Talisman", stats:"AC 5 · WIS+3/MANA+20 · Affliction Haste II"}},
@@ -219,11 +219,11 @@ const ZONES = {
     title: "The Fallen Halls", eyebrow: "Zone Codex · Upper Guk",
     sub: "The froglok nursery before the fall — low-level clans thin out into rare finds like Ghoulbane and the Ancient Croc.",
     levels: "4–25+", respawn: "8 min",
-    regions: { low:{label:"Low Tier", color:"#6f9c6a"}, mid:{label:"Mid Tier", color:"#b08a4e"}, high:{label:"High Tier", color:"#c2513f"} },
+    regions: { low:{label:"Low Tier", color:"#3A7D5C"}, mid:{label:"Mid Tier", color:"#2B5B8C"}, high:{label:"High Tier", color:"#B5883A"} },
     legend: [
-      {label:"Low Tier", color:"#6f9c6a", text:"Entrance rooms, tuk/gaz clans. Easy solo pulls, best for levels 1-20."},
-      {label:"Mid Tier", color:"#b08a4e", text:"Ton/vis clans, fungus farm, and the main dungeon body. Levels 20-28."},
-      {label:"High Tier", color:"#c2513f", text:"Barracks and the Lower Guk zone line. Shin clan and the zone's two prized rares."}
+      {label:"Low Tier", color:"#3A7D5C", text:"Entrance rooms, tuk/gaz clans. Easy solo pulls, best for levels 1-20."},
+      {label:"Mid Tier", color:"#2B5B8C", text:"Ton/vis clans, fungus farm, and the main dungeon body. Levels 20-28."},
+      {label:"High Tier", color:"#B5883A", text:"Barracks and the Lower Guk zone line. Shin clan and the zone's two prized rares."}
     ],
     mobs: [
       {name:"An ancient croc", region:"high", cls:"Warrior (rare)", lvl:"30", loc:"Croc Room, PH is 1-5 saltwater crocs", common:{name:"Gatorscale Leggings", stats:"AC 7 · WIS+4/HP+15"}, rare:{name:"Gatorscale Sleeves", stats:"AC 6 · INT+4/HP+15 · Enhancement Haste I"}},
@@ -250,18 +250,18 @@ const ZONES = {
     sub: "Kobold halls give way to bat-and-bug tunnels, an Efreeti's lava chamber, a Fire Giant castle, and Lord Nagafen himself at the bottom of it all.",
     levels: "40–55", respawn: "22 min",
     regions: {
-      "Kobold Halls": {label:"Kobold Halls", color:"#c98a4e"},
-      "Bug/Spider Dens": {label:"Bug/Spider Dens", color:"#9b6fc9"},
-      "Efreeti Lair": {label:"Efreeti Lair", color:"#e0a640"},
-      "Fire Giant Castle": {label:"Fire Giant Castle", color:"#c2513f"},
-      "Dragon's Lair": {label:"Dragon's Lair", color:"#f2c14e"}
+      "Kobold Halls": {label:"Kobold Halls", color:"#96805F"},
+      "Bug/Spider Dens": {label:"Bug/Spider Dens", color:"#8571A6"},
+      "Efreeti Lair": {label:"Efreeti Lair", color:"#5C9A96"},
+      "Fire Giant Castle": {label:"Fire Giant Castle", color:"#B5883A"},
+      "Dragon's Lair": {label:"Dragon's Lair", color:"#B5883A"}
     },
     legend: [
-      {label:"Kobold Halls", color:"#c98a4e", text:"The entrance tier — three 'Royals' (king, priest, champion) plus the noble and Targin the Rock."},
-      {label:"Bug/Spider Dens", color:"#9b6fc9", text:"Sonic bats and giant spiders. Everything here sees through invisibility."},
-      {label:"Efreeti Lair", color:"#e0a640", text:"A lava-pool chamber guarded by Lava Guardians, home to Efreeti Lord Djarn."},
-      {label:"Fire Giant Castle", color:"#c2513f", text:"High-level giants immune to mez/charm below very high enchanter skill. Feign-pull territory."},
-      {label:"Dragon's Lair", color:"#f2c14e", text:"Lord Nagafen himself — one of EverQuest's three original raid bosses."}
+      {label:"Kobold Halls", color:"#96805F", text:"The entrance tier — three 'Royals' (king, priest, champion) plus the noble and Targin the Rock."},
+      {label:"Bug/Spider Dens", color:"#8571A6", text:"Sonic bats and giant spiders. Everything here sees through invisibility."},
+      {label:"Efreeti Lair", color:"#5C9A96", text:"A lava-pool chamber guarded by Lava Guardians, home to Efreeti Lord Djarn."},
+      {label:"Fire Giant Castle", color:"#B5883A", text:"High-level giants immune to mez/charm below very high enchanter skill. Feign-pull territory."},
+      {label:"Dragon's Lair", color:"#B5883A", text:"Lord Nagafen himself — one of EverQuest's three original raid bosses."}
     ],
     mobs: [
       {name:"Lord Nagafen", region:"Dragon's Lair", cls:"Warrior — Raid Boss", lvl:"55", loc:"Innermost lair (-1395,-871)", common:{name:"Gold Plated Koshigatana / Prayers of Life", stats:"Piercing 9dmg/25dly, Backstab 9, Dismiss Summoned"}, rare:{name:"Bladestopper / Cloak of Flames / Hierophant's Crook", stats:"AC 25, Rune IV · AC10 Haste+36% · 2H Blunt 20dmg Earthquake"}},
@@ -287,11 +287,11 @@ const ZONES = {
     title: "Blackburrow", eyebrow: "Zone Codex · Blackburrow",
     sub: "Home of the Splitpaw gnoll clan — a single tunnel spirals down three crowded, social floors around a deep central pit.",
     levels: "4–22", respawn: "22 min",
-    regions: { floor1:{label:"Floor One", color:"#6f9c6a"}, floor2:{label:"Floor Two", color:"#b08a4e"}, floor3:{label:"Floor Three", color:"#c2513f"} },
+    regions: { floor1:{label:"Floor One", color:"#3A7D5C"}, floor2:{label:"Floor Two", color:"#2B5B8C"}, floor3:{label:"Floor Three", color:"#B5883A"} },
     legend: [
-      {label:"Floor One", color:"#6f9c6a", text:"Entrance ring around The Pit. Weak pups and scrawny gnolls, easy solo pulls."},
-      {label:"Floor Two", color:"#b08a4e", text:"Commander and shaman territory. Gnolls here are very social — expect chain-aggro."},
-      {label:"Floor Three", color:"#c2513f", text:"The deepest ring: brewers, sharpshooters, and Lord Elgnub's throne room."}
+      {label:"Floor One", color:"#3A7D5C", text:"Entrance ring around The Pit. Weak pups and scrawny gnolls, easy solo pulls."},
+      {label:"Floor Two", color:"#2B5B8C", text:"Commander and shaman territory. Gnolls here are very social — expect chain-aggro."},
+      {label:"Floor Three", color:"#B5883A", text:"The deepest ring: brewers, sharpshooters, and Lord Elgnub's throne room."}
     ],
     mobs: [
       {name:"Tranixx Darkpaw", region:"floor1", cls:"Warrior", lvl:"10", loc:"Patrols floor 1 spawn room, also roams North Qeynos", common:{name:"Ruined Blackburrow Gnoll Pelt", stats:"—"}, rare:null},
@@ -318,10 +318,10 @@ const ZONES = {
     title: "Befallen", eyebrow: "Zone Codex · Befallen",
     sub: "A fallen monastery turned undead crypt, gated behind three shadowknight-guarded keys that unlock progressively deeper — and deadlier — halls.",
     levels: "7–28", respawn: "4:27",
-    regions: { upper:{label:"Upper Levels (1-2)", color:"#6f9c6a"}, level3:{label:"Level Three", color:"#c2513f"} },
+    regions: { upper:{label:"Upper Levels (1-2)", color:"#3A7D5C"}, level3:{label:"Level Three", color:"#B5883A"} },
     legend: [
-      {label:"Upper Levels (1-2)", color:"#6f9c6a", text:"Key-bearing shadowknights guard three locked doors here — clear them to descend."},
-      {label:"Level Three", color:"#c2513f", text:"The Dark Elf V'Zher enclave and the necromancer wing — the real reason people come to Befallen."}
+      {label:"Upper Levels (1-2)", color:"#3A7D5C", text:"Key-bearing shadowknights guard three locked doors here — clear them to descend."},
+      {label:"Level Three", color:"#B5883A", text:"The Dark Elf V'Zher enclave and the necromancer wing — the real reason people come to Befallen."}
     ],
     mobs: [
       {name:"A shadowknight (Dark Elf Male)", region:"upper", cls:"Warrior", lvl:"6-9", loc:"Room west of the well", common:null, rare:{name:"Splintered Wooden Key", stats:"1st dungeon key (always)"}},
@@ -352,11 +352,11 @@ const ZONES = {
     title: "Splitpaw Lair", eyebrow: "Zone Codex · Splitpaw Lair",
     sub: "A gnoll god's footprint pressed into South Karana — a caste hierarchy of Mas/Mal/Val gnolls scaling from the entrance to the Ishva's inner sanctum.",
     levels: "20–40", respawn: "20-28 min",
-    regions: { entrance:{label:"Entrance / Double Doors", color:"#6f9c6a"}, mid:{label:"Judges & Vals", color:"#b08a4e"}, ishva:{label:"Ishva Area", color:"#c2513f"} },
+    regions: { entrance:{label:"Entrance / Double Doors", color:"#3A7D5C"}, mid:{label:"Judges & Vals", color:"#2B5B8C"}, ishva:{label:"Ishva Area", color:"#B5883A"} },
     legend: [
-      {label:"Entrance / Double Doors", color:"#6f9c6a", text:"Lowest camp in the dungeon, good for mid-30s. Don't pull the bridge roamer."},
-      {label:"Judges & Vals", color:"#b08a4e", text:"Executioner/Judges room — invis works here since nothing sees through it. Great trio spot."},
-      {label:"Ishva Area", color:"#c2513f", text:"The highest-level spot in the dungeon, reached via an underwater passage. Could solo-level 40-50 here."}
+      {label:"Entrance / Double Doors", color:"#3A7D5C", text:"Lowest camp in the dungeon, good for mid-30s. Don't pull the bridge roamer."},
+      {label:"Judges & Vals", color:"#2B5B8C", text:"Executioner/Judges room — invis works here since nothing sees through it. Great trio spot."},
+      {label:"Ishva Area", color:"#B5883A", text:"The highest-level spot in the dungeon, reached via an underwater passage. Could solo-level 40-50 here."}
     ],
     mobs: [
       {name:"A Lteth Val Scribe", region:"entrance", cls:"Enchanter", lvl:"30", loc:"Back passage after the first rock bridge", common:null, rare:{name:"Journal of Greater Enchantment", stats:"quest item, no drop"}},
@@ -381,11 +381,11 @@ const ZONES = {
     title: "Clan Crushbone", eyebrow: "Zone Codex · Crushbone",
     sub: "The orc clan menacing Kelethin — a ring-shaped citadel with tents, slave pits, and Emperor Crush's throne room at the highest tier.",
     levels: "5–21", respawn: "9 min",
-    regions: { tents:{label:"Tents / Slave Pits", color:"#6f9c6a"}, hill:{label:"Trainer Hill / Wall", color:"#b08a4e"}, keep:{label:"Castle Crush", color:"#c2513f"} },
+    regions: { tents:{label:"Tents / Slave Pits", color:"#3A7D5C"}, hill:{label:"Trainer Hill / Wall", color:"#2B5B8C"}, keep:{label:"Castle Crush", color:"#B5883A"} },
     legend: [
-      {label:"Tents / Slave Pits", color:"#6f9c6a", text:"Entrance-tier orcs plus the dwarf/elf slave cabins for the Screaming Mace quest chain."},
-      {label:"Trainer Hill / Wall", color:"#b08a4e", text:"Classic mid-level camps — 6-7 orcs at a time, fast respawns, good belt/shoulderpad farming."},
-      {label:"Castle Crush", color:"#c2513f", text:"The keep and throne room — legionnaires, oracles, and Emperor Crush himself in the tower."}
+      {label:"Tents / Slave Pits", color:"#3A7D5C", text:"Entrance-tier orcs plus the dwarf/elf slave cabins for the Screaming Mace quest chain."},
+      {label:"Trainer Hill / Wall", color:"#2B5B8C", text:"Classic mid-level camps — 6-7 orcs at a time, fast respawns, good belt/shoulderpad farming."},
+      {label:"Castle Crush", color:"#B5883A", text:"The keep and throne room — legionnaires, oracles, and Emperor Crush himself in the tower."}
     ],
     mobs: [
       {name:"Rondo Dunfire", region:"tents", cls:"Rogue", lvl:"9", loc:"Slaver cave, main room", common:{name:"Dwarven Blood", stats:"—"}, rare:{name:"Rondo's Tongue", stats:"quest item, no drop"}},
@@ -412,11 +412,11 @@ const ZONES = {
     title: "Clan RunnyEye", eyebrow: "Zone Codex · RunnyEye Citadel",
     sub: "A twisting four-level goblin warren beneath the Gorge of King Xorbb, guarded by shamans, evil eyes, and the Goblin King's throne room.",
     levels: "7–30+", respawn: "22 min",
-    regions: { upper:{label:"Levels 1-2", color:"#6f9c6a"}, mid:{label:"Level 3", color:"#b08a4e"}, throne:{label:"Level 4 / Throne", color:"#c2513f"} },
+    regions: { upper:{label:"Levels 1-2", color:"#3A7D5C"}, mid:{label:"Level 3", color:"#2B5B8C"}, throne:{label:"Level 4 / Throne", color:"#B5883A"} },
     legend: [
-      {label:"Levels 1-2", color:"#6f9c6a", text:"Low-level goblins wandering solo, plus the slime elemental and evil eye prisoner rooms."},
-      {label:"Level 3", color:"#b08a4e", text:"Goblin shaman and overseer territory — spellcasters hunt in packs of 3-4 here."},
-      {label:"Level 4 / Throne", color:"#c2513f", text:"The Goblin King's hall — the bar, the bank, the jail, and the deepest named spawns."}
+      {label:"Levels 1-2", color:"#3A7D5C", text:"Low-level goblins wandering solo, plus the slime elemental and evil eye prisoner rooms."},
+      {label:"Level 3", color:"#2B5B8C", text:"Goblin shaman and overseer territory — spellcasters hunt in packs of 3-4 here."},
+      {label:"Level 4 / Throne", color:"#B5883A", text:"The Goblin King's hall — the bar, the bank, the jail, and the deepest named spawns."}
     ],
     mobs: [
       {name:"A Goblin Knight", region:"upper", cls:"Warrior", lvl:"22", loc:"Level 2, room 5", common:{name:"Blackened Iron Armor piece", stats:"various AC5-7 pieces"}, rare:{name:"Blackened Iron Bastard Sword", stats:"2H Slash · 20dmg/47dly"}},
@@ -440,11 +440,11 @@ const ZONES = {
     title: "Najena", eyebrow: "Zone Codex · Najena",
     sub: "A dark elf magician's lair carved into Lavastorm Mountains, gated by a four-key sequence that leads deeper toward Najena herself.",
     levels: "8–35", respawn: "19 min",
-    regions: { front:{label:"Front Halls", color:"#6f9c6a"}, keys:{label:"Key Rooms", color:"#b08a4e"}, inner:{label:"Najena's Chambers", color:"#c2513f"} },
+    regions: { front:{label:"Front Halls", color:"#3A7D5C"}, keys:{label:"Key Rooms", color:"#2B5B8C"}, inner:{label:"Najena's Chambers", color:"#B5883A"} },
     legend: [
-      {label:"Front Halls", color:"#6f9c6a", text:"Skeletons, elementals, and ogre guards near the entrance. Group recommended below level 17."},
-      {label:"Key Rooms", color:"#b08a4e", text:"BoneCracker → Guard Captain → Rathyl → Drelzna: a four-key sequence gates deeper access."},
-      {label:"Najena's Chambers", color:"#c2513f", text:"The dark elf mistress's inner sanctum plus the goblin/spider caves behind it."}
+      {label:"Front Halls", color:"#3A7D5C", text:"Skeletons, elementals, and ogre guards near the entrance. Group recommended below level 17."},
+      {label:"Key Rooms", color:"#2B5B8C", text:"BoneCracker → Guard Captain → Rathyl → Drelzna: a four-key sequence gates deeper access."},
+      {label:"Najena's Chambers", color:"#B5883A", text:"The dark elf mistress's inner sanctum plus the goblin/spider caves behind it."}
     ],
     mobs: [
       {name:"Moosh", region:"front", cls:"Warrior", lvl:"18", loc:"Prison basement", common:{name:"Bronze Armor", stats:"—"}, rare:{name:"Guard's Keyring / Whore's Bane", stats:"prison access key · quest item"}},
@@ -473,11 +473,11 @@ const ZONES = {
     title: "Permafrost Keep", eyebrow: "Zone Codex · Permafrost",
     sub: "A goblin-infested ruined castle in the glacial north — home to King Thex'Ka's throne room and, in the depths below, Lady Vox herself.",
     levels: "15–50+", respawn: "7 min",
-    regions: { keep:{label:"Goblin Halls", color:"#6f9c6a"}, king:{label:"King's Room", color:"#b08a4e"}, pits:{label:"Bear Pits / Vox's Lair", color:"#c2513f"} },
+    regions: { keep:{label:"Goblin Halls", color:"#3A7D5C"}, king:{label:"King's Room", color:"#2B5B8C"}, pits:{label:"Bear Pits / Vox's Lair", color:"#B5883A"} },
     legend: [
-      {label:"Goblin Halls", color:"#6f9c6a", text:"Scryers, jailmasters, and alchemists scattered through the goblin warren."},
-      {label:"King's Room", color:"#b08a4e", text:"Thex'Ka's throne room — elite guards, the High Priest, and the Goblin Sage cluster here."},
-      {label:"Bear Pits / Vox's Lair", color:"#c2513f", text:"Reached via pit traps — dire wolves, polar bears, ice giants, and the frost dragon herself."}
+      {label:"Goblin Halls", color:"#3A7D5C", text:"Scryers, jailmasters, and alchemists scattered through the goblin warren."},
+      {label:"King's Room", color:"#2B5B8C", text:"Thex'Ka's throne room — elite guards, the High Priest, and the Goblin Sage cluster here."},
+      {label:"Bear Pits / Vox's Lair", color:"#B5883A", text:"Reached via pit traps — dire wolves, polar bears, ice giants, and the frost dragon herself."}
     ],
     mobs: [
       {name:"A goblin alchemist", region:"keep", cls:"Warrior", lvl:"27", loc:"(311,-370), safe solo spot", common:{name:"Mammoth Hide Leggings", stats:"AC6 STA+3, cold resist +5"}, rare:{name:"Mammoth Hide Cloak", stats:"AC7 WIS+4 · Improved Damage I"}},
@@ -508,11 +508,11 @@ const ZONES = {
     title: "Kedge Keep", eyebrow: "Zone Codex · Kedge Keep",
     sub: "A fully-submerged aquatic ruin sunk beneath Dagnor's Cauldron — bring enduring breath. Home to sharks, mermaids, seahorses, and Phinigel Autropos.",
     levels: "32–53", respawn: "22 min",
-    regions: { upper:{label:"Upper Floors", color:"#6f9c6a"}, temple:{label:"Temple of Prexus", color:"#b08a4e"}, deep:{label:"Deep Caves / Phinigel", color:"#c2513f"} },
+    regions: { upper:{label:"Upper Floors", color:"#3A7D5C"}, temple:{label:"Temple of Prexus", color:"#2B5B8C"}, deep:{label:"Deep Caves / Phinigel", color:"#B5883A"} },
     legend: [
-      {label:"Upper Floors", color:"#6f9c6a", text:"First and Second Floor — swordfish, sailfins (they explode!), and Cauldronbubble/boil sharks."},
-      {label:"Temple of Prexus", color:"#b08a4e", text:"Mermaid territory — Estrella of Gloomwater is arguably tougher than Phinigel himself."},
-      {label:"Deep Caves / Phinigel", color:"#c2513f", text:"Seahorse caves and the barrel-shaped final room guarding the last knight of the Kedge."}
+      {label:"Upper Floors", color:"#3A7D5C", text:"First and Second Floor — swordfish, sailfins (they explode!), and Cauldronbubble/boil sharks."},
+      {label:"Temple of Prexus", color:"#2B5B8C", text:"Mermaid territory — Estrella of Gloomwater is arguably tougher than Phinigel himself."},
+      {label:"Deep Caves / Phinigel", color:"#B5883A", text:"Seahorse caves and the barrel-shaped final room guarding the last knight of the Kedge."}
     ],
     mobs: [
       {name:"A fierce impaler", region:"upper", cls:"Warrior", lvl:"42", loc:"First Floor, spot #1", common:{name:"Gloomwater Harpoon", stats:"Piercing 9dmg/31dly Backstab9 · STR+4/HP+25"}, rare:{name:"Darksea Harpoon", stats:"Piercing 10dmg/28dly · STR+5/WIS+5/MANA+20"}},
@@ -538,11 +538,11 @@ const ZONES = {
     title: "Castle Mistmoore", eyebrow: "Zone Codex · Mistmoore Castle",
     sub: "Mayong Mistmoore's dark elf vampire stronghold — day and night bring different populations, and everyone here is his enemy.",
     levels: "20–45", respawn: "22 min (twice-daily vampire respawn)",
-    regions: { outer:{label:"Grounds / Graveyard", color:"#6f9c6a"}, inner:{label:"Castle Interior", color:"#b08a4e"}, deep:{label:"Coffin Room / Tower", color:"#c2513f"} },
+    regions: { outer:{label:"Grounds / Graveyard", color:"#3A7D5C"}, inner:{label:"Castle Interior", color:"#2B5B8C"}, deep:{label:"Coffin Room / Tower", color:"#B5883A"} },
     legend: [
-      {label:"Grounds / Graveyard", color:"#6f9c6a", text:"Gargoyles, familiars, and the canyon leading to Black Dire. Outdoor grounds around the castle."},
-      {label:"Castle Interior", color:"#b08a4e", text:"Ballroom gypsies, the library, servant quarters, and the guest wings."},
-      {label:"Coffin Room / Tower", color:"#c2513f", text:"The deepest vampire nobility, the throne room, and the tower — Mayong's inner circle."}
+      {label:"Grounds / Graveyard", color:"#3A7D5C", text:"Gargoyles, familiars, and the canyon leading to Black Dire. Outdoor grounds around the castle."},
+      {label:"Castle Interior", color:"#2B5B8C", text:"Ballroom gypsies, the library, servant quarters, and the guest wings."},
+      {label:"Coffin Room / Tower", color:"#B5883A", text:"The deepest vampire nobility, the throne room, and the tower — Mayong's inner circle."}
     ],
     mobs: [
       {name:"An imp familiar", region:"outer", cls:"Warrior", lvl:"29-35", loc:"Graveyard, rare spawn", common:{name:"Sacrificial Dagger", stats:"Piercing 5dmg/21dly Backstab5 · INT+5"}, rare:{name:"Bloodstone Eyepatch", stats:"AC4 · WIS+3/AGI+3"}},
@@ -572,11 +572,11 @@ const ZONES = {
     title: "Highpass Hold", eyebrow: "Zone Codex · Highpass Hold",
     sub: "A mountain trading post between Qeynos and Freeport — gnolls hold the north gate, orcs the south, and smugglers work a hidden tunnel beneath the Tiger's Roar.",
     levels: "9–22", respawn: "5 min",
-    regions: { north:{label:"North Gate (Gnolls)", color:"#6f9c6a"}, south:{label:"South Gate (Orcs)", color:"#b08a4e"}, town:{label:"Town / Smugglers", color:"#c2513f"} },
+    regions: { north:{label:"North Gate (Gnolls)", color:"#3A7D5C"}, south:{label:"South Gate (Orcs)", color:"#2B5B8C"}, town:{label:"Town / Smugglers", color:"#B5883A"} },
     legend: [
-      {label:"North Gate (Gnolls)", color:"#6f9c6a", text:"Mucktail gnolls camp by the East Karana zone line, weaker than the southern orcs."},
-      {label:"South Gate (Orcs)", color:"#b08a4e", text:"Shralok orcs control the Kithicor entrance — the tougher of the two gate camps."},
-      {label:"Town / Smugglers", color:"#c2513f", text:"Bandits and rogues in the hidden tunnel under the Tiger's Roar, reached by swimming."}
+      {label:"North Gate (Gnolls)", color:"#3A7D5C", text:"Mucktail gnolls camp by the East Karana zone line, weaker than the southern orcs."},
+      {label:"South Gate (Orcs)", color:"#2B5B8C", text:"Shralok orcs control the Kithicor entrance — the tougher of the two gate camps."},
+      {label:"Town / Smugglers", color:"#B5883A", text:"Bandits and rogues in the hidden tunnel under the Tiger's Roar, reached by swimming."}
     ],
     mobs: [
       {name:"Grenix Mucktail", region:"north", cls:"Warrior", lvl:"20", loc:"(552,78), shares spawn with Vexven", common:{name:"Polished Granite Tomahawk", stats:"1H Slash 6dmg/26dly, Berserker Strength@10"}, rare:null},
@@ -602,11 +602,11 @@ const ZONES = {
     title: "Beholder's Maze", eyebrow: "Zone Codex · Gorge of King Xorbb",
     sub: "A narrow gulley connecting Runnyeye to East Karana, patrolled by goblin lookouts, living-clay muddites, minotaurs, and the elusive evil eyes who serve King Xorbb.",
     levels: "8–35", respawn: "6:40 min",
-    regions: { goblins:{label:"Goblin Patrols", color:"#6f9c6a"}, muddites:{label:"Muddites / Minotaurs", color:"#b08a4e"}, temple:{label:"Evil Eye Temple", color:"#c2513f"} },
+    regions: { goblins:{label:"Goblin Patrols", color:"#3A7D5C"}, muddites:{label:"Muddites / Minotaurs", color:"#2B5B8C"}, temple:{label:"Evil Eye Temple", color:"#B5883A"} },
     legend: [
-      {label:"Goblin Patrols", color:"#6f9c6a", text:"Weak Pickclaw lookouts and sentries watching the rear entrance of Runnyeye."},
-      {label:"Muddites / Minotaurs", color:"#b08a4e", text:"Living clay golems and minotaurs — tougher than they con, spawn near the King Xorbb PH pool."},
-      {label:"Evil Eye Temple", color:"#c2513f", text:"Charm-happy enchanter evil eyes cluster on the altar — the deadliest thing in the zone."}
+      {label:"Goblin Patrols", color:"#3A7D5C", text:"Weak Pickclaw lookouts and sentries watching the rear entrance of Runnyeye."},
+      {label:"Muddites / Minotaurs", color:"#2B5B8C", text:"Living clay golems and minotaurs — tougher than they con, spawn near the King Xorbb PH pool."},
+      {label:"Evil Eye Temple", color:"#B5883A", text:"Charm-happy enchanter evil eyes cluster on the altar — the deadliest thing in the zone."}
     ],
     mobs: [
       {name:"A goblin alchemist (Beholder's Maze)", region:"goblins", cls:"Shaman", lvl:"16-21", loc:"(705,-1794)", common:null, rare:{name:"Humerus Handled Mace", stats:"1H Blunt 5dmg/29dly · cold resist +2, no drop"}},
@@ -628,11 +628,11 @@ const ZONES = {
     title: "The Estate of Unrest", eyebrow: "Zone Codex · Estate of Unrest",
     sub: "A dwarven noble's manor overrun by undead — yard trash outside, ghouls and hags through five floors of the house, and the dwarf ghost's own dread basement below.",
     levels: "10–35", respawn: "22 min",
-    regions: { yard:{label:"Yard / 1st Floor", color:"#6f9c6a"}, upper:{label:"2nd-4th Floor", color:"#b08a4e"}, basement:{label:"Basement", color:"#c2513f"} },
+    regions: { yard:{label:"Yard / 1st Floor", color:"#3A7D5C"}, upper:{label:"2nd-4th Floor", color:"#2B5B8C"}, basement:{label:"Basement", color:"#B5883A"} },
     legend: [
-      {label:"Yard / 1st Floor", color:"#6f9c6a", text:"Death beetles, tormented dead, and the Lesser Blade Fiend camp by the side door."},
-      {label:"2nd-4th Floor", color:"#b08a4e", text:"Fireplace camp territory — reclusive ghoul magus, undead barkeep, and the tower knight."},
-      {label:"Basement", color:"#c2513f", text:"The deathtrap level — festering hags, dark terrors, and Garanel Rucksif's ghost at the very end."}
+      {label:"Yard / 1st Floor", color:"#3A7D5C", text:"Death beetles, tormented dead, and the Lesser Blade Fiend camp by the side door."},
+      {label:"2nd-4th Floor", color:"#2B5B8C", text:"Fireplace camp territory — reclusive ghoul magus, undead barkeep, and the tower knight."},
+      {label:"Basement", color:"#B5883A", text:"The deathtrap level — festering hags, dark terrors, and Garanel Rucksif's ghost at the very end."}
     ],
     mobs: [
       {name:"Shadowpincer", region:"yard", cls:"Warrior (Beetle, rare)", lvl:"15-17", loc:"Around the courtyard", common:null, rare:null},
@@ -659,11 +659,11 @@ const ZONES = {
     title: "Everfrost Peaks", eyebrow: "Zone Codex · Everfrost Peaks",
     sub: "The frozen barbarian homeland north of Qeynos — dangerous newbie canyons give way to sprawling tundra plains, ice caves, and the road to Permafrost.",
     levels: "1–45", respawn: "6:40 min",
-    regions: { canyons:{label:"Canyons (Newbie Area)", color:"#6f9c6a"}, plains:{label:"Tundra Plains", color:"#b08a4e"}, caves:{label:"Ice Caves / Deep Tundra", color:"#c2513f"} },
+    regions: { canyons:{label:"Canyons (Newbie Area)", color:"#3A7D5C"}, plains:{label:"Tundra Plains", color:"#2B5B8C"}, caves:{label:"Ice Caves / Deep Tundra", color:"#B5883A"} },
     legend: [
-      {label:"Canyons (Newbie Area)", color:"#6f9c6a", text:"Maze-like Halas newbie zone — whelps, pups, and decaying skeletons near the Blackburrow entrance."},
-      {label:"Tundra Plains", color:"#b08a4e", text:"Vast open ground with mammoths, ice goblin camps, and roaming barbarian rares."},
-      {label:"Ice Caves / Deep Tundra", color:"#c2513f", text:"Underwater ice caves holding Miragul's lich, plus the high-level rares near Permafrost's gate."}
+      {label:"Canyons (Newbie Area)", color:"#3A7D5C", text:"Maze-like Halas newbie zone — whelps, pups, and decaying skeletons near the Blackburrow entrance."},
+      {label:"Tundra Plains", color:"#2B5B8C", text:"Vast open ground with mammoths, ice goblin camps, and roaming barbarian rares."},
+      {label:"Ice Caves / Deep Tundra", color:"#B5883A", text:"Underwater ice caves holding Miragul's lich, plus the high-level rares near Permafrost's gate."}
     ],
     mobs: [
       {name:"Karg IceBear", region:"plains", cls:"Warrior (Barbarian, roams 3 loops)", lvl:"35", loc:"Hill west of Permafrost gates, ~(1615,-5744)", common:{name:"Cloak of the Ice Bear", stats:"AC8 HP+10, cold resist +20"}, rare:{name:"Gigantic Zweihander", stats:"2H Slash 18dmg/39dly"}},
@@ -689,11 +689,11 @@ const ZONES = {
   title: "Nektulos Forest", eyebrow: "Zone Codex · Nektulos Forest",
   sub: "A cramped, tangled dark elf newbie forest north of the Commonlands — halfling ruins, patrolling Neriaki guards, and a scattering of tougher wanderers make it more dangerous than its size suggests.",
   levels: "1–30", respawn: "6:40",
-  regions: { grove:{label:"Newbie Grove", color:"#6f9c6a"}, ruins:{label:"Halfling Ruins", color:"#b08a4e"}, border:{label:"Lavastorm Border", color:"#c2513f"} },
+  regions: { grove:{label:"Newbie Grove", color:"#3A7D5C"}, ruins:{label:"Halfling Ruins", color:"#2B5B8C"}, border:{label:"Lavastorm Border", color:"#B5883A"} },
   legend: [
-    {label:"Newbie Grove", color:"#6f9c6a", text:"Dark elf guard patrols near the Neriak entrance — low-level, mostly harmless if you stay out of their path."},
-    {label:"Halfling Ruins", color:"#b08a4e", text:"The old halfling settlement in the forest's heart, now home to wandering druids and rogue guardians."},
-    {label:"Lavastorm Border", color:"#c2513f", text:"The southeastern edge toward Lavastorm — stone and iron guardians hit well above the zone's average level."}
+    {label:"Newbie Grove", color:"#3A7D5C", text:"Dark elf guard patrols near the Neriak entrance — low-level, mostly harmless if you stay out of their path."},
+    {label:"Halfling Ruins", color:"#2B5B8C", text:"The old halfling settlement in the forest's heart, now home to wandering druids and rogue guardians."},
+    {label:"Lavastorm Border", color:"#B5883A", text:"The southeastern edge toward Lavastorm — stone and iron guardians hit well above the zone's average level."}
   ],
   mobs: [
     {name:"Kirak Vil", region:"border", cls:"Warrior", lvl:"56", loc:"Wanders (2045,-791) / (1658,-724)", common:{name:"Tainted Darksteel Shield", stats:"—"}, rare:null},
@@ -712,10 +712,10 @@ innothule: {
   title: "Innothule Swamp", eyebrow: "Zone Codex · Innothule Swamp",
   sub: "The ancestral troll homeland south of Antonica — dank, soggy, and thick with social monsters that will happily dogpile the unwary.",
   levels: "1–32", respawn: "6:40",
-  regions: { fringe:{label:"Swamp Fringe", color:"#6f9c6a"}, heart:{label:"Swamp Heart", color:"#6a7a4e"} },
+  regions: { fringe:{label:"Swamp Fringe", color:"#3A7D5C"}, heart:{label:"Swamp Heart", color:"#6E7A52"} },
   legend: [
-    {label:"Swamp Fringe", color:"#6f9c6a", text:"Lower-level troll and gnoll trash along the outer paths, closer to the Feerrott and Innothule zone lines."},
-    {label:"Swamp Heart", color:"#6a7a4e", text:"The deep bog toward the troll ruins — tougher named spawns and the aggressive, social bulk of the zone."}
+    {label:"Swamp Fringe", color:"#3A7D5C", text:"Lower-level troll and gnoll trash along the outer paths, closer to the Feerrott and Innothule zone lines."},
+    {label:"Swamp Heart", color:"#6E7A52", text:"The deep bog toward the troll ruins — tougher named spawns and the aggressive, social bulk of the zone."}
   ],
   mobs: [
     {name:"Lynuga", region:"heart", cls:"Shaman", lvl:"32", loc:"(-181, -340)", common:{name:"Club", stats:"1H Blunt"}, rare:{name:"Large Ruby", stats:"—"}},
@@ -734,16 +734,16 @@ karanas: {
   sub: "Antonica's great open plains, split into four wind-swept zones — trade roads, lion prides, an aviak village, an ogre shrine, and Quillmane the pegasus wandering it all.",
   levels: "1–61", respawn: "6:00-6:40",
   regions: {
-    north:{label:"North Karana", color:"#6f9c6a"},
-    south:{label:"South Karana", color:"#b08a4e"},
-    east:{label:"East Karana", color:"#c2513f"},
-    west:{label:"West Karana", color:"#7a8fae"}
+    north:{label:"North Karana", color:"#3A7D5C"},
+    south:{label:"South Karana", color:"#2B5B8C"},
+    east:{label:"East Karana", color:"#B5883A"},
+    west:{label:"West Karana", color:"#6E8299"}
   },
   legend: [
-    {label:"North Karana", color:"#6f9c6a", text:"The crossroads zone — griffons, lions, and a gypsy camp along the road between Qeynos and the eastern zones."},
-    {label:"South Karana", color:"#b08a4e", text:"A sprawling quiet plain with an aviak village, centaur stables, a treant grove, and Quillmane's endless wandering circuit."},
-    {label:"East Karana", color:"#c2513f", text:"Rocky and dangerous — cyclops, giants, and bandits populate 'good hunting from 15th until about 25th level.'"},
-    {label:"West Karana", color:"#7a8fae", text:"The frontier route to Qeynos Hills — bandit camps, an ogre shrine, and spreading undead along the river."}
+    {label:"North Karana", color:"#3A7D5C", text:"The crossroads zone — griffons, lions, and a gypsy camp along the road between Qeynos and the eastern zones."},
+    {label:"South Karana", color:"#2B5B8C", text:"A sprawling quiet plain with an aviak village, centaur stables, a treant grove, and Quillmane's endless wandering circuit."},
+    {label:"East Karana", color:"#B5883A", text:"Rocky and dangerous — cyclops, giants, and bandits populate 'good hunting from 15th until about 25th level.'"},
+    {label:"West Karana", color:"#6E8299", text:"The frontier route to Qeynos Hills — bandit camps, an ogre shrine, and spreading undead along the river."}
   ],
   mobs: [
     {name:"Zahal the Vile", region:"north", cls:"Warrior", lvl:"30", loc:"(1237,-2023), paths west, 4hr respawn", common:{name:"Belt of Flesh Hooks", stats:"AC 5 · CHA−5 · disease/poison resist +5"}, rare:{name:"Bag of Troll Guts", stats:"container, 35% drop"}},
@@ -762,11 +762,11 @@ sola: {
   title: "Solusek's Eye", eyebrow: "Zone Codex · Solusek's Eye (Sol A)",
   sub: "A lava-filled goblin warren under an uneasy truce with a gnome mining outpost — fire imps, drakes, and efreeti prowl the tunnels between them.",
   levels: "20–40", respawn: "18 min",
-  regions: { goblin:{label:"Fire Goblin Warrens", color:"#c2513f"}, gnome:{label:"Mining Company Outpost", color:"#7a8fae"}, deep:{label:"Deep Tunnels", color:"#b08a4e"} },
+  regions: { goblin:{label:"Fire Goblin Warrens", color:"#B5883A"}, gnome:{label:"Mining Company Outpost", color:"#6E8299"}, deep:{label:"Deep Tunnels", color:"#2B5B8C"} },
   legend: [
-    {label:"Fire Goblin Warrens", color:"#c2513f", text:"The Goblins of Fire Peak's halls — king, wizard, and dark elf exile territory near the lava flows."},
-    {label:"Mining Company Outpost", color:"#7a8fae", text:"The Solusek Mining Company's gnome fort — Captain Bipnubble and his crew, uneasily allied with the goblins."},
-    {label:"Deep Tunnels", color:"#b08a4e", text:"Fire imps, drakes, and efreeti roam the connecting passages between the two factions."}
+    {label:"Fire Goblin Warrens", color:"#B5883A", text:"The Goblins of Fire Peak's halls — king, wizard, and dark elf exile territory near the lava flows."},
+    {label:"Mining Company Outpost", color:"#6E8299", text:"The Solusek Mining Company's gnome fort — Captain Bipnubble and his crew, uneasily allied with the goblins."},
+    {label:"Deep Tunnels", color:"#2B5B8C", text:"Fire imps, drakes, and efreeti roam the connecting passages between the two factions."}
   ],
   mobs: [
     {name:"Solusek Goblin King", region:"goblin", cls:"Wizard", lvl:"30", loc:"(-789,-313), ~18 min respawn", common:{name:"Ring of Goblin Lords", stats:"AC 4 · STR+3/INT+3"}, rare:{name:"Scepter of Flame", stats:"1H Blunt · MANA+15 · fire/magic resist"}},
@@ -784,10 +784,10 @@ sola: {
     title: "Qeynos Hills", eyebrow: "Zone Codex · Qeynos Hills",
     sub: "The rolling farmland and ruins west of the newbie yard — the first real hunting ground for fresh Qeynos characters.",
     levels: "2–15", respawn: "unknown",
-    regions: { farms:{label:"Miller Farms", color:"#6f9c6a"}, ruins:{label:"Haunted Ruins", color:"#8a6a9c"} },
+    regions: { farms:{label:"Miller Farms", color:"#3A7D5C"}, ruins:{label:"Haunted Ruins", color:"#7A6A8C"} },
     legend: [
-      {label:"Miller Farms", color:"#6f9c6a", text:"The homestead cluster around the Millers' Fire — wolves, bears, and low-level quest-givers."},
-      {label:"Haunted Ruins", color:"#8a6a9c", text:"Crumbling structures further out where undead casters and higher-level wanderers linger."}
+      {label:"Miller Farms", color:"#3A7D5C", text:"The homestead cluster around the Millers' Fire — wolves, bears, and low-level quest-givers."},
+      {label:"Haunted Ruins", color:"#7A6A8C", text:"Crumbling structures further out where undead casters and higher-level wanderers linger."}
     ],
     mobs: [
       {name:"Baobob Miller", region:"farms", cls:"Warrior", lvl:"25", loc:"100% spawn near the Miller farmstead (5008,118)", common:{name:"Bronze Scimitar", stats:"1H Slash · low-level starter weapon"}, rare:null},
@@ -806,10 +806,10 @@ sola: {
     title: "The Rathe Mountains", eyebrow: "Zone Codex · Rathe Mountains",
     sub: "A sprawling mid-level pass on the road from Freeport to Qeynos — orc and lizard man camps, giant strongholds, and sphinxes watching from the peaks.",
     levels: "13–46", respawn: "unknown",
-    regions: { camps:{label:"Orc/Lizard Camps", color:"#6f9c6a"}, giants:{label:"Giant & Sphinx Country", color:"#b08a4e"} },
+    regions: { camps:{label:"Orc/Lizard Camps", color:"#3A7D5C"}, giants:{label:"Giant & Sphinx Country", color:"#2B5B8C"} },
     legend: [
-      {label:"Orc/Lizard Camps", color:"#6f9c6a", text:"Scattered orc and lizard man war-camps and the ruined gnome town in the lower hills."},
-      {label:"Giant & Sphinx Country", color:"#b08a4e", text:"Hill giants, drakes, and the zone's two named sphinxes hold the high ground toward the eastern peaks."}
+      {label:"Orc/Lizard Camps", color:"#3A7D5C", text:"Scattered orc and lizard man war-camps and the ruined gnome town in the lower hills."},
+      {label:"Giant & Sphinx Country", color:"#2B5B8C", text:"Hill giants, drakes, and the zone's two named sphinxes hold the high ground toward the eastern peaks."}
     ],
     mobs: [
       {name:"Broog Bloodbeard", region:"giants", cls:"Warrior (Giant)", lvl:"46", loc:"Roams the hill giant area near (0,1500)", common:{name:"High-value platinum drops", stats:"no gear listed"}, rare:null},
@@ -828,10 +828,10 @@ sola: {
     title: "Lake Rathetear", eyebrow: "Zone Codex · Lake Rathetear",
     sub: "A vast wilderness lake ringed by aviak cliffs, goblin and ogre camps, and bandit hideouts — busy mid-level hunting on the water's edge.",
     levels: "15–59", respawn: "unknown",
-    regions: { shore:{label:"Shoreline Camps", color:"#6f9c6a"}, water:{label:"Lake & Towers", color:"#4e8ab0"} },
+    regions: { shore:{label:"Shoreline Camps", color:"#3A7D5C"}, water:{label:"Lake & Towers", color:"#3E7A9D"} },
     legend: [
-      {label:"Shoreline Camps", color:"#6f9c6a", text:"Goblin, ogre, bandit, and gypsy camps ring the lake's edges — the bulk of the mid-level hunting."},
-      {label:"Lake & Towers", color:"#4e8ab0", text:"Aviak lookout towers and abandoned spellcaster towers rising over the open water, home to the zone's tougher named casters."}
+      {label:"Shoreline Camps", color:"#3A7D5C", text:"Goblin, ogre, bandit, and gypsy camps ring the lake's edges — the bulk of the mid-level hunting."},
+      {label:"Lake & Towers", color:"#3E7A9D", text:"Aviak lookout towers and abandoned spellcaster towers rising over the open water, home to the zone's tougher named casters."}
     ],
     mobs: [
       {name:"Webclaw Murkwave", region:"water", cls:"Wizard", lvl:"25", loc:"(2624,1072), near the lakeside", common:{name:"Water Crystal Staff", stats:"1H Blunt · 5dmg/28dly · Effect: Shallow Breath (Combat), BRD/NEC/WIZ/MAG/ENC"}, rare:null},
@@ -850,10 +850,10 @@ sola: {
     title: "Butcherblock Mountains", eyebrow: "Zone Codex · Butcherblock Mountains",
     sub: "The sprawling low-level crossroads of Faydwer — goblin and bandit camps, an undead chessboard, and the gates of Kaladim.",
     levels: "1–15 (with pockets to 35+)", respawn: "unknown",
-    regions: { goblins:{label:"Goblin/Bandit Camps", color:"#6f9c6a"}, chessboard:{label:"Chessboard & Kaladim Gates", color:"#8a6a9c"} },
+    regions: { goblins:{label:"Goblin/Bandit Camps", color:"#3A7D5C"}, chessboard:{label:"Chessboard & Kaladim Gates", color:"#7A6A8C"} },
     legend: [
-      {label:"Goblin/Bandit Camps", color:"#6f9c6a", text:"Goblin war-parties and bandit hideouts scattered across the docks and lowlands, plus the wandering ocean-side goblins."},
-      {label:"Chessboard & Kaladim Gates", color:"#8a6a9c", text:"The undead-infested Chessboard ruins and the guarded approach to the dwarven city of Kaladim."}
+      {label:"Goblin/Bandit Camps", color:"#3A7D5C", text:"Goblin war-parties and bandit hideouts scattered across the docks and lowlands, plus the wandering ocean-side goblins."},
+      {label:"Chessboard & Kaladim Gates", color:"#7A6A8C", text:"The undead-infested Chessboard ruins and the guarded approach to the dwarven city of Kaladim."}
     ],
     mobs: [
       {name:"Corflunk", region:"goblins", cls:"Warrior (Ogre)", lvl:"7", loc:"9% spawn at the goblin camp near Dagnor's Cauldron (-2001,-202)", common:null, rare:null},
@@ -873,14 +873,14 @@ sola: {
     sub: "A sprawling, maze-like forest ringing Kelethin — newbie fields give way to faerie glades and scattered orc camps.",
     levels: "1–12", respawn: "~7 min (unconfirmed)",
     regions: {
-      fields: { label:"Fields & Groves", color:"#6f9c6a" },
-      faeryard: { label:"Faerie Village", color:"#d9a441" },
-      orccamp: { label:"Orc Camps", color:"#c2513f" }
+      fields: { label:"Fields & Groves", color:"#3A7D5C" },
+      faeryard: { label:"Faerie Village", color:"#B08699" },
+      orccamp: { label:"Orc Camps", color:"#B5883A" }
     },
     legend: [
-      {label:"Fields & Groves", color:"#6f9c6a", text:"Newbie wolves, bats, wasps, and spiderlings scattered around the outskirts of Kelethin."},
-      {label:"Faerie Village", color:"#d9a441", text:"Fae guards and nobles ringing a hidden fae settlement — Fine Steel drops start showing up on the tougher guards."},
-      {label:"Orc Camps", color:"#c2513f", text:"Scattered orc pawns and specialists, including a torch-wielding arsonist prized for a quest item."}
+      {label:"Fields & Groves", color:"#3A7D5C", text:"Newbie wolves, bats, wasps, and spiderlings scattered around the outskirts of Kelethin."},
+      {label:"Faerie Village", color:"#B08699", text:"Fae guards and nobles ringing a hidden fae settlement — Fine Steel drops start showing up on the tougher guards."},
+      {label:"Orc Camps", color:"#B5883A", text:"Scattered orc pawns and specialists, including a torch-wielding arsonist prized for a quest item."}
     ],
     mobs: [
       {name:"An orc arsonist", region:"orccamp", cls:"Warrior", lvl:"12", loc:"100% @ (1958, 2271)", common:null, rare:{name:"Orcish Arsons Torch", stats:"— (lore/quest item)"}},
@@ -899,14 +899,14 @@ sola: {
     sub: "A brownie- and fae-thick woodland south of the Faydark — a hidden Teir'Dal camp and a pair of unicorns lurk in its far corners.",
     levels: "10–30 (pockets to 60)", respawn: "6:40",
     regions: {
-      wilds: { label:"Brownie Wilds", color:"#6f9c6a" },
-      faeryard: { label:"Faerie Village", color:"#d9a441" },
-      grove: { label:"Teir'Dal Camp & Unicorn Grove", color:"#7a5fb0" }
+      wilds: { label:"Brownie Wilds", color:"#3A7D5C" },
+      faeryard: { label:"Faerie Village", color:"#B08699" },
+      grove: { label:"Teir'Dal Camp & Unicorn Grove", color:"#6B5B95" }
     },
     legend: [
-      {label:"Brownie Wilds", color:"#6f9c6a", text:"Brownie farmers and outcasts scattered through the southern woods, plus a rare giant-spider queen."},
-      {label:"Faerie Village", color:"#d9a441", text:"Pixies, fairies, and a drixie enchanter clustered around the fae settlement in the northeast."},
-      {label:"Teir'Dal Camp & Unicorn Grove", color:"#7a5fb0", text:"A hidden dark elf necromancer's camp to the west, and a lone unicorn pair further out — both very rare, faction-heavy pulls."}
+      {label:"Brownie Wilds", color:"#3A7D5C", text:"Brownie farmers and outcasts scattered through the southern woods, plus a rare giant-spider queen."},
+      {label:"Faerie Village", color:"#B08699", text:"Pixies, fairies, and a drixie enchanter clustered around the fae settlement in the northeast."},
+      {label:"Teir'Dal Camp & Unicorn Grove", color:"#6B5B95", text:"A hidden dark elf necromancer's camp to the west, and a lone unicorn pair further out — both very rare, faction-heavy pulls."}
     ],
     mobs: [
       {name:"Larik Z`Vole", region:"grove", cls:"Dark Elf Necromancer", lvl:"17", loc:"100% @ (46, 2245), spawns 8pm–6am game time", common:null, rare:{name:"Larik Z`Vole's Head", stats:"— (no-drop quest item)"}},
@@ -926,14 +926,14 @@ sola: {
     sub: "Home of the gnomes — kobold ravines and clockwork tinkering give way to a dangerous minotaur-held canyon in the south.",
     levels: "1–18 (pockets to 35)", respawn: "6:30",
     regions: {
-      kobold: { label:"Kobold Camps", color:"#6f9c6a" },
-      gnomish: { label:"Windmills & Clockworks", color:"#b08a4e" },
-      minotaur: { label:"Minotaur Caves", color:"#c2513f" }
+      kobold: { label:"Kobold Camps", color:"#3A7D5C" },
+      gnomish: { label:"Windmills & Clockworks", color:"#2B5B8C" },
+      minotaur: { label:"Minotaur Caves", color:"#B5883A" }
     },
     legend: [
-      {label:"Kobold Camps", color:"#6f9c6a", text:"Low-level kobold ravines north of the windmills — the missionary shaman is the notable rare here."},
-      {label:"Windmills & Clockworks", color:"#b08a4e", text:"The gnomish trade hub and its wandering tinker constructs, plus a paladin crusader out toward the Observers."},
-      {label:"Minotaur Caves", color:"#c2513f", text:"A dangerous southern canyon of minotaurs, with a rogue necromancer holed up deep inside — the zone's toughest pulls."}
+      {label:"Kobold Camps", color:"#3A7D5C", text:"Low-level kobold ravines north of the windmills — the missionary shaman is the notable rare here."},
+      {label:"Windmills & Clockworks", color:"#2B5B8C", text:"The gnomish trade hub and its wandering tinker constructs, plus a paladin crusader out toward the Observers."},
+      {label:"Minotaur Caves", color:"#B5883A", text:"A dangerous southern canyon of minotaurs, with a rogue necromancer holed up deep inside — the zone's toughest pulls."}
     ],
     mobs: [
       {name:"Meldrath The Malignant", region:"minotaur", cls:"Gnome Necromancer", lvl:"35", loc:"100% @ (1690, -2209), inside the minotaur caves, 22-minute respawn", common:null, rare:{name:"Skull of Meldrath", stats:"—"}},
@@ -952,14 +952,14 @@ sola: {
     sub: "A flooded volcanic caldera between Kaladim and Butcherblock — giant rats and snakes on the shore, aqua goblins and shipwreck ghosts in the deep water.",
     levels: "10–25 (pockets higher)", respawn: "~20 min (Sandbar Serpent PH ~2:30)",
     regions: {
-      shore: { label:"Northern Shore", color:"#6f9c6a" },
-      waters: { label:"Open Water", color:"#4e8ab0" },
-      goblincamp: { label:"Aqua Goblin Camps", color:"#c2513f" }
+      shore: { label:"Northern Shore", color:"#3A7D5C" },
+      waters: { label:"Open Water", color:"#3E7A9D" },
+      goblincamp: { label:"Aqua Goblin Camps", color:"#B5883A" }
     },
     legend: [
-      {label:"Northern Shore", color:"#6f9c6a", text:"Giant rats wandering the beach and shallows — Flotsam and Jetsam are the low-level namesakes of the zone."},
-      {label:"Open Water", color:"#4e8ab0", text:"Snakes and a sunken skeleton captain patrol the lake itself, reachable mostly by swimming or boat."},
-      {label:"Aqua Goblin Camps", color:"#c2513f", text:"Goblin shamans, warriors, and their tidal lord roam the southern and western shorelines — the zone's toughest named spawns."}
+      {label:"Northern Shore", color:"#3A7D5C", text:"Giant rats wandering the beach and shallows — Flotsam and Jetsam are the low-level namesakes of the zone."},
+      {label:"Open Water", color:"#3E7A9D", text:"Snakes and a sunken skeleton captain patrol the lake itself, reachable mostly by swimming or boat."},
+      {label:"Aqua Goblin Camps", color:"#B5883A", text:"Goblin shamans, warriors, and their tidal lord roam the southern and western shorelines — the zone's toughest named spawns."}
     ],
     mobs: [
       {name:"Flotsam", region:"shore", cls:"Giant Rat Warrior", lvl:"10", loc:"(1020, -1060), wanders a small patch on the north shore, ~2 min respawn", common:{name:"Giant Rat Tail", stats:"—"}, rare:{name:"Shiny Golden Coin", stats:"—"}},

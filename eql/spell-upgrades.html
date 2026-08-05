@@ -4,28 +4,28 @@
 <meta charset="UTF-8">
 <title>EQL Spell Upgrade Reference &amp; Calculator</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
 
 :root{
-  --void:#0b0e14;
-  --stone:#141a24;
-  --stone-2:#1b2330;
-  --bone:#d7dbe8;
-  --bone-dim:#8b93a8;
-  --arcane:#7c9cff;
-  --arcane-dim:#4a5f9e;
-  --gold:#c9a24a;
-  --up:#6fb08a;
-  --down:#c2513f;
+  --void:#F7F8FA;
+  --stone:#FFFFFF;
+  --stone-2:#F0F2F5;
+  --bone:#1A1D23;
+  --bone-dim:#5B6270;
+  --arcane:#2B5B8C;
+  --arcane-dim:#6B8CAE;
+  --gold:#B5883A;
+  --up:#3A7D5C;
+  --down:#B5883A;
 }
 *{box-sizing:border-box;}
-html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-family:'Spectral',serif;}
+html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
 .wrap{max-width:1100px;margin:0 auto;padding:0 24px 90px;}
 
 .hero{
   position:relative; padding:56px 24px 40px; overflow:hidden;
-  border-bottom:1px solid rgba(124,156,255,0.15);
-  background: radial-gradient(ellipse 800px 380px at 25% -10%, rgba(124,156,255,0.10), transparent 60%), var(--void);
+  border-bottom:1px solid rgba(43,91,140,0.15);
+  background: radial-gradient(ellipse 800px 380px at 25% -10%, rgba(43,91,140,0.10), transparent 60%), var(--void);
 }
 .hero-inner{max-width:1100px;margin:0 auto;}
 .eyebrow{
@@ -33,64 +33,64 @@ html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-famil
   color:var(--gold); display:flex; align-items:center; gap:10px; margin-bottom:18px;
 }
 .eyebrow::before{content:"";width:26px;height:1px;background:var(--gold);}
-h1{font-family:'Cinzel',serif; font-weight:900; font-size:clamp(30px,5vw,50px); line-height:1.05; margin:0 0 14px; color:var(--bone);}
+h1{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-weight:900; font-size:clamp(30px,5vw,50px); line-height:1.05; margin:0 0 14px; color:var(--bone);}
 .sub{font-size:15.5px; color:var(--bone-dim); max-width:680px; line-height:1.65;}
 .warn-banner{
-  margin-top:24px; padding:14px 18px; border:1px solid rgba(201,162,74,0.35); background:rgba(201,162,74,0.06);
+  margin-top:24px; padding:14px 18px; border:1px solid rgba(181,136,58,0.35); background:rgba(181,136,58,0.06);
   border-radius:4px; font-size:13px; color:var(--gold); line-height:1.6; font-family:'JetBrains Mono',monospace;
 }
 
-.section{padding:44px 0; border-bottom:1px solid rgba(124,156,255,0.10);}
+.section{padding:44px 0; border-bottom:1px solid rgba(43,91,140,0.10);}
 .section:last-child{border-bottom:none;}
-.section h2{font-family:'Cinzel',serif; font-size:22px; color:var(--bone); margin:0 0 8px; display:flex; align-items:center; gap:10px;}
+.section h2{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:22px; color:var(--bone); margin:0 0 8px; display:flex; align-items:center; gap:10px;}
 .section h2 .n{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--arcane); border:1px solid var(--arcane-dim); padding:2px 8px; border-radius:20px;}
 .section .lede{color:var(--bone-dim); font-size:14.5px; line-height:1.65; margin:0 0 24px; max-width:760px;}
 
 /* ---- TABLE ---- */
-.table-scroll{overflow-x:auto; border-radius:6px; border:1px solid rgba(124,156,255,0.15);}
+.table-scroll{overflow-x:auto; border-radius:6px; border:1px solid rgba(43,91,140,0.15);}
 table{width:100%; border-collapse:collapse; font-family:'JetBrains Mono',monospace; font-size:12.5px; min-width:760px;}
-th,td{padding:10px 12px; text-align:center; border-bottom:1px solid rgba(124,156,255,0.08); white-space:nowrap;}
+th,td{padding:10px 12px; text-align:center; border-bottom:1px solid rgba(43,91,140,0.08); white-space:nowrap;}
 th{background:var(--stone-2); color:var(--gold); font-weight:600; letter-spacing:.03em; text-transform:uppercase; font-size:10.5px;}
-td:first-child, th:first-child{text-align:left; color:var(--bone); font-family:'Spectral',serif; font-size:13px; position:sticky; left:0; background:var(--stone); min-width:190px;}
-tbody tr:hover td{background:rgba(124,156,255,0.05);}
-tbody tr:hover td:first-child{background:rgba(124,156,255,0.08);}
+td:first-child, th:first-child{text-align:left; color:var(--bone); font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:13px; position:sticky; left:0; background:var(--stone); min-width:190px;}
+tbody tr:hover td{background:rgba(43,91,140,0.05);}
+tbody tr:hover td:first-child{background:rgba(43,91,140,0.08);}
 .val-down{color:var(--down);}
 .val-up{color:var(--up);}
 .val-flat{color:var(--bone-dim);}
 
 /* ---- CALCULATOR ---- */
-.calc{background:var(--stone); border:1px solid rgba(124,156,255,0.18); border-radius:8px; padding:28px 26px;}
+.calc{background:var(--stone); border:1px solid rgba(43,91,140,0.18); border-radius:8px; padding:28px 26px;}
 .calc-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:22px;}
 @media(max-width:600px){.calc-grid{grid-template-columns:1fr;}}
 .field label{display:block; font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--bone-dim); margin-bottom:7px;}
 .field select, .field input{
-  width:100%; background:var(--void); border:1px solid rgba(124,156,255,0.25); color:var(--bone);
-  font-family:'Spectral',serif; font-size:14.5px; padding:11px 14px; border-radius:4px; outline:none;
+  width:100%; background:var(--void); border:1px solid rgba(43,91,140,0.25); color:var(--bone);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:14.5px; padding:11px 14px; border-radius:4px; outline:none;
 }
 .field select:focus, .field input:focus{border-color:var(--arcane);}
 .tier-row{display:flex; align-items:center; gap:14px; margin-bottom:26px;}
 .tier-row input[type=range]{flex:1; accent-color:var(--arcane);}
-.tier-badge{font-family:'Cinzel',serif; font-weight:700; font-size:20px; color:var(--arcane); min-width:80px; text-align:center; border:1px solid var(--arcane-dim); border-radius:4px; padding:6px 10px;}
+.tier-badge{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-weight:700; font-size:20px; color:var(--arcane); min-width:80px; text-align:center; border:1px solid var(--arcane-dim); border-radius:4px; padding:6px 10px;}
 .calc-results{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px;}
-.result-chip{background:var(--void); border:1px solid rgba(124,156,255,0.15); border-radius:6px; padding:14px 16px;}
+.result-chip{background:var(--void); border:1px solid rgba(43,91,140,0.15); border-radius:6px; padding:14px 16px;}
 .result-chip .rk{font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.05em; color:var(--bone-dim); margin-bottom:6px;}
-.result-chip .rv{font-family:'Cinzel',serif; font-size:19px; color:var(--bone); font-weight:700;}
+.result-chip .rv{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:19px; color:var(--bone); font-weight:700;}
 .result-chip .rv small{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); font-weight:400; margin-left:4px;}
 .calc-note{margin-top:20px; font-size:12.5px; color:var(--bone-dim); line-height:1.6; font-style:italic;}
 
 /* ---- STATIC LIST ---- */
 .static-list{display:grid; gap:12px;}
 .static-item{display:flex; gap:14px; padding:14px 18px; background:var(--stone); border-radius:6px; border-left:3px solid var(--arcane-dim);}
-.static-item b{color:var(--bone); font-family:'Cinzel',serif; font-size:14px; display:block; margin-bottom:3px;}
+.static-item b{color:var(--bone); font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:14px; display:block; margin-bottom:3px;}
 .static-item p{margin:0; color:var(--bone-dim); font-size:13px; line-height:1.55;}
 
 /* ---- PET TRACK ---- */
 .pet-track{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px;}
-.pet-stat{background:var(--stone); border:1px solid rgba(124,156,255,0.15); border-radius:6px; padding:18px;}
-.pet-stat .num{font-family:'Cinzel',serif; font-size:26px; color:var(--arcane); font-weight:900;}
+.pet-stat{background:var(--stone); border:1px solid rgba(43,91,140,0.15); border-radius:6px; padding:18px;}
+.pet-stat .num{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:26px; color:var(--arcane); font-weight:900;}
 .pet-stat .lbl{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); text-transform:uppercase; letter-spacing:.05em; margin-top:4px;}
 
-footer{margin-top:20px; padding-top:24px; border-top:1px solid rgba(124,156,255,0.1); font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); line-height:1.8;}
+footer{margin-top:20px; padding-top:24px; border-top:1px solid rgba(43,91,140,0.1); font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); line-height:1.8;}
 footer a{color:var(--arcane);}
 </style>
 </head>
