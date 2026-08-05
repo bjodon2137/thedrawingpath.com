@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Antonica Codex — Named Mob Loot</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root{
+  --void:#0b0f0d;
+  --stone:#141c18;
+  --stone-2:#1c2621;
+  --bone:#d8cba9;
+  --bone-dim:#a89a78;
+  --bronze:#b08a4e;
+  --accent: #6f9c6a;
+  --accent-2: #c2513f;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-family:'Spectral',serif;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 80px;}
+
+/* ---------- ZONE TABS ---------- */
+.zone-tabs{
+  display:flex; gap:0; border-bottom:1px solid rgba(216,203,169,0.12);
+  background:var(--void); position:sticky; top:0; z-index:20;
+}
+.zone-tab{
+  flex:1; text-align:center; padding:18px 12px;
+  font-family:'Cinzel',serif; font-weight:700; font-size:13px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--bone-dim); cursor:pointer; border-bottom:3px solid transparent;
+  transition:all .2s; background:none; border-top:none; border-left:none; border-right:none;
+}
+.zone-tab small{display:block; font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.05em; text-transform:none; opacity:.7; margin-top:4px;}
+.zone-tab:hover{color:var(--bone);}
+.zone-tab.active{color:var(--bone); border-bottom-color:var(--accent);}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative; padding:56px 24px 44px; overflow:hidden;
+  border-bottom:1px solid rgba(216,203,169,0.12);
+  background: radial-gradient(ellipse 800px 380px at 30% -10%, rgba(111,156,106,0.08), transparent 60%), var(--void);
+  transition:background .3s;
+}
+.hero-inner{max-width:1180px;margin:0 auto;position:relative;z-index:2;}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--bronze); display:flex; align-items:center; gap:10px; margin-bottom:18px;
+}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--bronze);}
+h1{
+  font-family:'Cinzel',serif; font-weight:900; font-size:clamp(32px,5.2vw,58px); line-height:1.0;
+  margin:0 0 14px; letter-spacing:.01em; color:var(--bone);
+}
+.sub{font-size:16px; color:var(--bone-dim); max-width:600px; line-height:1.6; font-style:italic;}
+.stats-row{display:flex; gap:14px; margin-top:26px; flex-wrap:wrap;}
+.stat-chip{
+  font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--bone-dim);
+  border:1px solid rgba(216,203,169,0.18); background:rgba(255,255,255,0.02);
+  padding:8px 14px; border-radius:3px;
+}
+.stat-chip b{color:var(--bone);}
+
+/* ---------- REGION LEGEND ---------- */
+.legend{display:flex; flex-wrap:wrap; gap:1px; background:rgba(216,203,169,0.1);}
+.legend-item{padding:18px 24px; background:var(--void); flex:1; min-width:200px;}
+.legend-item h3{font-family:'Cinzel',serif; font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; margin:0 0 6px;}
+.legend-item p{margin:0; font-size:12.5px; color:var(--bone-dim); line-height:1.5;}
+
+/* ---------- CONTROLS ---------- */
+.controls{
+  display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+  padding:26px 0 20px;
+}
+.search-box{flex:1 1 260px; position:relative;}
+.search-box input{
+  width:100%; background:var(--stone); border:1px solid rgba(216,203,169,0.16); color:var(--bone);
+  font-family:'Spectral',serif; font-size:14.5px; padding:12px 16px 12px 38px; border-radius:3px; outline:none;
+  transition:border-color .2s, box-shadow .2s;
+}
+.search-box input:focus{border-color:var(--bronze); box-shadow:0 0 0 3px rgba(176,138,78,0.15);}
+.search-box::before{content:"⚲"; position:absolute; left:14px; top:50%; transform:translateY(-50%) rotate(90deg); color:var(--bone-dim); font-size:14px;}
+.pill-group{display:flex; gap:6px; flex-wrap:wrap;}
+.pill{
+  font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.04em; padding:9px 14px; border-radius:20px;
+  border:1px solid rgba(216,203,169,0.18); background:transparent; color:var(--bone-dim); cursor:pointer;
+  transition:all .15s; text-transform:uppercase;
+}
+.pill:hover{border-color:var(--bronze); color:var(--bone);}
+.pill.active{background:var(--bronze); color:var(--void); border-color:var(--bronze); font-weight:600;}
+.count{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--bone-dim); margin-left:auto; white-space:nowrap;}
+
+/* ---------- CARDS ---------- */
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); gap:16px;}
+.card{
+  position:relative; background:var(--stone); border:1px solid rgba(216,203,169,0.10); border-radius:4px;
+  padding:20px 20px 18px; transition:transform .18s ease, background .18s ease; cursor:default;
+}
+.card:hover{transform:translateY(-2px); background:var(--stone-2);}
+.card.hidden{display:none;}
+.card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:6px;}
+.card-name{font-family:'Cinzel',serif; font-weight:700; font-size:16px; color:var(--bone); line-height:1.25;}
+.card-meta{font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--bone-dim); white-space:nowrap; padding-top:3px;}
+.region-badge{
+  display:inline-block; font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase;
+  padding:2px 8px; border-radius:2px; margin-bottom:8px;
+}
+.card-loc{font-size:12.5px; color:var(--bone-dim); margin-bottom:14px; font-style:italic;}
+.drops{display:flex; flex-direction:column; gap:8px;}
+.drop-row{display:flex; align-items:baseline; gap:8px; font-size:13px; padding:8px 10px; border-radius:3px; background:rgba(255,255,255,0.02); transition:opacity .2s;}
+.drop-row.found{opacity:.4;}
+.drop-row.found .drop-item{text-decoration:line-through;}
+.drop-check{appearance:none; -webkit-appearance:none; width:15px; height:15px; flex-shrink:0; margin-top:1px; border:1px solid rgba(216,203,169,0.35); border-radius:3px; background:transparent; cursor:pointer; position:relative; transition:all .15s;}
+.drop-check:checked{background:var(--bronze); border-color:var(--bronze);}
+.drop-check:checked::after{content:"✓"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--void); font-weight:700;}
+.drop-tag{font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; padding:2px 7px; border-radius:2px; flex-shrink:0;}
+.drop-tag.common{color:#6f9c6a; border:1px solid rgba(111,156,106,0.4);}
+.drop-tag.rare{color:#c2513f; border:1px solid rgba(194,81,63,0.45); box-shadow:0 0 14px rgba(194,81,63,0.3);}
+.drop-item{color:var(--bone); line-height:1.4;}
+.drop-stats{display:block; color:var(--bone-dim); font-size:11.5px; margin-top:2px;}
+.empty-state{grid-column:1/-1; text-align:center; padding:70px 20px; color:var(--bone-dim); font-style:italic; font-size:15px;}
+.zone-badge{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; padding:3px 9px; border-radius:2px; margin-bottom:8px; margin-right:6px; background:rgba(176,138,78,0.15); color:var(--bronze); border:1px solid rgba(176,138,78,0.4); cursor:pointer;}
+.zone-badge:hover{background:rgba(176,138,78,0.28);}
+.global-toggle{display:flex; align-items:center; gap:7px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); cursor:pointer; padding:9px 14px; border:1px solid rgba(216,203,169,0.18); border-radius:20px; user-select:none; transition:all .15s;}
+.global-toggle:hover{border-color:var(--bronze);}
+.global-toggle.active{background:var(--bronze); color:var(--void); border-color:var(--bronze); font-weight:600;}
+.global-toggle input{display:none;}
+.tracker-chip{cursor:pointer;}
+.tracker-chip:hover{border-color:var(--bronze);}
+footer{margin-top:50px; padding-top:24px; border-top:1px solid rgba(216,203,169,0.1); font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); line-height:1.7; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;}
+.reset-btn{font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--bone-dim); background:none; border:1px solid rgba(216,203,169,0.18); padding:7px 12px; border-radius:3px; cursor:pointer; text-transform:uppercase; letter-spacing:.05em;}
+.reset-btn:hover{border-color:var(--accent-2); color:var(--accent-2);}
+</style>
+</head>
+<body>
+
+<div class="zone-tabs" id="zoneTabs"></div>
+
+<div class="hero" id="heroSection">
+  <div class="hero-inner">
+    <div class="eyebrow" id="zoneEyebrow">EverQuest Legends · Zone Codex</div>
+    <h1 id="zoneTitle">—</h1>
+    <p class="sub" id="zoneSub">—</p>
+    <div class="stats-row">
+      <div class="stat-chip">Level range <b id="zoneLevels">—</b></div>
+      <div class="stat-chip">Respawn <b id="zoneRespawn">—</b></div>
+      <div class="stat-chip">Named spawns <b id="totalCount">—</b></div>
+      <div class="stat-chip tracker-chip" id="trackedChip" title="Total items you've checked off across all zones">Tracked <b id="trackedCount">0</b></div>
+    </div>
+  </div>
+</div>
+
+<div class="legend" id="legend"></div>
+
+<div class="wrap">
+  <div class="controls">
+    <div class="search-box"><input id="search" placeholder="Search a mob or item…" /></div>
+    <label class="global-toggle" id="globalToggle">
+      <input type="checkbox" id="globalSearchChk" />
+      <span>🔍 All 16 Zones</span>
+    </label>
+    <div class="pill-group" id="regionFilters"></div>
+    <div class="pill-group" id="classFilters"></div>
+    <div class="count" id="resultCount"></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    <span>Source: eqlwiki.com · 16-zone codex built for Bryan's EQL prep · Verify drop rates in-game, wiki data drifts patch to patch. Loot tracking is stored only in this browser.</span>
+    <button class="reset-btn" id="resetTracker">Reset tracked loot</button>
+  </footer>
+</div>
+
+<script>
+const ZONES = {
+  lguk: {
+    label: "Lower Guk", short: "LGuk",
+    title: "The Ruins of Guk", eyebrow: "Zone Codex · Lower Guk",
+    sub: "Living Frogloks vs. the Ghoul Lord's undead — two warring halves of the same throne room.",
+    levels: "30–50+", respawn: "28 min",
+    regions: { live: { label:"Live Side", color:"#6f9c6a" }, dead: { label:"Dead Side", color:"#c2513f" } },
+    legend: [
+      {label:"Live Side", color:"#6f9c6a", text:"Living Frogloks under the Froglok King. Killing them costs faction — the maze here is disorienting."},
+      {label:"Dead Side", color:"#c2513f", text:"Ghoul-form Frogloks under the Ghoul Lord. Undead, see through Invis vs. Undead more than you'd like."}
+    ],
+    mobs: [
+      {name:"A minotaur elder", region:"live", cls:"Cleric", lvl:"33", loc:"Elder Room, bottom of ladder in the pit", common:{name:"Carved Ivory Mask", stats:"AC 2 · AGI+4/HP+10 · Reanimation Haste I"}, rare:{name:"Chrysoberyl Talisman", stats:"AC 5 · WIS+3/MANA+20 · Affliction Haste II"}},
+      {name:"Raster of Guk", region:"live", cls:"Monk (v.rare)", lvl:"?", loc:"Upper alcove of Elder Room, by the cauldron", common:{name:"The Idol", stats:"WIS+3/INT+3"}, rare:null},
+      {name:"A minotaur patriarch", region:"live", cls:"Ranger", lvl:"34", loc:"Three-Minotaur Room", common:{name:"Azure Sleeves", stats:"AC 12"}, rare:{name:"Ebony Bladed Sword", stats:"1H Slash · 7dmg/24dly · Ensnaring Roots"}},
+      {name:"Slaythe the Slayer", region:"live", cls:"Special", lvl:"?", loc:"Dead-end north of Jail Room", common:{name:"Broken Bow Part B", stats:"quest item"}, rare:null},
+      {name:"An evil eye", region:"live", cls:"Wizard (sees invis)", lvl:"34-36", loc:"Ledge near Jail Room", common:{name:"Bag of Sewn Evil-Eye", stats:"70% wt reduction · 8 slots"}, rare:{name:"Manastone", stats:"removed from game"}},
+      {name:"A froglok noble", region:"live", cls:"Enchanter", lvl:"39-40", loc:"Noble Room", common:{name:"White Gold Necklace", stats:"CHA+5 · resists +7"}, rare:{name:"Gilded Cloth", stats:"AC 3 · STR+5/AGI+9 · Spell Haste I"}},
+      {name:"A Froglok Yun Priest", region:"live", cls:"Cleric", lvl:"38", loc:"2nd floor, Live Keep", common:{name:"Silver-Plated Leggings", stats:"AC 10 · STR+3/AGI+5"}, rare:{name:"Amethyst Bracelet", stats:"AC 5 · WIS+3/HP+15 · Reagent Conservation II"}},
+      {name:"A froglok crusader", region:"live", cls:"Paladin", lvl:"42", loc:"Bottom floor, Live Keep", common:{name:"Mithril-Runed Tunic", stats:"AC 10 · STA+3/WIS+5 · Spell Haste II"}, rare:{name:"Runed Falchion", stats:"1H Slash · 11dmg/34dly"}},
+      {name:"A huge water elemental", region:"live", cls:"Warrior (aggro, sees invis)", lvl:"35-39", loc:"Huge Elemental Room", common:{name:"Swirling Mist", stats:"—"}, rare:null},
+      {name:"A froglok herbalist", region:"live", cls:"Shaman", lvl:"43", loc:"Herbalist Room", common:{name:"Mithril Frog Totem", stats:"AGI+5/MANA+35"}, rare:{name:"Shimmering White Shroud", stats:"AC 5 · MANA+20 · disease/poison resist +8"}},
+      {name:"The froglok king", region:"live", cls:"Paladin — Boss", lvl:"47", loc:"King Room, guarded by Bok/Kor knights", common:{name:"Crown of the Froglok Kings", stats:"AC 12 · fire/cold resist +20"}, rare:{name:"Mithril Two-Handed Sword", stats:"2H Slash · 21dmg/40dly · Haste +31%"}},
+      {name:"A froglok tactician", region:"live", cls:"Wizard", lvl:"45", loc:"Spawns from King's guards", common:{name:"Black Tome with Silver Runes", stats:"INT+4/MANA+30"}, rare:{name:"Platinum Tiara", stats:"AC 3 · HP+35/MANA+50 · Enhancement Haste II"}},
+      {name:"The ghoul lord", region:"dead", cls:"Shadow Knight — Boss", lvl:"47", loc:"Throne room, guarded by Bok/Guk ghouls", common:{name:"Skull-shaped Barbute", stats:"AC 13 · HP+35 · magic resist +10"}, rare:{name:"Short Sword of the Ykesha", stats:"1H Slash · 9dmg/24dly · Ykesha proc @37"}},
+      {name:"A reanimated hand", region:"dead", cls:"Wizard", lvl:"39-41", loc:"Hand Room, above the water", common:{name:"Serpentine Bracer", stats:"AC 1 · DEX+3/AGI+9 · Burning Affliction II"}, rare:{name:"Adamantite Band", stats:"HP+75 · SV Magic −10 · Summoning Haste I"}},
+      {name:"The ghoul arch magi", region:"dead", cls:"Wizard (rare, 2 dar guards)", lvl:"44ish", loc:"Archmagi Room", common:{name:"Silversilk Leggings", stats:"AC 4 · AGI+4/HP+12"}, rare:{name:"Shining Metallic Robes", stats:"AC 10 · INT+9 · fire/cold resist +8 · Spell Haste II"}},
+      {name:"A frenzied ghoul", region:"dead", cls:"Warrior", lvl:"42", loc:"Frenzied Room (1 of 3 spots)", common:{name:"Moonstone Ring", stats:"STR+3/MANA+30 · Extended Range II"}, rare:{name:"Flowing Black Silk Sash", stats:"Haste +21%"}},
+      {name:"A ghoul sentinel", region:"dead", cls:"Warrior", lvl:"42", loc:"Hidden hallway near Frenzied Room", common:{name:"Dark Mail Gauntlets", stats:"AC 10 · DEX+5/MANA+50"}, rare:{name:"Brigandine Tunic", stats:"AC 17 · STR+7/STA+4"}},
+      {name:"A basalt gargoyle", region:"dead", cls:"Warrior (one sees invis)", lvl:"30-34", loc:"Opposite the Bedroom", common:{name:"Gargoyle Eye / Breath of Solusek", stats:"quest items"}, rare:{name:"Basalt Carapace", stats:"AC 14"}},
+      {name:"A ghoul ritualist", region:"dead", cls:"Necromancer", lvl:"34", loc:"Between two Tal Wizards, near Dead Tower", common:{name:"Embroidered Black Sleeves", stats:"AC 4 · HP+10/MANA+25 · Summoning Efficiency II"}, rare:{name:"Embroidered Black Cape", stats:"AC 4 · HP+15/MANA+20"}},
+      {name:"A ghoul assassin", region:"dead", cls:"Rogue (sees hide/sneak)", lvl:"35", loc:"Store Room, w/ Ghoul Supplier", common:{name:"Mask of Deception", stats:"AC 4 · CHA+13 · Illusion: Dark Elf"}, rare:{name:"Serrated Bone Dirk", stats:"Piercing · 8dmg/27dly · Engulfing Darkness"}},
+      {name:"A ghoul supplier", region:"dead", cls:"Warrior", lvl:"36", loc:"Store Room, w/ Ghoul Assassin", common:{name:"Light Burlap Sack", stats:"65% wt reduction"}, rare:{name:"Thick Banded Belt", stats:"AC 8 · STR+15"}},
+      {name:"A ghoul savant", region:"dead", cls:"Cleric", lvl:"35", loc:"Middle level, Dead Tower, by stairs", common:{name:"Enameled Black Mace", stats:"1H Blunt · 8dmg/28dly"}, rare:{name:"Enameled Black Chestplate", stats:"AC 25"}},
+      {name:"A ghoul cavalier", region:"dead", cls:"Shadow Knight (Harm Touch + pet)", lvl:"36", loc:"Dead Tower room", common:{name:"Adamantite Epaulets", stats:"AC 9 · WIS+7"}, rare:{name:"A Dark Reaver", stats:"2H Slash · 20dmg/42dly · Steal Strength"}},
+      {name:"A ghoul sage", region:"dead", cls:"Wizard", lvl:"37", loc:"Sage Room (tough, many wizards)", common:{name:"Braided Cinch Cord", stats:"AC 2 · INT+4/HP+8"}, rare:{name:"Runed Cowl", stats:"AC 2 · WIS+5/INT+9 · Reanimation Efficiency II"}},
+      {name:"A ghoul executioner", region:"dead", cls:"Warrior", lvl:"35", loc:"Executioner Room, on the platform", common:{name:"Executioners Hood", stats:"AC 5 · STR+4/DEX+9"}, rare:{name:"An Executioners Axe", stats:"2H Slash · 25dmg/50dly · Haste proc @30"}},
+    ]
+  },
+
+  uguk: {
+    label: "Upper Guk", short: "UGuk",
+    title: "The Fallen Halls", eyebrow: "Zone Codex · Upper Guk",
+    sub: "The froglok nursery before the fall — low-level clans thin out into rare finds like Ghoulbane and the Ancient Croc.",
+    levels: "4–25+", respawn: "8 min",
+    regions: { low:{label:"Low Tier", color:"#6f9c6a"}, mid:{label:"Mid Tier", color:"#b08a4e"}, high:{label:"High Tier", color:"#c2513f"} },
+    legend: [
+      {label:"Low Tier", color:"#6f9c6a", text:"Entrance rooms, tuk/gaz clans. Easy solo pulls, best for levels 1-20."},
+      {label:"Mid Tier", color:"#b08a4e", text:"Ton/vis clans, fungus farm, and the main dungeon body. Levels 20-28."},
+      {label:"High Tier", color:"#c2513f", text:"Barracks and the Lower Guk zone line. Shin clan and the zone's two prized rares."}
+    ],
+    mobs: [
+      {name:"An ancient croc", region:"high", cls:"Warrior (rare)", lvl:"30", loc:"Croc Room, PH is 1-5 saltwater crocs", common:{name:"Gatorscale Leggings", stats:"AC 7 · WIS+4/HP+15"}, rare:{name:"Gatorscale Sleeves", stats:"AC 6 · INT+4/HP+15 · Enhancement Haste I"}},
+      {name:"The froglok shin lord", region:"high", cls:"Paladin", lvl:"30", loc:"Barracks", common:{name:"Silver-Plated Bracer", stats:"AC 7 · disease/poison resist +5"}, rare:{name:"Ghoulbane", stats:"1H Slash · 15dmg/34dly · Dismiss Undead @20"}},
+      {name:"The froglok warden", region:"mid", cls:"Rogue (self-invis on spawn)", lvl:"25", loc:"Room north of safe underwater cove", common:{name:"Elf-Hide Gloves", stats:"AC 4 · DEX+5/AGI+5"}, rare:{name:"Troll-Hide Belt", stats:"AC 5 · STR+5/STA+5"}},
+      {name:"A froglok realist", region:"mid", cls:"Shaman", lvl:"22", loc:"Room near idealist", common:{name:"Pouch of Ghoul Ash", stats:"See Invisible clickie"}, rare:{name:"Reed Ring", stats:"DEX+2/HP+10"}},
+      {name:"A froglok idealist", region:"low", cls:"Shaman", lvl:"20", loc:"Entrance-area room", common:{name:"Vial of Egg Whites", stats:"Enduring Breath clickie"}, rare:{name:"Moss Mask", stats:"AC 2 · 10 charges Enduring Breath"}},
+      {name:"A froglok scryer", region:"mid", cls:"Enchanter (can charm your pet)", lvl:"21", loc:"Temple room", common:{name:"Bracelet of Woven Grass", stats:"AC 1 · INT+3/HP+12 · Spell Haste I"}, rare:{name:"A Shimmering Orb", stats:"AC 15 · HP+20 · Summoning Haste I"}},
+      {name:"A froglok gaz squire", region:"low", cls:"Warrior", lvl:"17", loc:"Ramp Room", common:{name:"Collar of Undead Protection", stats:"AC 5 · disease/poison resist +7"}, rare:{name:"Runed Bone Fork", stats:"Piercing · 5dmg/29dly · Backstab 5 · triple resist +10"}},
+      {name:"A giant heart spider", region:"low", cls:"Warrior (social, aggressive)", lvl:"15-21", loc:"The Pits", common:{name:"Chitin Shell Shield", stats:"AC 15 · poison resist +10"}, rare:{name:"Chitin Shell Armor", stats:"AC 17 · poison resist +10"}},
+      {name:"A Fungus Mutant", region:"mid", cls:"Ranger (social, heals allies)", lvl:"23", loc:"Mushroom Farm", common:{name:"Guk Bracket Mildew", stats:"quest item"}, rare:{name:"Degenerated Guk Weed", stats:"quest item"}},
+      {name:"A froglok priest", region:"mid", cls:"Cleric", lvl:"24", loc:"Enchanter-quest room", common:{name:"Golden Rod", stats:"1H Blunt · 6dmg/30dly"}, rare:null},
+      {name:"A froglok summoner", region:"mid", cls:"Magician (summons random pet)", lvl:"28", loc:"Same room as priest", common:{name:"Brazier of Elemental Summoning", stats:"1-charge Elemental: Fire"}, rare:{name:"A Shimmering Orb / Lens of Glowing Amber", stats:"AC 15 · HP+20"}},
+      {name:"A Froglok Tonta Knight", region:"low", cls:"Warrior", lvl:"28", loc:"Room with the idealist", common:{name:"Soiled Boots", stats:"AC 4"}, rare:null},
+      {name:"A Skeletal Monk", region:"mid", cls:"Monk", lvl:"23-28", loc:"Pits / secret room with Tempus", common:{name:"Glowing Mask", stats:"AC 2, Enchanter only"}, rare:null},
+      {name:"Tempus", region:"mid", cls:"Necromancer (Dark Elf, rare)", lvl:"25-26", loc:"Secret room near the Pits, assists Skeletal Monk", common:null, rare:null},
+      {name:"A froglok nokta shaman", region:"mid", cls:"Shaman", lvl:"27", loc:"Room 3 on map, PH is a Vis Shaman", common:{name:"Globe of Shadow", stats:"NEC-only clickie"}, rare:null},
+    ]
+  },
+
+  solb: {
+    label: "Nagafen's Lair", short: "Sol B",
+    title: "Nagafen's Lair", eyebrow: "Zone Codex · Nagafen's Lair (Sol B)",
+    sub: "Kobold halls give way to bat-and-bug tunnels, an Efreeti's lava chamber, a Fire Giant castle, and Lord Nagafen himself at the bottom of it all.",
+    levels: "40–55", respawn: "22 min",
+    regions: {
+      "Kobold Halls": {label:"Kobold Halls", color:"#c98a4e"},
+      "Bug/Spider Dens": {label:"Bug/Spider Dens", color:"#9b6fc9"},
+      "Efreeti Lair": {label:"Efreeti Lair", color:"#e0a640"},
+      "Fire Giant Castle": {label:"Fire Giant Castle", color:"#c2513f"},
+      "Dragon's Lair": {label:"Dragon's Lair", color:"#f2c14e"}
+    },
+    legend: [
+      {label:"Kobold Halls", color:"#c98a4e", text:"The entrance tier — three 'Royals' (king, priest, champion) plus the noble and Targin the Rock."},
+      {label:"Bug/Spider Dens", color:"#9b6fc9", text:"Sonic bats and giant spiders. Everything here sees through invisibility."},
+      {label:"Efreeti Lair", color:"#e0a640", text:"A lava-pool chamber guarded by Lava Guardians, home to Efreeti Lord Djarn."},
+      {label:"Fire Giant Castle", color:"#c2513f", text:"High-level giants immune to mez/charm below very high enchanter skill. Feign-pull territory."},
+      {label:"Dragon's Lair", color:"#f2c14e", text:"Lord Nagafen himself — one of EverQuest's three original raid bosses."}
+    ],
+    mobs: [
+      {name:"Lord Nagafen", region:"Dragon's Lair", cls:"Warrior — Raid Boss", lvl:"55", loc:"Innermost lair (-1395,-871)", common:{name:"Gold Plated Koshigatana / Prayers of Life", stats:"Piercing 9dmg/25dly, Backstab 9, Dismiss Summoned"}, rare:{name:"Bladestopper / Cloak of Flames / Hierophant's Crook", stats:"AC 25, Rune IV · AC10 Haste+36% · 2H Blunt 20dmg Earthquake"}},
+      {name:"King Tranix", region:"Fire Giant Castle", cls:"Shadow Knight", lvl:"52", loc:"Throne Room, Harm Touch >700", common:{name:"Polished Mithril Torque", stats:"AC 7 · WIS+13/INT+13"}, rare:{name:"Crown of King Tranix", stats:"AC 13 · CHA+15 · magic resist +20 (raid instance only)"}},
+      {name:"Warlord Skarlon", region:"Fire Giant Castle", cls:"Warrior", lvl:"53", loc:"Skarlon Room", common:{name:"Mithril Vambraces / Greaves", stats:"AC 10 · STR+7 · magic resist +5"}, rare:{name:"Razing Sword of Skarlon", stats:"2H Slash · 25dmg/40dly (ultra-rare, raid instance only)"}},
+      {name:"Magi Rokyl", region:"Fire Giant Castle", cls:"Wizard", lvl:"51", loc:"Guardian of Nagafen's inner lair", common:{name:"Polished Mithril Mask", stats:"AC 5 · WIS+7/INT+7 · Improved Damage II"}, rare:{name:"Rokyl's Channelling Crystal", stats:"AC 10 · HP+50/MANA+50 · Extended Enhancement III"}},
+      {name:"Efreeti Lord Djarn", region:"Efreeti Lair", cls:"Wizard", lvl:"50", loc:"Efreeti Room, 2 other mobs + 1 pathing mob nearby", common:{name:"Golden Efreeti Boots", stats:"AC 5 · WIS+9/INT+9 · Enhancement Haste II"}, rare:{name:"Djarn's Amethyst Ring", stats:"AGI+9/HP+80 · Spell Haste II"}},
+      {name:"Kobold priest", region:"Kobold Halls", cls:"Cleric", lvl:"40", loc:"Priest Room, behind a false wall", common:{name:"Carnal Pauldrons", stats:"AC 9 · DEX+7/MANA+15"}, rare:{name:"Mithril Breastplate", stats:"AC 17 · AGI+15/HP+30"}},
+      {name:"Kobold noble", region:"Kobold Halls", cls:"Enchanter (charms)", lvl:"38", loc:"Noble Room, usually with a pet", common:{name:"Staff of Writhing", stats:"1H Blunt · 9dmg/33dly · Chaotic Feedback @28"}, rare:{name:"Petrified Erudite Heart Amulet", stats:"AC 2 · INT+5/MANA+15"}},
+      {name:"Kobold champion", region:"Kobold Halls", cls:"Warrior", lvl:"39", loc:"Champion Room, south ledge of the three Royals", common:{name:"Shield of the Slain Unicorn", stats:"AC 9 · Piercing 10dmg/40dly"}, rare:{name:"Painbringer", stats:"1H Slash · 7dmg/23dly · Word of Pain @17"}},
+      {name:"Solusek kobold king", region:"Kobold Halls", cls:"Shadow Knight", lvl:"42", loc:"King Room, spawns beside two Solusek Kobolds", common:{name:"Runed Mithril Bracer", stats:"AC 4 · STR+3/WIS+5 · Reagent Conservation III"}, rare:{name:"Fleshripper", stats:"2H Slash · 20dmg/42dly · Word of Shadow @35"}},
+      {name:"Targin the Rock", region:"Kobold Halls", cls:"Monk", lvl:"35-39", loc:"Left of the throne in King Room", common:{name:"Code of Zan Fi", stats:"STR+2, part of the 'Royals' set"}, rare:null},
+      {name:"Death beetle", region:"Bug/Spider Dens", cls:"Warrior (procs unique DoT)", lvl:"40-42", loc:"Room between bats/bugs and Efreeti", common:{name:"Black Chitin Leggings", stats:"AC 7 · HP+10/MANA+10"}, rare:{name:"Death Scarab Gland", stats:"1-charge Burrowing Scarab"}},
+      {name:"Noxious spider", region:"Bug/Spider Dens", cls:"Warrior (1200dmg poison DoT)", lvl:"43-45", loc:"Nox Corridor", common:{name:"Green Silken Drape", stats:"AC 8 · DEX+9/STA+9/INT+3 · poison resist +15"}, rare:{name:"Golden Chitin Bracer", stats:"AC 5 · INT+5/AGI+5"}},
+      {name:"Stone spider", region:"Bug/Spider Dens", cls:"Warrior (resists MR-based attacks)", lvl:"44-46", loc:"Stone Spider Room", common:{name:"Crystalline Orb", stats:"5-charge Eye of Zomm"}, rare:{name:"Brown Chitin Protector", stats:"AC 12 · DEX+9/STA+9/AGI+9, DRU only"}},
+      {name:"Guano harvester", region:"Bug/Spider Dens", cls:"Warrior (invisible, long wander path)", lvl:"25", loc:"Collector's Room", common:{name:"Large Soiled Bag", stats:"100% wt reduction, 10 slots"}, rare:{name:"Cloak of Shadows", stats:"AC 12 · DEX+13 · disease resist +10"}},
+      {name:"Midghh the Dark", region:"Kobold Halls", cls:"Warrior (Dark Elf, ultra-rare)", lvl:"35", loc:"Paths from Priest Room, no faction hits", common:{name:"Bronze Two-Handed Battle Axe", stats:"2H Slash · 9dmg/46dly"}, rare:null},
+    ]
+  },
+
+  blackburrow: {
+    label: "Blackburrow", short: "Blackburrow",
+    title: "Blackburrow", eyebrow: "Zone Codex · Blackburrow",
+    sub: "Home of the Splitpaw gnoll clan — a single tunnel spirals down three crowded, social floors around a deep central pit.",
+    levels: "4–22", respawn: "22 min",
+    regions: { floor1:{label:"Floor One", color:"#6f9c6a"}, floor2:{label:"Floor Two", color:"#b08a4e"}, floor3:{label:"Floor Three", color:"#c2513f"} },
+    legend: [
+      {label:"Floor One", color:"#6f9c6a", text:"Entrance ring around The Pit. Weak pups and scrawny gnolls, easy solo pulls."},
+      {label:"Floor Two", color:"#b08a4e", text:"Commander and shaman territory. Gnolls here are very social — expect chain-aggro."},
+      {label:"Floor Three", color:"#c2513f", text:"The deepest ring: brewers, sharpshooters, and Lord Elgnub's throne room."}
+    ],
+    mobs: [
+      {name:"Tranixx Darkpaw", region:"floor1", cls:"Warrior", lvl:"10", loc:"Patrols floor 1 spawn room, also roams North Qeynos", common:{name:"Ruined Blackburrow Gnoll Pelt", stats:"—"}, rare:null},
+      {name:"A giant plague rat", region:"floor1", cls:"Warrior", lvl:"10", loc:"Plague Rat storeroom, landmark #1", common:{name:"Balanced Rat Tooth", stats:"Throwing · 6dmg/36dly"}, rare:{name:"Rat Paw Talisman", stats:"AC+2 · MANA+2 · WIS+2"}},
+      {name:"Splitpaw Sentry", region:"floor1", cls:"Ranger", lvl:"10", loc:"Ledge overlooking The Pit", common:{name:"Crude Arrow", stats:"Archery ammo, 3dmg"}, rare:{name:"Raw-Hide Arm Guard", stats:"AC 2 · STA+2"}},
+      {name:"Refugee Splitpaw", region:"floor2", cls:"Shaman", lvl:"14", loc:"Alcove SE of the Elite Gnoll room", common:{name:"Runed Shawl", stats:"AC 3 · INT+2/WIS+2 · resists +3"}, rare:{name:"Runed Totem Staff", stats:"2H Blunt · 9dmg/37dly · HP+5/MANA+5"}},
+      {name:"The gnoll high shaman", region:"floor2", cls:"Shaman", lvl:"15", loc:"High Shaman Room", common:{name:"Elven Charm Necklace", stats:"CHA+3 · Extended Range I"}, rare:{name:"Wooden Totem", stats:"MANA+10"}},
+      {name:"Sabertooth Clan Necromancer", region:"floor2", cls:"Necromancer", lvl:"15", loc:"Floor Spike Room", common:{name:"Ill-Fitting Slippers", stats:"AC 2 · STR+2/INT+2"}, rare:{name:"Ill-Fitting Robes", stats:"Reanimation Efficiency I"}},
+      {name:"Socho Darkpaw", region:"floor2", cls:"Rogue", lvl:"13", loc:"Under a land bridge, floor two", common:{name:"Darkpaw Sash", stats:"AC 2 · DEX+2 · cold resist +3"}, rare:{name:"Vagrant's Tunic", stats:"AC 8 · HP+5/WIS+4 · cold resist +10"}},
+      {name:"Mannan of the Sabertooth", region:"floor2", cls:"Warrior", lvl:"15", loc:"Small room up the ramp east of Floor Spike room", common:{name:"Spiked Buckler", stats:"AC 10 · DEX+2 · fire/cold resist +5"}, rare:null},
+      {name:"A gnoll commander", region:"floor2", cls:"Warrior", lvl:"13-15", loc:"Landmarks #3-4, floor two", common:{name:"Onyx Earring / Spiked Collar", stats:"AGI+2 · AC3/STR+3"}, rare:{name:"Rusty Spiked Shoulderpads", stats:"AC 3 · STR+5 · magic resist −10"}},
+      {name:"Splitpaw Commander", region:"floor2", cls:"Warrior", lvl:"14", loc:"Two spawns: floor 2 river overlook + floor 3 banner room", common:{name:"Onyx Earring", stats:"AGI+2"}, rare:{name:"Bark Splinted Shoulderpads / Gnoll Hide Lariat", stats:"AC 10, resists +3 · 1H Slash 3dmg/20dly Stun@25"}},
+      {name:"Lord Elgnub", region:"floor3", cls:"Shadow Knight — Boss", lvl:"22", loc:"Lord's Room, floor three", common:{name:"Dark Runed Leggings", stats:"AC 5 · HP+10 · INT+5"}, rare:{name:"Wicked Sallet", stats:"AC 10 · STR+3/STA+3/INT+2 · Mana Preservation I"}},
+      {name:"Master Brewer", region:"floor3", cls:"Warrior", lvl:"18", loc:"Brewer's Barrel Supply, floor three", common:{name:"Blackburrow Cask", stats:"guaranteed drop, 8-slot container"}, rare:{name:"Keg Mallet / Pub Pants", stats:"1H Blunt 9dmg/30dly · AC6 MANA+10/END+10 AGI+5"}},
+      {name:"Refugee Splitpaw (Monk)", region:"floor3", cls:"Monk", lvl:"18", loc:"Refugee's Hide, floor three", common:{name:"Ruined Blackburrow Gnoll Pelt", stats:"—"}, rare:{name:"Refugee Shroud / Sharp Claws", stats:"AC2 CHA+4 Shrink clicky · H2H 7dmg/24dly Laceration"}},
+      {name:"Sabertooth Overseer", region:"floor3", cls:"Berserker", lvl:"20", loc:"First named gnoll on floor three", common:{name:"Hardened Bark Breastplate", stats:"AC 16 · END+15 · disease/poison resist +10"}, rare:{name:"Runed Sabertooth Girdle", stats:"AC 5 · STA+5/WIS+5"}},
+      {name:"Splitpaw Explorer", region:"floor3", cls:"Rogue", lvl:"18", loc:"Explorer's Alcove, floor three", common:{name:"Burrowing Goggles", stats:"AC5 HP+10 INT+5 · Burning Affliction I"}, rare:{name:"Well Worn Boots", stats:"AC6 END+5 WIS+3"}},
+      {name:"Splitpaw Sharpshooter", region:"floor3", cls:"Ranger", lvl:"20", loc:"Sharpshooter Ledge, north of the Overseer", common:{name:"Sharpshooter's Bandana", stats:"AC3 STR+3/DEX+3"}, rare:{name:"Sabertooth Short Bow", stats:"Archery 6dmg/30dly · Knee Shot"}},
+    ]
+  },
+
+  befallen: {
+    label: "Befallen", short: "Befallen",
+    title: "Befallen", eyebrow: "Zone Codex · Befallen",
+    sub: "A fallen monastery turned undead crypt, gated behind three shadowknight-guarded keys that unlock progressively deeper — and deadlier — halls.",
+    levels: "7–28", respawn: "4:27",
+    regions: { upper:{label:"Upper Levels (1-2)", color:"#6f9c6a"}, level3:{label:"Level Three", color:"#c2513f"} },
+    legend: [
+      {label:"Upper Levels (1-2)", color:"#6f9c6a", text:"Key-bearing shadowknights guard three locked doors here — clear them to descend."},
+      {label:"Level Three", color:"#c2513f", text:"The Dark Elf V'Zher enclave and the necromancer wing — the real reason people come to Befallen."}
+    ],
+    mobs: [
+      {name:"A shadowknight (Dark Elf Male)", region:"upper", cls:"Warrior", lvl:"6-9", loc:"Room west of the well", common:null, rare:{name:"Splintered Wooden Key", stats:"1st dungeon key (always)"}},
+      {name:"A shadowknight (Human)", region:"upper", cls:"Shadowknight", lvl:"9-11", loc:"Pit trap room, landmark #3", common:{name:"Antiqued Silver Band", stats:"AC 2"}, rare:{name:"Charred Bone Key", stats:"2nd dungeon key (always)"}},
+      {name:"A shadowknight (Ogre)", region:"upper", cls:"Warrior", lvl:"12-13", loc:"Landmark #4, floor one", common:{name:"Smoked Glass Key", stats:"3rd dungeon key (always)"}, rare:{name:"Barbed Armplates", stats:"AC 7 · DEX+2"}},
+      {name:"Skeleton L'rodd", region:"upper", cls:"Warrior", lvl:"11-13", loc:"Alcove in the first room", common:{name:"Skeletal Rod", stats:"1H Blunt · 4dmg/27dly"}, rare:{name:"Pristine Studded Leather Boots", stats:"AC 6 · AGI+5 · cold resist +3"}},
+      {name:"A shadowknight (Troll)", region:"level3", cls:"Shadow Knight", lvl:"15", loc:"Level three spawn area #3", common:{name:"any Befallen key", stats:"—"}, rare:{name:"Bone Bladed Claymore", stats:"2H Slash · 17dmg/45dly · AGI −8"}},
+      {name:"A shadowknight (Dark Elf Female)", region:"level3", cls:"Shadow Knight", lvl:"10-14", loc:"Level three spawn area #6", common:{name:"any Befallen key", stats:"—"}, rare:{name:"Barbed Legplates", stats:"AC 8 · AGI+2"}},
+      {name:"The Thaumaturgist", region:"level3", cls:"Necromancer", lvl:"18-19", loc:"Spawn area #2, level three", common:{name:"Dagger of Marnek / Soft Leather Boots", stats:"Piercing 3dmg/30dly INT+3/MANA+15 · AC4"}, rare:{name:"Thaumaturgist's Robe / full Damask set", stats:"AC 5 · AGI+3"}},
+      {name:"Priest Amiaz", region:"level3", cls:"Necromancer", lvl:"17", loc:"Spawn area #2, level three", common:{name:"Golden Earring / Star Rose Quartz", stats:"—"}, rare:{name:"Blackened Wand", stats:"STA+1 · magic resist +5"}},
+      {name:"An Elf Skeleton", region:"level3", cls:"Warrior", lvl:"17-18", loc:"Spawn area #5, beside the bottom locked door", common:{name:"Mallet Head / Mallet Hilt", stats:"Thex Mallet quest pieces"}, rare:null},
+      {name:"Boondin Babbinsbort", region:"level3", cls:"Necromancer", lvl:"25", loc:"North of spawn area #6", common:{name:"Dagger", stats:"Piercing · 3dmg/20dly"}, rare:{name:"Icon of the Ardent", stats:"quest item, no drop"}},
+      {name:"Cmdr Windstream", region:"level3", cls:"Necromancer (Zombie)", lvl:"26", loc:"Triggered spawn after Thex Mallet turn-in", common:{name:"Mallet Stem", stats:"quest item"}, rare:null},
+      {name:"Arisen Thaumaturgist", region:"level3", cls:"Necromancer (Ghoul)", lvl:"20", loc:"(-485, 86)", common:{name:"Pristine Studded Leather Bracer", stats:"AC 6 · HP+5/INT+2 · fire resist +3"}, rare:null},
+      {name:"Baron Telyx V`Zher", region:"level3", cls:"Paladin", lvl:"28", loc:"Dark Elf enclave, (-1002, -80)", common:{name:"The Baron's Blade", stats:"1H Slash · 10dmg/30dly · DEX+5/STA+5/HP+5"}, rare:{name:"Pristine Studded Leather Tunic", stats:"AC 14 · STR+2/AGI+2/DEX+2"}},
+      {name:"Footman of V`Zher", region:"level3", cls:"Warrior", lvl:"20", loc:"Dark Elf enclave", common:{name:"Pristine Studded Leather Gloves", stats:"AC 5 · MANA+5 · DEX+2/WIS+2"}, rare:{name:"Silver Plated War Sword", stats:"2H Slash · 15dmg/38dly · STR+5/HP+15"}},
+      {name:"Soldier of V`Zher", region:"level3", cls:"Warrior", lvl:"26", loc:"Dark Elf enclave", common:{name:"Pristine Studded Leather Leggings", stats:"AC 12 · STA+5/DEX+2"}, rare:{name:"Pristine Studded Leather Sleeves", stats:"AC 8 · HP+5 · STR+3/STA+2"}},
+      {name:"Knight V`Tal", region:"level3", cls:"Shadowknight", lvl:"24", loc:"Dark Elf enclave, (-894, 126)", common:{name:"Enchanted Fine Steel Long Sword", stats:"1H Slash · 7dmg/28dly · STR+5/AGI+2"}, rare:{name:"Enchanted Fine Steel Bastard Sword", stats:"2H Slash · 20dmg/42dly · STR+7"}},
+      {name:"Korven Nisere", region:"level3", cls:"Rogue", lvl:"24", loc:"Dark Elf enclave, (-990, -190)", common:{name:"Enchanted Fine Steel Rapier", stats:"Piercing · 5dmg/19dly · STR+2/AGI+5"}, rare:{name:"Shimmering Ruby Stiletto", stats:"Piercing · 10dmg/30dly · Ignite proc, poison resist +10"}},
+      {name:"Asaka L`Rei", region:"level3", cls:"Shadowknight", lvl:"16", loc:"Dark Elf enclave, (-391, 97)", common:{name:"Enchanted Fine Steel Morning Star", stats:"1H Blunt · 7dmg/30dly · STR+2/WIS+5"}, rare:{name:"Ebon Scythe", stats:"2H Slash · 17dmg/45dly · STR+5/INT+2, CHA −10"}},
+      {name:"Kahaptra Z`Taj", region:"level3", cls:"Wizard", lvl:"22", loc:"Dark Elf enclave, (-795, -161)", common:{name:"Golem Metal Wand", stats:"unlimited-charge Pillage Enchantment"}, rare:null},
+      {name:"Gynok Moltor", region:"level3", cls:"Rogue (Zombie)", lvl:"24", loc:"(-80, -45), Ring of Opolla quest", common:{name:"Copper / Silver / Gold Ring", stats:"Ring of Opolla series"}, rare:{name:"Platinum Ring", stats:"CHA −1/AGI+1"}},
+    ]
+  },
+
+  splitpaw: {
+    label: "Splitpaw Lair", short: "Splitpaw",
+    title: "Splitpaw Lair", eyebrow: "Zone Codex · Splitpaw Lair",
+    sub: "A gnoll god's footprint pressed into South Karana — a caste hierarchy of Mas/Mal/Val gnolls scaling from the entrance to the Ishva's inner sanctum.",
+    levels: "20–40", respawn: "20-28 min",
+    regions: { entrance:{label:"Entrance / Double Doors", color:"#6f9c6a"}, mid:{label:"Judges & Vals", color:"#b08a4e"}, ishva:{label:"Ishva Area", color:"#c2513f"} },
+    legend: [
+      {label:"Entrance / Double Doors", color:"#6f9c6a", text:"Lowest camp in the dungeon, good for mid-30s. Don't pull the bridge roamer."},
+      {label:"Judges & Vals", color:"#b08a4e", text:"Executioner/Judges room — invis works here since nothing sees through it. Great trio spot."},
+      {label:"Ishva Area", color:"#c2513f", text:"The highest-level spot in the dungeon, reached via an underwater passage. Could solo-level 40-50 here."}
+    ],
+    mobs: [
+      {name:"A Lteth Val Scribe", region:"entrance", cls:"Enchanter", lvl:"30", loc:"Back passage after the first rock bridge", common:null, rare:{name:"Journal of Greater Enchantment", stats:"quest item, no drop"}},
+      {name:"Brother Hayle", region:"entrance", cls:"Cleric", lvl:"24", loc:"Prison area", common:null, rare:null},
+      {name:"Kurrpok Splitpaw", region:"entrance", cls:"Shaman", lvl:"25", loc:"(1184, 113)", common:{name:"Ruby Pendant / Bronze Bastard Sword", stats:"INT+1 · 1H Slash 7dmg/42dly"}, rare:{name:"Dagger of Dropping / Split Paw Hide Mask", stats:"Piercing 4dmg/22dly Weaken@15 · AC3 magic/poison resist +5"}},
+      {name:"Tesch Val Deval`Nmak", region:"mid", cls:"Warrior", lvl:"39", loc:"(1445, 90), room of 4 mobs total", common:{name:"Thick Amber Potion", stats:"1-charge Greater Healing @45"}, rare:null},
+      {name:"Rosch Val L'Vlor", region:"mid", cls:"Magician", lvl:"39", loc:"(1304, -21), AE Rain caster", common:null, rare:{name:"Gnoll Hide Tome", stats:"STR−10/WIS+5/INT+10/HP+15 · poison resist +10"}},
+      {name:"Nisch Val Torash Mashk", region:"mid", cls:"Cleric", lvl:"39", loc:"(1062, -168), complete-heals under 25%", common:null, rare:{name:"Devlas Ilkvel / Tesch Val Sinisch", stats:"AC12 DEX+5 poison+7 · Piercing 9dmg/33dly Backstab9 WIS+4/INT+4"}},
+      {name:"Verishe Mal Judge", region:"mid", cls:"Cleric", lvl:"34-39", loc:"Surrounds the Executioner", common:{name:"Fine Steel Weapons / Split Paw Hide Belt", stats:"—"}, rare:null},
+      {name:"Verishe Mal Executioner", region:"mid", cls:"Warrior", lvl:"34", loc:"(1171, 113)", common:{name:"Split Paw Hide Gloves / Fine Steel Weapons", stats:"AC4 · DEX+3/WIS+2"}, rare:null},
+      {name:"Tesch Val Kadvem", region:"mid", cls:"Warrior", lvl:"39", loc:"(405, -154)", common:{name:"Fine Steel Scimitar", stats:"1H Slash 5dmg/24dly, quest item"}, rare:{name:"Vacra Av Svim", stats:"1H Slash 8dmg/31dly · AGI+6/HP+5"}},
+      {name:"A one eyed gnoll", region:"mid", cls:"Warrior", lvl:"35", loc:"Solo in a cave", common:{name:"Split Paw Hide Gloves", stats:"AC4 · DEX+3/WIS+2"}, rare:{name:"Gnoll's Eye", stats:"quest item, no drop"}},
+      {name:"An Ishva Lteth gnoll", region:"ishva", cls:"Cleric", lvl:"36-37", loc:"(719, -450), placeholder for The Ishva Mal", common:{name:"Tanned Split Paw Skin (lore)", stats:"scroll turn-in item"}, rare:null},
+      {name:"A Nisch Val Guard", region:"ishva", cls:"Cleric", lvl:"38-39", loc:"(664, -419), Ishva's bodyguard", common:{name:"Fine Steel Spear / Ringmail Boots", stats:"—"}, rare:null},
+      {name:"A Tesch Val Guard", region:"ishva", cls:"Warrior", lvl:"38-39", loc:"(664, -453), Ishva's bodyguard", common:{name:"Rain Water / White Hellebore", stats:"—"}, rare:null},
+      {name:"The Ishva Mal", region:"ishva", cls:"Necromancer — Boss", lvl:"40", loc:"Spawns then runs east, 36hr timer for Robe", common:{name:"Scroll: Summon Corpse / Brain of the Ishva Mal", stats:"quest item"}, rare:{name:"Robe of the Ishva", stats:"AC8 · CHA+5/MANA+50 · poison resist +14 · Summoning Efficiency II"}},
+    ]
+  },
+
+  crushbone: {
+    label: "Crushbone", short: "Crushbone",
+    title: "Clan Crushbone", eyebrow: "Zone Codex · Crushbone",
+    sub: "The orc clan menacing Kelethin — a ring-shaped citadel with tents, slave pits, and Emperor Crush's throne room at the highest tier.",
+    levels: "5–21", respawn: "9 min",
+    regions: { tents:{label:"Tents / Slave Pits", color:"#6f9c6a"}, hill:{label:"Trainer Hill / Wall", color:"#b08a4e"}, keep:{label:"Castle Crush", color:"#c2513f"} },
+    legend: [
+      {label:"Tents / Slave Pits", color:"#6f9c6a", text:"Entrance-tier orcs plus the dwarf/elf slave cabins for the Screaming Mace quest chain."},
+      {label:"Trainer Hill / Wall", color:"#b08a4e", text:"Classic mid-level camps — 6-7 orcs at a time, fast respawns, good belt/shoulderpad farming."},
+      {label:"Castle Crush", color:"#c2513f", text:"The keep and throne room — legionnaires, oracles, and Emperor Crush himself in the tower."}
+    ],
+    mobs: [
+      {name:"Rondo Dunfire", region:"tents", cls:"Rogue", lvl:"9", loc:"Slaver cave, main room", common:{name:"Dwarven Blood", stats:"—"}, rare:{name:"Rondo's Tongue", stats:"quest item, no drop"}},
+      {name:"Retlon Brenclog", region:"tents", cls:"Magician", lvl:"16", loc:"(274, -136), Slaver Pit", common:{name:"Gnome Meat", stats:"quest item"}, rare:null},
+      {name:"Orc Taskmaster", region:"tents", cls:"Monk", lvl:"12", loc:"Slaver Pit, (245, -152)", common:{name:"Brass Earring", stats:"AC2, slaver-quest item"}, rare:{name:"Leather Whip", stats:"1H Slash 5dmg/30dly, quest item"}},
+      {name:"Bloodgurgler", region:"tents", cls:"Enchanter", lvl:"19", loc:"Back tree at Slaver Pits", common:{name:"Rib-bone Stiletto", stats:"Piercing 4dmg/18dly Backstab7"}, rare:{name:"Spiky Splintmail", stats:"AC12 HP+15/STA+5, Shield of Fire"}},
+      {name:"Orc Warden", region:"hill", cls:"Warrior", lvl:"15", loc:"(107, 435)", common:{name:"Bracers of Battle", stats:"AC3 · STR+1/DEX+3"}, rare:{name:"Master Crushbone Cell Key", stats:"no drop, quest key"}},
+      {name:"Orc Trainer", region:"hill", cls:"Warrior", lvl:"13", loc:"Trainer Hill, (-151, 40)", common:{name:"Crushbone Cadet's Grimoire", stats:"MANA+5 · INT+2/WIS+2"}, rare:{name:"Shiny Brass Shield", stats:"AC10 · magic resist +10"}},
+      {name:"Orc oracle", region:"hill", cls:"Shaman", lvl:"19-21", loc:"Multiple spawn points", common:{name:"Ornament of the Oracle", stats:"HP+5/MANA+10 · WIS+1/INT+1/CHA+2"}, rare:{name:"Crushbone Fetish", stats:"AC8 MANA+10 · WIS+3/INT+3, magic resist +2"}},
+      {name:"Orc Warlord", region:"hill", cls:"Warrior", lvl:"16", loc:"(192, -22), outside near round table", common:{name:"Bracers of Battle", stats:"AC3 · STR+1/DEX+3"}, rare:{name:"Deteriorated Ancient Faydark Longbow", stats:"Archery 14dmg/55dly · HP+5/MANA+5/END+5"}},
+      {name:"The Prophet", region:"keep", cls:"Shaman", lvl:"17", loc:"(86,-62) or (310,20)", common:{name:"Disgusting Padded Shirt / Rotting Faydark Mask", stats:"AC12 HP+9 WIS+2 · AC5 END+5 STA+2"}, rare:{name:"Blue Orc Head / Tergon's Spellbook", stats:"quest/lore items"}},
+      {name:"Marrowbane", region:"keep", cls:"Magician", lvl:"19-21", loc:"North of the keep entrance", common:{name:"Wood Elf Scout Bauble", stats:"AC1 HP+5/END+5 AGI+2"}, rare:{name:"Grimy Black Silk Robe", stats:"AC6 MANA+10 · AGI+2/INT+5"}},
+      {name:"Chokehold", region:"keep", cls:"Rogue", lvl:"20", loc:"Under the keep tower", common:{name:"Carved Walking Stick", stats:"1H Blunt 6dmg/25dly · MANA+5"}, rare:{name:"Armband of Serrated Teeth", stats:"STR+1/STA+2/DEX+1 disease resist +2"}},
+      {name:"Lord Darish", region:"keep", cls:"Warrior", lvl:"14-17", loc:"Spawns in front of the throne", common:{name:"Dwarven Axe / Bandolier of Teeth", stats:"1H Slash 6dmg/26dly · HP+10 poison resist +1"}, rare:{name:"Dwarven Two-Handed Axe / Torn Elvish Tapestry", stats:"2H Slash 14dmg/43dly · AC6 CHA+4 magic resist +5"}},
+      {name:"Bonefire", region:"keep", cls:"Paladin", lvl:"18", loc:"By the window in the Throne Room", common:{name:"Corroded Hand Guards", stats:"AC10 · triple resist +3"}, rare:{name:"Headsplitter", stats:"2H Slash 11dmg/43dly · END+15/STR+4"}},
+      {name:"Ambassador DVinn", region:"keep", cls:"Warrior", lvl:"20", loc:"Tower, (76, -72)", common:{name:"Wood Elf Scout Shoes", stats:"AC2 · AGI+2/DEX+1, fire/cold resist +2"}, rare:{name:"Black Heart", stats:"quest item, no drop"}},
+      {name:"Emperor Crush", region:"keep", cls:"Warrior — Boss", lvl:"18", loc:"Alcove behind the throne", common:{name:"Dwarven Mace", stats:"1H Blunt 8dmg/35dly"}, rare:{name:"Dwarven Ringmail Tunic / Crown of Crush", stats:"AC12 triple resist+8 · AC10/END+10 STR+5 cold+5"}},
+      {name:"Royal Guard", region:"keep", cls:"Rogue", lvl:"15", loc:"Behind throne, invisible until aggro'd", common:null, rare:null},
+    ]
+  },
+
+  runnyeye: {
+    label: "Runnyeye", short: "Runnyeye",
+    title: "Clan RunnyEye", eyebrow: "Zone Codex · RunnyEye Citadel",
+    sub: "A twisting four-level goblin warren beneath the Gorge of King Xorbb, guarded by shamans, evil eyes, and the Goblin King's throne room.",
+    levels: "7–30+", respawn: "22 min",
+    regions: { upper:{label:"Levels 1-2", color:"#6f9c6a"}, mid:{label:"Level 3", color:"#b08a4e"}, throne:{label:"Level 4 / Throne", color:"#c2513f"} },
+    legend: [
+      {label:"Levels 1-2", color:"#6f9c6a", text:"Low-level goblins wandering solo, plus the slime elemental and evil eye prisoner rooms."},
+      {label:"Level 3", color:"#b08a4e", text:"Goblin shaman and overseer territory — spellcasters hunt in packs of 3-4 here."},
+      {label:"Level 4 / Throne", color:"#c2513f", text:"The Goblin King's hall — the bar, the bank, the jail, and the deepest named spawns."}
+    ],
+    mobs: [
+      {name:"A Goblin Knight", region:"upper", cls:"Warrior", lvl:"22", loc:"Level 2, room 5", common:{name:"Blackened Iron Armor piece", stats:"various AC5-7 pieces"}, rare:{name:"Blackened Iron Bastard Sword", stats:"2H Slash · 20dmg/47dly"}},
+      {name:"An Evil Eye prisoner", region:"upper", cls:"Enchanter", lvl:"?", loc:"Level 2, room 3 — 55min respawn", common:{name:"Onyx Ring / Polished Bone Bracelet/Hoop", stats:"HP+5 · AC2 WIS+3/INT+3 · MANA+10"}, rare:{name:"Evil Eye Lens", stats:"20-charge Glimpse clicky"}},
+      {name:"An Evil Eye", region:"upper", cls:"Enchanter (150dmg nuke, root, DoT)", lvl:"?", loc:"Blood Room, level 2", common:null, rare:null},
+      {name:"A Slime Elemental", region:"upper", cls:"Warrior", lvl:"?", loc:"Level 2, room 1", common:{name:"Beaded Slime Necklace", stats:"INT+5 · Spell Haste I"}, rare:{name:"Ring of Slime / Orb of Slime", stats:"MANA+10 · HP+5/MANA+15"}},
+      {name:"Borxx", region:"mid", cls:"Enchanter", lvl:"30-35", loc:"Roams level 2, stops at room 3", common:null, rare:{name:"Evil Eye Lens", stats:"20-charge Glimpse clicky"}},
+      {name:"A Goblin Captain", region:"throne", cls:"Warrior", lvl:"25", loc:"Level 4, room 2 west wall", common:{name:"Fractured Femur", stats:"Piercing 4dmg/25dly · disease resist +2"}, rare:{name:"Blackened Iron Armor piece", stats:"various"}},
+      {name:"Lord Pickclaw", region:"throne", cls:"Warrior", lvl:"?", loc:"Roams level 4, no fixed spot", common:{name:"Black Alloy Girdle / Grotesque Alloy Mask", stats:"AC8 STA+5 · AC6 DEX+7 CHA−15"}, rare:{name:"Black Alloy Medallion / Blackened Alloy Coif", stats:"AC6 WIS+5/INT+5 · AC8 STR+6 penta-resist+6"}},
+      {name:"Battlewizard Unak", region:"throne", cls:"Wizard", lvl:"?", loc:"Bar area, level 4", common:null, rare:null},
+      {name:"Battlelord Paluk", region:"throne", cls:"Warrior", lvl:"?", loc:"Roams level 4", common:null, rare:{name:"Blackened Alloy Bastard Sword", stats:"2H Slash · 24dmg/39dly · poison resist +3"}},
+      {name:"A Gelatinous Cube (Runnyeye)", region:"throne", cls:"Warrior", lvl:"?", loc:"Underwater tunnel, room 4", common:{name:"Cat Skull Cap", stats:"AC4 · magic resist +2, Enhancement Haste I"}, rare:null},
+      {name:"Sludge Dankmire", region:"throne", cls:"Warrior", lvl:"25", loc:"Underwater fountain, near bank", common:{name:"Icon of the Constant / A Vile Substance", stats:"quest item · Throwing 3dmg/25dly Disease@30"}, rare:{name:"Blackened Iron Eye Totem", stats:"HP+10/MANA+5"}},
+      {name:"Goblin Warlord (Clan Runnyeye)", region:"throne", cls:"Warrior", lvl:"28", loc:"Level 4, near Wood Room, (-135,-160)", common:{name:"Blackened Iron Armor piece", stats:"various"}, rare:{name:"Black Iron Medallion / Sleek Black Cape", stats:"WIS+3/INT+3 · AC6"}},
+      {name:"The Goblin King", region:"throne", cls:"Warrior — Boss", lvl:"25-27", loc:"Level 4, 100% @ (100,-100)", common:{name:"Black Iron Medallion / Blackened Iron piece", stats:"WIS+3/INT+3 · various AC pieces"}, rare:{name:"Blackened Iron Crown / Grotesque Mask", stats:"AC5 STR+5 penta-resist+5 · AC3 DEX+7 CHA−9"}},
+    ]
+  },
+
+  najena: {
+    label: "Najena", short: "Najena",
+    title: "Najena", eyebrow: "Zone Codex · Najena",
+    sub: "A dark elf magician's lair carved into Lavastorm Mountains, gated by a four-key sequence that leads deeper toward Najena herself.",
+    levels: "8–35", respawn: "19 min",
+    regions: { front:{label:"Front Halls", color:"#6f9c6a"}, keys:{label:"Key Rooms", color:"#b08a4e"}, inner:{label:"Najena's Chambers", color:"#c2513f"} },
+    legend: [
+      {label:"Front Halls", color:"#6f9c6a", text:"Skeletons, elementals, and ogre guards near the entrance. Group recommended below level 17."},
+      {label:"Key Rooms", color:"#b08a4e", text:"BoneCracker → Guard Captain → Rathyl → Drelzna: a four-key sequence gates deeper access."},
+      {label:"Najena's Chambers", color:"#c2513f", text:"The dark elf mistress's inner sanctum plus the goblin/spider caves behind it."}
+    ],
+    mobs: [
+      {name:"Moosh", region:"front", cls:"Warrior", lvl:"18", loc:"Prison basement", common:{name:"Bronze Armor", stats:"—"}, rare:{name:"Guard's Keyring / Whore's Bane", stats:"prison access key · quest item"}},
+      {name:"Officer Grush", region:"front", cls:"Shaman", lvl:"24", loc:"Near the ogre captain", common:{name:"Dull Wooden Spear", stats:"Piercing 8dmg/33dly · WIS+2/AGI+2, cold resist+5"}, rare:null},
+      {name:"The guard captain", region:"keys", cls:"Warrior", lvl:"25", loc:"Ogre Captain's Room, (52,187)", common:{name:"Dark Mail Coat / Mittens", stats:"AC10 HP+10/END+10 STR+3/STA+3 · AC7 HP+5 fire+5"}, rare:{name:"Ogre War Maul / Shiny Metal Key", stats:"2H Blunt 17dmg/50dly · key #2"}},
+      {name:"BoneCracker", region:"keys", cls:"Warrior", lvl:"24", loc:"Room with two dark elf necromancers", common:{name:"Band of Flesh", stats:"STR+2 · Summoning Efficiency I"}, rare:{name:"Barbed Leather Whip / Leering Mask / Dull Bone Key", stats:"1H Slash 7dmg/28dly · AC3 DEX+3 · key #1"}},
+      {name:"Rathyl", region:"keys", cls:"Necromancer", lvl:"27", loc:"Rathyl's Room, (-670,-119)", common:{name:"Travelers Pouch", stats:"25% wt reduction, 4 slots"}, rare:{name:"Travelers Pack / Bloodstained Key", stats:"20% wt reduction 8 slots · key #3"}},
+      {name:"Rathyl reincarnate", region:"keys", cls:"Warrior (Skeleton)", lvl:"30", loc:"Spawns on Rathyl's corpse, 35dmg frost proc", common:{name:"Torn Page of Mastery (Earth/Wind)", stats:"quest items"}, rare:{name:"Hollowed Bone Bracers", stats:"AC6 MANA+15 · magic resist +7"}},
+      {name:"Drelzna", region:"keys", cls:"Shadow Knight", lvl:"25", loc:"Drelzna's Room, (-35,-222)", common:{name:"Earring of Disease Reflection", stats:"AC1 · disease resist +5"}, rare:{name:"Ashenwood Short Spear / Golden Crescent Key", stats:"Piercing 6dmg/22dly Haste@25 · key #4"}},
+      {name:"Ekeros", region:"keys", cls:"Rogue", lvl:"26", loc:"Behind a locked jail cell", common:null, rare:{name:"Blackened Sapphire", stats:"STA+3/MANA+5"}},
+      {name:"Linara Parlone", region:"keys", cls:"Enchanter", lvl:"25", loc:"Jail area, western cell", common:{name:"Torn Page of Mastery Fire / A Stein/Shovel/Broom", stats:"quest items"}, rare:null},
+      {name:"Trazdon", region:"inner", cls:"Necromancer", lvl:"24", loc:"Magician's Lair, ramp above blood pool", common:{name:"Bronze Rapier / Damask Robe", stats:"Piercing 4dmg/28dly · AC6"}, rare:{name:"Dark Circlet / Binding Bracelets", stats:"AC4 CHA−2/INT+4/HP+10 · AC3 MANA+5/INT+1"}},
+      {name:"Akksstaff", region:"inner", cls:"Magician", lvl:"30-32", loc:"(372,-73)", common:{name:"Damask Robe", stats:"AC6, Extended Enhancement I"}, rare:{name:"Dark Gold Sr Apprentice Robe", stats:"AC4/MANA+2"}},
+      {name:"The Widowmistress", region:"inner", cls:"Rogue", lvl:"34", loc:"(460,220), PH is a giant black widow", common:null, rare:{name:"Darkspun Shroud", stats:"AC3 AGI+7/CHA+5 · triple resist+3"}},
+      {name:"A Minotaur", region:"inner", cls:"Warrior", lvl:"29", loc:"Large goblin camp near Widowmistress", common:{name:"Minotaur Horn", stats:"Wind Resonance 10"}, rare:null},
+      {name:"Unbound Flame", region:"inner", cls:"Wizard (Fire Elemental)", lvl:"25", loc:"Dead-end left of entry room", common:{name:"Drop of Crystallized Flame", stats:"AC1 MANA+10/INT+1"}, rare:{name:"Flaming Fist", stats:"H2H 6dmg/18dly · fire resist +20"}},
+      {name:"The Blood Artist", region:"inner", cls:"Necromancer", lvl:"27", loc:"(187,-224)", common:null, rare:{name:"The Artist's Brush / The Muse's Flayed Legs", stats:"INT+3/DEX+3/MANA+10 · AC6 END+5 STR+2"}},
+      {name:"The Tenderizer", region:"inner", cls:"Warrior", lvl:"22", loc:"(131,342)", common:null, rare:{name:"Kitchen Toolbelt / The Tenderizer", stats:"Haste+10% · 1H Blunt 5dmg/19dly STR+2"}},
+      {name:"Lost Crusader", region:"inner", cls:"Shadowknight", lvl:"25", loc:"(135,287) / (144,119)", common:null, rare:{name:"Signet Ring / Sword of the Lost", stats:"STR+1/INT+1 · 1H Slash 15dmg/40dly STA+4"}},
+      {name:"Najena (NPC)", region:"inner", cls:"Magician — Boss", lvl:"35", loc:"Najena's Room, (353,105)", common:{name:"Flowing Black Robe", stats:"AC8 STA+5/INT+3 · Reanimation Efficiency I"}, rare:{name:"Black Tome with Silver Runes / Clawed Knuckle-Ring", stats:"INT+4/MANA+30 · HP+20"}},
+    ]
+  },
+
+  permafrost: {
+    label: "Permafrost", short: "Permafrost",
+    title: "Permafrost Keep", eyebrow: "Zone Codex · Permafrost",
+    sub: "A goblin-infested ruined castle in the glacial north — home to King Thex'Ka's throne room and, in the depths below, Lady Vox herself.",
+    levels: "15–50+", respawn: "7 min",
+    regions: { keep:{label:"Goblin Halls", color:"#6f9c6a"}, king:{label:"King's Room", color:"#b08a4e"}, pits:{label:"Bear Pits / Vox's Lair", color:"#c2513f"} },
+    legend: [
+      {label:"Goblin Halls", color:"#6f9c6a", text:"Scryers, jailmasters, and alchemists scattered through the goblin warren."},
+      {label:"King's Room", color:"#b08a4e", text:"Thex'Ka's throne room — elite guards, the High Priest, and the Goblin Sage cluster here."},
+      {label:"Bear Pits / Vox's Lair", color:"#c2513f", text:"Reached via pit traps — dire wolves, polar bears, ice giants, and the frost dragon herself."}
+    ],
+    mobs: [
+      {name:"A goblin alchemist", region:"keep", cls:"Warrior", lvl:"27", loc:"(311,-370), safe solo spot", common:{name:"Mammoth Hide Leggings", stats:"AC6 STA+3, cold resist +5"}, rare:{name:"Mammoth Hide Cloak", stats:"AC7 WIS+4 · Improved Damage I"}},
+      {name:"A Goblin Archeologist", region:"keep", cls:"Warrior", lvl:"24-27", loc:"(421,190)", common:{name:"Archeologist Pack", stats:"25% wt reduction, 6 slots"}, rare:{name:"Dented Brass Mask", stats:"AC4 · STR+3"}},
+      {name:"A goblin jailmaster", region:"keep", cls:"Rogue", lvl:"20", loc:"(135,-329)", common:{name:"Wooly Spider Silk Net", stats:"3-charge Ensnaring Roots"}, rare:{name:"Etched Ivory Charm", stats:"AC5 · STR+2/WIS+2/INT+2"}},
+      {name:"A goblin scryer", region:"keep", cls:"Shaman", lvl:"25", loc:"(187,-589), back center near frozen king", common:{name:"Wolf Fur Slippers", stats:"AC2 AGI+7/MANA+20 · Spell Haste I"}, rare:{name:"Ice Crystal Staff", stats:"1H Blunt 5dmg/28dly · Shock of Frost"}},
+      {name:"An icy goblin", region:"keep", cls:"Wizard", lvl:"25", loc:"Jail center cell, (45,-270)", common:{name:"Gossamer Sleeves / Sash", stats:"AC4 · AC3"}, rare:{name:"Book of Frost", stats:"quest item, no drop"}},
+      {name:"A goblin champion", region:"keep", cls:"Warrior", lvl:"35", loc:"Paths from Ice Giant Diplomat death spot", common:null, rare:{name:"Crystalline Blade", stats:"1H Slash 11dmg/38dly"}},
+      {name:"King Thex'Ka IV", region:"king", cls:"Warrior — Boss", lvl:"31", loc:"King's Room, (680,-281)", common:{name:"Symbol of Loyalty to Vox", stats:"AC7 · cold resist +7"}, rare:{name:"White Wolf-hide Cloak", stats:"AC7 STR+3/DEX+3 cold+5"}},
+      {name:"High Priest Zaharn", region:"king", cls:"Cleric", lvl:"30", loc:"King's Room, surrounded by elite guards", common:null, rare:{name:"Zaharn's Coronet", stats:"AC5 STR+3/MANA+25 · Improved Healing I"}},
+      {name:"A goblin patriarch", region:"king", cls:"Cleric", lvl:"30", loc:"King's Room, left of snow clump", common:null, rare:{name:"Goblin Frost Totem", stats:"MANA+5 · cold resist +10"}},
+      {name:"An Elite Goblin Guard", region:"king", cls:"Warrior", lvl:"25-29", loc:"Multiple spawns near King's Room", common:null, rare:{name:"Icy Greaves / Frost Goblin Skin", stats:"AC8 cold+5 · AC7 cold+5 (MAG only)"}},
+      {name:"An elite honor guard", region:"king", cls:"Warrior", lvl:"30", loc:"King/Sage area", common:{name:"Silvery War Axe", stats:"1H Slash 6dmg/22dly"}, rare:{name:"Silvery Two Handed Axe", stats:"2H Slash 21dmg/48dly, Serpent Sight"}},
+      {name:"The Goblin Sage", region:"king", cls:"Wizard", lvl:"28", loc:"King's Room, right of snow clump", common:null, rare:{name:"Gossamer Cap", stats:"AC4"}},
+      {name:"Ice Giant Diplomat", region:"king", cls:"Wizard", lvl:"35", loc:"(714,-146), belly caster", common:{name:"Throwing Boulder", stats:"Throwing 36dmg/35dly"}, rare:null},
+      {name:"Ice Goblin Champion", region:"king", cls:"Warrior", lvl:"?", loc:"Near Ice Giant Diplomat", common:{name:"Crystalline Blade", stats:"1H Slash 11dmg/38dly"}, rare:null},
+      {name:"An ice giant priest", region:"pits", cls:"Cleric", lvl:"48-50", loc:"(852,-173), Complete Heals + Retribution", common:{name:"Throwing Boulder", stats:"Throwing 36dmg/35dly"}, rare:{name:"Essence of Winter / Nilitim's Grimoire pg.450", stats:"—"}},
+      {name:"An ice giant magi", region:"pits", cls:"Wizard", lvl:"43", loc:"(1037,-231) / (763,69)", common:{name:"Block of Permafrost", stats:"—"}, rare:null},
+      {name:"An injured polar bear", region:"pits", cls:"Warrior", lvl:"46", loc:"Bottom of Bear Pits, back room", common:{name:"Bear Meat", stats:"quest item"}, rare:{name:"Barbarian Hunting Spear", stats:"Piercing 10dmg/33dly · WIS+5/MANA+10"}},
+      {name:"A priest of Nagafen", region:"pits", cls:"Cleric (Giant/Cyclops)", lvl:"49", loc:"(865,-345)", common:null, rare:null},
+      {name:"An Icy Terror", region:"pits", cls:"Warrior (Tentacle, Knockback proc)", lvl:"48-50", loc:"Three spots near (1014,-166)", common:{name:"Prickly Pear", stats:"food item"}, rare:null},
+      {name:"Lady Vox", region:"pits", cls:"Cleric — Raid Boss", lvl:"55", loc:"(857,-262)", common:{name:"Crystalline Spear / Scimitar of the Mistwalker", stats:"Piercing 13dmg/30dly Backstab13 · 1H Slash 10dmg/25dly Mistwalker@50"}, rare:{name:"Tobrin's Mystical Eyepatch / Warhammer of Divine Grace / White Wolf-hide Girdle", stats:"WIS+15/INT+15 See Invis · 2H Blunt 18dmg/39dly Yaulp III@40 · AC5 STR+9/DEX+13"}},
+    ]
+  },
+
+  kedgekeep: {
+    label: "Kedge Keep", short: "Kedge",
+    title: "Kedge Keep", eyebrow: "Zone Codex · Kedge Keep",
+    sub: "A fully-submerged aquatic ruin sunk beneath Dagnor's Cauldron — bring enduring breath. Home to sharks, mermaids, seahorses, and Phinigel Autropos.",
+    levels: "32–53", respawn: "22 min",
+    regions: { upper:{label:"Upper Floors", color:"#6f9c6a"}, temple:{label:"Temple of Prexus", color:"#b08a4e"}, deep:{label:"Deep Caves / Phinigel", color:"#c2513f"} },
+    legend: [
+      {label:"Upper Floors", color:"#6f9c6a", text:"First and Second Floor — swordfish, sailfins (they explode!), and Cauldronbubble/boil sharks."},
+      {label:"Temple of Prexus", color:"#b08a4e", text:"Mermaid territory — Estrella of Gloomwater is arguably tougher than Phinigel himself."},
+      {label:"Deep Caves / Phinigel", color:"#c2513f", text:"Seahorse caves and the barrel-shaped final room guarding the last knight of the Kedge."}
+    ],
+    mobs: [
+      {name:"A fierce impaler", region:"upper", cls:"Warrior", lvl:"42", loc:"First Floor, spot #1", common:{name:"Gloomwater Harpoon", stats:"Piercing 9dmg/31dly Backstab9 · STR+4/HP+25"}, rare:{name:"Darksea Harpoon", stats:"Piercing 10dmg/28dly · STR+5/WIS+5/MANA+20"}},
+      {name:"Cauldronbubble", region:"upper", cls:"Warrior", lvl:"49", loc:"Bubble's Den, spot #3", common:{name:"Sharkbone Warhammer", stats:"1H Blunt 8dmg/26dly · WIS+5"}, rare:{name:"Hammerhead Helm", stats:"AC13 · STR+7/STA+7"}},
+      {name:"A Golden Haired Mermaid", region:"upper", cls:"Ranger", lvl:"40", loc:"Spot #4", common:null, rare:{name:"Lock of Hair", stats:"quest item, no drop"}},
+      {name:"A ferocious hammerhead", region:"upper", cls:"Warrior", lvl:"45", loc:"Ferocious Room, spot #16", common:{name:"Wand of Shadow", stats:"5-charge Invoke Shadow @35, NEC only"}, rare:{name:"Driftwood Treasure Chest", stats:"100% wt reduction, 10 slots"}},
+      {name:"A frenzied bull shark / cauldron shark", region:"upper", cls:"Warrior", lvl:"32-42", loc:"Crossroads / near gate to Phinny room", common:{name:"Shark Tooth", stats:"Piercing 5dmg/18dly Backstab5"}, rare:{name:"Abalone Gorget", stats:"AC8 · WIS+9"}},
+      {name:"Estrella of Gloomwater", region:"temple", cls:"Druid", lvl:"51", loc:"Estrella's Temple, spot #8 — sees invis, dispels", common:{name:"Rod of Drones / Lamentation Blade", stats:"5-charge Drones of Doom @35, DRU · 2H Slash 25dmg/54dly"}, rare:{name:"Prayer Shawl", stats:"AC5 · WIS+8"}},
+      {name:"Shellara Ebbhunter", region:"temple", cls:"Ranger", lvl:"46", loc:"Above the mermaids' hole", common:{name:"Gloomwater Arrow", stats:"Ammo, 10dmg"}, rare:{name:"Pearlescent Mask", stats:"AC5 AGI+5 magic+10, Serpent Sight, MNK only"}},
+      {name:"Undertow", region:"temple", cls:"Wizard", lvl:"49", loc:"Temple of Prexus, spot #9", common:{name:"Tears of Prexus", stats:"—"}, rare:{name:"Squallsurge Shawl / Blazing Wand", stats:"AC5 STA+5/MANA+50 · 5-charge Blaze @35, MAG only"}},
+      {name:"Coralyn Kelpmaiden", region:"temple", cls:"Wizard", lvl:"46", loc:"Spot #10", common:{name:"Sharkbone Warhammer", stats:"1H Blunt 8dmg/26dly · WIS+5"}, rare:{name:"Sharkskin Drum", stats:"Percussion Resonance 12, BRD only"}},
+      {name:"A seahorse matriarch", region:"deep", cls:"Cleric", lvl:"47", loc:"Seahorse Caves, spot #11 — long AoE stun", common:{name:"Rod of Health", stats:"5-charge Word of Health @35, CLR only"}, rare:{name:"Shield of Prexus", stats:"AC8, Enduring Breath (worn)"}},
+      {name:"A seahorse patriarch", region:"deep", cls:"Wizard", lvl:"47", loc:"Patriarch's Room, spot #15", common:{name:"Wand of Ice", stats:"5-charge Ice Shock @35, WIZ only"}, rare:{name:"Seahorse Scale Cloak", stats:"AC8 DEX+6 · cold resist +35"}},
+      {name:"Cauldronboil", region:"deep", cls:"Warrior", lvl:"49", loc:"Boil's Lair, spot #13 — 6hr respawn", common:{name:"Sharkjaw Cutlass", stats:"1H Slash 10dmg/32dly"}, rare:{name:"Kedgemail Gauntlets", stats:"AC11 STR+3/DEX+5/MANA+25, no drop"}},
+      {name:"Frenzied Cauldron Shark", region:"deep", cls:"Warrior", lvl:"42", loc:"Frenzied Room, spot #14 — very high MR", common:{name:"Shark Tooth", stats:"Piercing 5dmg/18dly Backstab5"}, rare:{name:"Abalone Gorget", stats:"AC8 · WIS+9"}},
+      {name:"Swirlspine Guardian", region:"deep", cls:"Cleric", lvl:"51", loc:"Guards Phinigel's lair, sees invis", common:{name:"Seahorse Scales", stats:"quest item"}, rare:{name:"Swirlspine Belt", stats:"AC4 · Haste +16%"}},
+      {name:"Phinigel Autropos", region:"deep", cls:"Wizard — Boss", lvl:"53", loc:"Barrel-shaped final room, spot #17", common:{name:"Rod of Malisement / Wand of Mana Tapping", stats:"7-charge Malaisement @35, SHM · 7-charge Mana Sieve @35, ENC"}, rare:{name:"Blue Crystal Staff / Trident of the Seven Seas / Robe of the Kedge", stats:"1H Blunt 10dmg/35dly, WIZ epic piece · Piercing 10dmg/30dly Backstab10 Frost Strike@45, ROG epic · AC8 STA+10/MANA+100"}},
+    ]
+  },
+
+  mistmoore: {
+    label: "Mistmoore Castle", short: "Mistmoore",
+    title: "Castle Mistmoore", eyebrow: "Zone Codex · Mistmoore Castle",
+    sub: "Mayong Mistmoore's dark elf vampire stronghold — day and night bring different populations, and everyone here is his enemy.",
+    levels: "20–45", respawn: "22 min (twice-daily vampire respawn)",
+    regions: { outer:{label:"Grounds / Graveyard", color:"#6f9c6a"}, inner:{label:"Castle Interior", color:"#b08a4e"}, deep:{label:"Coffin Room / Tower", color:"#c2513f"} },
+    legend: [
+      {label:"Grounds / Graveyard", color:"#6f9c6a", text:"Gargoyles, familiars, and the canyon leading to Black Dire. Outdoor grounds around the castle."},
+      {label:"Castle Interior", color:"#b08a4e", text:"Ballroom gypsies, the library, servant quarters, and the guest wings."},
+      {label:"Coffin Room / Tower", color:"#c2513f", text:"The deepest vampire nobility, the throne room, and the tower — Mayong's inner circle."}
+    ],
+    mobs: [
+      {name:"An imp familiar", region:"outer", cls:"Warrior", lvl:"29-35", loc:"Graveyard, rare spawn", common:{name:"Sacrificial Dagger", stats:"Piercing 5dmg/21dly Backstab5 · INT+5"}, rare:{name:"Bloodstone Eyepatch", stats:"AC4 · WIS+3/AGI+3"}},
+      {name:"A glyphed ghoul", region:"outer", cls:"Warrior", lvl:"27", loc:"Pool, Gorge, and Graveyard gates", common:{name:"Vial of Vampire Blood", stats:"1-charge Resistance to Magic @50"}, rare:{name:"Crested Mistmoore Shield", stats:"AC10 DEX+6 · triple resist +10"}},
+      {name:"Enynti", region:"outer", cls:"Warrior", lvl:"27", loc:"Canyon, (80,-112)", common:null, rare:{name:"Rune of Fortune", stats:"quest item, no drop"}},
+      {name:"Black Dire", region:"outer", cls:"Shadowknight (Wolf Elemental)", lvl:"45", loc:"Spawns at Canyon end when an advisor dies", common:null, rare:{name:"Black Dire Pelt", stats:"Shaman epic quest item"}},
+      {name:"A cloaked dhampyre", region:"outer", cls:"Shadow Knight", lvl:"33", loc:"Fountain garden", common:{name:"Blood of the Dhampyre", stats:"1-charge Extended Regeneration"}, rare:{name:"Hooded Black Cloak", stats:"AC10 · STR+5/HP+45"}},
+      {name:"A Fallen Noble", region:"outer", cls:"Cleric", lvl:"28", loc:"Fountain area, (23,105)", common:{name:"Noble's Robes / Vial of Noble's Blood", stats:"AC6 CHA+5 penta-resist"}, rare:null},
+      {name:"An avenging caitiff", region:"outer", cls:"Warrior", lvl:"30", loc:"Stairs to jail", common:{name:"Crested Spaulders", stats:"AC11 · STA+6"}, rare:{name:"Crested Helm", stats:"AC10 · STR+6/CHA+3"}},
+      {name:"A deathly usher", region:"outer", cls:"Warrior", lvl:"30-32", loc:"Jail, casts Darkness/Ignite Blood", common:{name:"Black Silk Gloves", stats:"AC4 · DEX+3, no drop"}, rare:null},
+      {name:"Ssynthi", region:"inner", cls:"Wizard", lvl:"24-25", loc:"Behind tomb, secret entrance to jail", common:{name:"Robe of the Keeper / Patch of Shadow", stats:"AC8 · INT+2"}, rare:null},
+      {name:"Mynthi Davissi", region:"inner", cls:"Enchanter (charms)", lvl:"32", loc:"Ballroom", common:{name:"Lute of the Gypsy Princess", stats:"String Resonance 11"}, rare:{name:"Mistmoore Battle Drums", stats:"Percussion Resonance 11"}},
+      {name:"An advisor", region:"inner", cls:"Wizard", lvl:"35", loc:"Near library, every 4hr, death spawns Black Dire", common:null, rare:{name:"Advisor Robe", stats:"AC8 INT+5/AGI+2/MANA+20 magic+5"}},
+      {name:"A dark librarian / dark ass't librarian", region:"inner", cls:"Warrior", lvl:"31-33", loc:"Library and Guest Room", common:{name:"Illegible Scroll", stats:"quest item"}, rare:null},
+      {name:"Maid Issis", region:"inner", cls:"Necromancer", lvl:"35", loc:"Servant Room #17", common:{name:"Nightshade Wreath", stats:"AC1 WIS+5/INT+5 · Reanimation Haste I"}, rare:{name:"Maid Issis Fang", stats:"quest item"}},
+      {name:"Butler Syncall", region:"inner", cls:"Shadow Knight", lvl:"35", loc:"Servant Room #18", common:{name:"Cape of Midnight Mist", stats:"AC2 STR+5 magic+7"}, rare:{name:"Butler Syncalls Fang", stats:"quest item"}},
+      {name:"Garton Viswin", region:"deep", cls:"Shadow Knight", lvl:"35-37", loc:"Tower, white circle on floor", common:{name:"Glowing Iron Pike", stats:"Piercing 9dmg/36dly Backstab9"}, rare:{name:"Chestplate of the Dark Flame", stats:"AC19 · STR+9"}},
+      {name:"Lasna Cheroon", region:"deep", cls:"Necromancer", lvl:"36", loc:"The Bath, rare spawn", common:{name:"Diamondine Earring", stats:"AC2 STR+3/HP+12 · Affliction Efficiency I"}, rare:{name:"Platinum Skull Ring", stats:"CHA−5 HP+30/MANA+20 · Reanimation Efficiency II"}},
+      {name:"Xicotl", region:"deep", cls:"Shadow Knight", lvl:"40", loc:"The Bath, ~20% spawn rate", common:null, rare:{name:"Glowing Sword Hilt", stats:"quest item, no drop"}},
+      {name:"Princess Cherista", region:"deep", cls:"Necromancer", lvl:"35", loc:"Throne room, on the chair", common:{name:"Gem-Encrusted Scepter", stats:"1H Blunt 7dmg/28dly · WIS+5"}, rare:{name:"Diamondine Earring", stats:"AC2 STR+3/HP+12 · Affliction Efficiency I"}},
+      {name:"Mayong Mistmoore", region:"deep", cls:"Warrior — Raid Boss", lvl:"53?", loc:"Deep coffin room", common:null, rare:{name:"Fanged Skull Stiletto", stats:"Piercing 12dmg/22dly Backstab12"}},
+    ]
+  },
+
+  highpass: {
+    label: "Highpass Hold", short: "Highpass",
+    title: "Highpass Hold", eyebrow: "Zone Codex · Highpass Hold",
+    sub: "A mountain trading post between Qeynos and Freeport — gnolls hold the north gate, orcs the south, and smugglers work a hidden tunnel beneath the Tiger's Roar.",
+    levels: "9–22", respawn: "5 min",
+    regions: { north:{label:"North Gate (Gnolls)", color:"#6f9c6a"}, south:{label:"South Gate (Orcs)", color:"#b08a4e"}, town:{label:"Town / Smugglers", color:"#c2513f"} },
+    legend: [
+      {label:"North Gate (Gnolls)", color:"#6f9c6a", text:"Mucktail gnolls camp by the East Karana zone line, weaker than the southern orcs."},
+      {label:"South Gate (Orcs)", color:"#b08a4e", text:"Shralok orcs control the Kithicor entrance — the tougher of the two gate camps."},
+      {label:"Town / Smugglers", color:"#c2513f", text:"Bandits and rogues in the hidden tunnel under the Tiger's Roar, reached by swimming."}
+    ],
+    mobs: [
+      {name:"Grenix Mucktail", region:"north", cls:"Warrior", lvl:"20", loc:"(552,78), shares spawn with Vexven", common:{name:"Polished Granite Tomahawk", stats:"1H Slash 6dmg/26dly, Berserker Strength@10"}, rare:null},
+      {name:"Vexven Mucktail", region:"north", cls:"Warrior", lvl:"21", loc:"(525,86), shares spawn with Grenix", common:{name:"Cracked Darkwood Shield", stats:"AC12 · STR+9"}, rare:null},
+      {name:"Captain Orben", region:"north", cls:"Warrior", lvl:"29", loc:"Northern guard lookout, (554,119)", common:{name:"Fine Steel Short Sword", stats:"1H Slash 4dmg/23dly"}, rare:null},
+      {name:"A gnoll champion", region:"north", cls:"Warrior", lvl:"16", loc:"North gate by East Karana zoneline", common:{name:"Gnoll Scalp / Large Raw-hide Armor", stats:"quest item"}, rare:null},
+      {name:"A gnoll flamepaw", region:"north", cls:"Shaman", lvl:"18", loc:"Near East Karana zoneline", common:{name:"Rain Water / Large Ringmail Armor", stats:"quest item"}, rare:{name:"Bronze Warhammer / Worn Great Staff", stats:"1H Blunt 5dmg/33dly · 2H Blunt 6dmg/40dly"}},
+      {name:"Hagnis Shralok", region:"south", cls:"Warrior", lvl:"21", loc:"(-874,213), rare, 5min respawn", common:null, rare:{name:"Shiny Brass Halberd", stats:"2H Slash 16dmg/48dly (always drops)"}},
+      {name:"Recfek Shralok", region:"south", cls:"Shaman", lvl:"21", loc:"Shares spawn w/ Hagnis and Vopuk", common:null, rare:{name:"Shralok Pack", stats:"25% wt reduction, 8 slots (always drops)"}},
+      {name:"Vopuk Shralok", region:"south", cls:"Warrior/Shaman", lvl:"19-22", loc:"(-875,206), more formidable than Kithicor variant", common:null, rare:{name:"Shiny Brass Idol", stats:"1-charge Divine Aura @1 (always drops)"}},
+      {name:"An orc fanatic", region:"south", cls:"Shaman", lvl:"19-21", loc:"Southern orc camp near Kithicor", common:null, rare:{name:"Orc Scalp / Worn Great Staff", stats:"quest · 2H Blunt 6dmg/40dly"}},
+      {name:"An orc mercenary", region:"south", cls:"Rogue (backstabs ~120)", lvl:"18-20", loc:"(-874,213)", common:{name:"Bronze Weapons / Rusty Weapons", stats:"—"}, rare:{name:"Words of Dominion", stats:"quest item"}},
+      {name:"Captain Ashlan", region:"south", cls:"Warrior", lvl:"27", loc:"Near Kithicor steps", common:{name:"Fine Steel Short Sword", stats:"1H Slash 4dmg/23dly"}, rare:null},
+      {name:"Dyllin Starsine", region:"town", cls:"Warrior", lvl:"16", loc:"Hidden smuggler area, 7hr respawn no PH", common:{name:"Page 30 of a Book / Bayle List III", stats:"quest items"}, rare:null},
+      {name:"Cyrla Shadowstepper", region:"town", cls:"Rogue Trainer", lvl:"61", loc:"Hidden smuggler area", common:null, rare:null},
+      {name:"Anson McBale", region:"town", cls:"GM Rogue", lvl:"61", loc:"Smugglers' tunnels near High Keep", common:{name:"Fading Shadow Dagger", stats:"Piercing 4dmg/18dly · HP+2"}, rare:null},
+      {name:"Stanos Herkanor", region:"town", cls:"Rogue", lvl:"65", loc:"(35,327), head of the smuggling ring", common:{name:"Fading Shadow Dagger / Dagger", stats:"Piercing 4dmg/18dly · Piercing 3dmg/20dly"}, rare:{name:"Head of Stanos", stats:"quest item, no drop"}},
+    ]
+  },
+
+  gorgexorbb: {
+    label: "Gorge of King Xorbb", short: "Xorbb",
+    title: "Beholder's Maze", eyebrow: "Zone Codex · Gorge of King Xorbb",
+    sub: "A narrow gulley connecting Runnyeye to East Karana, patrolled by goblin lookouts, living-clay muddites, minotaurs, and the elusive evil eyes who serve King Xorbb.",
+    levels: "8–35", respawn: "6:40 min",
+    regions: { goblins:{label:"Goblin Patrols", color:"#6f9c6a"}, muddites:{label:"Muddites / Minotaurs", color:"#b08a4e"}, temple:{label:"Evil Eye Temple", color:"#c2513f"} },
+    legend: [
+      {label:"Goblin Patrols", color:"#6f9c6a", text:"Weak Pickclaw lookouts and sentries watching the rear entrance of Runnyeye."},
+      {label:"Muddites / Minotaurs", color:"#b08a4e", text:"Living clay golems and minotaurs — tougher than they con, spawn near the King Xorbb PH pool."},
+      {label:"Evil Eye Temple", color:"#c2513f", text:"Charm-happy enchanter evil eyes cluster on the altar — the deadliest thing in the zone."}
+    ],
+    mobs: [
+      {name:"A goblin alchemist (Beholder's Maze)", region:"goblins", cls:"Shaman", lvl:"16-21", loc:"(705,-1794)", common:null, rare:{name:"Humerus Handled Mace", stats:"1H Blunt 5dmg/29dly · cold resist +2, no drop"}},
+      {name:"A Muddite Recordkeeper", region:"muddites", cls:"Warrior", lvl:"10", loc:"(677,-1829)", common:{name:"Block/Heavy/Small Piece of Ore", stats:"quest items"}, rare:{name:"Damaged Annals", stats:"quest item, no drop"}},
+      {name:"Qlei", region:"muddites", cls:"Warrior (Rock Golem, flees at 20%)", lvl:"18", loc:"(846,-557)", common:{name:"Electrum Bar", stats:"—"}, rare:null},
+      {name:"Brahhm", region:"muddites", cls:"Warrior (Minotaur)", lvl:"17", loc:"Spawns from killing muddites+eyes without minos", common:{name:"Labyrinth Talisman", stats:"AC5 · STA+3/WIS+3"}, rare:{name:"Brahhms Horn", stats:"Wind Resonance 11, BRD only"}},
+      {name:"Yymp the Infernal", region:"muddites", cls:"Warrior (Imp)", lvl:"17-19", loc:"Directly in front of Runnyeye entrance", common:{name:"Golden Earring", stats:"—"}, rare:{name:"Minotaur Ribcage", stats:"AC16 · STR+5/STA+5 CHA−9"}},
+      {name:"Spinflint", region:"muddites", cls:"Warrior (Dervish, rare)", lvl:"12", loc:"Multiple roaming spots", common:null, rare:{name:"Whirling gemstones (9 varieties)", stats:"AC/stat head-slot gems, e.g. Whirling Crystal AC3/HP+10"}},
+      {name:"A Chasm Minotaur", region:"muddites", cls:"Warrior (rumored King Xorbb PH)", lvl:"19-20", loc:"Multiple spots incl. (672,-207)", common:null, rare:null},
+      {name:"Lord Sviir", region:"temple", cls:"Enchanter", lvl:"20", loc:"(538,-638)", common:null, rare:{name:"Beholder Optic Fluid", stats:"quest item, no drop"}},
+      {name:"Lord Syrkl", region:"temple", cls:"Enchanter", lvl:"20", loc:"(469,-562)", common:null, rare:{name:"Beholder Optic Fluid", stats:"quest item, no drop"}},
+      {name:"Lord Soptyvr", region:"temple", cls:"Enchanter (strongest of Xorbb's subjects)", lvl:"30", loc:"Altar, middle of the eye spawns", common:{name:"Polished Bone Bracelet / Bunch of Optic Nerves", stats:"AC2 WIS+3/INT+3, Affliction Efficiency I"}, rare:{name:"Lens of Lord Soptyvr", stats:"quest item, no drop"}},
+      {name:"King Xorbb", region:"temple", cls:"Wizard — Boss", lvl:"35", loc:"Two spawn points, (672,-207) & (867,-920)", common:null, rare:{name:"Slime Crystal Staff / Ring of Xorbb", stats:"1H Blunt 5dmg/28dly Sicken · AC2 WIS+3/INT+3, no drop"}},
+    ]
+  },
+
+  unrest: {
+    label: "Estate of Unrest", short: "Unrest",
+    title: "The Estate of Unrest", eyebrow: "Zone Codex · Estate of Unrest",
+    sub: "A dwarven noble's manor overrun by undead — yard trash outside, ghouls and hags through five floors of the house, and the dwarf ghost's own dread basement below.",
+    levels: "10–35", respawn: "22 min",
+    regions: { yard:{label:"Yard / 1st Floor", color:"#6f9c6a"}, upper:{label:"2nd-4th Floor", color:"#b08a4e"}, basement:{label:"Basement", color:"#c2513f"} },
+    legend: [
+      {label:"Yard / 1st Floor", color:"#6f9c6a", text:"Death beetles, tormented dead, and the Lesser Blade Fiend camp by the side door."},
+      {label:"2nd-4th Floor", color:"#b08a4e", text:"Fireplace camp territory — reclusive ghoul magus, undead barkeep, and the tower knight."},
+      {label:"Basement", color:"#c2513f", text:"The deathtrap level — festering hags, dark terrors, and Garanel Rucksif's ghost at the very end."}
+    ],
+    mobs: [
+      {name:"Shadowpincer", region:"yard", cls:"Warrior (Beetle, rare)", lvl:"15-17", loc:"Around the courtyard", common:null, rare:null},
+      {name:"Lesser Blade Fiend", region:"yard", cls:"Warrior (Dervish, rare)", lvl:"19", loc:"Alcove by side door, PH is dark boned skeleton", common:{name:"Pugius", stats:"Piercing 5dmg/21dly"}, rare:{name:"Gladius", stats:"1H Slash 7dmg/29dly"}},
+      {name:"Torklar Battlemaster", region:"yard", cls:"Warrior (Ghost Dwarf, hits hard for level)", lvl:"20", loc:"(612,-62), floating spawn", common:null, rare:{name:"Torklar's Battle Hammer / Battleworn Canteen", stats:"1H Blunt 6dmg/28dly · quest item"}},
+      {name:"Reclusive ghoul magus", region:"upper", cls:"Necromancer", lvl:"23", loc:"NW room, 2nd floor balcony", common:{name:"Savant's Cap", stats:"AC2 WIS+3/INT+3 · Reagent Conservation II"}, rare:{name:"Dusty Bloodstained Gloves / Polished Brass Key", stats:"AC2 MANA+25 · unlocks bar room"}},
+      {name:"An undead barkeep", region:"upper", cls:"Rogue", lvl:"25", loc:"Behind the bar, 3rd floor, 22min timer", common:{name:"Opalline Earring", stats:"AC2 · CHA+5"}, rare:{name:"Thick Leather Apron / Scuffed Silver Key", stats:"AC8 · unlocks tower"}},
+      {name:"A reanimated hand", region:"upper", cls:"Wizard", lvl:"21", loc:"3rd floor, (572,-15)", common:null, rare:{name:"Ivory Bracelet / Small Stone Key", stats:"AGI+3/MANA+20, Reanimation Haste I · unlocks magus room"}},
+      {name:"An undead knight of Unrest", region:"upper", cls:"Shadow Knight (Harm Touch)", lvl:"28", loc:"4th floor, (697,-76), 22min", common:{name:"Bloodstained Mantle", stats:"AC6 STR+3 magic+10"}, rare:{name:"Bloodstained Tunic / Cracked Glass Key", stats:"AC13 WIS+4/AGI+4 · unlocks basement"}},
+      {name:"A priest of najena", region:"upper", cls:"Cleric (Ghoul)", lvl:"29-31", loc:"SW Tower, 3rd floor, 55min", common:null, rare:{name:"Tarnished Bronze Key", stats:"quest item, no drop"}},
+      {name:"Khrix Fritchoff", region:"upper", cls:"Necromancer", lvl:"35", loc:"2nd floor, near the magi room", common:{name:"Cloth Shirt / Gnome Meat", stats:"AC4 · quest item"}, rare:null},
+      {name:"Khrix Abomination", region:"upper", cls:"Warrior (Ghoul)", lvl:"38-40", loc:"Roams lower levels, triggered spawn", common:null, rare:{name:"Powder of Reanimation", stats:"quest item, no drop"}},
+      {name:"A Festering Hag", region:"basement", cls:"Wizard (starts with dmg absorb)", lvl:"28-30", loc:"First basement section, groups of 3", common:{name:"Gossamer armor piece", stats:"various AC pieces, NEC/WIZ/MAG/ENC"}, rare:{name:"Festering Cloak", stats:"AC5 HP+10/MANA+10, disease/poison −10"}},
+      {name:"A Dark Terror", region:"basement", cls:"Warrior (Tentacle)", lvl:"29-33", loc:"(497,102)", common:{name:"Torn Page of Magi`kot pg. 2", stats:"quest item, no drop"}, rare:null},
+      {name:"A tentacle terror (Unrest)", region:"basement", cls:"Warrior (knockback)", lvl:"30", loc:"(496,119)", common:{name:"Tentacle Whip", stats:"Shaman quest item"}, rare:null},
+      {name:"Mortuary Fungus", region:"basement", cls:"Warrior (casts Drowsiness)", lvl:"26-28", loc:"(661,83) / (679,106)", common:{name:"Sarcoscypha Fungus / Amanita Phalloide", stats:"Necromancer quest item"}, rare:{name:"A fungus eye / Steel Knuckles", stats:"quest item"}},
+      {name:"A Dusty Werebat", region:"basement", cls:"Warrior", lvl:"24-28", loc:"(636,-114)", common:{name:"Pouch of Silver Dust / Thick Caustic Fluid", stats:"Enchanter quest item"}, rare:null},
+      {name:"Garanel Rucksif", region:"basement", cls:"Warrior — Boss (Ghost Dwarf)", lvl:"35", loc:"Dwarf Room, basement, (485,147)", common:{name:"Battle Axe / Small Kite Shield", stats:"1H Slash 7dmg/35dly · AC8"}, rare:{name:"Jagged Band / Dwarven Work Boots / Sphere of Unrest", stats:"AC5 STR+3 · AC8 STR+3/DEX+5 · quest item"}},
+    ]
+  },
+
+  everfrost: {
+    label: "Everfrost Peaks", short: "Everfrost",
+    title: "Everfrost Peaks", eyebrow: "Zone Codex · Everfrost Peaks",
+    sub: "The frozen barbarian homeland north of Qeynos — dangerous newbie canyons give way to sprawling tundra plains, ice caves, and the road to Permafrost.",
+    levels: "1–45", respawn: "6:40 min",
+    regions: { canyons:{label:"Canyons (Newbie Area)", color:"#6f9c6a"}, plains:{label:"Tundra Plains", color:"#b08a4e"}, caves:{label:"Ice Caves / Deep Tundra", color:"#c2513f"} },
+    legend: [
+      {label:"Canyons (Newbie Area)", color:"#6f9c6a", text:"Maze-like Halas newbie zone — whelps, pups, and decaying skeletons near the Blackburrow entrance."},
+      {label:"Tundra Plains", color:"#b08a4e", text:"Vast open ground with mammoths, ice goblin camps, and roaming barbarian rares."},
+      {label:"Ice Caves / Deep Tundra", color:"#c2513f", text:"Underwater ice caves holding Miragul's lich, plus the high-level rares near Permafrost's gate."}
+    ],
+    mobs: [
+      {name:"Karg IceBear", region:"plains", cls:"Warrior (Barbarian, roams 3 loops)", lvl:"35", loc:"Hill west of Permafrost gates, ~(1615,-5744)", common:{name:"Cloak of the Ice Bear", stats:"AC8 HP+10, cold resist +20"}, rare:{name:"Gigantic Zweihander", stats:"2H Slash 18dmg/39dly"}},
+      {name:"Martar IceBear", region:"plains", cls:"Warrior (Barbarian)", lvl:"32", loc:"(2356,-5320), roams a big circle", common:{name:"Raw-Hide Armor / Warthread Kilt", stats:"AC5, no drop"}, rare:{name:"Cloak of the Ice Bear", stats:"AC8 HP+10, cold resist +20"}},
+      {name:"Redwind", region:"plains", cls:"Shadow Knight (Harm Touch ~217dmg)", lvl:"27", loc:"Ruined temple, (990,-5275), surrounded by icy orcs", common:null, rare:null},
+      {name:"Iceberg", region:"plains", cls:"Warrior (Bear, follows Tundra Jack)", lvl:"35", loc:"Wanders", common:{name:"Low Quality Bear Skin", stats:"quest item"}, rare:{name:"Words of Dark Paths", stats:"—"}},
+      {name:"Tundra Jack", region:"plains", cls:"Warrior (Barbarian, jboots speed)", lvl:"47", loc:"(2859,-1620), sprints south after spawning", common:null, rare:{name:"One Hand Pick / Parrying Pick / Breath of Ro", stats:"1H Slash 2dmg/38dly AC2"}},
+      {name:"Dark Assassin", region:"plains", cls:"Rogue", lvl:"50", loc:"Roams behind south tower", common:{name:"Combine Dagger", stats:"Piercing 3dmg/19dly"}, rare:{name:"Bloody Dirk / Bloody Mantle", stats:"1H Slash 6dmg/22dly Disease Cloud@15 · AC−3 STR+5/DEX+5"}},
+      {name:"A Glacier Bear", region:"caves", cls:"Warrior", lvl:"27", loc:"Bear fortress caves at river's end", common:{name:"Ingot of the Devout", stats:"quest item, no drop"}, rare:{name:"Glacier Bear Pelt", stats:"quest item, no drop"}},
+      {name:"Sulon McMoor", region:"caves", cls:"GM Wizard (Necromancer)", lvl:"61", loc:"(4775,-3189)", common:null, rare:null},
+      {name:"Lich of Miragul", region:"caves", cls:"Necromancer", lvl:"45", loc:"Underwater ice caves, roams, KOS", common:null, rare:null},
+      {name:"Miragul", region:"caves", cls:"Necromancer — Boss", lvl:"53", loc:"Ice Caves", common:null, rare:{name:"Miragul's Head / Miragul's Robe", stats:"quest item · AC11 DEX+5/STA+5/INT+5/MANA+20"}},
+      {name:"Sulgar", region:"caves", cls:"Wizard", lvl:"50", loc:"North zone near Trankia/Ristia, (3032,-2395)", common:{name:"Human Blood", stats:"quest item"}, rare:{name:"Robe of the Evoker", stats:"AC6"}},
+      {name:"Trankia", region:"caves", cls:"Rogue", lvl:"47-49", loc:"North zone, (3031,-2381), 22min", common:{name:"Fine steel weapons, gems", stats:"—"}, rare:null},
+      {name:"Ristia", region:"caves", cls:"Rogue", lvl:"48", loc:"North zone, (3050,-2390), 22min", common:{name:"Fine steel, gems", stats:"—"}, rare:null},
+      {name:"An Ice Giant", region:"caves", cls:"Warrior", lvl:"38-42", loc:"Permafrost gate camps, three solo spots", common:{name:"Ice Giant Toes", stats:"—"}, rare:{name:"Diamond Dust", stats:"—"}},
+      {name:"Eichvul", region:"caves", cls:"Wizard (triggers 2 adds on aggro)", lvl:"22", loc:"(2816,-6278)", common:null, rare:null},
+    ]
+  },
+
+  nektulos: {
+  label: "Nektulos Forest", short: "Nektulos",
+  title: "Nektulos Forest", eyebrow: "Zone Codex · Nektulos Forest",
+  sub: "A cramped, tangled dark elf newbie forest north of the Commonlands — halfling ruins, patrolling Neriaki guards, and a scattering of tougher wanderers make it more dangerous than its size suggests.",
+  levels: "1–30", respawn: "6:40",
+  regions: { grove:{label:"Newbie Grove", color:"#6f9c6a"}, ruins:{label:"Halfling Ruins", color:"#b08a4e"}, border:{label:"Lavastorm Border", color:"#c2513f"} },
+  legend: [
+    {label:"Newbie Grove", color:"#6f9c6a", text:"Dark elf guard patrols near the Neriak entrance — low-level, mostly harmless if you stay out of their path."},
+    {label:"Halfling Ruins", color:"#b08a4e", text:"The old halfling settlement in the forest's heart, now home to wandering druids and rogue guardians."},
+    {label:"Lavastorm Border", color:"#c2513f", text:"The southeastern edge toward Lavastorm — stone and iron guardians hit well above the zone's average level."}
+  ],
+  mobs: [
+    {name:"Kirak Vil", region:"border", cls:"Warrior", lvl:"56", loc:"Wanders (2045,-791) / (1658,-724)", common:{name:"Tainted Darksteel Shield", stats:"—"}, rare:null},
+    {name:"Captain N'Farre", region:"border", cls:"Warrior", lvl:"50", loc:"Wanders (2289,-992) / (1799,-953)", common:null, rare:null},
+    {name:"Dragoon Tsanne", region:"border", cls:"Warrior", lvl:"50", loc:"(2324,-990)", common:{name:"Dragoon Dirk", stats:"—"}, rare:null},
+    {name:"Leatherfoot Deputy", region:"ruins", cls:"Warrior", lvl:"20-29+", loc:"(1026, 611)", common:{name:"Words of Enlightenment", stats:"—"}, rare:null},
+    {name:"Leatherfoot Medic", region:"ruins", cls:"Cleric", lvl:"20", loc:"(58,1141) / (1140,40)", common:{name:"Splintering Club", stats:"1H Blunt"}, rare:{name:"Raider Skullcap", stats:"—"}},
+    {name:"Master Whoopal", region:"ruins", cls:"Druid", lvl:"13", loc:"(-929, 1238)", common:{name:"Halfling Druid Master's Head", stats:"quest item"}, rare:null},
+    {name:"An Iron Guardian", region:"border", cls:"Warrior", lvl:"20-22", loc:"Roams the Lavastorm approach", common:{name:"Bloodstone", stats:"—"}, rare:{name:"Jasper", stats:"—"}},
+    {name:"A Stone Guardian", region:"border", cls:"Warrior", lvl:"13-15", loc:"Near the Lavastorm zone line", common:{name:"Bloodstone", stats:"—"}, rare:null},
+  ]
+},
+
+innothule: {
+  label: "Innothule Swamp", short: "Innothule",
+  title: "Innothule Swamp", eyebrow: "Zone Codex · Innothule Swamp",
+  sub: "The ancestral troll homeland south of Antonica — dank, soggy, and thick with social monsters that will happily dogpile the unwary.",
+  levels: "1–32", respawn: "6:40",
+  regions: { fringe:{label:"Swamp Fringe", color:"#6f9c6a"}, heart:{label:"Swamp Heart", color:"#6a7a4e"} },
+  legend: [
+    {label:"Swamp Fringe", color:"#6f9c6a", text:"Lower-level troll and gnoll trash along the outer paths, closer to the Feerrott and Innothule zone lines."},
+    {label:"Swamp Heart", color:"#6a7a4e", text:"The deep bog toward the troll ruins — tougher named spawns and the aggressive, social bulk of the zone."}
+  ],
+  mobs: [
+    {name:"Lynuga", region:"heart", cls:"Shaman", lvl:"32", loc:"(-181, -340)", common:{name:"Club", stats:"1H Blunt"}, rare:{name:"Large Ruby", stats:"—"}},
+    {name:"Jojongua", region:"heart", cls:"Warrior", lvl:"17", loc:"(1832, 0-25)", common:{name:"Very Large Pelt", stats:"—"}, rare:null},
+    {name:"Bunk Odon", region:"fringe", cls:"Warrior", lvl:"13", loc:"(216, -319)", common:{name:"Rusty Spear", stats:"—"}, rare:{name:"A Noble's Crest", stats:"—"}},
+    {name:"A Troll Slayer", region:"fringe", cls:"Warrior", lvl:"7-11", loc:"(110, 100)", common:{name:"Bronze Short Sword", stats:"1H Slash"}, rare:{name:"Frog Eye Necklace", stats:"—"}},
+    {name:"Dark Deathsinger", region:"heart", cls:"Bard", lvl:"25", loc:"(-2597, 175)", common:{name:"Human Parts", stats:"quest item"}, rare:null},
+    {name:"Rell Ostodl", region:"fringe", cls:"Ranger", lvl:"14", loc:"(-1470, 47)", common:{name:"Hunting Bow", stats:"Archery"}, rare:{name:"A Noble's Crest", stats:"—"}},
+    {name:"Hogus Durmas", region:"fringe", cls:"Warrior", lvl:"12", loc:"(-306, -519)", common:{name:"High Elf Parts", stats:"quest item"}, rare:{name:"A Noble's Crest", stats:"—"}},
+  ]
+},
+
+karanas: {
+  label: "The Karanas", short: "Karanas",
+  title: "The Plains of Karana", eyebrow: "Zone Codex · North / South / East / West Karana",
+  sub: "Antonica's great open plains, split into four wind-swept zones — trade roads, lion prides, an aviak village, an ogre shrine, and Quillmane the pegasus wandering it all.",
+  levels: "1–61", respawn: "6:00-6:40",
+  regions: {
+    north:{label:"North Karana", color:"#6f9c6a"},
+    south:{label:"South Karana", color:"#b08a4e"},
+    east:{label:"East Karana", color:"#c2513f"},
+    west:{label:"West Karana", color:"#7a8fae"}
+  },
+  legend: [
+    {label:"North Karana", color:"#6f9c6a", text:"The crossroads zone — griffons, lions, and a gypsy camp along the road between Qeynos and the eastern zones."},
+    {label:"South Karana", color:"#b08a4e", text:"A sprawling quiet plain with an aviak village, centaur stables, a treant grove, and Quillmane's endless wandering circuit."},
+    {label:"East Karana", color:"#c2513f", text:"Rocky and dangerous — cyclops, giants, and bandits populate 'good hunting from 15th until about 25th level.'"},
+    {label:"West Karana", color:"#7a8fae", text:"The frontier route to Qeynos Hills — bandit camps, an ogre shrine, and spreading undead along the river."}
+  ],
+  mobs: [
+    {name:"Zahal the Vile", region:"north", cls:"Warrior", lvl:"30", loc:"(1237,-2023), paths west, 4hr respawn", common:{name:"Belt of Flesh Hooks", stats:"AC 5 · CHA−5 · disease/poison resist +5"}, rare:{name:"Bag of Troll Guts", stats:"container, 35% drop"}},
+    {name:"Korvik the Cursed", region:"north", cls:"Rogue", lvl:"15-16", loc:"Near the gypsy camp (-351,-1443) / (-814,1581) / (-787,1211)", common:{name:"Iron Shackles", stats:"AC 7 · CHA−5"}, rare:{name:"A Gypsy Medallion", stats:"AC 2 · CHA+9 · disease resist +10"}},
+    {name:"Quillmane", region:"south", cls:"Warrior (Pegasus, wanders)", lvl:"30", loc:"20+ roam points across southern half of zone, 78s respawn", common:{name:"Feathered Leggings", stats:"AC 4 · STA+7"}, rare:{name:"Pegasus Feather Cloak", stats:"AC 6 · DEX+7 · Levitate (no-drop)"}},
+    {name:"Lord Grimrot", region:"south", cls:"Shadow Knight", lvl:"35", loc:"(1377, 1172), living or undead form, ~3.2hr respawn", common:{name:"Pestilence Scythe", stats:"2H Slash · 10dmg/50dly"}, rare:{name:"Pestilence Scythe (quest)", stats:"2H Slash · 16dmg/48dly · disease/poison resist +10 · Vampiric Curse"}},
+    {name:"Sir Morgan", region:"east", cls:"Warrior", lvl:"30", loc:"(-14, 202), 20% spawn, patrols road to Highpass with Squire Wimbley", common:{name:"Bronze Broad Sword", stats:"1H Slash · 5dmg/32dly"}, rare:{name:"Halfling Knife", stats:"Throwing · 12dmg/42dly"}},
+    {name:"Tarbul Earthstrider", region:"east", cls:"Warrior", lvl:"48", loc:"(728,-2347) / (-2300,-790), PH is a roaming rogue lion", common:{name:"Rain of Karana", stats:"—"}, rare:{name:"Fine Steel Scimitar", stats:"1H Slash · 5dmg/24dly (quest item, 25%)"}},
+    {name:"Chief Goonda", region:"west", cls:"Shaman", lvl:"34", loc:"(-659,-9128), spawns between 2 ogre shamans + 4 guards, Harm Touch", common:{name:"Turtleshell Helm", stats:"AC 5 · STR+3 · Improved Healing I"}, rare:{name:"Bone Amulet of Blade Turning", stats:"AC 2 · WIS+6/MANA+10 · Guard @20"}},
+    {name:"Frostbite", region:"west", cls:"Warrior (wolf)", lvl:"10-12", loc:"(-3532, -2236)", common:{name:"Koalindl Fish", stats:"lore item, no-drop"}, rare:null},
+  ]
+},
+
+sola: {
+  label: "Solusek's Eye", short: "Sol A",
+  title: "Solusek's Eye", eyebrow: "Zone Codex · Solusek's Eye (Sol A)",
+  sub: "A lava-filled goblin warren under an uneasy truce with a gnome mining outpost — fire imps, drakes, and efreeti prowl the tunnels between them.",
+  levels: "20–40", respawn: "18 min",
+  regions: { goblin:{label:"Fire Goblin Warrens", color:"#c2513f"}, gnome:{label:"Mining Company Outpost", color:"#7a8fae"}, deep:{label:"Deep Tunnels", color:"#b08a4e"} },
+  legend: [
+    {label:"Fire Goblin Warrens", color:"#c2513f", text:"The Goblins of Fire Peak's halls — king, wizard, and dark elf exile territory near the lava flows."},
+    {label:"Mining Company Outpost", color:"#7a8fae", text:"The Solusek Mining Company's gnome fort — Captain Bipnubble and his crew, uneasily allied with the goblins."},
+    {label:"Deep Tunnels", color:"#b08a4e", text:"Fire imps, drakes, and efreeti roam the connecting passages between the two factions."}
+  ],
+  mobs: [
+    {name:"Solusek Goblin King", region:"goblin", cls:"Wizard", lvl:"30", loc:"(-789,-313), ~18 min respawn", common:{name:"Ring of Goblin Lords", stats:"AC 4 · STR+3/INT+3"}, rare:{name:"Scepter of Flame", stats:"1H Blunt · MANA+15 · fire/magic resist"}},
+    {name:"Gabbie Mardoddle", region:"gnome", cls:"Wizard", lvl:"32", loc:"Zone #8, (-307,-1128), 18 min respawn", common:{name:"Mithril Quill", stats:"Piercing (75%)"}, rare:{name:"Molten Cloak", stats:"AC · WIS+/INT+ (25%)"}},
+    {name:"Captain Bipnubble", region:"gnome", cls:"Warrior", lvl:"40", loc:"Upstairs, Gnome Fort (-300,-1096)", common:{name:"Fine Steel Short Sword", stats:"1H Slash"}, rare:{name:"Gnomish Environment Suit", stats:"very rare chest piece"}},
+    {name:"Reckless Efreeti", region:"deep", cls:"Warrior", lvl:"26", loc:"(-50,-760), 70 min respawn", common:{name:"Platinum Armband", stats:"STR+3/WIS+3 · Mana Preservation I (75%)"}, rare:{name:"Obsidian Flamberge", stats:"2H Slash · 20dmg · Obsidian Shatter proc (25%)"}},
+    {name:"Singe", region:"deep", cls:"Warrior (Drake, roams)", lvl:"28", loc:"Random spawn, always paths to map point #6, 7 min respawn", common:{name:"Obsidian Bead Hoop", stats:"(75%)"}, rare:{name:"Drakescale Belt", stats:"(25%)"}},
+    {name:"Kindle", region:"deep", cls:"Rogue (Fire Imp)", lvl:"26", loc:"Sparkling red-walled room, (-10,-780), 18 min respawn, 10% spawn chance", common:{name:"Obsidian Ring", stats:"DEX+3/HP+10"}, rare:{name:"Impskin Gloves", stats:"INT+5/MANA+10 · Affliction Efficiency I"}},
+    {name:"Lynada the Exiled", region:"goblin", cls:"Magician (Dark Elf)", lvl:"29", loc:"(-1002,-658)", common:{name:"Dark Elf Parts", stats:"quest item"}, rare:{name:"Damask Amice", stats:"shoulder armor (35%)"}},
+  ]
+},
+
+  qeynoshills: {
+    label: "Qeynos Hills", short: "Qeynos Hills",
+    title: "Qeynos Hills", eyebrow: "Zone Codex · Qeynos Hills",
+    sub: "The rolling farmland and ruins west of the newbie yard — the first real hunting ground for fresh Qeynos characters.",
+    levels: "2–15", respawn: "unknown",
+    regions: { farms:{label:"Miller Farms", color:"#6f9c6a"}, ruins:{label:"Haunted Ruins", color:"#8a6a9c"} },
+    legend: [
+      {label:"Miller Farms", color:"#6f9c6a", text:"The homestead cluster around the Millers' Fire — wolves, bears, and low-level quest-givers."},
+      {label:"Haunted Ruins", color:"#8a6a9c", text:"Crumbling structures further out where undead casters and higher-level wanderers linger."}
+    ],
+    mobs: [
+      {name:"Baobob Miller", region:"farms", cls:"Warrior", lvl:"25", loc:"100% spawn near the Miller farmstead (5008,118)", common:{name:"Bronze Scimitar", stats:"1H Slash · low-level starter weapon"}, rare:null},
+      {name:"Chanda Miller", region:"farms", cls:"Rogue", lvl:"25", loc:"50% spawn near the Miller farmstead (4995,104)", common:{name:"Bronze Short Sword", stats:"1H Slash · low-level starter weapon"}, rare:{name:"Bronze Dagger", stats:"1H Pierce · low-level starter weapon"}},
+      {name:"Holly Windstalker", region:"farms", cls:"NPC (quest-related)", lvl:"27", loc:"100% spawn (2726,-16)", common:{name:"Bronze Short Sword", stats:"1H Slash · low-level starter weapon"}, rare:null},
+      {name:"Hadden", region:"ruins", cls:"Barbarian", lvl:"28", loc:"(3797,985), long ~6hr respawn timer", common:{name:"Fishbone Earring", stats:"Ear · DEX+3 · Effect: Enduring Breath (worn)"}, rare:null},
+      {name:"Varsoon", region:"ruins", cls:"Necromancer", lvl:"25", loc:"34% spawn chance (4677,-923)", common:{name:"Human Blood", stats:"reagent"}, rare:null},
+      {name:"Tovax Vmar", region:"ruins", cls:"Necromancer", lvl:"10", loc:"100% spawn (827,-1046)", common:{name:"Human Blood", stats:"reagent"}, rare:{name:"Rusty Dagger", stats:"1H Pierce · low-level starter weapon"}},
+      {name:"Konem Matse", region:"farms", cls:"Quest NPC", lvl:"28", loc:"100% spawn (1439,327)", common:{name:"Yellow Headband", stats:"cloth head slot"}, rare:null},
+      {name:"Gnasher Furgutt", region:"ruins", cls:"Quest NPC", lvl:"10-11", loc:"Wanders near the Blackburrow entrance", common:null, rare:null},
+    ]
+  },
+
+  rathemtns: {
+    label: "Rathe Mountains", short: "Rathe Mtns",
+    title: "The Rathe Mountains", eyebrow: "Zone Codex · Rathe Mountains",
+    sub: "A sprawling mid-level pass on the road from Freeport to Qeynos — orc and lizard man camps, giant strongholds, and sphinxes watching from the peaks.",
+    levels: "13–46", respawn: "unknown",
+    regions: { camps:{label:"Orc/Lizard Camps", color:"#6f9c6a"}, giants:{label:"Giant & Sphinx Country", color:"#b08a4e"} },
+    legend: [
+      {label:"Orc/Lizard Camps", color:"#6f9c6a", text:"Scattered orc and lizard man war-camps and the ruined gnome town in the lower hills."},
+      {label:"Giant & Sphinx Country", color:"#b08a4e", text:"Hill giants, drakes, and the zone's two named sphinxes hold the high ground toward the eastern peaks."}
+    ],
+    mobs: [
+      {name:"Broog Bloodbeard", region:"giants", cls:"Warrior (Giant)", lvl:"46", loc:"Roams the hill giant area near (0,1500)", common:{name:"High-value platinum drops", stats:"no gear listed"}, rare:null},
+      {name:"Blackwing", region:"giants", cls:"Warrior (Drake)", lvl:"35", loc:"Drake hunting grounds near (-1700,-15)", common:null, rare:null},
+      {name:"Grazhak the Berzerker", region:"camps", cls:"Warrior (Orc)", lvl:"31", loc:"~10% spawn near orc camp (2849,-492)", common:{name:"Mithril Plated Girth", stats:"AC belt slot"}, rare:{name:"Axe of the Slayers", stats:"2H Slash · 23dmg/48dly · Effect: Rampage (Combat) @30, WAR only"}},
+      {name:"Glaron the Wicked", region:"camps", cls:"Shadow Knight", lvl:"32", loc:"Ruined town area (2870,-1905)", common:{name:"Bronze Broad Sword", stats:"1H Slash · low-tier weapon"}, rare:{name:"Woe / Envy", stats:"named 1H weapon drops"}},
+      {name:"Hasten Bootstrutter", region:"giants", cls:"Rogue (Gnome)", lvl:"40", loc:"Multiple spawn points on the hill giant slope", common:{name:"Gnome Meat", stats:"reagent/trophy"}, rare:null},
+      {name:"Bindlegrob / Findlegrob", region:"camps", cls:"Necromancer (Gnome)", lvl:"25", loc:"Ruined gnome town, two separate spawn points (-456,-2304) and (2007,740)", common:{name:"Gnome Meat", stats:"reagent/trophy"}, rare:{name:"Rune of Clay", stats:"quest/reagent item"}},
+      {name:"Ankhefenmut", region:"giants", cls:"Enchanter (Sphinx)", lvl:"40", loc:"Sphinx grounds near (3476,-3304)", common:null, rare:null},
+      {name:"Zazamoukh", region:"giants", cls:"Sphinx", lvl:"50", loc:"Separate sphinx encounter, marked location #20 on the zone map", common:null, rare:null},
+    ]
+  },
+
+  rathetear: {
+    label: "Lake Rathetear", short: "Rathetear",
+    title: "Lake Rathetear", eyebrow: "Zone Codex · Lake Rathetear",
+    sub: "A vast wilderness lake ringed by aviak cliffs, goblin and ogre camps, and bandit hideouts — busy mid-level hunting on the water's edge.",
+    levels: "15–59", respawn: "unknown",
+    regions: { shore:{label:"Shoreline Camps", color:"#6f9c6a"}, water:{label:"Lake & Towers", color:"#4e8ab0"} },
+    legend: [
+      {label:"Shoreline Camps", color:"#6f9c6a", text:"Goblin, ogre, bandit, and gypsy camps ring the lake's edges — the bulk of the mid-level hunting."},
+      {label:"Lake & Towers", color:"#4e8ab0", text:"Aviak lookout towers and abandoned spellcaster towers rising over the open water, home to the zone's tougher named casters."}
+    ],
+    mobs: [
+      {name:"Webclaw Murkwave", region:"water", cls:"Wizard", lvl:"25", loc:"(2624,1072), near the lakeside", common:{name:"Water Crystal Staff", stats:"1H Blunt · 5dmg/28dly · Effect: Shallow Breath (Combat), BRD/NEC/WIZ/MAG/ENC"}, rare:null},
+      {name:"Cyanelle", region:"shore", cls:"Magician", lvl:"22", loc:"(2597,-564)", common:{name:"Golden Earring", stats:"ear slot accessory"}, rare:{name:"Book of Darkness", stats:"spell/quest tome"}},
+      {name:"Rykas", region:"shore", cls:"Magician", lvl:"37", loc:"(958,-652), Magician epic quest giver", common:{name:"Old Patched Robe", stats:"cloth chest slot"}, rare:null},
+      {name:"Shmendrik Lavawalker", region:"shore", cls:"Cleric", lvl:"30", loc:"(3614,0), Cleric epic quest giver", common:{name:"Plasmatic Priest Robe", stats:"cloth chest slot"}, rare:null},
+      {name:"Lord Bergurgle", region:"shore", cls:"Cleric", lvl:"40", loc:"(2777,159), ogre camp", common:null, rare:null},
+      {name:"Jonah Brucker", region:"shore", cls:"Monk", lvl:"15", loc:"(-943,2417)", common:{name:"Belt Pouch", stats:"container"}, rare:{name:"Words of Refuge", stats:"quest/lore item"}},
+      {name:"Kazen Fecae / Emkel Kabae", region:"water", cls:"Necromancer / Wizard", lvl:"55-59", loc:"Tower with silent spellcasters, (342,-1589) and (~250,-1500)", common:{name:"Teir'Dal Robe Red", stats:"cloth chest slot"}, rare:null},
+      {name:"Prince Kyrmt Keroppi", region:"shore", cls:"Shadow Knight", lvl:"35", loc:"Reported near the bandit/gypsy camps, exact spot unconfirmed", common:null, rare:null},
+    ]
+  },
+
+  butcherblock: {
+    label: "Butcherblock Mountains", short: "Butcherblock",
+    title: "Butcherblock Mountains", eyebrow: "Zone Codex · Butcherblock Mountains",
+    sub: "The sprawling low-level crossroads of Faydwer — goblin and bandit camps, an undead chessboard, and the gates of Kaladim.",
+    levels: "1–15 (with pockets to 35+)", respawn: "unknown",
+    regions: { goblins:{label:"Goblin/Bandit Camps", color:"#6f9c6a"}, chessboard:{label:"Chessboard & Kaladim Gates", color:"#8a6a9c"} },
+    legend: [
+      {label:"Goblin/Bandit Camps", color:"#6f9c6a", text:"Goblin war-parties and bandit hideouts scattered across the docks and lowlands, plus the wandering ocean-side goblins."},
+      {label:"Chessboard & Kaladim Gates", color:"#8a6a9c", text:"The undead-infested Chessboard ruins and the guarded approach to the dwarven city of Kaladim."}
+    ],
+    mobs: [
+      {name:"Corflunk", region:"goblins", cls:"Warrior (Ogre)", lvl:"7", loc:"9% spawn at the goblin camp near Dagnor's Cauldron (-2001,-202)", common:null, rare:null},
+      {name:"Glubbsink", region:"goblins", cls:"Warrior (Goblin)", lvl:"15", loc:"Ocean between the docks (1235,3500)", common:null, rare:{name:"Riptide Spear", stats:"1H Pierce · 6dmg/33dly, 3 charges · Backstab+6 · SV Cold+2/SV Magic-5 · Effect: Enduring Breath"}},
+      {name:"Blyle Bundin", region:"goblins", cls:"Warrior (Dwarf)", lvl:"7", loc:"South of the stone marker (165,2476)", common:{name:"Rusty Axe", stats:"1H Slash · low-level starter weapon"}, rare:{name:"Dwarf Head", stats:"trophy/quest item"}},
+      {name:"Nyzil Bloodforge", region:"chessboard", cls:"Warrior (Dwarf)", lvl:"35", loc:"The Crossroads guard house", common:null, rare:null},
+      {name:"A crazed goblin", region:"goblins", cls:"Warrior (Goblin)", lvl:"28-30", loc:"Ancient stone ring (1335,-1645)", common:null, rare:{name:"Blade of Nobility", stats:"Lore, no drop — no further stats listed on item page"}},
+      {name:"An undead king", region:"chessboard", cls:"Magician (Skeleton)", lvl:"15", loc:"The Chessboard", common:{name:"Warbone Chips", stats:"trophy/quest item"}, rare:null},
+      {name:"Guard Armandin", region:"chessboard", cls:"Warrior (Kaladim Citizen)", lvl:"50", loc:"100% spawn at the Kaladim entrance (3041,-224)", common:{name:"Dwarven Axe", stats:"1H Slash · 6dmg/26dly, WAR/PAL/RNG/SHD/BRD/ROG"}, rare:null},
+      {name:"Peg Leg", region:"goblins", cls:"Bandit", lvl:"?", loc:"Bandit camp (marked #10 on the zone map)", common:null, rare:null},
+    ]
+  },
+
+  greaterfaydark: {
+    label: "Greater Faydark", short: "Greater Fay",
+    title: "Greater Faydark", eyebrow: "Zone Codex · Greater Faydark",
+    sub: "A sprawling, maze-like forest ringing Kelethin — newbie fields give way to faerie glades and scattered orc camps.",
+    levels: "1–12", respawn: "~7 min (unconfirmed)",
+    regions: {
+      fields: { label:"Fields & Groves", color:"#6f9c6a" },
+      faeryard: { label:"Faerie Village", color:"#d9a441" },
+      orccamp: { label:"Orc Camps", color:"#c2513f" }
+    },
+    legend: [
+      {label:"Fields & Groves", color:"#6f9c6a", text:"Newbie wolves, bats, wasps, and spiderlings scattered around the outskirts of Kelethin."},
+      {label:"Faerie Village", color:"#d9a441", text:"Fae guards and nobles ringing a hidden fae settlement — Fine Steel drops start showing up on the tougher guards."},
+      {label:"Orc Camps", color:"#c2513f", text:"Scattered orc pawns and specialists, including a torch-wielding arsonist prized for a quest item."}
+    ],
+    mobs: [
+      {name:"An orc arsonist", region:"orccamp", cls:"Warrior", lvl:"12", loc:"100% @ (1958, 2271)", common:null, rare:{name:"Orcish Arsons Torch", stats:"— (lore/quest item)"}},
+      {name:"A bandit (Greater Faydark)", region:"orccamp", cls:"Warrior", lvl:"5-7", loc:"100% @ (-1266, -700)", common:null, rare:null},
+      {name:"A giant wasp warrior", region:"fields", cls:"Warrior", lvl:"7", loc:"Four fixed spawn points around the wasp hive", common:{name:"Wasp Wing / Royal Jelly", stats:"—"}, rare:{name:"Giant Wasp Eye", stats:"—"}},
+      {name:"A Widow Hatchling", region:"fields", cls:"Warrior", lvl:"2", loc:"Seven spider-web spawn points", common:{name:"Spiderling Silk", stats:"—"}, rare:{name:"Spiderling Eye", stats:"—"}},
+      {name:"A Faerie Royal Guard", region:"faeryard", cls:"Ranger", lvl:"21", loc:"Multiple posts around the faerie village", common:{name:"Fairy Dust / Faerie Wing", stats:"—"}, rare:{name:"Fine Steel weapon", stats:"—"}},
+      {name:"A Faerie Guard", region:"faeryard", cls:"Ranger", lvl:"24-26", loc:"Multiple posts around the faerie village", common:{name:"Twice-Woven Silk", stats:"—"}, rare:{name:"Twice-Woven Cloak", stats:"—"}},
+      {name:"Alania Peaceheart", region:"faeryard", cls:"Druid (out-of-place high-level spawn)", lvl:"45", loc:"(1042, 1175)", common:{name:"Heart of the Pure Druid", stats:"— (quest/combine item)"}, rare:{name:"Combine Great Staff", stats:"—"}},
+    ]
+  },
+
+  lesserfaydark: {
+    label: "Lesser Faydark", short: "Lesser Fay",
+    title: "Lesser Faydark", eyebrow: "Zone Codex · Lesser Faydark",
+    sub: "A brownie- and fae-thick woodland south of the Faydark — a hidden Teir'Dal camp and a pair of unicorns lurk in its far corners.",
+    levels: "10–30 (pockets to 60)", respawn: "6:40",
+    regions: {
+      wilds: { label:"Brownie Wilds", color:"#6f9c6a" },
+      faeryard: { label:"Faerie Village", color:"#d9a441" },
+      grove: { label:"Teir'Dal Camp & Unicorn Grove", color:"#7a5fb0" }
+    },
+    legend: [
+      {label:"Brownie Wilds", color:"#6f9c6a", text:"Brownie farmers and outcasts scattered through the southern woods, plus a rare giant-spider queen."},
+      {label:"Faerie Village", color:"#d9a441", text:"Pixies, fairies, and a drixie enchanter clustered around the fae settlement in the northeast."},
+      {label:"Teir'Dal Camp & Unicorn Grove", color:"#7a5fb0", text:"A hidden dark elf necromancer's camp to the west, and a lone unicorn pair further out — both very rare, faction-heavy pulls."}
+    ],
+    mobs: [
+      {name:"Larik Z`Vole", region:"grove", cls:"Dark Elf Necromancer", lvl:"17", loc:"100% @ (46, 2245), spawns 8pm–6am game time", common:null, rare:{name:"Larik Z`Vole's Head", stats:"— (no-drop quest item)"}},
+      {name:"Equestrielle", region:"grove", cls:"Unicorn Warrior", lvl:"40", loc:"(1585, 505)", common:{name:"Equestrielle's Eye / Unicorn Horn Fragments", stats:"—"}, rare:{name:"Unicorn Horn", stats:"Secondary, 5 charges"}},
+      {name:"Bracken Underbrush", region:"wilds", cls:"Brownie Druid", lvl:"18", loc:"10% @ multiple spots incl. (719,-912), (760,-1270), (-565,-1528), (-309,1007)", common:{name:"Braided Ivy Cords", stats:"AC 4, shoulders"}, rare:{name:"Pouch of Mistletoe Powder", stats:"—"}},
+      {name:"Queen Nasheeji", region:"wilds", cls:"Giant Spider Warrior", lvl:"10", loc:"3% @ (750, 2426)", common:{name:"Shiny Silk Gloves", stats:"—"}, rare:{name:"Pulsating Brood Clutch", stats:"—"}},
+      {name:"Old Dimshimmer", region:"faeryard", cls:"Drixie Enchanter", lvl:"12", loc:"Multiple spots incl. (1066, 2899), (-661, 2336), (1491, -266)", common:{name:"Bottle of Drake Breath", stats:"—"}, rare:{name:"Illusionists Stone", stats:"Primary/Secondary click"}},
+      {name:"Whimsy Larktwitter", region:"faeryard", cls:"Pixie Rogue", lvl:"16", loc:"33% @ (1082, -142)", common:null, rare:{name:"Arrow of Fire / Arrow of Lightning", stats:"—"}},
+      {name:"Mina Glimmerwing", region:"faeryard", cls:"Fairy Cleric", lvl:"20", loc:"25% @ (1222, 3550), (760,-1270), (1142, 3645)", common:null, rare:{name:"Red Wood Wand", stats:"Primary/Secondary"}},
+      {name:"Princess Joleena", region:"faeryard", cls:"Fairy Ranger", lvl:"24", loc:"100% @ (1094, 3618), placeholder is A Fairy Guard on a 12-hour cycle", common:{name:"Fine Steel Short Sword", stats:"—"}, rare:{name:"Faerie Princess Wing", stats:"—"}},
+    ]
+  },
+
+  steamfont: {
+    label: "Steamfont Mountains", short: "Steamfont",
+    title: "Steamfont Mountains", eyebrow: "Zone Codex · Steamfont Mountains",
+    sub: "Home of the gnomes — kobold ravines and clockwork tinkering give way to a dangerous minotaur-held canyon in the south.",
+    levels: "1–18 (pockets to 35)", respawn: "6:30",
+    regions: {
+      kobold: { label:"Kobold Camps", color:"#6f9c6a" },
+      gnomish: { label:"Windmills & Clockworks", color:"#b08a4e" },
+      minotaur: { label:"Minotaur Caves", color:"#c2513f" }
+    },
+    legend: [
+      {label:"Kobold Camps", color:"#6f9c6a", text:"Low-level kobold ravines north of the windmills — the missionary shaman is the notable rare here."},
+      {label:"Windmills & Clockworks", color:"#b08a4e", text:"The gnomish trade hub and its wandering tinker constructs, plus a paladin crusader out toward the Observers."},
+      {label:"Minotaur Caves", color:"#c2513f", text:"A dangerous southern canyon of minotaurs, with a rogue necromancer holed up deep inside — the zone's toughest pulls."}
+    ],
+    mobs: [
+      {name:"Meldrath The Malignant", region:"minotaur", cls:"Gnome Necromancer", lvl:"35", loc:"100% @ (1690, -2209), inside the minotaur caves, 22-minute respawn", common:null, rare:{name:"Skull of Meldrath", stats:"—"}},
+      {name:"Minotaur Hero", region:"minotaur", cls:"Minotaur Warrior", lvl:"35", loc:"(1227.88, -1639.68)", common:{name:"Minotaur Battle Axe", stats:"1H Slash · 8dmg/37dly"}, rare:{name:"Minotaur Hero Shackles", stats:"— (lore item)"}},
+      {name:"Minotaur Lord", region:"minotaur", cls:"Minotaur Warrior", lvl:"30", loc:"(1555, -2410)", common:{name:"Minotaur Battle Axe", stats:"1H Slash · 8dmg/37dly"}, rare:{name:"Broken Minotaur Lord's Horn", stats:"— (lore item)"}},
+      {name:"A Kobold Missionary", region:"kobold", cls:"Kobold Shaman", lvl:"26", loc:"100% @ (1891, -1716), spawns around 8pm game time", common:{name:"Fine Steel Warhammer", stats:"—"}, rare:{name:"An Encrypted Document", stats:"— (lore item)"}},
+      {name:"Feddi Dooger", region:"gnomish", cls:"Gnome Rogue", lvl:"11", loc:"(245, -1135)", common:{name:"Gnome Meat", stats:"—"}, rare:{name:"Butcher Knife", stats:"Piercing · 3dmg/24dly (lore item)"}},
+      {name:"Nilit's contraption", region:"gnomish", cls:"Giant Spider Warrior (clockwork-guarded)", lvl:"20-21", loc:"Near the gears, (1675, -1600)", common:null, rare:{name:"Gnome Tinkered Toy", stats:"—"}},
+      {name:"Crusader Swiftmoon", region:"gnomish", cls:"High Elf Paladin", lvl:"28", loc:"(1350, -850), toward the Observers", common:{name:"Elven Blood", stats:"—"}, rare:{name:"Feir'Dal Long Sword", stats:"—"}},
+    ]
+  },
+
+  dagnorscauldron: {
+    label: "Dagnor's Cauldron", short: "Dagnor's",
+    title: "Dagnor's Cauldron", eyebrow: "Zone Codex · Dagnor's Cauldron",
+    sub: "A flooded volcanic caldera between Kaladim and Butcherblock — giant rats and snakes on the shore, aqua goblins and shipwreck ghosts in the deep water.",
+    levels: "10–25 (pockets higher)", respawn: "~20 min (Sandbar Serpent PH ~2:30)",
+    regions: {
+      shore: { label:"Northern Shore", color:"#6f9c6a" },
+      waters: { label:"Open Water", color:"#4e8ab0" },
+      goblincamp: { label:"Aqua Goblin Camps", color:"#c2513f" }
+    },
+    legend: [
+      {label:"Northern Shore", color:"#6f9c6a", text:"Giant rats wandering the beach and shallows — Flotsam and Jetsam are the low-level namesakes of the zone."},
+      {label:"Open Water", color:"#4e8ab0", text:"Snakes and a sunken skeleton captain patrol the lake itself, reachable mostly by swimming or boat."},
+      {label:"Aqua Goblin Camps", color:"#c2513f", text:"Goblin shamans, warriors, and their tidal lord roam the southern and western shorelines — the zone's toughest named spawns."}
+    ],
+    mobs: [
+      {name:"Flotsam", region:"shore", cls:"Giant Rat Warrior", lvl:"10", loc:"(1020, -1060), wanders a small patch on the north shore, ~2 min respawn", common:{name:"Giant Rat Tail", stats:"—"}, rare:{name:"Shiny Golden Coin", stats:"—"}},
+      {name:"Jetsam", region:"shore", cls:"Plague Rat Warrior", lvl:"12", loc:"(675, -1970), paths a U-shape along the northeast shore", common:{name:"Iron Leash Collar", stats:"—"}, rare:{name:"Rat Bone Powder", stats:"—"}},
+      {name:"Squallslither", region:"waters", cls:"Giant Snake Warrior", lvl:"14", loc:"~10% @ (40, -2031), just above the waterline", common:{name:"Serpent Blood Potion", stats:"—"}, rare:{name:"Serpentskin Eyepatch", stats:"—"}},
+      {name:"Barnacle Bones", region:"waters", cls:"Skeleton Warrior", lvl:"16", loc:"15% @ (8,-456), 15% @ (-293,-1336)", common:{name:"Barnacle-covered Pauldron", stats:"—"}, rare:{name:"Coral Trident", stats:"—"}},
+      {name:"Captain Klunga", region:"waters", cls:"Skeleton Warrior — quest boss", lvl:"35", loc:"(-770, -2140)", common:{name:"Warbone Chips", stats:"—"}, rare:{name:"Chalice of Conquest", stats:"—"}},
+      {name:"Bilge Farfathom", region:"goblincamp", cls:"Goblin Shaman (rare)", lvl:"30", loc:"Roams the whole zone", common:{name:"Reed Belt", stats:"—"}, rare:{name:"Pearl Kedge Totem", stats:"—"}},
+      {name:"Dwigus Lowater", region:"goblincamp", cls:"Goblin Warrior", lvl:"36", loc:"(-558, -463) / (-898, -627), placeholder is a Scalded Rat", common:{name:"Cauldron Prawn / Hunting Bow", stats:"—"}, rare:{name:"Ingot of the Constant", stats:"—"}},
+      {name:"Aqua goblin tidal lord", region:"goblincamp", cls:"Goblin Warrior", lvl:"22-24", loc:"Spawns and roams throughout the zone", common:{name:"Arrow", stats:"—"}, rare:{name:"Cauldron Shell", stats:"—"}},
+    ]
+  },
+};
+
+let currentZone = 'lguk';
+let activeRegion = 'all';
+let activeClass = 'all';
+let globalSearchMode = false;
+
+const LOOT_KEY = 'eql-loot-tracker-v1';
+let lootData = {};
+try{ lootData = JSON.parse(localStorage.getItem(LOOT_KEY) || '{}'); }catch(e){ lootData = {}; }
+
+function lootKey(zoneKey, mobName, dropName){
+  return zoneKey+'::'+mobName+'::'+dropName;
+}
+function isLooted(zoneKey, mobName, dropName){
+  return !!lootData[lootKey(zoneKey, mobName, dropName)];
+}
+function toggleLoot(zoneKey, mobName, dropName, rowEl){
+  const key = lootKey(zoneKey, mobName, dropName);
+  lootData[key] = !lootData[key];
+  if(!lootData[key]) delete lootData[key];
+  try{ localStorage.setItem(LOOT_KEY, JSON.stringify(lootData)); }catch(e){}
+  if(rowEl) rowEl.classList.toggle('found', !!lootData[key]);
+  updateTrackedCount();
+}
+function updateTrackedCount(){
+  const el = document.getElementById('trackedCount');
+  if(el) el.textContent = Object.keys(lootData).length;
+}
+
+const zoneTabs = document.getElementById('zoneTabs');
+Object.keys(ZONES).forEach(key=>{
+  const z = ZONES[key];
+  const b = document.createElement('button');
+  b.className = 'zone-tab' + (key===currentZone ? ' active':'');
+  b.innerHTML = `${z.label}<small>${z.mobs.length} named spawns</small>`;
+  b.onclick = ()=>{ currentZone=key; activeRegion='all'; activeClass='all'; document.getElementById('search').value=''; renderZone(); };
+  b.dataset.key = key;
+  zoneTabs.appendChild(b);
+});
+
+function classBucket(cls){
+  const c = cls.toLowerCase();
+  if(c.includes('cleric')) return 'Cleric';
+  if(c.includes('paladin')) return 'Paladin';
+  if(c.includes('shadow knight')) return 'SK';
+  if(c.includes('shaman')) return 'Shaman';
+  if(c.includes('wizard')) return 'Wizard';
+  if(c.includes('necromancer')) return 'Necro';
+  if(c.includes('enchanter')) return 'Enchanter';
+  if(c.includes('rogue')) return 'Rogue';
+  if(c.includes('ranger')) return 'Ranger';
+  if(c.includes('monk')) return 'Monk';
+  if(c.includes('magician')) return 'Magician';
+  if(c.includes('warrior')) return 'Warrior';
+  return 'Other';
+}
+
+function dropRow(tag,drop,zoneKey,mobName){
+  if(!drop) return '';
+  const found = isLooted(zoneKey, mobName, drop.name);
+  const safeZone = zoneKey.replace(/'/g,"\\'");
+  const safeMob = mobName.replace(/'/g,"\\'");
+  const safeDrop = drop.name.replace(/'/g,"\\'");
+  return `<div class="drop-row${found?' found':''}">
+    <input type="checkbox" class="drop-check" ${found?'checked':''} onclick="toggleLoot('${safeZone}','${safeMob}','${safeDrop}', this.closest('.drop-row'))" title="Mark as found" />
+    <span class="drop-tag ${tag}">${tag}</span>
+    <span><span class="drop-item">${drop.name}</span><span class="drop-stats">${drop.stats||''}</span></span>
+  </div>`;
+}
+
+function renderZone(){
+  const zone = ZONES[currentZone];
+
+  // tabs
+  [...zoneTabs.children].forEach(t=>t.classList.toggle('active', t.dataset.key===currentZone));
+
+  // hero
+  document.getElementById('zoneEyebrow').textContent = zone.eyebrow;
+  document.getElementById('zoneTitle').textContent = zone.title;
+  document.getElementById('zoneSub').textContent = zone.sub;
+  document.getElementById('zoneLevels').textContent = zone.levels;
+  document.getElementById('zoneRespawn').textContent = zone.respawn;
+  document.getElementById('totalCount').textContent = zone.mobs.length;
+
+  // legend
+  const legend = document.getElementById('legend');
+  legend.innerHTML='';
+  zone.legend.forEach(l=>{
+    const div = document.createElement('div');
+    div.className='legend-item';
+    div.style.borderTop = `2px solid ${l.color}`;
+    div.innerHTML = `<h3 style="color:${l.color}">${l.label}</h3><p>${l.text}</p>`;
+    legend.appendChild(div);
+  });
+
+  // region filters
+  const regionFilters = document.getElementById('regionFilters');
+  regionFilters.innerHTML='';
+  const allBtn = document.createElement('button');
+  allBtn.className='pill active'; allBtn.textContent='All Regions'; allBtn.dataset.val='all';
+  allBtn.onclick=()=>{activeRegion='all'; syncPills(regionFilters,'all'); renderCards();};
+  regionFilters.appendChild(allBtn);
+  Object.keys(zone.regions).forEach(key=>{
+    const r = zone.regions[key];
+    const b = document.createElement('button');
+    b.className='pill'; b.textContent=r.label; b.dataset.val=key;
+    b.onclick=()=>{activeRegion=key; syncPills(regionFilters,key); renderCards();};
+    regionFilters.appendChild(b);
+  });
+
+  // class filters
+  const classFilters = document.getElementById('classFilters');
+  classFilters.innerHTML='';
+  const allClassBtn = document.createElement('button');
+  allClassBtn.className='pill active'; allClassBtn.textContent='All Roles'; allClassBtn.dataset.val='all';
+  allClassBtn.onclick=()=>{activeClass='all'; syncPills(classFilters,'all'); renderCards();};
+  classFilters.appendChild(allClassBtn);
+  const classSet = [...new Set(zone.mobs.map(m=>classBucket(m.cls)))];
+  classSet.forEach(val=>{
+    const b=document.createElement('button');
+    b.className='pill'; b.textContent=val; b.dataset.val=val;
+    b.onclick=()=>{activeClass=val; syncPills(classFilters,val); renderCards();};
+    classFilters.appendChild(b);
+  });
+
+  renderCards();
+}
+
+function syncPills(container,val){
+  [...container.children].forEach(b=>b.classList.toggle('active', b.dataset.val===val));
+}
+
+function buildCard(m, zoneKey, zone, showZoneBadge){
+  const regionInfo = zone.regions[m.region];
+  const card=document.createElement('div');
+  card.className='card';
+  card.style.borderLeft = `3px solid ${regionInfo.color}`;
+  card.innerHTML=`
+    <div class="card-top">
+      <div class="card-name">${m.name}</div>
+      <div class="card-meta">LVL ${m.lvl}</div>
+    </div>
+    ${showZoneBadge ? `<span class="zone-badge" data-jump="${zoneKey}">${zone.short}</span>` : ''}
+    <div class="region-badge" style="color:${regionInfo.color}; border:1px solid ${regionInfo.color}66;">${regionInfo.label}</div>
+    <div class="card-loc">${m.cls} · ${m.loc}</div>
+    <div class="drops">
+      ${dropRow('common', m.common, zoneKey, m.name)}
+      ${dropRow('rare', m.rare, zoneKey, m.name)}
+    </div>`;
+  return card;
+}
+
+function renderCards(){
+  const grid = document.getElementById('grid');
+  const q = document.getElementById('search').value.trim().toLowerCase();
+
+  if(globalSearchMode){
+    grid.innerHTML='';
+    let shown=0, total=0;
+    if(!q){
+      grid.innerHTML = `<div class="empty-state">Type a mob or item name to search across all 16 zones.</div>`;
+      document.getElementById('resultCount').textContent = `Search all zones`;
+      return;
+    }
+    Object.keys(ZONES).forEach(zoneKey=>{
+      const zone = ZONES[zoneKey];
+      zone.mobs.forEach(m=>{
+        total++;
+        const haystack = (m.name+' '+m.cls+' '+m.loc+' '+(m.common?m.common.name:'')+' '+(m.rare?m.rare.name:'')).toLowerCase();
+        if(haystack.includes(q)){
+          shown++;
+          grid.appendChild(buildCard(m, zoneKey, zone, true));
+        }
+      });
+    });
+    if(shown===0){
+      grid.innerHTML = `<div class="empty-state">No spawns match "${q}" in any zone.</div>`;
+    } else {
+      [...grid.querySelectorAll('.zone-badge')].forEach(b=>{
+        b.onclick = ()=>{
+          currentZone = b.dataset.jump;
+          globalSearchMode = false;
+          document.getElementById('globalSearchChk').checked = false;
+          document.getElementById('globalToggle').classList.remove('active');
+          renderZone();
+          window.scrollTo({top:0, behavior:'smooth'});
+        };
+      });
+    }
+    document.getElementById('resultCount').textContent = `${shown} of ${total} spawns across all zones`;
+    return;
+  }
+
+  const zone = ZONES[currentZone];
+  grid.innerHTML='';
+  let shown=0;
+  zone.mobs.forEach(m=>{
+    const bucket = classBucket(m.cls);
+    const matchesRegion = activeRegion==='all' || m.region===activeRegion;
+    const matchesClass = activeClass==='all' || bucket===activeClass;
+    const haystack = (m.name+' '+m.cls+' '+m.loc+' '+(m.common?m.common.name:'')+' '+(m.rare?m.rare.name:'')).toLowerCase();
+    const matchesSearch = !q || haystack.includes(q);
+    if(matchesRegion && matchesClass && matchesSearch){
+      shown++;
+      grid.appendChild(buildCard(m, currentZone, zone, false));
+    }
+  });
+  if(shown===0){
+    grid.innerHTML = `<div class="empty-state">No spawns match that search. Try clearing filters.</div>`;
+  }
+  document.getElementById('resultCount').textContent = `${shown} of ${zone.mobs.length} spawns`;
+}
+
+document.getElementById('search').addEventListener('input', renderCards);
+document.getElementById('globalSearchChk').addEventListener('change', function(){
+  globalSearchMode = this.checked;
+  document.getElementById('globalToggle').classList.toggle('active', globalSearchMode);
+  document.getElementById('regionFilters').style.display = globalSearchMode ? 'none' : 'flex';
+  document.getElementById('classFilters').style.display = globalSearchMode ? 'none' : 'flex';
+  renderCards();
+});
+document.getElementById('resetTracker').addEventListener('click', function(){
+  if(confirm('Clear all tracked/found loot across every zone? This cannot be undone.')){
+    lootData = {};
+    try{ localStorage.setItem(LOOT_KEY, JSON.stringify(lootData)); }catch(e){}
+    updateTrackedCount();
+    renderZone();
+  }
+});
+
+updateTrackedCount();
+renderZone();
+</script>
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EQL Spell Upgrade Reference &amp; Calculator</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root{
+  --void:#0b0e14;
+  --stone:#141a24;
+  --stone-2:#1b2330;
+  --bone:#d7dbe8;
+  --bone-dim:#8b93a8;
+  --arcane:#7c9cff;
+  --arcane-dim:#4a5f9e;
+  --gold:#c9a24a;
+  --up:#6fb08a;
+  --down:#c2513f;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-family:'Spectral',serif;}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px 90px;}
+
+.hero{
+  position:relative; padding:56px 24px 40px; overflow:hidden;
+  border-bottom:1px solid rgba(124,156,255,0.15);
+  background: radial-gradient(ellipse 800px 380px at 25% -10%, rgba(124,156,255,0.10), transparent 60%), var(--void);
+}
+.hero-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--gold); display:flex; align-items:center; gap:10px; margin-bottom:18px;
+}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--gold);}
+h1{font-family:'Cinzel',serif; font-weight:900; font-size:clamp(30px,5vw,50px); line-height:1.05; margin:0 0 14px; color:var(--bone);}
+.sub{font-size:15.5px; color:var(--bone-dim); max-width:680px; line-height:1.65;}
+.warn-banner{
+  margin-top:24px; padding:14px 18px; border:1px solid rgba(201,162,74,0.35); background:rgba(201,162,74,0.06);
+  border-radius:4px; font-size:13px; color:var(--gold); line-height:1.6; font-family:'JetBrains Mono',monospace;
+}
+
+.section{padding:44px 0; border-bottom:1px solid rgba(124,156,255,0.10);}
+.section:last-child{border-bottom:none;}
+.section h2{font-family:'Cinzel',serif; font-size:22px; color:var(--bone); margin:0 0 8px; display:flex; align-items:center; gap:10px;}
+.section h2 .n{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--arcane); border:1px solid var(--arcane-dim); padding:2px 8px; border-radius:20px;}
+.section .lede{color:var(--bone-dim); font-size:14.5px; line-height:1.65; margin:0 0 24px; max-width:760px;}
+
+/* ---- TABLE ---- */
+.table-scroll{overflow-x:auto; border-radius:6px; border:1px solid rgba(124,156,255,0.15);}
+table{width:100%; border-collapse:collapse; font-family:'JetBrains Mono',monospace; font-size:12.5px; min-width:760px;}
+th,td{padding:10px 12px; text-align:center; border-bottom:1px solid rgba(124,156,255,0.08); white-space:nowrap;}
+th{background:var(--stone-2); color:var(--gold); font-weight:600; letter-spacing:.03em; text-transform:uppercase; font-size:10.5px;}
+td:first-child, th:first-child{text-align:left; color:var(--bone); font-family:'Spectral',serif; font-size:13px; position:sticky; left:0; background:var(--stone); min-width:190px;}
+tbody tr:hover td{background:rgba(124,156,255,0.05);}
+tbody tr:hover td:first-child{background:rgba(124,156,255,0.08);}
+.val-down{color:var(--down);}
+.val-up{color:var(--up);}
+.val-flat{color:var(--bone-dim);}
+
+/* ---- CALCULATOR ---- */
+.calc{background:var(--stone); border:1px solid rgba(124,156,255,0.18); border-radius:8px; padding:28px 26px;}
+.calc-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:22px;}
+@media(max-width:600px){.calc-grid{grid-template-columns:1fr;}}
+.field label{display:block; font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--bone-dim); margin-bottom:7px;}
+.field select, .field input{
+  width:100%; background:var(--void); border:1px solid rgba(124,156,255,0.25); color:var(--bone);
+  font-family:'Spectral',serif; font-size:14.5px; padding:11px 14px; border-radius:4px; outline:none;
+}
+.field select:focus, .field input:focus{border-color:var(--arcane);}
+.tier-row{display:flex; align-items:center; gap:14px; margin-bottom:26px;}
+.tier-row input[type=range]{flex:1; accent-color:var(--arcane);}
+.tier-badge{font-family:'Cinzel',serif; font-weight:700; font-size:20px; color:var(--arcane); min-width:80px; text-align:center; border:1px solid var(--arcane-dim); border-radius:4px; padding:6px 10px;}
+.calc-results{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px;}
+.result-chip{background:var(--void); border:1px solid rgba(124,156,255,0.15); border-radius:6px; padding:14px 16px;}
+.result-chip .rk{font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.05em; color:var(--bone-dim); margin-bottom:6px;}
+.result-chip .rv{font-family:'Cinzel',serif; font-size:19px; color:var(--bone); font-weight:700;}
+.result-chip .rv small{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); font-weight:400; margin-left:4px;}
+.calc-note{margin-top:20px; font-size:12.5px; color:var(--bone-dim); line-height:1.6; font-style:italic;}
+
+/* ---- STATIC LIST ---- */
+.static-list{display:grid; gap:12px;}
+.static-item{display:flex; gap:14px; padding:14px 18px; background:var(--stone); border-radius:6px; border-left:3px solid var(--arcane-dim);}
+.static-item b{color:var(--bone); font-family:'Cinzel',serif; font-size:14px; display:block; margin-bottom:3px;}
+.static-item p{margin:0; color:var(--bone-dim); font-size:13px; line-height:1.55;}
+
+/* ---- PET TRACK ---- */
+.pet-track{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px;}
+.pet-stat{background:var(--stone); border:1px solid rgba(124,156,255,0.15); border-radius:6px; padding:18px;}
+.pet-stat .num{font-family:'Cinzel',serif; font-size:26px; color:var(--arcane); font-weight:900;}
+.pet-stat .lbl{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); text-transform:uppercase; letter-spacing:.05em; margin-top:4px;}
+
+footer{margin-top:20px; padding-top:24px; border-top:1px solid rgba(124,156,255,0.1); font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); line-height:1.8;}
+footer a{color:var(--arcane);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">EverQuest Legends · Spell Upgrade System</div>
+    <h1>What Happens When a Spell Ranks Up</h1>
+    <p class="sub">Every scribed spell starts at Tier 0 and can be pushed to Tier 10 by feeding it motes. This is a compiled reference for exactly what each tier changes, by spell category — plus a calculator to plug in any spell's base numbers and see it at any rank.</p>
+    <div class="warn-banner">⚠ This is a beta/launch-era system and still being tuned by the devs. The rates below are fitted from in-game upgrade-window readings and combat logs (per eqltools.com), not official published numbers — treat exact percentages as "best current estimate," especially for anything not yet verified past rank 8.</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="section">
+    <h2><span class="n">01</span> The Basics</h2>
+    <p class="lede">How upgrading actually works, mechanically.</p>
+    <div class="static-list">
+      <div class="static-item"><b>Tier range: 0–10</b><p>Every spell starts at Tier 0. Feed it motes via the spell's info window (Alt+Left-Click or hold Right-Click on the icon in your spell bar, spellbook, or Actions window) to raise it. Past Tier 0 the spell's display name gets a Roman numeral suffix — Minor Healing becomes Minor Healing II, III, etc.</p></div>
+      <div class="static-item"><b>Mote cost doubles every tier</b><p>Reaching rank 1 costs 2 motes' worth of experience, rank 2 costs 4, rank 8 costs 128, and rank 10 costs 1,024 cumulative. Higher-grade motes are worth more experience per mote, but the doubling curve means Tier 8–10 is a serious investment either way.</p></div>
+      <div class="static-item"><b>Only the stat block changes</b><p>Spell description/lore text stays exactly the same at every tier — don't expect flavor text to update, only the numeric stats in the tooltip.</p></div>
+      <div class="static-item"><b>Motes are untradable</b><p>As of the July 14 patch, every mote must be spent on the character that earned it — no auction house, no trading between your own alts.</p></div>
+      <div class="static-item"><b>Void-touched Potential</b><p>A capped weekly token (up to 3/week from raid voidling activities) that merges like a mote but instantly grants one full rank to any item or spell — the efficient way to close out the expensive top tiers.</p></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="n">02</span> Per-Tier Scaling by Category</h2>
+    <p class="lede">Each cell is the stat's value at that rank as a <b>percent of its base</b> (100 = unchanged). Cast, recovery, reuse, and mana <span class="val-down">fall</span>; duration and damage <span class="val-up">rise</span>. Resist adjust and mote cost are flat/cumulative values, not percentages.</p>
+    <div class="table-scroll">
+      <table id="scaleTable">
+        <thead>
+          <tr><th>Attribute</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="calc-note">Nukes = direct-damage spells. "Other spells" = DoTs, heals, buffs, debuffs, charm, and utility — they take the larger cast-time cut. Damage scaling (+6%/tier) is confirmed clean for direct nukes and innate weapon procs read off the combat log; DoT-tick and heal magnitude are <b>not shown</b> in the upgrade window and remain unresolved/unconfirmed.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="n">03</span> Try It — Spell Upgrade Calculator</h2>
+    <p class="lede">Enter a spell's base numbers, pick its category and a target tier, and see the modified values.</p>
+    <div class="calc">
+      <div class="calc-grid">
+        <div class="field">
+          <label>Spell Category</label>
+          <select id="calcCategory">
+            <option value="nuke">Direct-damage nuke</option>
+            <option value="other">DoT / Heal / Buff / Debuff / Charm / Utility</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Base Mana Cost</label>
+          <input type="number" id="calcMana" value="65" min="0" />
+        </div>
+        <div class="field">
+          <label>Base Cast Time (sec)</label>
+          <input type="number" id="calcCast" value="2.50" step="0.01" min="0" />
+        </div>
+        <div class="field">
+          <label>Base Duration (sec) — 0 if Instant/Permanent</label>
+          <input type="number" id="calcDuration" value="0" min="0" />
+        </div>
+        <div class="field">
+          <label>Duration Type (only matters if duration &gt; 0)</label>
+          <select id="calcDurType">
+            <option value="buffdebuff">Buff / Debuff duration</option>
+            <option value="dothot">DoT / HoT duration</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Mana Category (only matters for "other" spells)</label>
+          <select id="calcManaType">
+            <option value="normal">Normal (heal/buff/utility)</option>
+            <option value="debuffcharm">Debuff / Charm</option>
+          </select>
+        </div>
+      </div>
+      <div class="tier-row">
+        <label style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); text-transform:uppercase; white-space:nowrap;">Target Tier</label>
+        <input type="range" id="calcTier" min="0" max="10" value="5" />
+        <div class="tier-badge" id="tierBadge">V</div>
+      </div>
+      <div class="calc-results" id="calcResults"></div>
+      <p class="calc-note">Damage on nukes scales +6%/tier (shown if you're using the nuke category). Resist adjust moves −15/tier on spells that carry one. Reagent skip chance is +10%/tier, guaranteed free at Tier 10, regardless of category. Mote cost shown is <b>cumulative</b> to reach that tier from Tier 0.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="n">04</span> Pet & Summon Spells — Separate Track</h2>
+    <p class="lede">Summon Pet and Warder spells don't follow the table above — each rank raises the pet's level directly.</p>
+    <div class="pet-track">
+      <div class="pet-stat"><div class="num">+1 lvl</div><div class="lbl">Pet level per spell rank</div></div>
+      <div class="pet-stat"><div class="num">+6%</div><div class="lbl">Pet HP per level gained</div></div>
+      <div class="pet-stat"><div class="num">+1</div><div class="lbl">Pet base damage per level</div></div>
+      <div class="pet-stat"><div class="num">+5</div><div class="lbl">Pet skill points per level</div></div>
+      <div class="pet-stat"><div class="num">You −1</div><div class="lbl">Pet level cap (your level minus one)</div></div>
+      <div class="pet-stat"><div class="num">✓</div><div class="lbl">Upgraded pets persist across zoning &amp; after camping</div></div>
+    </div>
+    <p class="calc-note" style="margin-top:16px;">The cast-time/mana reduction from the main table still applies to pet-summon spells on top of the level bump. The stat bonus (+6% HP etc.) only lands if the pet's level actually moves — you can still bank motes into a pet spell past your effective level cap for the cheaper/faster cast alone, you just won't see the level jump. Summon-item spells (e.g. Summoned Dagger) hand you gear at the spell's own tier — a Tier 10 summon spell produces a +10 item, if that item supports upgrades.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="n">05</span> Crowd Control — Level Cap, Not Stat Cut</h2>
+    <p class="lede">Mez, charm, fear, stun, and pacify don't get cheaper/faster from tiering — they get more reliable against higher-level targets.</p>
+    <div class="static-list">
+      <div class="static-item"><b>What actually moves</b><p>Each rank raises the highest NPC level the spell can successfully land on. This shipped for Mez and Charm first, then was extended to Pacify, Fear, and Stun.</p></div>
+      <div class="static-item"><b>Base ceilings (Tier 0)</b><p>Charm reads 25, Mesmerize reads 55, Lull reads 30 as their base level ceiling — check each spell's own description for its number, since these vary per spell.</p></div>
+      <div class="static-item"><b>Rate per tier: unconfirmed</b><p>The patch notes state the rule but not the exact rate — how many levels one rank actually adds to the ceiling hasn't been pinned down yet. Treat this as "gets better with tier" rather than a known formula.</p></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="n">06</span> What Doesn't Change</h2>
+    <p class="lede">Things a rank never touches, regardless of spell type.</p>
+    <div class="static-list">
+      <div class="static-item"><b>Instant &amp; Permanent duration spells</b><p>No duration bonus applies — there's nothing to extend.</p></div>
+      <div class="static-item"><b>Zero-mana spells</b><p>Nothing on the mana line to reduce (e.g. Cannibalize-style self-cost spells).</p></div>
+      <div class="static-item"><b>Buff/debuff magnitude</b><p>A rank shortens cast/recovery/mana and extends duration, but the actual value a buff grants — a damage shield's absorb amount, a stat buff's numbers — stays fixed at every rank.</p></div>
+      <div class="static-item"><b>Innate weapon procs — odd ranks</b><p>Procs only gain a rank every <i>two</i> spell ranks, each worth +6% of base. Odd-numbered ranks don't move them.</p></div>
+      <div class="static-item"><b>DoT-tick &amp; heal magnitude</b><p>Not exposed in the upgrade window at all, and not cleanly separable from focus effects and crit scaling in the combat log — currently unresolved, unlike direct nuke damage which reads cleanly.</p></div>
+    </div>
+  </div>
+
+  <footer>
+    Sources: eqltools.com "Spell upgrade scaling" &amp; "Upgrades &amp; motes" pages (client-observed readings from the in-game upgrade window and combat logs) · eqlwiki.com Spell Upgrading &amp; Spell Upgrade System pages · official EQL patch notes, July 7 / July 14 / July 28 2026.<br/>
+    Built for Bryan's EQL prep. Beta-era system — numbers will drift with patches, re-check against the live upgrade window when in doubt.
+  </footer>
+</div>
+
+<script>
+const ROMAN = ['0','I','II','III','IV','V','VI','VII','VIII','IX','X'];
+
+const SCALE = {
+  castNuke:      [null,98,96,94,92,90,88,86,84,82,80],
+  castOther:     [null,96,92,88,84,80,76,72,68,64,60],
+  recoveryReuseMana: [null,98,96,94,92,90,88,86,84,82,80],
+  manaDebuffCharm:   [null,96,92,88,84,80,76,72,68,64,60],
+  durBuffDebuff: [null,110,120,130,140,150,160,170,180,190,200],
+  durDotHot:     [null,105,110,115,120,125,130,135,140,145,150],
+  dmgNuke:       [null,106,112,118,124,130,136,142,148,154,160],
+  resistAdjust:  [null,-15,-30,-45,-60,-75,-90,-105,-120,-135,-150],
+  moteCost:      [null,2,4,8,16,32,64,128,256,512,1024],
+};
+
+// ---- render table ----
+const rows = [
+  {label:'Cast time — nukes', key:'castNuke', suffix:'%'},
+  {label:'Cast time — other spells', key:'castOther', suffix:'%'},
+  {label:'Recovery / Reuse / Mana', key:'recoveryReuseMana', suffix:'%'},
+  {label:'Mana — debuffs, charm', key:'manaDebuffCharm', suffix:'%'},
+  {label:'Duration — buffs, debuffs', key:'durBuffDebuff', suffix:'%'},
+  {label:'Duration — DoTs, HoTs', key:'durDotHot', suffix:'%'},
+  {label:'Damage — direct nukes', key:'dmgNuke', suffix:'%'},
+  {label:'Resist adjust', key:'resistAdjust', suffix:''},
+  {label:'Mote cost (cumulative)', key:'moteCost', suffix:''},
+];
+const tbody = document.querySelector('#scaleTable tbody');
+rows.forEach(r=>{
+  const tr = document.createElement('tr');
+  let cells = `<td>${r.label}</td>`;
+  for(let t=1;t<=10;t++){
+    const v = SCALE[r.key][t];
+    let cls = 'val-flat';
+    if(r.key==='castNuke'||r.key==='castOther'||r.key==='recoveryReuseMana'||r.key==='manaDebuffCharm') cls='val-down';
+    else if(r.key==='durBuffDebuff'||r.key==='durDotHot'||r.key==='dmgNuke') cls='val-up';
+    else if(r.key==='resistAdjust') cls='val-down';
+    cells += `<td class="${cls}">${v}${r.suffix}</td>`;
+  }
+  tr.innerHTML = cells;
+  tbody.appendChild(tr);
+});
+
+// ---- calculator ----
+const tierInput = document.getElementById('calcTier');
+const tierBadge = document.getElementById('tierBadge');
+function fmt(n, dp){ return Number(n.toFixed(dp)).toString(); }
+
+function runCalc(){
+  const tier = parseInt(tierInput.value,10);
+  tierBadge.textContent = tier===0 ? '0 (base)' : ROMAN[tier];
+  const category = document.getElementById('calcCategory').value;
+  const baseMana = parseFloat(document.getElementById('calcMana').value)||0;
+  const baseCast = parseFloat(document.getElementById('calcCast').value)||0;
+  const baseDur = parseFloat(document.getElementById('calcDuration').value)||0;
+  const durType = document.getElementById('calcDurType').value;
+  const manaType = document.getElementById('calcManaType').value;
+
+  const castPct = tier===0 ? 100 : (category==='nuke' ? SCALE.castNuke[tier] : SCALE.castOther[tier]);
+  const manaPct = tier===0 ? 100 : (category==='other' && manaType==='debuffcharm' ? SCALE.manaDebuffCharm[tier] : SCALE.recoveryReuseMana[tier]);
+  const durPct = tier===0 ? 100 : (durType==='dothot' ? SCALE.durDotHot[tier] : SCALE.durBuffDebuff[tier]);
+  const dmgPct = tier===0 ? 100 : SCALE.dmgNuke[tier];
+  const resist = tier===0 ? 0 : SCALE.resistAdjust[tier];
+  const moteCost = tier===0 ? 0 : SCALE.moteCost[tier];
+  const reagentSkip = Math.min(tier*10,100);
+
+  const modCast = baseCast * castPct/100;
+  const modMana = baseMana * manaPct/100;
+  const modDur = baseDur * durPct/100;
+
+  const results = document.getElementById('calcResults');
+  let html = '';
+  html += chip('Cast Time', fmt(modCast,2)+'s', `base ${fmt(baseCast,2)}s`);
+  html += chip('Mana Cost', fmt(modMana,0), `base ${fmt(baseMana,0)}`);
+  if(baseDur>0) html += chip('Duration', fmt(modDur,1)+'s', `base ${fmt(baseDur,1)}s`);
+  if(category==='nuke') html += chip('Damage', dmgPct+'%', 'of base — direct nuke only');
+  html += chip('Resist Adjust', resist, tier===0?'no adjust at base':'flat point value');
+  html += chip('Reagent Skip Chance', reagentSkip+'%', tier===10?'guaranteed free':'per cast');
+  html += chip('Mote Cost to Reach', moteCost, 'cumulative from Tier 0');
+  results.innerHTML = html;
+}
+function chip(label, val, sub){
+  return `<div class="result-chip"><div class="rk">${label}</div><div class="rv">${val}<small>${sub}</small></div></div>`;
+}
+['calcCategory','calcMana','calcCast','calcDuration','calcDurType','calcManaType'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', runCalc);
+  document.getElementById(id).addEventListener('change', runCalc);
+});
+tierInput.addEventListener('input', runCalc);
+runCalc();
+</script>
+</body>
+</html>
