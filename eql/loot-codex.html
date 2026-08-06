@@ -117,6 +117,7 @@ h1{
 .drop-tag{font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; padding:2px 7px; border-radius:2px; flex-shrink:0;}
 .drop-tag.common{color:#3A7D5C; border:1px solid rgba(58,125,92,0.4);}
 .drop-tag.rare{color:#B5883A; border:1px solid rgba(181,136,58,0.45); background:rgba(181,136,58,0.08);}
+.drop-tag.item{color:#5B6270; border:1px solid rgba(26,29,35,0.18);}
 .drop-item{color:var(--bone); line-height:1.4;}
 .drop-stats{display:block; color:var(--bone-dim); font-size:11.5px; margin-top:2px;}
 .empty-state{grid-column:1/-1; text-align:center; padding:70px 20px; color:var(--bone-dim); font-style:italic; font-size:15px;}
@@ -158,7 +159,7 @@ footer{margin-top:50px; padding-top:24px; border-top:1px solid rgba(26,29,35,0.1
     <div class="search-box"><input id="search" placeholder="Search a mob or item…" /></div>
     <label class="global-toggle" id="globalToggle">
       <input type="checkbox" id="globalSearchChk" />
-      <span>🔍 All 16 Zones</span>
+      <span>🔍 All 32 Zones</span>
     </label>
     <div class="pill-group" id="regionFilters"></div>
     <div class="pill-group" id="classFilters"></div>
@@ -168,7 +169,7 @@ footer{margin-top:50px; padding-top:24px; border-top:1px solid rgba(26,29,35,0.1
   <div class="grid" id="grid"></div>
 
   <footer>
-    <span>Source: eqlwiki.com · 16-zone codex built for Bryan's EQL prep · Verify drop rates in-game, wiki data drifts patch to patch. Loot tracking is stored only in this browser.</span>
+    <span>Source: eqlwiki.com · 32-zone codex built for Bryan's EQL prep · Verify drop rates in-game, wiki data drifts patch to patch. Loot tracking is stored only in this browser.</span>
     <button class="reset-btn" id="resetTracker">Reset tracked loot</button>
   </footer>
 </div>
@@ -180,11 +181,13 @@ const ZONES = {
     title: "The Ruins of Guk", eyebrow: "Zone Codex · Lower Guk",
     sub: "Living Frogloks vs. the Ghoul Lord's undead — two warring halves of the same throne room.",
     levels: "30–50+", respawn: "28 min",
-    regions: { live: { label:"Live Side", color:"#3A7D5C" }, dead: { label:"Dead Side", color:"#B5883A" } },
+    regions: { live: { label:"Live Side", color:"#3A7D5C" }, dead: { label:"Dead Side", color:"#B5883A" } ,
+      newpass: {label:"2026-08-05 Research Pass", color:"#6E7A85"}},
     legend: [
       {label:"Live Side", color:"#3A7D5C", text:"Living Frogloks under the Froglok King. Killing them costs faction — the maze here is disorienting."},
       {label:"Dead Side", color:"#B5883A", text:"Ghoul-form Frogloks under the Ghoul Lord. Undead, see through Invis vs. Undead more than you'd like."}
-    ],
+    ,
+      {label:"2026-08-05 Research Pass", color:"#6E7A85", text:"Named mobs confirmed in the 2026-08-05 mob & loot research pass — not yet geographically pinpointed within this zone."}],
     mobs: [
       {name:"A minotaur elder", region:"live", cls:"Cleric", lvl:"33", loc:"Elder Room, bottom of ladder in the pit", common:{name:"Carved Ivory Mask", stats:"AC 2 · AGI+4/HP+10 · Reanimation Haste I"}, rare:{name:"Chrysoberyl Talisman", stats:"AC 5 · WIS+3/MANA+20 · Affliction Haste II"}},
       {name:"Raster of Guk", region:"live", cls:"Monk (v.rare)", lvl:"?", loc:"Upper alcove of Elder Room, by the cauldron", common:{name:"The Idol", stats:"WIS+3/INT+3"}, rare:null},
@@ -211,7 +214,8 @@ const ZONES = {
       {name:"A ghoul cavalier", region:"dead", cls:"Shadow Knight (Harm Touch + pet)", lvl:"36", loc:"Dead Tower room", common:{name:"Adamantite Epaulets", stats:"AC 9 · WIS+7"}, rare:{name:"A Dark Reaver", stats:"2H Slash · 20dmg/42dly · Steal Strength"}},
       {name:"A ghoul sage", region:"dead", cls:"Wizard", lvl:"37", loc:"Sage Room (tough, many wizards)", common:{name:"Braided Cinch Cord", stats:"AC 2 · INT+4/HP+8"}, rare:{name:"Runed Cowl", stats:"AC 2 · WIS+5/INT+9 · Reanimation Efficiency II"}},
       {name:"A ghoul executioner", region:"dead", cls:"Warrior", lvl:"35", loc:"Executioner Room, on the platform", common:{name:"Executioners Hood", stats:"AC 5 · STR+4/DEX+9"}, rare:{name:"An Executioners Axe", stats:"2H Slash · 25dmg/50dly · Haste proc @30"}},
-    ]
+    
+      {name:"A Kor Ghoul Wizard", region:"newpass", cls:"—", lvl:"41–43", loc:"—", common:{name:"Eye of Kor", stats:"lore, no drop"}, rare:null},]
   },
 
   uguk: {
@@ -255,14 +259,16 @@ const ZONES = {
       "Efreeti Lair": {label:"Efreeti Lair", color:"#5C9A96"},
       "Fire Giant Castle": {label:"Fire Giant Castle", color:"#B5883A"},
       "Dragon's Lair": {label:"Dragon's Lair", color:"#B5883A"}
-    },
+    ,
+      newpass: {label:"2026-08-05 Research Pass", color:"#6E7A85"}},
     legend: [
       {label:"Kobold Halls", color:"#96805F", text:"The entrance tier — three 'Royals' (king, priest, champion) plus the noble and Targin the Rock."},
       {label:"Bug/Spider Dens", color:"#8571A6", text:"Sonic bats and giant spiders. Everything here sees through invisibility."},
       {label:"Efreeti Lair", color:"#5C9A96", text:"A lava-pool chamber guarded by Lava Guardians, home to Efreeti Lord Djarn."},
       {label:"Fire Giant Castle", color:"#B5883A", text:"High-level giants immune to mez/charm below very high enchanter skill. Feign-pull territory."},
       {label:"Dragon's Lair", color:"#B5883A", text:"Lord Nagafen himself — one of EverQuest's three original raid bosses."}
-    ],
+    ,
+      {label:"2026-08-05 Research Pass", color:"#6E7A85", text:"Named mobs confirmed in the 2026-08-05 mob & loot research pass — not yet geographically pinpointed within this zone."}],
     mobs: [
       {name:"Lord Nagafen", region:"Dragon's Lair", cls:"Warrior — Raid Boss", lvl:"55", loc:"Innermost lair (-1395,-871)", common:{name:"Gold Plated Koshigatana / Prayers of Life", stats:"Piercing 9dmg/25dly, Backstab 9, Dismiss Summoned"}, rare:{name:"Bladestopper / Cloak of Flames / Hierophant's Crook", stats:"AC 25, Rune IV · AC10 Haste+36% · 2H Blunt 20dmg Earthquake"}},
       {name:"King Tranix", region:"Fire Giant Castle", cls:"Shadow Knight", lvl:"52", loc:"Throne Room, Harm Touch >700", common:{name:"Polished Mithril Torque", stats:"AC 7 · WIS+13/INT+13"}, rare:{name:"Crown of King Tranix", stats:"AC 13 · CHA+15 · magic resist +20 (raid instance only)"}},
@@ -279,7 +285,9 @@ const ZONES = {
       {name:"Stone spider", region:"Bug/Spider Dens", cls:"Warrior (resists MR-based attacks)", lvl:"44-46", loc:"Stone Spider Room", common:{name:"Crystalline Orb", stats:"5-charge Eye of Zomm"}, rare:{name:"Brown Chitin Protector", stats:"AC 12 · DEX+9/STA+9/AGI+9, DRU only"}},
       {name:"Guano harvester", region:"Bug/Spider Dens", cls:"Warrior (invisible, long wander path)", lvl:"25", loc:"Collector's Room", common:{name:"Large Soiled Bag", stats:"100% wt reduction, 10 slots"}, rare:{name:"Cloak of Shadows", stats:"AC 12 · DEX+13 · disease resist +10"}},
       {name:"Midghh the Dark", region:"Kobold Halls", cls:"Warrior (Dark Elf, ultra-rare)", lvl:"35", loc:"Paths from Priest Room, no faction hits", common:{name:"Bronze Two-Handed Battle Axe", stats:"2H Slash · 9dmg/46dly"}, rare:null},
-    ]
+    
+      {name:"Fire Giant Warrior / Fire Giant Wizard", region:"newpass", cls:"—", lvl:"—", loc:"—", common:null, rare:null, drops:[{name:"Diamond Dust", stats:""}, {name:"Fire Giant Toes", stats:""}, {name:"Throwing Boulder", stats:""}]},
+      {name:"Zordakalicus Ragefire", region:"newpass", cls:"—", lvl:"54", loc:"—", common:{name:"Blazing Boots/Bracer/Breastplate/Gauntlets/Helm/Vambraces of Fennin Ro", stats:""}, rare:{name:"Gauntlets of Fiery Might", stats:""}},]
   },
 
   blackburrow: {
@@ -318,11 +326,13 @@ const ZONES = {
     title: "Befallen", eyebrow: "Zone Codex · Befallen",
     sub: "A fallen monastery turned undead crypt, gated behind three shadowknight-guarded keys that unlock progressively deeper — and deadlier — halls.",
     levels: "7–28", respawn: "4:27",
-    regions: { upper:{label:"Upper Levels (1-2)", color:"#3A7D5C"}, level3:{label:"Level Three", color:"#B5883A"} },
+    regions: { upper:{label:"Upper Levels (1-2)", color:"#3A7D5C"}, level3:{label:"Level Three", color:"#B5883A"} ,
+      newpass: {label:"2026-08-05 Research Pass", color:"#6E7A85"}},
     legend: [
       {label:"Upper Levels (1-2)", color:"#3A7D5C", text:"Key-bearing shadowknights guard three locked doors here — clear them to descend."},
       {label:"Level Three", color:"#B5883A", text:"The Dark Elf V'Zher enclave and the necromancer wing — the real reason people come to Befallen."}
-    ],
+    ,
+      {label:"2026-08-05 Research Pass", color:"#6E7A85", text:"Named mobs confirmed in the 2026-08-05 mob & loot research pass — not yet geographically pinpointed within this zone."}],
     mobs: [
       {name:"A shadowknight (Dark Elf Male)", region:"upper", cls:"Warrior", lvl:"6-9", loc:"Room west of the well", common:null, rare:{name:"Splintered Wooden Key", stats:"1st dungeon key (always)"}},
       {name:"A shadowknight (Human)", region:"upper", cls:"Shadowknight", lvl:"9-11", loc:"Pit trap room, landmark #3", common:{name:"Antiqued Silver Band", stats:"AC 2"}, rare:{name:"Charred Bone Key", stats:"2nd dungeon key (always)"}},
@@ -344,7 +354,8 @@ const ZONES = {
       {name:"Asaka L`Rei", region:"level3", cls:"Shadowknight", lvl:"16", loc:"Dark Elf enclave, (-391, 97)", common:{name:"Enchanted Fine Steel Morning Star", stats:"1H Blunt · 7dmg/30dly · STR+2/WIS+5"}, rare:{name:"Ebon Scythe", stats:"2H Slash · 17dmg/45dly · STR+5/INT+2, CHA −10"}},
       {name:"Kahaptra Z`Taj", region:"level3", cls:"Wizard", lvl:"22", loc:"Dark Elf enclave, (-795, -161)", common:{name:"Golem Metal Wand", stats:"unlimited-charge Pillage Enchantment"}, rare:null},
       {name:"Gynok Moltor", region:"level3", cls:"Rogue (Zombie)", lvl:"24", loc:"(-80, -45), Ring of Opolla quest", common:{name:"Copper / Silver / Gold Ring", stats:"Ring of Opolla series"}, rare:{name:"Platinum Ring", stats:"CHA −1/AGI+1"}},
-    ]
+    
+      {name:"A shadowknight (Troll, key-dropper)", region:"newpass", cls:"—", lvl:"15", loc:"—", common:null, rare:null, drops:[{name:"Bone Bladed Claymore", stats:"rare"}, {name:"Splintered Wooden/Charred Bone/Smoked Glass Keys", stats:""}]},]
   },
 
   splitpaw: {
@@ -381,12 +392,14 @@ const ZONES = {
     title: "Clan Crushbone", eyebrow: "Zone Codex · Crushbone",
     sub: "The orc clan menacing Kelethin — a ring-shaped citadel with tents, slave pits, and Emperor Crush's throne room at the highest tier.",
     levels: "5–21", respawn: "9 min",
-    regions: { tents:{label:"Tents / Slave Pits", color:"#3A7D5C"}, hill:{label:"Trainer Hill / Wall", color:"#2B5B8C"}, keep:{label:"Castle Crush", color:"#B5883A"} },
+    regions: { tents:{label:"Tents / Slave Pits", color:"#3A7D5C"}, hill:{label:"Trainer Hill / Wall", color:"#2B5B8C"}, keep:{label:"Castle Crush", color:"#B5883A"} ,
+      newpass: {label:"2026-08-05 Research Pass", color:"#6E7A85"}},
     legend: [
       {label:"Tents / Slave Pits", color:"#3A7D5C", text:"Entrance-tier orcs plus the dwarf/elf slave cabins for the Screaming Mace quest chain."},
       {label:"Trainer Hill / Wall", color:"#2B5B8C", text:"Classic mid-level camps — 6-7 orcs at a time, fast respawns, good belt/shoulderpad farming."},
       {label:"Castle Crush", color:"#B5883A", text:"The keep and throne room — legionnaires, oracles, and Emperor Crush himself in the tower."}
-    ],
+    ,
+      {label:"2026-08-05 Research Pass", color:"#6E7A85", text:"Named mobs confirmed in the 2026-08-05 mob & loot research pass — not yet geographically pinpointed within this zone."}],
     mobs: [
       {name:"Rondo Dunfire", region:"tents", cls:"Rogue", lvl:"9", loc:"Slaver cave, main room", common:{name:"Dwarven Blood", stats:"—"}, rare:{name:"Rondo's Tongue", stats:"quest item, no drop"}},
       {name:"Retlon Brenclog", region:"tents", cls:"Magician", lvl:"16", loc:"(274, -136), Slaver Pit", common:{name:"Gnome Meat", stats:"quest item"}, rare:null},
@@ -404,7 +417,10 @@ const ZONES = {
       {name:"Ambassador DVinn", region:"keep", cls:"Warrior", lvl:"20", loc:"Tower, (76, -72)", common:{name:"Wood Elf Scout Shoes", stats:"AC2 · AGI+2/DEX+1, fire/cold resist +2"}, rare:{name:"Black Heart", stats:"quest item, no drop"}},
       {name:"Emperor Crush", region:"keep", cls:"Warrior — Boss", lvl:"18", loc:"Alcove behind the throne", common:{name:"Dwarven Mace", stats:"1H Blunt 8dmg/35dly"}, rare:{name:"Dwarven Ringmail Tunic / Crown of Crush", stats:"AC12 triple resist+8 · AC10/END+10 STR+5 cold+5"}},
       {name:"Royal Guard", region:"keep", cls:"Rogue", lvl:"15", loc:"Behind throne, invisible until aggro'd", common:null, rare:null},
-    ]
+    
+      {name:"Orc Legionnaire (Crushbone)", region:"newpass", cls:"—", lvl:"12–13", loc:"—", common:{name:"Legionnaire's Bracer", stats:""}, rare:{name:"Crushbone Shoulderpads", stats:""}},
+      {name:"Orc scoutsman (Crushbone)", region:"newpass", cls:"—", lvl:"12", loc:"—", common:null, rare:null, drops:[{name:"Sarialiyn's Lute", stats:""}, {name:"Crushbone Shoulderpads", stats:""}, {name:"Deteriorated Ancient Faydark Longbow", stats:""}, {name:"Bracers of Battle", stats:""}]},
+      {name:"Orc Emissary", region:"newpass", cls:"—", lvl:"15", loc:"—", common:null, rare:null, drops:[{name:"Rusty Spear", stats:""}, {name:"Crushbone Shoulderpads", stats:""}, {name:"Crushbone Battle Beads", stats:""}]},]
   },
 
   runnyeye: {
@@ -440,12 +456,14 @@ const ZONES = {
     title: "Najena", eyebrow: "Zone Codex · Najena",
     sub: "A dark elf magician's lair carved into Lavastorm Mountains, gated by a four-key sequence that leads deeper toward Najena herself.",
     levels: "8–35", respawn: "19 min",
-    regions: { front:{label:"Front Halls", color:"#3A7D5C"}, keys:{label:"Key Rooms", color:"#2B5B8C"}, inner:{label:"Najena's Chambers", color:"#B5883A"} },
+    regions: { front:{label:"Front Halls", color:"#3A7D5C"}, keys:{label:"Key Rooms", color:"#2B5B8C"}, inner:{label:"Najena's Chambers", color:"#B5883A"} ,
+      newpass: {label:"2026-08-05 Research Pass", color:"#6E7A85"}},
     legend: [
       {label:"Front Halls", color:"#3A7D5C", text:"Skeletons, elementals, and ogre guards near the entrance. Group recommended below level 17."},
       {label:"Key Rooms", color:"#2B5B8C", text:"BoneCracker → Guard Captain → Rathyl → Drelzna: a four-key sequence gates deeper access."},
       {label:"Najena's Chambers", color:"#B5883A", text:"The dark elf mistress's inner sanctum plus the goblin/spider caves behind it."}
-    ],
+    ,
+      {label:"2026-08-05 Research Pass", color:"#6E7A85", text:"Named mobs confirmed in the 2026-08-05 mob & loot research pass — not yet geographically pinpointed within this zone."}],
     mobs: [
       {name:"Moosh", region:"front", cls:"Warrior", lvl:"18", loc:"Prison basement", common:{name:"Bronze Armor", stats:"—"}, rare:{name:"Guard's Keyring / Whore's Bane", stats:"prison access key · quest item"}},
       {name:"Officer Grush", region:"front", cls:"Shaman", lvl:"24", loc:"Near the ogre captain", common:{name:"Dull Wooden Spear", stats:"Piercing 8dmg/33dly · WIS+2/AGI+2, cold resist+5"}, rare:null},
@@ -465,7 +483,8 @@ const ZONES = {
       {name:"The Tenderizer", region:"inner", cls:"Warrior", lvl:"22", loc:"(131,342)", common:null, rare:{name:"Kitchen Toolbelt / The Tenderizer", stats:"Haste+10% · 1H Blunt 5dmg/19dly STR+2"}},
       {name:"Lost Crusader", region:"inner", cls:"Shadowknight", lvl:"25", loc:"(135,287) / (144,119)", common:null, rare:{name:"Signet Ring / Sword of the Lost", stats:"STR+1/INT+1 · 1H Slash 15dmg/40dly STA+4"}},
       {name:"Najena (NPC)", region:"inner", cls:"Magician — Boss", lvl:"35", loc:"Najena's Room, (353,105)", common:{name:"Flowing Black Robe", stats:"AC8 STA+5/INT+3 · Reanimation Efficiency I"}, rare:{name:"Black Tome with Silver Runes / Clawed Knuckle-Ring", stats:"INT+4/MANA+30 · HP+20"}},
-    ]
+    
+      {name:"A Skeleton (Najena)", region:"newpass", cls:"—", lvl:"21–22", loc:"—", common:{name:"Hilt of the Nobleman", stats:""}, rare:null},]
   },
 
   permafrost: {
@@ -473,12 +492,14 @@ const ZONES = {
     title: "Permafrost Keep", eyebrow: "Zone Codex · Permafrost",
     sub: "A goblin-infested ruined castle in the glacial north — home to King Thex'Ka's throne room and, in the depths below, Lady Vox herself.",
     levels: "15–50+", respawn: "7 min",
-    regions: { keep:{label:"Goblin Halls", color:"#3A7D5C"}, king:{label:"King's Room", color:"#2B5B8C"}, pits:{label:"Bear Pits / Vox's Lair", color:"#B5883A"} },
+    regions: { keep:{label:"Goblin Halls", color:"#3A7D5C"}, king:{label:"King's Room", color:"#2B5B8C"}, pits:{label:"Bear Pits / Vox's Lair", color:"#B5883A"} ,
+      newpass: {label:"2026-08-05 Research Pass", color:"#6E7A85"}},
     legend: [
       {label:"Goblin Halls", color:"#3A7D5C", text:"Scryers, jailmasters, and alchemists scattered through the goblin warren."},
       {label:"King's Room", color:"#2B5B8C", text:"Thex'Ka's throne room — elite guards, the High Priest, and the Goblin Sage cluster here."},
       {label:"Bear Pits / Vox's Lair", color:"#B5883A", text:"Reached via pit traps — dire wolves, polar bears, ice giants, and the frost dragon herself."}
-    ],
+    ,
+      {label:"2026-08-05 Research Pass", color:"#6E7A85", text:"Named mobs confirmed in the 2026-08-05 mob & loot research pass — not yet geographically pinpointed within this zone."}],
     mobs: [
       {name:"A goblin alchemist", region:"keep", cls:"Warrior", lvl:"27", loc:"(311,-370), safe solo spot", common:{name:"Mammoth Hide Leggings", stats:"AC6 STA+3, cold resist +5"}, rare:{name:"Mammoth Hide Cloak", stats:"AC7 WIS+4 · Improved Damage I"}},
       {name:"A Goblin Archeologist", region:"keep", cls:"Warrior", lvl:"24-27", loc:"(421,190)", common:{name:"Archeologist Pack", stats:"25% wt reduction, 6 slots"}, rare:{name:"Dented Brass Mask", stats:"AC4 · STR+3"}},
@@ -500,7 +521,8 @@ const ZONES = {
       {name:"A priest of Nagafen", region:"pits", cls:"Cleric (Giant/Cyclops)", lvl:"49", loc:"(865,-345)", common:null, rare:null},
       {name:"An Icy Terror", region:"pits", cls:"Warrior (Tentacle, Knockback proc)", lvl:"48-50", loc:"Three spots near (1014,-166)", common:{name:"Prickly Pear", stats:"food item"}, rare:null},
       {name:"Lady Vox", region:"pits", cls:"Cleric — Raid Boss", lvl:"55", loc:"(857,-262)", common:{name:"Crystalline Spear / Scimitar of the Mistwalker", stats:"Piercing 13dmg/30dly Backstab13 · 1H Slash 10dmg/25dly Mistwalker@50"}, rare:{name:"Tobrin's Mystical Eyepatch / Warhammer of Divine Grace / White Wolf-hide Girdle", stats:"WIS+15/INT+15 See Invis · 2H Blunt 18dmg/39dly Yaulp III@40 · AC5 STR+9/DEX+13"}},
-    ]
+    
+      {name:"A goblin preacher", region:"newpass", cls:"—", lvl:"24", loc:"—", common:{name:"Runed Circlet", stats:""}, rare:{name:"Cold Iron Morning Star", stats:""}},]
   },
 
   kedgekeep: {
@@ -538,12 +560,14 @@ const ZONES = {
     title: "Castle Mistmoore", eyebrow: "Zone Codex · Mistmoore Castle",
     sub: "Mayong Mistmoore's dark elf vampire stronghold — day and night bring different populations, and everyone here is his enemy.",
     levels: "20–45", respawn: "22 min (twice-daily vampire respawn)",
-    regions: { outer:{label:"Grounds / Graveyard", color:"#3A7D5C"}, inner:{label:"Castle Interior", color:"#2B5B8C"}, deep:{label:"Coffin Room / Tower", color:"#B5883A"} },
+    regions: { outer:{label:"Grounds / Graveyard", color:"#3A7D5C"}, inner:{label:"Castle Interior", color:"#2B5B8C"}, deep:{label:"Coffin Room / Tower", color:"#B5883A"} ,
+      newpass: {label:"2026-08-05 Research Pass", color:"#6E7A85"}},
     legend: [
       {label:"Grounds / Graveyard", color:"#3A7D5C", text:"Gargoyles, familiars, and the canyon leading to Black Dire. Outdoor grounds around the castle."},
       {label:"Castle Interior", color:"#2B5B8C", text:"Ballroom gypsies, the library, servant quarters, and the guest wings."},
       {label:"Coffin Room / Tower", color:"#B5883A", text:"The deepest vampire nobility, the throne room, and the tower — Mayong's inner circle."}
-    ],
+    ,
+      {label:"2026-08-05 Research Pass", color:"#6E7A85", text:"Named mobs confirmed in the 2026-08-05 mob & loot research pass — not yet geographically pinpointed within this zone."}],
     mobs: [
       {name:"An imp familiar", region:"outer", cls:"Warrior", lvl:"29-35", loc:"Graveyard, rare spawn", common:{name:"Sacrificial Dagger", stats:"Piercing 5dmg/21dly Backstab5 · INT+5"}, rare:{name:"Bloodstone Eyepatch", stats:"AC4 · WIS+3/AGI+3"}},
       {name:"A glyphed ghoul", region:"outer", cls:"Warrior", lvl:"27", loc:"Pool, Gorge, and Graveyard gates", common:{name:"Vial of Vampire Blood", stats:"1-charge Resistance to Magic @50"}, rare:{name:"Crested Mistmoore Shield", stats:"AC10 DEX+6 · triple resist +10"}},
@@ -564,7 +588,12 @@ const ZONES = {
       {name:"Xicotl", region:"deep", cls:"Shadow Knight", lvl:"40", loc:"The Bath, ~20% spawn rate", common:null, rare:{name:"Glowing Sword Hilt", stats:"quest item, no drop"}},
       {name:"Princess Cherista", region:"deep", cls:"Necromancer", lvl:"35", loc:"Throne room, on the chair", common:{name:"Gem-Encrusted Scepter", stats:"1H Blunt 7dmg/28dly · WIS+5"}, rare:{name:"Diamondine Earring", stats:"AC2 STR+3/HP+12 · Affliction Efficiency I"}},
       {name:"Mayong Mistmoore", region:"deep", cls:"Warrior — Raid Boss", lvl:"53?", loc:"Deep coffin room", common:null, rare:{name:"Fanged Skull Stiletto", stats:"Piercing 12dmg/22dly Backstab12"}},
-    ]
+    
+      {name:"A Will Sapper", region:"newpass", cls:"—", lvl:"—", loc:"—", common:{name:"Black Silk Gloves", stats:""}, rare:null},
+      {name:"A gypsy ambassador", region:"newpass", cls:"—", lvl:"—", loc:"—", common:null, rare:null, drops:[{name:"Fine Steel Dagger", stats:""}, {name:"Fine Steel Spear", stats:""}, {name:"Fine Steel Rapier", stats:""}]},
+      {name:"A gypsy dancer", region:"newpass", cls:"—", lvl:"—", loc:"—", common:{name:"Power of Wind", stats:""}, rare:null},
+      {name:"A gypsy musician", region:"newpass", cls:"—", lvl:"—", loc:"—", common:{name:"Gypsy Lute", stats:""}, rare:{name:"Werewolf Talon", stats:""}},
+      {name:"An Ancille Cook", region:"newpass", cls:"—", lvl:"—", loc:"—", common:{name:"A Dark Cauldron", stats:"~50% rate"}, rare:null},]
   },
 
   highpass: {
@@ -628,12 +657,14 @@ const ZONES = {
     title: "The Estate of Unrest", eyebrow: "Zone Codex · Estate of Unrest",
     sub: "A dwarven noble's manor overrun by undead — yard trash outside, ghouls and hags through five floors of the house, and the dwarf ghost's own dread basement below.",
     levels: "10–35", respawn: "22 min",
-    regions: { yard:{label:"Yard / 1st Floor", color:"#3A7D5C"}, upper:{label:"2nd-4th Floor", color:"#2B5B8C"}, basement:{label:"Basement", color:"#B5883A"} },
+    regions: { yard:{label:"Yard / 1st Floor", color:"#3A7D5C"}, upper:{label:"2nd-4th Floor", color:"#2B5B8C"}, basement:{label:"Basement", color:"#B5883A"} ,
+      newpass: {label:"2026-08-05 Research Pass", color:"#6E7A85"}},
     legend: [
       {label:"Yard / 1st Floor", color:"#3A7D5C", text:"Death beetles, tormented dead, and the Lesser Blade Fiend camp by the side door."},
       {label:"2nd-4th Floor", color:"#2B5B8C", text:"Fireplace camp territory — reclusive ghoul magus, undead barkeep, and the tower knight."},
       {label:"Basement", color:"#B5883A", text:"The deathtrap level — festering hags, dark terrors, and Garanel Rucksif's ghost at the very end."}
-    ],
+    ,
+      {label:"2026-08-05 Research Pass", color:"#6E7A85", text:"Named mobs confirmed in the 2026-08-05 mob & loot research pass — not yet geographically pinpointed within this zone."}],
     mobs: [
       {name:"Shadowpincer", region:"yard", cls:"Warrior (Beetle, rare)", lvl:"15-17", loc:"Around the courtyard", common:null, rare:null},
       {name:"Lesser Blade Fiend", region:"yard", cls:"Warrior (Dervish, rare)", lvl:"19", loc:"Alcove by side door, PH is dark boned skeleton", common:{name:"Pugius", stats:"Piercing 5dmg/21dly"}, rare:{name:"Gladius", stats:"1H Slash 7dmg/29dly"}},
@@ -651,7 +682,10 @@ const ZONES = {
       {name:"Mortuary Fungus", region:"basement", cls:"Warrior (casts Drowsiness)", lvl:"26-28", loc:"(661,83) / (679,106)", common:{name:"Sarcoscypha Fungus / Amanita Phalloide", stats:"Necromancer quest item"}, rare:{name:"A fungus eye / Steel Knuckles", stats:"quest item"}},
       {name:"A Dusty Werebat", region:"basement", cls:"Warrior", lvl:"24-28", loc:"(636,-114)", common:{name:"Pouch of Silver Dust / Thick Caustic Fluid", stats:"Enchanter quest item"}, rare:null},
       {name:"Garanel Rucksif", region:"basement", cls:"Warrior — Boss (Ghost Dwarf)", lvl:"35", loc:"Dwarf Room, basement, (485,147)", common:{name:"Battle Axe / Small Kite Shield", stats:"1H Slash 7dmg/35dly · AC8"}, rare:{name:"Jagged Band / Dwarven Work Boots / Sphere of Unrest", stats:"AC5 STR+3 · AC8 STR+3/DEX+5 · quest item"}},
-    ]
+    
+      {name:"a reanimated hand (Unrest)", region:"newpass", cls:"—", lvl:"—", loc:"—", common:{name:"Ivory Bracelet", stats:""}, rare:null},
+      {name:"an undead brewer", region:"newpass", cls:"—", lvl:"—", loc:"—", common:{name:"Preserved Hops", stats:"quest item"}, rare:null},
+      {name:"Tentacle Terrors", region:"newpass", cls:"—", lvl:"—", loc:"—", common:{name:"Tentacle Whip", stats:""}, rare:null},]
   },
 
   everfrost: {
@@ -689,12 +723,14 @@ const ZONES = {
   title: "Nektulos Forest", eyebrow: "Zone Codex · Nektulos Forest",
   sub: "A cramped, tangled dark elf newbie forest north of the Commonlands — halfling ruins, patrolling Neriaki guards, and a scattering of tougher wanderers make it more dangerous than its size suggests.",
   levels: "1–30", respawn: "6:40",
-  regions: { grove:{label:"Newbie Grove", color:"#3A7D5C"}, ruins:{label:"Halfling Ruins", color:"#2B5B8C"}, border:{label:"Lavastorm Border", color:"#B5883A"} },
+  regions: { grove:{label:"Newbie Grove", color:"#3A7D5C"}, ruins:{label:"Halfling Ruins", color:"#2B5B8C"}, border:{label:"Lavastorm Border", color:"#B5883A"} ,
+      newpass: {label:"2026-08-05 Research Pass", color:"#6E7A85"}},
   legend: [
     {label:"Newbie Grove", color:"#3A7D5C", text:"Dark elf guard patrols near the Neriak entrance — low-level, mostly harmless if you stay out of their path."},
     {label:"Halfling Ruins", color:"#2B5B8C", text:"The old halfling settlement in the forest's heart, now home to wandering druids and rogue guardians."},
     {label:"Lavastorm Border", color:"#B5883A", text:"The southeastern edge toward Lavastorm — stone and iron guardians hit well above the zone's average level."}
-  ],
+  ,
+      {label:"2026-08-05 Research Pass", color:"#6E7A85", text:"Named mobs confirmed in the 2026-08-05 mob & loot research pass — not yet geographically pinpointed within this zone."}],
   mobs: [
     {name:"Kirak Vil", region:"border", cls:"Warrior", lvl:"56", loc:"Wanders (2045,-791) / (1658,-724)", common:{name:"Tainted Darksteel Shield", stats:"—"}, rare:null},
     {name:"Captain N'Farre", region:"border", cls:"Warrior", lvl:"50", loc:"Wanders (2289,-992) / (1799,-953)", common:null, rare:null},
@@ -704,7 +740,24 @@ const ZONES = {
     {name:"Master Whoopal", region:"ruins", cls:"Druid", lvl:"13", loc:"(-929, 1238)", common:{name:"Halfling Druid Master's Head", stats:"quest item"}, rare:null},
     {name:"An Iron Guardian", region:"border", cls:"Warrior", lvl:"20-22", loc:"Roams the Lavastorm approach", common:{name:"Bloodstone", stats:"—"}, rare:{name:"Jasper", stats:"—"}},
     {name:"A Stone Guardian", region:"border", cls:"Warrior", lvl:"13-15", loc:"Near the Lavastorm zone line", common:{name:"Bloodstone", stats:"—"}, rare:null},
-  ]
+  
+      {name:"Bink / Cannix / Foley / Forley / Gammer / Rollis", region:"newpass", cls:"—", lvl:"6–11", loc:"—", common:{name:"Leatherfoot Raider Skullcap", stats:"Cannix, Forley also drop Rusty Two Handed Hammer"}, rare:null},
+      {name:"Leatherfoot Corporal", region:"newpass", cls:"—", lvl:"3", loc:"—", common:{name:"Woven Grass Amulet", stats:""}, rare:{name:"Rusty Two Handed Hammer", stats:""}},
+      {name:"Initiate Abber / Initiate Hart", region:"newpass", cls:"—", lvl:"5", loc:"—", common:{name:"Woven Grass Amulet", stats:""}, rare:null},
+      {name:"Neophyte Halle", region:"newpass", cls:"—", lvl:"4", loc:"—", common:{name:"Woven Grass Amulet", stats:""}, rare:{name:"Rusty Bastard Sword", stats:""}},
+      {name:"Initiate Guanin", region:"newpass", cls:"—", lvl:"8", loc:"—", common:{name:"Rusty Two Handed Hammer", stats:""}, rare:null},
+      {name:"Orc runner", region:"newpass", cls:"—", lvl:"7", loc:"—", common:{name:"A Sealed Letter", stats:""}, rare:{name:"Runner Pouch", stats:""}},
+      {name:"Snitch", region:"newpass", cls:"—", lvl:"9", loc:"—", common:{name:"Rusty Shortened Spear", stats:""}, rare:{name:"Leatherfoot Short Bow", stats:""}},
+      {name:"Quester Hannin", region:"newpass", cls:"—", lvl:"9", loc:"—", common:{name:"Woven Grass Amulet", stats:""}, rare:{name:"Halfling Toe", stats:""}},
+      {name:"Quester Dunden", region:"newpass", cls:"—", lvl:"9–12", loc:"—", common:{name:"Leatherfoot Raider Skullcap", stats:""}, rare:{name:"Rusty Halberd", stats:""}},
+      {name:"Guard T`Quetal / V`Lex / Z`Den / D`Zel / G`Varr / T`Aba", region:"newpass", cls:"—", lvl:"13–14", loc:"—", common:{name:"Bronze Long Sword", stats:""}, rare:null},
+      {name:"Guard N`Lan / X`Onnu", region:"newpass", cls:"—", lvl:"15", loc:"—", common:{name:"Bronze Long Sword", stats:""}, rare:null},
+      {name:"Guard E`Brona / V`Ehn", region:"newpass", cls:"—", lvl:"17", loc:"—", common:{name:"Bronze Long Sword", stats:""}, rare:null},
+      {name:"Corporal X`Tis", region:"newpass", cls:"—", lvl:"19", loc:"—", common:{name:"Bronze Long Sword", stats:""}, rare:null},
+      {name:"Corporal J`Rais", region:"newpass", cls:"—", lvl:"21", loc:"—", common:{name:"Bronze Long Sword", stats:""}, rare:null},
+      {name:"Corporal X`Horn", region:"newpass", cls:"—", lvl:"22", loc:"—", common:{name:"Rusty Long Sword", stats:""}, rare:{name:"Bronze Long Sword", stats:""}},
+      {name:"Dragoon V`tai", region:"newpass", cls:"—", lvl:"36", loc:"—", common:{name:"Dragoon Dirk", stats:""}, rare:{name:"Long Sword", stats:""}},
+      {name:"Dragoon J`Len / Tsanne", region:"newpass", cls:"—", lvl:"50", loc:"—", common:{name:"Dragoon Dirk", stats:""}, rare:null},]
 },
 
 innothule: {
@@ -762,12 +815,14 @@ sola: {
   title: "Solusek's Eye", eyebrow: "Zone Codex · Solusek's Eye (Sol A)",
   sub: "A lava-filled goblin warren under an uneasy truce with a gnome mining outpost — fire imps, drakes, and efreeti prowl the tunnels between them.",
   levels: "20–40", respawn: "18 min",
-  regions: { goblin:{label:"Fire Goblin Warrens", color:"#B5883A"}, gnome:{label:"Mining Company Outpost", color:"#6E8299"}, deep:{label:"Deep Tunnels", color:"#2B5B8C"} },
+  regions: { goblin:{label:"Fire Goblin Warrens", color:"#B5883A"}, gnome:{label:"Mining Company Outpost", color:"#6E8299"}, deep:{label:"Deep Tunnels", color:"#2B5B8C"} ,
+      newpass: {label:"2026-08-05 Research Pass", color:"#6E7A85"}},
   legend: [
     {label:"Fire Goblin Warrens", color:"#B5883A", text:"The Goblins of Fire Peak's halls — king, wizard, and dark elf exile territory near the lava flows."},
     {label:"Mining Company Outpost", color:"#6E8299", text:"The Solusek Mining Company's gnome fort — Captain Bipnubble and his crew, uneasily allied with the goblins."},
     {label:"Deep Tunnels", color:"#2B5B8C", text:"Fire imps, drakes, and efreeti roam the connecting passages between the two factions."}
-  ],
+  ,
+      {label:"2026-08-05 Research Pass", color:"#6E7A85", text:"Named mobs confirmed in the 2026-08-05 mob & loot research pass — not yet geographically pinpointed within this zone."}],
   mobs: [
     {name:"Solusek Goblin King", region:"goblin", cls:"Wizard", lvl:"30", loc:"(-789,-313), ~18 min respawn", common:{name:"Ring of Goblin Lords", stats:"AC 4 · STR+3/INT+3"}, rare:{name:"Scepter of Flame", stats:"1H Blunt · MANA+15 · fire/magic resist"}},
     {name:"Gabbie Mardoddle", region:"gnome", cls:"Wizard", lvl:"32", loc:"Zone #8, (-307,-1128), 18 min respawn", common:{name:"Mithril Quill", stats:"Piercing (75%)"}, rare:{name:"Molten Cloak", stats:"AC · WIS+/INT+ (25%)"}},
@@ -776,7 +831,18 @@ sola: {
     {name:"Singe", region:"deep", cls:"Warrior (Drake, roams)", lvl:"28", loc:"Random spawn, always paths to map point #6, 7 min respawn", common:{name:"Obsidian Bead Hoop", stats:"(75%)"}, rare:{name:"Drakescale Belt", stats:"(25%)"}},
     {name:"Kindle", region:"deep", cls:"Rogue (Fire Imp)", lvl:"26", loc:"Sparkling red-walled room, (-10,-780), 18 min respawn, 10% spawn chance", common:{name:"Obsidian Ring", stats:"DEX+3/HP+10"}, rare:{name:"Impskin Gloves", stats:"INT+5/MANA+10 · Affliction Efficiency I"}},
     {name:"Lynada the Exiled", region:"goblin", cls:"Magician (Dark Elf)", lvl:"29", loc:"(-1002,-658)", common:{name:"Dark Elf Parts", stats:"quest item"}, rare:{name:"Damask Amice", stats:"shoulder armor (35%)"}},
-  ]
+  
+      {name:"Kobold predator", region:"newpass", cls:"—", lvl:"—", loc:"—", common:{name:"Kobold-Hide Boots", stats:""}, rare:{name:"Obsidian Shard", stats:""}},
+      {name:"Lava elemental", region:"newpass", cls:"—", lvl:"—", loc:"—", common:null, rare:null, drops:[{name:"Runed Lava Pendant", stats:""}, {name:"Bloodstone", stats:""}, {name:"Lava Potion", stats:""}, {name:"Power of Fire", stats:""}]},
+      {name:"Fire Goblin Bartender", region:"newpass", cls:"—", lvl:"—", loc:"—", common:null, rare:null, drops:[{name:"Drake-hide Leggings", stats:""}, {name:"Drake-hide Sleeves", stats:""}, {name:"Tattered Gnomish Cloak", stats:""}]},
+      {name:"Flame Goblin Foreman", region:"newpass", cls:"—", lvl:"—", loc:"—", common:{name:"Obsidian Scimitar", stats:""}, rare:{name:"Foreman's Tunic", stats:""}},
+      {name:"Goblin Drunkard", region:"newpass", cls:"—", lvl:"—", loc:"—", common:null, rare:null, drops:[{name:"Fire Crystal Staff", stats:""}, {name:"Frothy Goblin Tonic", stats:""}, {name:"Tattered Gnomish Cloak", stats:""}, {name:"Snake Scales", stats:""}]},
+      {name:"Goblin High Shaman", region:"newpass", cls:"—", lvl:"—", loc:"—", common:null, rare:null, drops:[{name:"Glowing Stone Band", stats:""}, {name:"Tattered Gnomish Cloak", stats:""}, {name:"Platinum Dragon Totem", stats:""}]},
+      {name:"Inferno goblin wizard", region:"newpass", cls:"—", lvl:"—", loc:"—", common:{name:"Heart of Fire", stats:""}, rare:null},
+      {name:"Inferno Goblin Torturer", region:"newpass", cls:"—", lvl:"—", loc:"—", common:null, rare:null, drops:[{name:"Turquoise Eyepatch", stats:""}, {name:"Tattered Gnomish Cloak", stats:""}, {name:"Fiery Ore", stats:""}, {name:"Memento Box", stats:""}]},
+      {name:"Inferno Goblin Captain", region:"newpass", cls:"—", lvl:"—", loc:"—", common:null, rare:null, drops:[{name:"Charred Boots", stats:"common"}, {name:"Charred Gauntlets", stats:"rare"}, {name:"Tattered Gnomish Cloak", stats:"ultra rare"}]},
+      {name:"Lord Gimblox", region:"newpass", cls:"—", lvl:"—", loc:"—", common:{name:"Lord Gimblox's Signet Ring", stats:""}, rare:null},
+      {name:"Solusek Champion", region:"newpass", cls:"—", lvl:"—", loc:"—", common:null, rare:null, drops:[{name:"Fiery Vambraces", stats:"rare/ultra rare"}, {name:"Goblin Blood", stats:""}, {name:"Goblin Meat", stats:""}, {name:"Mithril Earring", stats:""}]},]
 },
 
   qeynoshills: {
@@ -972,6 +1038,82 @@ sola: {
       {name:"Aqua goblin tidal lord", region:"goblincamp", cls:"Goblin Warrior", lvl:"22-24", loc:"Spawns and roams throughout the zone", common:{name:"Arrow", stats:"—"}, rare:{name:"Cauldron Shell", stats:"—"}},
     ]
   },
+  southro: {
+    label: "South Ro", short: "South Ro",
+    title: "Southern Desert of Ro", eyebrow: "Zone Codex · Southern Desert of Ro · 2026-08-05 pass",
+    sub: "The southern half of the Ro desert — scattered scrounges and orcish raiders give way to a rare-spawn tarantula deep in the dunes.",
+    levels: "5–20+ (rares to 40)", respawn: "—",
+    regions: { general: {label:"General", color:"#6E8299"} },
+    legend: [
+      {label:"General", color:"#6E8299", text:"Named mobs confirmed in the 2026-08-05 mob & loot research pass — sub-region breakdown not yet researched for this zone."}
+    ],
+    mobs: [
+      {name:"Scrounge", region:"general", cls:"—", lvl:"8", loc:"—", common:{name:"Scrounge's Claw", stats:""}, rare:{name:"Scrounge's Pelt", stats:""}},
+      {name:"Erg Bluntbruiser", region:"general", cls:"—", lvl:"10", loc:"—", common:null, rare:null, drops:[{name:"Rusty Mace", stats:""}, {name:"Orcish Mace", stats:""}, {name:"Orcish Morning Star", stats:""}]},
+      {name:"Obretl", region:"general", cls:"—", lvl:"22", loc:"—", common:null, rare:null, drops:[{name:"Bronze Dagger", stats:""}, {name:"Forged Dagger", stats:""}, {name:"Carnelian", stats:""}, {name:"Charred Bone Chips", stats:""}]},
+      {name:"Sandgiant Husam", region:"general", cls:"—", lvl:"29", loc:"—", common:{name:"Kilij Plans", stats:""}, rare:{name:"Sand of Ro", stats:""}},
+      {name:"Terrorantula", region:"general", cls:"—", lvl:"37–40", loc:"—", common:null, rare:null, drops:[{name:"Gargantuan Tarantula Heart", stats:""}, {name:"Gargantuan Tarantula Leg", stats:""}, {name:"Terrorantula Silk", stats:""}]},
+    ]
+  },
+
+  northro: {
+    label: "North Ro", short: "North Ro",
+    title: "The Northern Desert of Ro", eyebrow: "Zone Codex · The Northern Desert of Ro · 2026-08-05 pass",
+    sub: "Sand-blasted ruins and armadillo warrens north of the Oasis of Marr, guarded by a scattering of named diggers and dragoons.",
+    levels: "5–30+", respawn: "—",
+    regions: { general: {label:"General", color:"#6E8299"} },
+    legend: [
+      {label:"General", color:"#6E8299", text:"Named mobs confirmed in the 2026-08-05 mob & loot research pass — sub-region breakdown not yet researched for this zone."}
+    ],
+    mobs: [
+      {name:"Dunedigger", region:"general", cls:"—", lvl:"14", loc:"—", common:null, rare:null, drops:[{name:"Scute Shield", stats:""}, {name:"Armadillo Husk", stats:""}, {name:"Armadillo Hide", stats:""}]},
+      {name:"Dorn B`Dynn", region:"general", cls:"—", lvl:"14–16", loc:"—", common:{name:"Dragoon Dirk", stats:""}, rare:null},
+      {name:"Rahotep", region:"general", cls:"—", lvl:"16", loc:"—", common:{name:"Scepter of Rahotep", stats:""}, rare:{name:"Scarab Ring", stats:""}},
+    ]
+  },
+
+  oceanoftears: {
+    label: "Ocean of Tears", short: "OoT",
+    title: "Ocean of Tears", eyebrow: "Zone Codex · Ocean of Tears · 2026-08-05 pass",
+    sub: "A sprawling open-water zone of island goblins, pirates, and a scattering of high-level oceanic rares.",
+    levels: "9–30+ (rares to 60)", respawn: "—",
+    regions: { general: {label:"General", color:"#6E8299"} },
+    legend: [
+      {label:"General", color:"#6E8299", text:"Named mobs confirmed in the 2026-08-05 mob & loot research pass — sub-region breakdown not yet researched for this zone."}
+    ],
+    mobs: [
+      {name:"An isle goblin wizard", region:"general", cls:"—", lvl:"16", loc:"—", common:{name:"Stone Totem", stats:""}, rare:{name:"Driftwood Pipe", stats:""}},
+      {name:"Goob Mudtoe", region:"general", cls:"—", lvl:"22", loc:"—", common:null, rare:null, drops:[{name:"Ogre Head", stats:""}, {name:"A Tattered Note", stats:""}, {name:"Chunk of Ogre Flesh", stats:""}]},
+      {name:"Capt Surestout", region:"general", cls:"—", lvl:"21", loc:"—", common:{name:"Bracers of Erollisi", stats:""}, rare:null},
+      {name:"An isle goblin chieftan", region:"general", cls:"—", lvl:"23–25", loc:"—", common:{name:"Driftwood Pipe", stats:""}, rare:{name:"Mug of Sea Foam", stats:""}},
+      {name:"A Goblin Headmaster", region:"general", cls:"—", lvl:"24–26", loc:"—", common:null, rare:null, drops:[{name:"Bonechipped Mask", stats:""}, {name:"A shadowed knife", stats:""}, {name:"Rune of Clay", stats:""}]},
+      {name:"Phocaea Hapspenn", region:"general", cls:"—", lvl:"25", loc:"—", common:{name:"Long Sword", stats:"common"}, rare:null},
+      {name:"A pirate (Mudtoe Isle)", region:"general", cls:"—", lvl:"—", loc:"—", common:null, rare:null, drops:[{name:"Cast-Iron Rapier", stats:""}, {name:"Bronze Axe", stats:""}, {name:"Pirate's Earring", stats:""}]},
+      {name:"Gull Skytalon", region:"general", cls:"—", lvl:"35", loc:"—", common:{name:"Ingot of the Fervent", stats:""}, rare:null},
+      {name:"Oracle of K`Arnon", region:"general", cls:"—", lvl:"36", loc:"—", common:{name:"Robe of the Oracle", stats:""}, rare:null},
+      {name:"Guardian of K`Arnon", region:"general", cls:"—", lvl:"42", loc:"—", common:{name:"Fine Steel Short Sword", stats:"uncommon"}, rare:null},
+      {name:"Quag Maelstrom", region:"general", cls:"—", lvl:"45", loc:"—", common:{name:"Alluring Horn", stats:""}, rare:null},
+      {name:"Seplawishinl Bladeblight", region:"general", cls:"—", lvl:"60", loc:"—", common:{name:"Robe of the Grove", stats:""}, rare:{name:"Fine Steel Great Staff", stats:""}},
+      {name:"Ancient Cyclops", region:"general", cls:"—", lvl:"—", loc:"—", common:{name:"Ring of the Ancients", stats:""}, rare:null},
+      {name:"Soarin Brightfeather", region:"general", cls:"—", lvl:"—", loc:"—", common:{name:"Ebon War Spear", stats:"SHM only"}, rare:null},
+    ]
+  },
+
+  highkeep: {
+    label: "High Keep", short: "High Keep",
+    title: "High Keep", eyebrow: "Zone Codex · High Keep · 2026-08-05 pass",
+    sub: "A guarded keep with a rotating cast of named guards and Captain Boshinko holding the armory.",
+    levels: "20–40", respawn: "—",
+    regions: { general: {label:"General", color:"#6E8299"} },
+    legend: [
+      {label:"General", color:"#6E8299", text:"Named mobs confirmed in the 2026-08-05 mob & loot research pass — sub-region breakdown not yet researched for this zone."}
+    ],
+    mobs: [
+      {name:"Guard [various named guards]", region:"general", cls:"—", lvl:"20–40", loc:"—", common:{name:"Short Sword (5pp) + standard level-range loot", stats:""}, rare:null},
+      {name:"Captain Boshinko", region:"general", cls:"—", lvl:"—", loc:"—", common:null, rare:null, drops:[{name:"Bronze Mask/Collar/Pauldron/Vambraces/Breastplate", stats:""}, {name:"Mithril Amulet", stats:""}, {name:"Opal Bracelet", stats:""}, {name:"Rune of Conception", stats:""}, {name:"Words of Descrying", stats:""}, {name:"Words of Cazic-Thule", stats:""}, {name:"Crystallized Sulfur", stats:""}, {name:"Short Sword", stats:""}]},
+    ]
+  },
+
 };
 
 let currentZone = 'lguk';
@@ -1121,6 +1263,7 @@ function buildCard(m, zoneKey, zone, showZoneBadge){
     <div class="drops">
       ${dropRow('common', m.common, zoneKey, m.name)}
       ${dropRow('rare', m.rare, zoneKey, m.name)}
+      ${(m.drops||[]).map(d=>dropRow('item', d, zoneKey, m.name)).join('')}
     </div>`;
   return card;
 }

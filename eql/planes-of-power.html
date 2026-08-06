@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Planes of Power Reference — Hate, Fear &amp; Sky</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root{
+  --void:#F7F8FA;
+  --stone:#FFFFFF;
+  --stone-2:#F0F2F5;
+  --bone:#1A1D23;
+  --bone-dim:#5B6270;
+  --accent:#2B5B8C;
+  --border:#E2E5EA;
+  --green:#3A7D5C;
+  --amber:#B5883A;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px 90px;}
+
+.hero{
+  padding:56px 24px 36px; border-bottom:1px solid var(--border); background:var(--stone);
+}
+.hero-inner{max-width:1040px;margin:0 auto;}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:16px;
+}
+h1{font-weight:800; font-size:clamp(28px,4.4vw,42px); line-height:1.1; margin:0 0 14px; letter-spacing:-0.01em;}
+.sub{font-size:15px; color:var(--bone-dim); max-width:720px; line-height:1.65;}
+.meta-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:22px;}
+.meta-chip{
+  font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--bone-dim);
+  border:1px solid var(--border); background:var(--void); padding:6px 12px; border-radius:4px;
+}
+
+.plane-nav{
+  display:flex; gap:0; border-bottom:1px solid var(--border); background:var(--stone);
+  position:sticky; top:0; z-index:10;
+}
+.plane-nav a{
+  flex:1; text-align:center; padding:14px 12px; text-decoration:none; color:var(--bone-dim);
+  font-weight:600; font-size:13.5px; border-bottom:3px solid transparent; transition:all .15s;
+}
+.plane-nav a:hover{color:var(--bone); background:var(--stone-2);}
+
+.plane{padding:44px 0; border-bottom:1px solid var(--border);}
+.plane:last-of-type{border-bottom:none;}
+.plane h2{font-size:24px; font-weight:800; margin:0 0 6px; display:flex; align-items:center; gap:10px;}
+.plane .plane-tag{
+  font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--accent); border:1px solid var(--accent);
+  padding:2px 8px; border-radius:20px; font-weight:600; letter-spacing:.03em;
+}
+.stat-row{display:flex; gap:10px; flex-wrap:wrap; margin:14px 0 28px;}
+.stat-chip{
+  font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--bone-dim);
+  border:1px solid var(--border); background:var(--stone); padding:7px 12px; border-radius:4px;
+}
+.stat-chip b{color:var(--bone);}
+
+.section-block{margin-bottom:28px;}
+.section-block h3{
+  font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--accent);
+  margin:0 0 10px; padding-bottom:8px; border-bottom:1px solid var(--border);
+}
+.section-block p, .section-block li{font-size:14px; line-height:1.7; color:var(--bone);}
+.section-block ul{margin:0; padding-left:20px;}
+.section-block li{margin-bottom:8px;}
+.section-block li b{color:var(--bone);}
+
+table{width:100%; border-collapse:collapse; font-size:13px; margin-top:6px;}
+thead th{
+  text-align:left; font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase;
+  letter-spacing:.05em; color:var(--bone-dim); font-weight:600; padding:9px 10px; border-bottom:1px solid var(--border);
+  background:var(--stone-2);
+}
+tbody td{padding:10px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.55;}
+tbody tr:hover td{background:var(--stone-2);}
+td.mob-name{font-weight:600; white-space:nowrap;}
+td.lvl{font-family:'JetBrains Mono',monospace; color:var(--bone-dim); white-space:nowrap;}
+
+.island-table td:first-child{font-weight:600; white-space:nowrap;}
+
+.callout{
+  border:1px solid var(--border); border-left:3px solid var(--accent); background:var(--stone);
+  border-radius:4px; padding:14px 16px; font-size:13.5px; line-height:1.6; color:var(--bone); margin-top:6px;
+}
+.callout.warn{border-left-color:var(--amber);}
+
+.quest-list{display:grid; gap:10px;}
+.quest-item{border:1px solid var(--border); border-radius:4px; padding:12px 16px; background:var(--stone);}
+.quest-item b{display:block; margin-bottom:4px; font-size:13.5px;}
+.quest-item span{font-size:13px; color:var(--bone-dim); line-height:1.6;}
+
+.class-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:8px;}
+.class-chip{
+  border:1px solid var(--border); border-radius:4px; padding:9px 12px; font-size:12.5px;
+  display:flex; justify-content:space-between; gap:8px; background:var(--stone);
+}
+.class-chip .cls{font-weight:600;}
+.class-chip .giver{color:var(--bone-dim); font-family:'JetBrains Mono',monospace; font-size:11px; text-align:right;}
+
+.followups{padding:44px 0;}
+.followups h2{font-size:18px; margin:0 0 14px;}
+.followup-item{
+  border:1px solid var(--border); border-left:3px solid var(--amber); border-radius:4px;
+  padding:12px 16px; background:var(--stone); margin-bottom:10px; font-size:13.5px; line-height:1.6;
+}
+.followup-item b{color:var(--amber); font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.04em; display:block; margin-bottom:4px;}
+
+footer{padding-top:24px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); line-height:1.8;}
+footer a{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">EQL Prep · Raid-Tier Reference</div>
+    <h1>Planes of Power — Hate, Fear &amp; Sky</h1>
+    <p class="sub">Named mobs, loot, quests, and access mechanics for the three classic-tier planes. Compiled from the 2026-08-05 research passes — only <b>Confirmed</b> facts are reflected here; anything left unconfirmed in the source research-drop files is excluded and tracked separately.</p>
+    <div class="meta-row">
+      <div class="meta-chip">Level gate <b style="color:var(--bone)">46+</b></div>
+      <div class="meta-chip">Content tier <b style="color:var(--bone)">Raid</b></div>
+      <div class="meta-chip">Bridges classic → Kunark-era progression</div>
+    </div>
+  </div>
+</div>
+
+<div class="plane-nav">
+  <a href="#hate">Plane of Hate</a>
+  <a href="#fear">Plane of Fear</a>
+  <a href="#sky">Plane of Sky</a>
+</div>
+
+<div class="wrap">
+
+<section class="plane" id="hate">
+  <h2>Plane of Hate <span class="plane-tag">Innoruuk</span></h2>
+  <div class="stat-row">
+    <div class="stat-chip">Monster level <b>48+</b></div>
+    <div class="stat-chip">Min. player level <b>46</b></div>
+    <div class="stat-chip">Zone tags <b>hateplane / hateplaneb</b></div>
+    <div class="stat-chip">ZEM <b>86 (115%)</b></div>
+  </div>
+
+  <div class="section-block">
+    <h3>Access</h3>
+    <ul>
+      <li>Wizard spell <b>Alter Plane: Hate</b> (level 46 Wizard, 300 mana, reagent <i>Fuligan Soulstone of Innoruuk</i>, ~62.5pp from wizard guild vendors in Erudin, Neriak 3rd Gate, or Southern Felwithe) — group teleport.</li>
+      <li>One-way portal in <b>Oasis of Marr</b>: the black sword atop the tower leads to the public instance; the voidling leads to the raid instance.</li>
+      <li>No conventional zone exit — Gate/Origin/port out only.</li>
+    </ul>
+  </div>
+
+  <div class="section-block">
+    <h3>Layout &amp; Mechanics</h3>
+    <p>Two-floor zone. Key landmarks: Port In, The Church, the Organ Hall (where Maestro of Rancor holds his raid encounter, spans both floors), and a spiral staircase near the Fountain leading to floor 2. Many mobs see through Invisibility and Invisibility vs. Undead. Innoruuk himself wanders floor 2 rather than holding a fixed spawn point. Several minibosses are simply elite ("bigger, meaner") reskins of common trash — e.g. Avatar of Abhorrence is an elite "an abhorrent."</p>
+  </div>
+
+  <div class="section-block">
+    <h3>Loot Groups (trash armor drops)</h3>
+    <ul>
+      <li><b>Group 1:</b> Ethereal Mist (CLR), Vermiculated (DRU), Rune Etched (SHM), Anthemion (BST), Thorny Vine (RNG), Valorium (PAL), Shadow Rage (BER), Shiverback-hide (MNK), plus Lustrous Russet Armor.</li>
+      <li><b>Group 2:</b> Insidious (ENC), Apothic (MAG), Blighted (NEC), Carmine (WIZ), Imbrued (BRD), Umbral Platemail (SHD), Woven Shadow (ROG), Indicolite (WAR), plus Midnight Clad Armor.</li>
+      <li>A haunted chest can drop any planar armor piece, including Plane of Fear pieces.</li>
+    </ul>
+  </div>
+
+  <div class="section-block">
+    <h3>Named Mobs &amp; Bosses</h3>
+    <table>
+      <thead><tr><th>Mob</th><th>Lvl</th><th>Notes</th><th>Drops</th></tr></thead>
+      <tbody>
+        <tr><td class="mob-name">Innoruuk (God)</td><td class="lvl">60</td><td>Raid boss, wanders floor 2; Pillage Enchantment, Lifetap, Knockback</td><td>Loot not itemized on wiki ("Various")</td></tr>
+        <tr><td class="mob-name">Maestro of Rancor</td><td class="lvl">52-53</td><td>Raid boss, 100% spawn, Organ Hall (-82,295); guards Innoruuk; Maestro Lifetap + See Invis</td><td>Loot not itemized; death spawns Hand of the Maestro / A very unpleasant hand, which drop <b>Hand of the Maestro</b> (MAG/ENC, INT+5 HP+20 MANA+30)</td></tr>
+        <tr><td class="mob-name">Corrupter of Life</td><td class="lvl">60</td><td>~3-day rare spawn, floor 2 (-527,-306)</td><td><b>Fleshless Skull</b> (Natures Defender Quest component), Wand of Souls</td></tr>
+        <tr><td class="mob-name">Ashenbone Broodmaster</td><td class="lvl">56</td><td>50% spawn (-1,-263); Knockback + See Invis</td><td>Encyclopedia Necrotheurgia (NEC), Wand of Souls, Eye of Innoruuk (WIZ), Shattered Emerald of Corruption</td></tr>
+        <tr><td class="mob-name">Avatar of Abhorrence</td><td class="lvl">58</td><td>Elite "an abhorrent," (-72,273), See Invis</td><td>Woven Shadow Armor (ROG set) + various</td></tr>
+        <tr><td class="mob-name">A Hatebone Drake</td><td class="lvl">60</td><td>11% spawn, floor 2</td><td>Breastplate/Boots/Gauntlets of the Righteous (PAL set)</td></tr>
+        <tr><td class="mob-name">Magi P`Tasa</td><td class="lvl">—</td><td>Elite male "a forsaken revenant," See Invis</td><td>Apothic Armor (MAG set) + various</td></tr>
+        <tr><td class="mob-name">Coercer T`vala</td><td class="lvl">—</td><td>Elite female "a forsaken revenant," (-36,-328), Gravity Flux</td><td>Insidious Armor (ENC set) + various</td></tr>
+        <tr><td class="mob-name">High Priest M`kari</td><td class="lvl">—</td><td>Elite "Cleric of Innoruuk," (-72,317)</td><td>Ethereal Mist Armor (CLR set) + various</td></tr>
+        <tr><td class="mob-name">Mistress of Scorn</td><td class="lvl">—</td><td>Elite "a scorn banshee," Strong Disease + See Invis</td><td>Imbrued Platemail Armor + various</td></tr>
+        <tr><td class="mob-name">Master of Spite</td><td class="lvl">—</td><td>Elite "a spite golem," very high MR</td><td>Rune Etched Armor (SHM set) + various</td></tr>
+        <tr><td class="mob-name">Grandmaster R`Tal</td><td class="lvl">—</td><td>Elite "a kiraikuei," (-72,317), Strong Disease + See Invis</td><td>Indicolite Armor (WAR set) + various</td></tr>
+        <tr><td class="mob-name">Grandmaster H`Qilm</td><td class="lvl">63</td><td>50% spawn (-495,-507)</td><td>Band of Discipline (ring, all stats/resists +3, MNK-only)</td></tr>
+        <tr><td class="mob-name">Thought corruptor / destroyer</td><td class="lvl">55</td><td>Spawn from "A scorn banshee" corpse</td><td>Imbrued Platemail Breastplate, Martune Rapier, Tainted Darksteel Breastplate</td></tr>
+        <tr><td class="mob-name">An Evangelist of Hate</td><td class="lvl">56</td><td>—</td><td>Shadowed Book (LORE), Ethereal Mist Armor</td></tr>
+        <tr><td class="mob-name">Innoruuk`s Chosen</td><td class="lvl">55</td><td>—</td><td>Gems only (Star Ruby, Fire Emerald, Sapphire)</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:16px; font-size:13.5px; color:var(--bone-dim);"><b style="color:var(--bone)">Common named-mob unique drops:</b> An abhorrent → Shrieking Ahlspiess (ROG). An ashenbone drake → Ashenbone Axe, Decrepit Hide, Ashenbone Abbasi (SHD), Ashenbone Shield (SHD). Cleric of Innoruuk → Prismatic Shield (CLR). A forsaken revenant (female) → Wand of Swiftness (ENC), Essence of a Vampire. An ire ghast → Theologian Claymore, Darkmetal Holy Water Sprinkler, Trueheart Shield (all PAL). A kiraikuei → Shuriken of the Tranquil (MNK). A loathling lich → Wand of Conflagration (WIZ), Hate Crystal. A revultant rat → Revultant Whip (RNG). A scorn banshee → Martune Rapier (BRD), Anthemion Wristguard (BST). A spite golem → Runewood Shield (DRU), Spitestone Shield (SHM). A forsaken revenant (male, Magician) → full <b>Apothic</b> MAG armor set.</p>
+  </div>
+
+  <div class="section-block">
+    <h3>Quests</h3>
+    <ul>
+      <li><b>Natures Defender Quest</b> (Paladin, Tunare deity-locked): starts at Plane of Growth from the Guardian of Takish, min. level 46, spans Plane of Hate + The Wakening Land. Requires the Fleshless Skull from Corrupter of Life (Hate) plus Corrupted Fauns/Panther/Unicorns Skin (Wakening Land). Reward: <b>Natures Defender</b> (2H Slashing, PAL, Nature's Holy Wrath proc).</li>
+      <li>The "Innoruuk Symbol Quests" line is thematically tied to Innoruuk but takes place entirely outside this zone (Neriak/Nektulos/Lesser Faydark/Steamfont) — does not require entering Plane of Hate.</li>
+      <li>No key/flag quest gates zone entry — access is level + spell/portal only.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="plane" id="fear">
+  <h2>Plane of Fear <span class="plane-tag">Cazic Thule</span></h2>
+  <div class="stat-row">
+    <div class="stat-chip">Monster level <b>48+</b></div>
+    <div class="stat-chip">Min. player level <b>46</b></div>
+    <div class="stat-chip">Zone tag <b>fearplane</b></div>
+    <div class="stat-chip">ZEM <b>~82.5 (110%)</b></div>
+  </div>
+
+  <div class="section-block">
+    <h3>Access</h3>
+    <p>One-way portal in the spectre caves of <b>The Feerrott</b>. No key/flag item — level-gated only. Only way out is gate/port, or a temple exit portal deep in the zone (not recommended — see-invis mobs can aggro through walls/ceiling near it).</p>
+  </div>
+
+  <div class="section-block">
+    <h3>Mechanics</h3>
+    <p>Extreme mob aggro ranges; most mobs see through invisibility. Killing Cazic Thule triggers <b>zone-wide social aggro</b> from every mob while he's engaged. Cazic Thule's kit includes a near-unresistable single-target Panic fear (frequent proc), an AE snare, and Avatar Power (100 direct damage + knockback + top-slot dispel).</p>
+  </div>
+
+  <div class="section-block">
+    <h3>Loot Groups</h3>
+    <ul>
+      <li><b>Group 1:</b> Wisdom casters, Berserkers, Monks + Lustrous Russet Armor.</li>
+      <li><b>Group 2:</b> Intelligence casters, Rogues, Warriors + Midnight Clad Armor.</li>
+      <li>Phoboplasm (Gelatinous Cube) has an expanded loot table that can include other planes' armor, including Plane of Hate pieces.</li>
+    </ul>
+  </div>
+
+  <div class="section-block">
+    <h3>Named Mobs &amp; Bosses</h3>
+    <table>
+      <thead><tr><th>Mob</th><th>Lvl</th><th>Notes</th><th>Drops</th></tr></thead>
+      <tbody>
+        <tr><td class="mob-name">Cazic Thule (God)</td><td class="lvl">70</td><td>450,000 HP, wanders NE near the ring of fire, 7-day respawn (±8h)</td><td>Bile Etched Obsidian Choker, Brain of Cazic Thule, Cloak of the Fearsome, Eye of Cazic Thule, Halo of the Enlightened, Pauldrons of Ferocity, Robe of Inspiration, Cazic's Skin</td></tr>
+        <tr><td class="mob-name">A dracoliche (Kodezal)</td><td class="lvl">58</td><td>175,000 HP, 600 AC, 7-day respawn; not undead-flagged; Deadly Lifetap proc; second-strongest mob in the zone</td><td>Berserkers Ring, Crimson Robe of Alendine, Fearsome Shield, Grotesque Girdle, Shawl of Protection, Zombie Flesh Bracer</td></tr>
+        <tr><td class="mob-name">Dread</td><td class="lvl">55</td><td>(-635,-1201), 72h respawn; Cazic Touch, Scarab Storm, Enrage proc; can spawn Iksar Broodling</td><td>Shared Dread/Fright/Terror pool (below)</td></tr>
+        <tr><td class="mob-name">Terror</td><td class="lvl">55</td><td>(200,-365), 72h respawn; Frost Breath (dispel/pet-charm break), 56-pt lifetap proc</td><td>Shared pool + Bone Razor</td></tr>
+        <tr><td class="mob-name">Fright</td><td class="lvl">55</td><td>(-636,-358), 72h respawn; Cazic Touch, "Issued Water" cursor-stack proc</td><td>Shared pool + Bone Razor</td></tr>
+        <tr><td class="mob-name">Irak Altil</td><td class="lvl">51</td><td>Wanders graveyard south of the Firewall; quads for 250 if given a torch</td><td>No unique loot; Paladin Epic Quest giver</td></tr>
+        <tr><td class="mob-name">Wraith of a Shissir</td><td class="lvl">55</td><td>(804,413), spawns every 72h or on Cazic Thule respawn</td><td>Head of the Serpent (Enchanter Epic component)</td></tr>
+        <tr><td class="mob-name">An enraged golem</td><td class="lvl">65</td><td>Spawned via "sprocket" turn-in at a broken golem near the south bell tower; very MR</td><td>Green Oil (WIZ, no-drop)</td></tr>
+      </tbody>
+    </table>
+    <div class="callout" style="margin-top:14px;"><b>Dread / Fright / Terror shared loot pool:</b> Amulet of Necropotence, Ball of Everliving Golem, Barbarian Spiritist's Hammer, Blood Fire, Bone-Clasped Girdle, Crimson Robe of Alendine, Darkwood Trunk, DawnFire Morning Star of Light, Lyssa's Darkwood Piccolo, Monsoon Sword of the Swiftwind, Puppet Strings, Shield of Rainbow Hues, Slime Blood of Cazic Thule, Soul Leech Dark Sword of Blood, Spined Dragon Claws, Staff of Undead Legions, Staff of the Earthcrafter, Withered Totem of Widdershins.</div>
+    <p style="margin-top:16px; font-size:13.5px; color:var(--bone-dim);"><b style="color:var(--bone)">Common named-mob unique drops:</b> A nightmare (Unicorn) → Nightmare Hide, Wand of Darkness. A spinechiller spider → Cryosilk armor set + Cryosilk Webshield. A boogeyman → Eye of Fright + Blighted armor set. A fetid fiend (female) → Girdle of the Diligent. A frightfinger → Carmine armor set. A glare lord → Wand of Lava. A phantasm → Thulian Wand. A samhain → Fluxbladed Axe + Scare Straw. A scareling → Eyerazzia. A tentacle tormentor → Dweamorvine Garland. A turmoil toad → Flayed Turmoilskin Belt, Turmoil Warts, gems. A worry wraith → Wand of Allure, Wraithstone. Amygdalan knight/warrior → Amygdalan Tendril, Nautilus Shield.</p>
+  </div>
+
+  <div class="section-block">
+    <h3>Quests</h3>
+    <ul>
+      <li><b>Enchanter Epic Quest:</b> requires killing Wraith of a Shissir (Amygdalan Temple) for Head of the Serpent — one of four components (with Essence of a Ghost from The Hole, Essence of a Vampire from Plane of Hate, Sands of the Mystics from Field of Bone) combined into the 4th Piece of Staff toward the <b>Staff of the Serpent</b>.</li>
+      <li><b>Paladin Epic Quest:</b> starts here via Irak Altil; final turn-in (Mark of Atonement + Fiery Avenger) to Irak Altil yields <b>Fiery Defender</b>.</li>
+      <li>Cazic Thule, Dread, Fright, and Terror are each tagged with "Related Quests" for the Necromancer, Shadow Knight, Wizard, Shaman, and Warrior Epic Quests, but the exact components/steps weren't confirmed this pass — flagged for follow-up research rather than published as fact.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="plane" id="sky">
+  <h2>Plane of Sky <span class="plane-tag">Veeshan</span></h2>
+  <div class="stat-row">
+    <div class="stat-chip">Monster level <b>50+</b></div>
+    <div class="stat-chip">Min. player level <b>46</b></div>
+    <div class="stat-chip">Adjacent zone <b>East Freeport</b></div>
+  </div>
+
+  <div class="section-block">
+    <h3>Access</h3>
+    <p>Orb on a rock in the East Freeport bay (~425,-1200), or Wizard spell <b>Alter Plane: Sky</b> (reagent: Cloudy Stone of Veeshan) — returns a group to Island 1 with keys intact. All buffs/debuffs strip on entry. No in-zone teleport except Alter Plane: Sky. Falling/jumping off an island destroys all Sky keys and dumps the player back in the East Freeport bay; death and Druid Wind of the South/North also exit.</p>
+  </div>
+
+  <div class="section-block">
+    <h3>Structure</h3>
+    <p>Nine-stop island chain (8 numbered islands + Island 1.5), gated by one-way teleport pads requiring a key dropped by the previous island's boss. Keys are permanent on the keyring once used and (unlike classic EQ) drop only from bosses, never trash. Some islands are reachable by jumping between vertically-overlapping islands instead (7→2, 4→2, 4→3, 6→5). Islands 2, 5, 6 start aggressive; Island 4 turns aggressive after the first kill. Boss NPCs no longer have deathtouch. Zone is Veeshan's dominion — genies, harpies, fairie dragons, and other exotic mob types populate it, with her physical form (Eye of Veeshan) as the final boss.</p>
+  </div>
+
+  <div class="section-block">
+    <h3>Island-by-Island</h3>
+    <table class="island-table">
+      <thead><tr><th>Island</th><th>Boss</th><th>Key Dropped</th><th>Key Required</th><th>Notable Mechanics / Commons</th></tr></thead>
+      <tbody>
+        <tr><td>1 — Fairy Island</td><td>Thunder Spirit Princess</td><td>Key of Swords (→1.5), Key of the Misplaced (→2)</td><td>— (entry island)</td><td>"A Thunder Spirit" bard-type trash; Key Master NPC</td></tr>
+        <tr><td>1.5 — Noble Island</td><td>Noble Dojorn</td><td>— (Efreeti Cycle start; death spawns Overseer of Air on Island 4)</td><td>Key of Swords</td><td>"a blade storm" assists; no keys drop here</td></tr>
+        <tr><td>2 — Azarack Island</td><td>Protector of Sky</td><td>Key of Misfortune (→3)</td><td>Key of the Misplaced</td><td>"an azarack" social trash</td></tr>
+        <tr><td>3 — Harpy Island</td><td>Gorgalosk</td><td>Key of Beasts (→4)</td><td>Key of Misfortune</td><td>Stone Breath stun; watchful guard/avenging gazer can knock players off-island via Mana Detonation</td></tr>
+        <tr><td>4 — Pegasus Island</td><td>Keeper of Souls</td><td>Avian Key (→5)</td><td>Key of Beasts</td><td>Split-mob chains (soul/essence carriers → tamers → harvesters); Overseer of Air spawns only after Noble Dojorn dies</td></tr>
+        <tr><td>5 — Spiroc Island</td><td>The Spiroc Lord</td><td>Key of the Swarm (→6)</td><td>Avian Key</td><td>Drops 1-2 Spiroc Wingblades (Warrior Epic component); The Spiroc Guardian miniboss spawns on any Spiroc death and spawns the Lord in turn</td></tr>
+        <tr><td>6 — Bee Island</td><td>Bazzt Zzzt (Queen Bee)</td><td>Key of Scale (→7)</td><td>Key of the Swarm</td><td>Bzzazzt split-spawn chain; social bees, ~100hp/tick poison DoT, no see-invis</td></tr>
+        <tr><td>7 — Drake Island</td><td>Sister of the Spire</td><td>Veeshan's Key (→8)</td><td>Key of Scale</td><td>Windrider drake Gravity Flux can knock players off; greater sphinx mezzes</td></tr>
+        <tr><td>8 — Veeshan Island</td><td>Eye of Veeshan</td><td>— (final boss)</td><td>Veeshan's Key</td><td>~32,000 HP tank-and-spank, spams lifetaps; Hand of Veeshan spawns only if Overseer of Air was killed on Island 4</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-block">
+    <h3>Class Quests ("Plane of Sky Tests")</h3>
+    <p>All 16 classes have a dedicated multi-stage "Test of [Trait]" chain, each given by a unique NPC and gated behind a randomly-dropping <b>Wind Rune</b> (any Sky mob) plus an island-specific quest item.</p>
+    <div class="class-grid">
+      <div class="class-chip"><span class="cls">Cleric</span><span class="giver">Josin Faithbringer</span></div>
+      <div class="class-chip"><span class="cls">Paladin</span><span class="giver">Dason Goldblade</span></div>
+      <div class="class-chip"><span class="cls">Monk</span><span class="giver">Holwin</span></div>
+      <div class="class-chip"><span class="cls">Druid</span><span class="giver">Strandar Pinemist</span></div>
+      <div class="class-chip"><span class="cls">Enchanter</span><span class="giver">Enchanter Jolas</span></div>
+      <div class="class-chip"><span class="cls">Magician</span><span class="giver">Magus Frinon</span></div>
+      <div class="class-chip"><span class="cls">Ranger</span><span class="giver">Ranger Spirit</span></div>
+      <div class="class-chip"><span class="cls">Bard</span><span class="giver">Cilin Spellsinger</span></div>
+      <div class="class-chip"><span class="cls">Beastlord</span><span class="giver">Animist Kratho</span></div>
+      <div class="class-chip"><span class="cls">Berserker</span><span class="giver">Stragen The Hewer</span></div>
+      <div class="class-chip"><span class="cls">Necromancer</span><span class="giver">Drakis Bloodcaster</span></div>
+      <div class="class-chip"><span class="cls">Rogue</span><span class="giver">Thalik Silenthand</span></div>
+      <div class="class-chip"><span class="cls">Shadow Knight</span><span class="giver">Sarkis Ebonblade</span></div>
+      <div class="class-chip"><span class="cls">Shaman</span><span class="giver">Medicine Man Veetra</span></div>
+      <div class="class-chip"><span class="cls">Warrior</span><span class="giver">Torgon Blademaster</span></div>
+      <div class="class-chip"><span class="cls">Wizard</span><span class="giver">Wizard Schrock</span></div>
+    </div>
+    <p style="margin-top:14px;">Completing a class's full chain unlocks that class as a selectable Primary Class option in loadouts. Confirmed reward examples: Cleric — Necklace of Resolution (uses Silvered Spiroc Necklace, Island 6) and Baton of the Sky (uses Mithril Bands, Island 8); Magician — Duennan Shielding Ring (uses Golden Efreeti Ring, Island 7); Shaman — Vermilion Sky Ring. Melee classes can earn a 21% haste belt mid-chain and a 41% haste belt at the end (e.g. Monk's Golden Sash of Tranquility, Rogue's Renard's Belt of Quickness).</p>
+    <div class="callout" style="margin-top:14px;"><b>Epic quest tie-ins:</b> Magician, Monk, Ranger, and Paladin epics pull components from Sky. The Warrior Epic Quest specifically needs Spiroc Wingblades from The Spiroc Lord (Island 5) — the wiki notes the item's "Ranger" tag is misleading; it is not used by any Ranger quest.</div>
+  </div>
+
+  <div class="section-block">
+    <h3>Deep Itemization <span style="font-weight:400; color:var(--bone-dim); font-size:12px;">(confirmed to exist, not yet fully itemized)</span></h3>
+    <p>An Efreeti weapon/item line spans War Axe, Bow, Club, Horn, Maul, Shield, Spear, Staff, Standard, Statuette, Zweihander, Battle Axe, Dirk, Great Staff, Long Sword, Mace, Magi Staff, Scimitar, and Wind Staff variants, plus a Golden Efreeti armor set (Bracers, Chestplate, Gauntlets, Greaves, Ring, Turban, Vambraces). The wiki's category page lists 325 pages tagged to this zone — most of the zone's best loot comes from the class-quest chains rather than direct boss drops.</p>
+  </div>
+</section>
+
+<section class="followups">
+  <h2>Open Follow-Ups <span style="font-weight:400; color:var(--bone-dim); font-size:13px;">(flagged, not yet researched)</span></h2>
+  <div class="followup-item"><b>Plane of Hate</b>Itemized loot for Maestro of Rancor and Innoruuk (God) is not documented on eqlwiki.com as of this pass.</div>
+  <div class="followup-item"><b>Plane of Fear</b>Exact components linking Cazic Thule/Dread/Fright/Terror to the Necromancer, Shadow Knight, Wizard, Shaman, and Warrior epic quests need a dedicated pass on those five epic-quest pages.</div>
+  <div class="followup-item"><b>Plane of Sky</b>The Random Drop Items table (haste belts, bracers, misc.) and the Shadow Knight/Shaman/Warrior/Wizard class-quest chains need a follow-up fetch — confirmed to exist via the category page but not itemized this pass.</div>
+</section>
+
+<footer>
+  Source: eqlwiki.com, cross-checked per the 2026-08-05 research passes (see <code>eql/_data/research-drops/2026-08-05-plane-of-*.md</code>) · Built for Bryan's EQL prep. No affiliation with the EQL dev team — verify anything time-sensitive in-game.<br/>
+  <a href="index.html">← Back to EQL Prep</a>
+</footer>
+
+</div>
+</body>
+</html>
