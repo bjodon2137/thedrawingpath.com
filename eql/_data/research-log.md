@@ -43,3 +43,14 @@ Source: eqlwiki.com, per the underlying 2026-08-05 research-drop files.
 - Linked from eql/index.html as a 5th card; grid moved to a 3-column layout that wraps cleanly.
 
 Source: eqlwiki.com, class/race pages, item data — per the 2026-08-07 and 2026-08-05 research-drop files.
+
+## 2026-08-07 — Bard-primary trio roadmap
+
+**Applied by:** Integration Agent, from `eql-bard-trio-roadmap.md` handed off directly in chat.
+
+**New page — eql/trio-roadmap.html:**
+- Hub page for the 7-trio no-overlap partition of all 16 classes into Bard-led trios: ranking logic (tank stance access, Divine invocation access, category-stacking bonuses), all 7 trio summaries (trio 1 marked done and linked to its existing deep-dive page; trios 2-7 marked planned with their full reasoning), the leftover-Rogue judgment call, and the summary table.
+- Source explicitly flags this as original design synthesis / a prioritized build order, not sourced fact (no eqlwiki.com Bard-trio guide exists) — preserved that framing verbatim rather than presenting it as researched fact.
+- **Site structure change:** repointed the homepage's trio card from linking directly to the Bard/Shadow Knight/Druid guide to linking to this new roadmap hub instead, since more trio guides are coming — avoids a card-per-trio homepage as the roadmap fills in. The hub itself links out to trio 1's guide.
+
+Source: original design synthesis from confirmed Stances & Invocations mechanics, not a wiki transcription.

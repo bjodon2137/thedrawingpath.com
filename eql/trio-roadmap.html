@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bard-Primary Trio Roadmap</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root{
+  --void:#F7F8FA;
+  --stone:#FFFFFF;
+  --stone-2:#F0F2F5;
+  --bone:#1A1D23;
+  --bone-dim:#5B6270;
+  --accent:#2B5B8C;
+  --border:#E2E5EA;
+  --green:#3A7D5C;
+  --amber:#B5883A;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px 90px;}
+
+.hero{padding:56px 24px 32px; border-bottom:1px solid var(--border); background:var(--stone);}
+.hero-inner{max-width:1040px;margin:0 auto;}
+.eyebrow{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:16px;}
+h1{font-weight:800; font-size:clamp(28px,4.4vw,42px); line-height:1.1; margin:0 0 14px; letter-spacing:-0.01em;}
+.sub{font-size:15px; color:var(--bone-dim); max-width:760px; line-height:1.65;}
+.meta-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:22px;}
+.meta-chip{font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--bone-dim); border:1px solid var(--border); background:var(--void); padding:6px 12px; border-radius:4px;}
+
+.wrap > section{padding:44px 0; border-bottom:1px solid var(--border);}
+.wrap > section:last-of-type{border-bottom:none;}
+.wrap > section h2{font-size:20px; font-weight:800; margin:0 0 12px;}
+.wrap > section p, .wrap > section li{font-size:14px; line-height:1.75; color:var(--bone);}
+.wrap > section ol, .wrap > section ul{margin:0; padding-left:20px;}
+.wrap > section li{margin-bottom:10px;}
+
+.callout{border:1px solid var(--border); border-left:3px solid var(--accent); background:var(--stone); border-radius:4px; padding:14px 16px; font-size:13.5px; line-height:1.65; margin:14px 0;}
+.callout.warn{border-left-color:var(--amber);}
+
+.trio-grid{display:grid; gap:14px;}
+.trio-card{border:1px solid var(--border); border-radius:6px; background:var(--stone); padding:18px 20px; position:relative;}
+.trio-card.done{border-left:3px solid var(--green);}
+.trio-card.planned{border-left:3px solid var(--border);}
+.trio-num{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); text-transform:uppercase; letter-spacing:.06em;}
+.trio-title{font-size:17px; font-weight:700; margin:4px 0 6px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.status-pill{font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:2px 9px; border-radius:20px;}
+.status-pill.done{color:var(--green); border:1px solid var(--green);}
+.status-pill.planned{color:var(--bone-dim); border:1px solid var(--border);}
+.trio-shape{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--accent); margin-bottom:8px;}
+.trio-desc{font-size:13.5px; line-height:1.65; color:var(--bone-dim);}
+.trio-card a.trio-link{display:inline-block; margin-top:10px; font-size:12.5px; font-weight:600; color:var(--accent); text-decoration:none;}
+.trio-card a.trio-link:hover{text-decoration:underline;}
+
+table{width:100%; border-collapse:collapse; font-size:13px; margin:10px 0;}
+thead th{text-align:left; font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--bone-dim); font-weight:600; padding:9px 10px; border-bottom:1px solid var(--border); background:var(--stone-2);}
+tbody td{padding:9px 10px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.55;}
+tbody tr:hover td{background:var(--stone-2);}
+tbody tr.done td{background:rgba(58,125,92,0.05);}
+
+footer{padding-top:24px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); line-height:1.8;}
+footer a{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">EQL Prep · Build Guide Index</div>
+    <h1>Bard-Primary Trio Roadmap</h1>
+    <p class="sub">A no-overlap partition of all 16 classes into Bard-led trios, ranked by how closely each one reproduces the self-sufficiency of the first deep-dive (tank + healer + Bard support). <b>Confirmed:</b> no eqlwiki.com "Build Guide" page exists yet for any Bard-led trio (<code>Category:Bard_Build</code> is empty as of 2026-08-07) — every ranking below is original design synthesis built from confirmed game mechanics, not a transcription of an existing authoritative source. Treat this as a prioritized research/build order, not sourced fact.</p>
+    <div class="meta-row">
+      <div class="meta-chip">16 classes → 7 trios + 1 leftover</div>
+      <div class="meta-chip">Bard fixed as the constant thread</div>
+      <div class="meta-chip">1 of 7 deep-dives complete</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section id="constraint">
+  <h2>The Constraint and the Math</h2>
+  <p>16 classes total, Bard fixed as the constant thread. That leaves 15 other classes to pair up two at a time (Secondary + Tertiary), each used exactly once across the whole roadmap. 15 is odd, so this partitions into <b>7 trios using 14 classes, with 1 class left over</b> that has no home in a clean no-overlap partition.</p>
+</section>
+
+<section id="logic">
+  <h2>Ranking Logic</h2>
+  <p>Trio 1's shape — a hybrid tank (Shadow Knight) paired with a Wisdom-caster healer (Druid) — is the strongest self-sufficient pattern EQL's stance/invocation system supports: a real tanking stance, a real healing invocation (Divine), and Bard's free buff songs on top. Every subsequent trio is ranked by how closely it can reproduce that self-sufficiency once the ingredients for it (dedicated tanks, dedicated priests) run out, using three confirmed mechanical levers:</p>
+  <ol>
+    <li><b>Tank stance access</b> — Defensive and Mage Hunter stances are limited to PAL/SHD/WAR/BER (WAR gets Defensive but not Mage Hunter; BER gets Mage Hunter but not Defensive). Once a class with real mitigation is gone, the trio's durability drops.</li>
+    <li><b>Divine invocation access</b> — heals-while-casting is available to BST, CLR, DRU, PAL, RNG, SHM. Once these are exhausted, no trio has passive healing at all.</li>
+    <li><b>Category-stacking bonuses</b> — three invocations explicitly scale with how many of a given category (Intelligence: ENC/MAG/NEC/WIZ; Wisdom: CLR/DRU/SHM; non-hybrid caster: CLR/DRU/ENC/MAG/NEC/SHM/WIZ) are present in your trio. Arcane Mastery (cast speed/mana cost) and Empower/Over Channel (damage/healing/resist penetration) all get stronger with a second class from the same category. Since Bard never counts toward these categories, the only way to trigger the bonus is to pair two same-category classes as Secondary+Tertiary — which becomes the best available lever once tanks and priests are gone.</li>
+  </ol>
+</section>
+
+<section id="trios">
+  <h2>The Roadmap</h2>
+  <div class="trio-grid">
+
+    <div class="trio-card done">
+      <div class="trio-num">Trio 1</div>
+      <div class="trio-title">Bard / Shadow Knight / Druid <span class="status-pill done">Deep-dive complete</span></div>
+      <div class="trio-shape">Hybrid tank + Wisdom healer</div>
+      <div class="trio-desc">The reference shape everything else is ranked against — a real tanking stance (Defensive/Mage Hunter via SHD), a real healing invocation (Divine via DRU), and Bard's free buff songs on top.</div>
+      <a class="trio-link" href="trio-bard-shadowknight-druid.html">Open the full guide →</a>
+    </div>
+
+    <div class="trio-card planned">
+      <div class="trio-num">Trio 2 · "The good-aligned mirror"</div>
+      <div class="trio-title">Bard / Paladin / Cleric <span class="status-pill planned">Planned</span></div>
+      <div class="trio-shape">Tank + healer</div>
+      <div class="trio-desc">Reproduces trio 1's shape almost exactly. Paladin has the same stance kit as Shadow Knight (Balanced, Defensive, Mage Hunter, Offensive) plus Divine invocation, which Shadow Knight lacks — this trio can passively off-heal through Paladin alone even before Cleric casts anything. Cleric is the strongest dedicated healer in the game and shares Bard's Inversion/Over Channel/Recovery pool. The most obvious "next best" — same shape, arguably stronger healing access than trio 1, at the cost of Druid's travel/root utility.</div>
+    </div>
+
+    <div class="trio-card planned">
+      <div class="trio-num">Trio 3 · "The raw tank"</div>
+      <div class="trio-title">Bard / Warrior / Shaman <span class="status-pill planned">Planned</span></div>
+      <div class="trio-shape">Tank + healer</div>
+      <div class="trio-desc">Uses up the last pure-tank class and the last Wisdom priest. Warrior has the widest pure-melee stance kit (Balanced, Defensive, Offensive, Striker) but only one invocation (Unyielding — 2x health regen, +25% fear/mez/charm resist, no mana cost), so this trio trades Divine/off-healing for Warrior's superior raw mitigation and Striker's burst damage. Shaman covers the healing gap directly. Ranked third rather than second because Warrior's invocation pool is thinner than Paladin's (no Divine access at all) — this trio leans harder on Shaman to do all the healing rather than sharing the load.</div>
+    </div>
+
+    <div class="trio-card planned">
+      <div class="trio-num">Trio 4 · "The healing-hybrid pair"</div>
+      <div class="trio-title">Bard / Ranger / Beastlord <span class="status-pill planned">Planned</span></div>
+      <div class="trio-shape">Hybrid + hybrid</div>
+      <div class="trio-desc">This is where the priest well runs dry (Cleric and Shaman both used), so the roadmap pivots to the best remaining substitute: Ranger and Beastlord are both Hybrid classes that individually carry Divine invocation — meaning this trio keeps passive off-healing alive without a dedicated priest at all. Beastlord's pet adds a second tanking body (echoing Shadow Knight's pet from trio 1), and both classes get Spellblade for weaving a spell into melee swings. No Wisdom-category stacking bonus applies (Ranger/Beastlord are Hybrid, not Wisdom), but having Divine represented twice keeps the option resilient if one class's build leans elsewhere.</div>
+    </div>
+
+    <div class="trio-card planned">
+      <div class="trio-num">Trio 5 · "The stacked casters, burst"</div>
+      <div class="trio-title">Bard / Wizard / Necromancer <span class="status-pill planned">Planned</span></div>
+      <div class="trio-shape">Stacked Intelligence casters</div>
+      <div class="trio-desc">First trio to deliberately exploit the category-stacking mechanic: Wizard and Necromancer are both Intelligence classes and both "non-hybrid casters," so this trio gets the bonus tier of Arcane Mastery, Empower, and Over Channel simultaneously — a real, confirmed mechanical bonus, not a synthesis guess. Necromancer's lifetap/pet line gives some self-sustain in place of a dedicated tank, and Wizard shares Bard's Inviolable invocation (uninterruptible casting for both). No healing access at all — a glass-cannon trio, best suited to grouped or raid content rather than solo leveling.</div>
+    </div>
+
+    <div class="trio-card planned">
+      <div class="trio-num">Trio 6 · "The stacked casters, control"</div>
+      <div class="trio-title">Bard / Magician / Enchanter <span class="status-pill planned">Planned</span></div>
+      <div class="trio-shape">Stacked Intelligence casters</div>
+      <div class="trio-desc">The other Intelligence-stacking pair, using the same Arcane Mastery/Empower/Over Channel bonus tier as trio 5. Magician's pet substitutes for a tank the same way Necromancer's does. Enchanter brings its own charm/mez kit, which stacks with Bard's own Lull/Mez songs for a crowd-control-heavy trio — good for tough single-pull adds, weaker for sustained group damage than trio 5. Ranked just behind Wizard/Necromancer because Enchanter/Magician's damage output is generally more utility-oriented than Wizard's burst nukes or Necromancer's DoT/lifetap sustain.</div>
+    </div>
+
+    <div class="trio-card planned">
+      <div class="trio-num">Trio 7 · "What's left"</div>
+      <div class="trio-title">Bard / Berserker / Monk <span class="status-pill planned">Planned</span></div>
+      <div class="trio-shape">Pure melee</div>
+      <div class="trio-desc">The last two pure-melee classes (Rogue is the odd one out — see below). Berserker is the only remaining class with Mage Hunter stance, giving this trio some anti-caster mitigation despite having no dedicated tank archetype; Monk contributes Evasive stance and strong single-target melee DPS. Neither class carries any invocation beyond Unyielding, so this trio has <b>zero healing or caster utility of any kind</b> — the weakest self-sufficiency profile in the roadmap, best suited to raid/group content where healing comes from outside the trio.</div>
+    </div>
+
+  </div>
+
+  <div class="callout warn" style="margin-top:20px;">
+    <b>Leftover: Rogue.</b> 13 is odd, so one class doesn't get a clean partition slot. Rogue was set aside rather than Monk or Berserker because its kit (poison application, evasion, positional backstab) overlaps most heavily with the other pure-melee classes already placed in trio 7 — losing it costs the roadmap the least mechanical diversity. That's a judgment call, not a mechanical fact: if you'd rather see Rogue in the lineup, the cleanest swap is dropping Berserker or Monk from trio 7 and slotting Rogue in instead, or breaking trio 7 into a genuinely melee-only "leftover pair" question once trios 2-6 have played out.
+  </div>
+</section>
+
+<section id="summary">
+  <h2>Summary Table</h2>
+  <table>
+    <thead><tr><th>#</th><th>Trio</th><th>Shape</th><th>Tank source</th><th>Heal source</th><th>Notable mechanic</th></tr></thead>
+    <tbody>
+      <tr class="done"><td>1</td><td>Bard / Shadow Knight / Druid</td><td>Done</td><td>SHD (Defensive/Mage Hunter) + pet</td><td>DRU (Divine)</td><td>Full deep-dive complete</td></tr>
+      <tr><td>2</td><td>Bard / Paladin / Cleric</td><td>Tank + healer</td><td>PAL (Defensive/Mage Hunter)</td><td>PAL (Divine) + CLR (best heals)</td><td>Double healing access</td></tr>
+      <tr><td>3</td><td>Bard / Warrior / Shaman</td><td>Tank + healer</td><td>WAR (best pure mitigation)</td><td>SHM only</td><td>Warrior has no Divine — single healer</td></tr>
+      <tr><td>4</td><td>Bard / Ranger / Beastlord</td><td>Hybrid + hybrid</td><td>BST pet</td><td>RNG + BST both Divine</td><td>No dedicated priest, still heals</td></tr>
+      <tr><td>5</td><td>Bard / Wizard / Necromancer</td><td>Stacked INT casters</td><td>NEC pet/lifetap only</td><td>None</td><td>Arcane Mastery/Empower/Over Channel bonus tier</td></tr>
+      <tr><td>6</td><td>Bard / Magician / Enchanter</td><td>Stacked INT casters</td><td>MAG pet only</td><td>None</td><td>Same bonus tier + double CC (Enchanter+Bard)</td></tr>
+      <tr><td>7</td><td>Bard / Berserker / Monk</td><td>Pure melee</td><td>BER Mage Hunter only</td><td>None</td><td>Zero caster utility — group-reliant</td></tr>
+      <tr><td>—</td><td>Rogue</td><td>Unplaced</td><td>—</td><td>—</td><td>Odd one out; swappable into #7</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="next">
+  <h2>Suggested Next Step</h2>
+  <p>Same process as trio 1: pick one of these (2 through 7) and run the full expert deep-dive — leveling zones, BIS gear (including a slot-by-slot multi-class item check now that the tagging mechanism is confirmed), and the stance/invocation + spell/song rotation breakdown. Given the ranking above, <b>Paladin/Cleric (trio 2)</b> is the most natural next pick since it's the closest mechanical sibling to the guide already complete.</p>
+</section>
+
+<footer>
+  Original design synthesis built from confirmed Stances &amp; Invocations mechanics researched for the Bard/Shadow Knight/Druid guide — not a transcription of an existing eqlwiki.com guide (<code>Category:Bard_Build</code> is empty as of 2026-08-07). Built for Bryan's EQL prep.<br/>
+  <a href="index.html">← Back to EQL Prep</a>
+</footer>
+
+</div>
+</body>
+</html>
