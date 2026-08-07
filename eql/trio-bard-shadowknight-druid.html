@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trio Build Guide — Bard / Shadow Knight / Druid</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root{
+  --void:#F7F8FA;
+  --stone:#FFFFFF;
+  --stone-2:#F0F2F5;
+  --bone:#1A1D23;
+  --bone-dim:#5B6270;
+  --accent:#2B5B8C;
+  --border:#E2E5EA;
+  --green:#3A7D5C;
+  --amber:#B5883A;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px 90px;}
+
+.hero{padding:56px 24px 32px; border-bottom:1px solid var(--border); background:var(--stone);}
+.hero-inner{max-width:1040px;margin:0 auto;}
+.eyebrow{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:16px;}
+h1{font-weight:800; font-size:clamp(28px,4.4vw,42px); line-height:1.1; margin:0 0 14px; letter-spacing:-0.01em;}
+.sub{font-size:15px; color:var(--bone-dim); max-width:760px; line-height:1.65;}
+.meta-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:22px;}
+.meta-chip{font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--bone-dim); border:1px solid var(--border); background:var(--void); padding:6px 12px; border-radius:4px;}
+
+.section-nav{
+  display:flex; flex-wrap:wrap; gap:0; border-bottom:1px solid var(--border); background:var(--stone);
+  position:sticky; top:0; z-index:10;
+}
+.section-nav a{
+  flex:1; text-align:center; padding:14px 10px; text-decoration:none; color:var(--bone-dim);
+  font-weight:600; font-size:12.5px; border-bottom:3px solid transparent; transition:all .15s; white-space:nowrap;
+}
+.section-nav a:hover{color:var(--bone); background:var(--stone-2);}
+
+.block{padding:44px 0; border-bottom:1px solid var(--border);}
+.block:last-of-type{border-bottom:none;}
+.block h2{font-size:22px; font-weight:800; margin:0 0 6px;}
+.block h3{font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); margin:26px 0 10px; padding-bottom:8px; border-bottom:1px solid var(--border);}
+.block h3:first-of-type{margin-top:18px;}
+.block p, .block li{font-size:14px; line-height:1.75; color:var(--bone);}
+.block ul, .block ol{margin:0; padding-left:20px;}
+.block li{margin-bottom:8px;}
+
+.callout{border:1px solid var(--border); border-left:3px solid var(--accent); background:var(--stone); border-radius:4px; padding:14px 16px; font-size:13.5px; line-height:1.65; color:var(--bone); margin:14px 0;}
+.callout.warn{border-left-color:var(--amber);}
+.callout.speculative{border-left-color:var(--amber); background:var(--stone-2);}
+
+table{width:100%; border-collapse:collapse; font-size:13px; margin:10px 0 18px;}
+thead th{text-align:left; font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--bone-dim); font-weight:600; padding:9px 10px; border-bottom:1px solid var(--border); background:var(--stone-2);}
+tbody td{padding:9px 10px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.55;}
+tbody tr:hover td{background:var(--stone-2);}
+.stance-table td, .stance-table th{text-align:center;}
+.stance-table td:first-child, .stance-table th:first-child{text-align:left; font-weight:600;}
+.check{color:var(--green); font-weight:700;}
+
+.pool-table td:first-child{font-weight:600; white-space:nowrap; max-width:260px;}
+.pool-table td:nth-child(2){color:var(--bone-dim);}
+
+.def-list{display:grid; gap:8px; margin:10px 0 18px;}
+.def-item{border:1px solid var(--border); border-radius:4px; padding:10px 14px; background:var(--stone); font-size:13px; line-height:1.6;}
+.def-item b{color:var(--bone);}
+
+.gap-item{border:1px solid var(--border); border-left:3px solid var(--amber); border-radius:4px; padding:12px 16px; background:var(--stone); margin-bottom:10px; font-size:13.5px; line-height:1.6;}
+
+footer{padding-top:24px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); line-height:1.8;}
+footer a{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">EQL Prep · Build Guide</div>
+    <h1>Trio Deep Dive: Bard / Shadow Knight / Druid</h1>
+    <p class="sub">Compiled from the 2026-08-07 research pass. No eqlwiki.com "Build Guide" page exists yet for this specific trio — this is original synthesis from class pages, race rules, and item data, not a transcription of an existing authoritative guide. Treat it as a first draft, not a scraped copy of one.</p>
+    <div class="meta-row">
+      <div class="meta-chip">Shape <b style="color:var(--bone)">Tank + Support + Healer</b></div>
+      <div class="meta-chip">Zero pure casters</div>
+      <div class="meta-chip">Primary-eligible race <b style="color:var(--bone)">Human only</b></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-nav">
+  <a href="#overview">Overview</a>
+  <a href="#stances">Stances &amp; Invocations</a>
+  <a href="#kits">Ability Kits</a>
+  <a href="#gear">Gear</a>
+  <a href="#leveling">Leveling Path</a>
+  <a href="#gaps">Open Gaps</a>
+</div>
+
+<div class="wrap">
+
+<section class="block" id="overview">
+  <h2>What This Trio Actually Is</h2>
+  <p>Bard/Shadow Knight/Druid combines two hybrid classes (Bard, Shadow Knight) with one wisdom-caster priest/hybrid (Druid) — zero pure casters, which matters for the Invocation math below. In practice it plays as a self-sufficient tank+support+healer unit: Shadow Knight tanks and self-sustains via lifetap, Druid provides healing/utility/root and full teleport access, Bard provides free (mostly 0-mana) buff songs, haste, and the trio's only real crowd control. This shape is explicitly the kind of build EQL's own multiclass system is designed around — the wiki's Character category page frames it directly: <i>"Melee classes synergize with pure caster and priest classes, to take a single, powerful build through the world."</i></p>
+</section>
+
+<section class="block" id="stances">
+  <h2>Core Mechanic: Stances &amp; Invocations</h2>
+  <p><i>Not a spell rotation.</i> EQL combat isn't a classic-EQ rotation of discrete spell casts. Every character has exactly <b>one active Stance</b> (melee-focused, costs Endurance) and <b>one active Invocation</b> (caster-focused, costs Mana and/or Endurance) at a time. Both default to a "base" mode when off, which just grants faster regen. You get every stance/invocation your three classes are eligible for starting at level 1, and Stances/Invocations each have independent 6-second reuse timers — so you can swap between them fluidly as the fight demands, you're not locked in.</p>
+
+  <h3>Stances</h3>
+  <table class="stance-table">
+    <thead><tr><th>Class</th><th>Balanced</th><th>Offensive</th><th>Evasive</th><th>Defensive</th><th>Mage Hunter</th><th>Channeler</th></tr></thead>
+    <tbody>
+      <tr><td>Bard</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td></td><td></td><td></td></tr>
+      <tr><td>Shadow Knight</td><td class="check">✓</td><td class="check">✓</td><td></td><td class="check">✓</td><td class="check">✓</td><td></td></tr>
+      <tr><td>Druid</td><td></td><td></td><td></td><td></td><td></td><td class="check">✓</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Invocations</h3>
+  <table class="stance-table">
+    <thead><tr><th>Class</th><th>Recovery</th><th>Inversion</th><th>Over Channel</th><th>Inviolable</th><th>Arcane Mastery</th><th>Spellblade</th><th>Divine</th><th>Empowering</th></tr></thead>
+    <tbody>
+      <tr><td>Bard</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>Shadow Knight</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td></td><td class="check">✓</td><td class="check">✓</td><td></td><td></td></tr>
+      <tr><td>Druid</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td></td><td></td><td></td><td class="check">✓</td><td class="check">✓</td></tr>
+    </tbody>
+  </table>
+  <p><b>Recovery, Inversion, and Over Channel are shared by all three classes</b> — these are always available regardless of which "mode" you're playing, and are a strong default invocation baseline.</p>
+
+  <h3>What Each Option Does</h3>
+  <div class="def-list">
+    <div class="def-item"><b>Balanced</b> — -10% incoming damage, +10% hit chance, endurance regen doubled, free to maintain. Safe default melee stance.</div>
+    <div class="def-item"><b>Offensive</b> — +100% melee damage, +25% hit chance, but costs endurance per bonus damage dealt (crit damage is free). Your DPS stance.</div>
+    <div class="def-item"><b>Evasive</b> (Bard only) — 95% evade chance, costs 2 endurance per point evaded, fails if you run out or feign. Kiting/soloing stance.</div>
+    <div class="def-item"><b>Defensive</b> (Shadow Knight only) — -50% melee damage, -20% magic damage taken, costs endurance per point mitigated. Your tanking stance.</div>
+    <div class="def-item"><b>Mage Hunter</b> (Shadow Knight only) — -50% spell damage, -20% physical damage taken. Anti-caster tanking stance.</div>
+    <div class="def-item"><b>Channeler</b> (Druid only) — -40% incoming damage, better channel success; half the mitigated damage is charged to mana+endurance. Druid's only native stance — useful when Druid needs to tank hits while casting (e.g. healing through incoming damage).</div>
+    <div class="def-item"><b>Recovery</b> — 2x mana regen, -5% spell mana cost; the out-of-combat portion applies even when not active. Efficiency default.</div>
+    <div class="def-item"><b>Inversion</b> — shifts 2/3 of cast time into global recovery and 20% of mana cost into endurance. Useful for weaving casts between melee swings.</div>
+    <div class="def-item"><b>Over Channel</b> — -150 resist adjust on your spells (more with more non-hybrid casters, which this trio has none of, so it's flat -150 here), costs 10% of mana cost as endurance. Landing-power invocation for debuffs/CC.</div>
+    <div class="def-item"><b>Inviolable</b> (Bard only) — cast spells become uninterruptible, at +100% mana and equal endurance cost. Use this to guarantee a Lull or Mez lands without an interrupt.</div>
+    <div class="def-item"><b>Arcane Mastery</b> (Shadow Knight only) — -20% cast/recovery time, -10% detrimental spell mana cost. Speeds up SK's DoT/debuff casting between swings.</div>
+    <div class="def-item"><b>Spellblade</b> (Shadow Knight only) — turns your first spell-gem slot into an on-swing proc (40% mana + 20% endurance per activation), provided the spell's reuse time is ≤ its cast time. Good for weaving a lifetap or DoT into melee without manually casting it.</div>
+    <div class="def-item"><b>Divine</b> (Druid only) — spending mana heals your group's lowest-HP% member by that amount (this trio only has one Wisdom class, so no repeat-heal stacking bonus, which needs 2+ Wisdom classes). Turns Druid's normal spellcasting into passive off-healing.</div>
+    <div class="def-item"><b>Empowering</b> (Druid only) — +20-30% to damage effects (at +20% more mana) or +10-15% to healing (at +10% more mana). Raw power invocation when you need bigger heals or nukes right now.</div>
+  </div>
+
+  <h3>Recommended Loadouts by Role</h3>
+  <ul>
+    <li><b>Tanking (SK-forward):</b> Defensive Stance (or Offensive when off-tanking) + Arcane Mastery or Spellblade. Spellblade is particularly good here — it turns your lifetap line into a passive on-swing proc instead of something you have to stop and cast.</li>
+    <li><b>Support (Bard-forward):</b> Balanced Stance (cheap, safe, doubles endurance regen for song-weaving) or Evasive when soloing/kiting + Inviolable when you need a Lull or Mez to land without getting knocked off by damage.</li>
+    <li><b>Healing/CC (Druid-forward):</b> Channeler Stance (Druid's only native option, useful if Druid needs to eat hits while healing) + Divine (passive off-heal via normal casting) or Empowering (bigger heals/nukes on demand) depending on whether the fight needs steady throughput or burst.</li>
+  </ul>
+  <p>Because Recovery/Inversion/Over Channel are shared by all three classes, you can hold one of those as a stable invocation default and only swap to a class-exclusive one (Inviolable/Arcane Mastery/Spellblade/Divine/Empowering) for a specific moment — while freely swapping <i>stance</i> between Balanced/Offensive/Defensive/Evasive/Channeler as the fight's role shifts.</p>
+</section>
+
+<section class="block" id="kits">
+  <h2>Ability Kits</h2>
+
+  <h3>Bard — The Buff Engine</h3>
+  <p>Nearly every Bard song is <b>free</b> (0 mana) — only two songs in the entire list cost mana at all (Solon's Bewitching Bravura, L39; Denon's Desperate Dirge, L43). That makes Bard's role in this trio almost pure upside: songs can be woven continuously without competing for the group's mana pool.</p>
+  <p>Key songs by level: Chant of Battle (L1, group AC/STR/DEX), Jaxan's Jig o' Vigor (L3, group endurance regen), <b>Selo's Accelerando</b> (L5, group +15% runspeed — your travel tool), Hymn of Restoration (L6, group HP regen), <b>Kelin's Lugubrious Lament</b> (L8, single-target Lull — the trio's primary pulling tool), Elemental Rhythms (L9, group MR/CR/FR/AC), Magical Monologue (L9, lets the group land hits on magic-immune targets), Anthem de Arms (L10, group haste+STR), Purifying Rhythms (L13, group MR/PR/DR/AC), <b>Kelin's Lucid Lullaby</b> (L15, single-target Mesmerize up to L30 — the trio's hard CC), Guardian Rhythms (L17, group AC/MR), continuing through the mid-40s with further buff, debuff, and crowd-control songs (Angstlich's Appalling Screech, a fear song, and Selo's Consonant Chain, a snare/slow, both by naming convention — flagged as classic-EQ-analogy pending direct EQL confirmation).</p>
+  <div class="callout">Charisma affects whether Lull/Mez <i>ticks</i> stay landed, not the initial cast chance — worth prioritizing CHA gear on your Bard slot specifically for this reason.</div>
+
+  <h3>Shadow Knight — Self-Sufficient Tank</h3>
+  <p>The lifetap line is the backbone of SK's survivability: Lifetap (L1) → Lifespike (L8) → Lifedraw (L15) → Siphon Life (L30) → Spirit Tap (L36) → Life Leech (L47, quest-gated) → Drain Spirit (L49). <b>Vampiric Embrace</b> (L15) makes this passive — a permanent lifetap proc — and <b>Scream of Death</b> (L37) adds a second permanent proc, this time PBAE. Between these two, SK's sustain becomes largely automatic rather than something you actively manage.</p>
+  <p>Damage comes from a snare-bundled DoT line rather than a separate snare spell: Clinging Darkness (L11) → Engulfing Darkness (L20) → Dooming Darkness (L44), plus Disease Cloud, Heat Blood, and other DoTs layered in. A skeleton pet line (Leering Corpse L7 → Bone Walk L14 → Convoke Shadow L22 → Restless Bones L30 → Animate Dead L38, dual-wielding → Summon Dead L46) adds an extra body to tank/soak hits. Fear (L12, up to target level 52) and Spook the Dead (L20, undead-only) give SK a panic button against tough single targets. Utility includes Feign Death (L24), Shadow Step (L13, short teleport), Gather Shadows (L30, invisibility), Shieldskin (L31, rune/absorb), and Harmshield (L50, 18-second invulnerability) — a genuine "oh no" cooldown for overextended pulls.</p>
+
+  <h3>Druid — Heals, Roots, and the Trio's Travel Network</h3>
+  <p>Standard heal progression from Minor Healing (L1) up through Superior Healing, layered with HoT/regen spells (Chloroplast, Regeneration, Pack Regeneration, Nature's/Forest's Renewal) for sustained healing without constant recasting. The root line — Grasping Roots → Ensnaring Roots → Enveloping Roots → Engulfing Roots — is a signature "damage+root" combo spell at every tier, giving Druid a way to lock down or peel a second mob while SK tanks the primary target. Nuke lines split across fire, cold, and magic (Burst of Flame, Starfire, Invoke Lightning, Ice, Earthquake, Upheaval) plus AE rain spells (Cascade of Hail, Pogonip, Avalanche) for when the group needs raw damage.</p>
+  <p>Travel is where Druid earns its keep beyond healing: Spirit of Wolf and Wolf Form (self-speed), Spirit of Cheetah (short burst speed), Greater Wolf Form and its Share variants (group speed-share), plus an extensive Ring/Circle/Zephyr/Gate/Succor teleport list. This gives the trio free travel and a group-wide emergency evacuation (Succor) without needing a fourth party member. Charm (Charm Animals to L33, Beguile Animals to L43, Beguile Plants to L25) is a situational, level-capped secondary CC option to back up Bard's Mez.</p>
+</section>
+
+<section class="block" id="gear">
+  <h2>Gear</h2>
+
+  <h3>The Armor-Restriction Question Is Now Resolved</h3>
+  <p>Earlier research in this project flagged uncertainty about whether multiclassing "unions" armor-type access across your three classes — see the caveats carried over below from that pass. It's now confirmed how this actually works: <b>there's no separate proficiency layer.</b> Every item has a simple <code>Class:</code> tag whitelist, and access is governed purely by whether that tag list includes one of your three loaded classes — nothing about armor "weight" (plate/chain/leather/cloth) as a separate gate. A search of eqlwiki.com for any general armor-type-restriction system came up empty, and the Newbie Guide (the canonical mechanics reference) doesn't describe one either.</p>
+  <p>What this means in practice: some raid gear is <b>already</b> tagged for multiple classes at once by design. Verified directly on two Chest-slot Velious raid items:</p>
+  <ul>
+    <li><b>Breastplate of Eradication</b> — <code>Class: WAR PAL SHD BRD</code> — AC 55, STR/DEX/STA/CHA/AGI, +100 HP.</li>
+    <li><b>Chestplate of Vindication</b> — <code>Class: WAR CLR PAL SHD BRD SHM</code> — AC 45, +100 HP, all-resist +15, Aura of Battle proc.</li>
+  </ul>
+  <p>Both are directly usable by this trio's Bard <b>and</b> Shadow Knight loadouts, no restriction-removal needed — pick Breastplate of Eradication for raw AC/CHA (the CHA bonus helps Bard's Lull/Mez landing too), or Chestplate of Vindication if resist-capping or the proc matters more. Druid's Chest gear is not shared with either (Twisted Nature Chestguard is <code>Class: DRU</code> only, WIS/INT/mana-focused, much lighter) — Druid needs its own itemization here regardless of the restriction question.</p>
+  <div class="callout warn"><b>What's not yet verified:</b> whether this multi-class tagging pattern holds across all 17 equipment slots, or was specific to Chest. Treat "always take Shadow Knight's plate piece" as a slot-by-slot judgment call, not a blanket rule, until each slot is checked the same way Chest was.</div>
+
+  <h3>Practical Gearing Priorities</h3>
+  <ul>
+    <li><b>Shadow Knight (tank) slots:</b> prioritize AC, STA/HP, and STR — favor Breastplate-of-Eradication-style multi-class plate pieces where available, since they benefit Bard too at zero cost.</li>
+    <li><b>Bard slots:</b> CHA is unusually valuable for this class specifically (Lull/Mez tick retention) alongside standard AC/DEX/AGI — the same plate pieces that help SK's survivability often carry CHA too, making Bard a natural beneficiary of "tank gear."</li>
+    <li><b>Druid slots:</b> WIS and mana pool remain the priority stat — Druid's own itemization (leather-weight, WIS/INT-focused) should stay in the healing/casting slots rather than being swapped for heavier armor, since no shared item was found that preserves Druid's mana-scaling stats.</li>
+    <li>Reference the <a href="bis-gear.html">BIS Gear Guide</a> for each class's individually-documented current raid-tier BIS.</li>
+  </ul>
+
+  <h3>Cross-Class Item Pool <span style="font-weight:400; color:var(--bone-dim); font-size:12px; text-transform:none; letter-spacing:normal;">— reference only, premise superseded (see note)</span></h3>
+  <div class="callout speculative">
+    <b>How to read this section:</b> This pooled-by-slot table comes from an earlier research pass (2026-08-05) that set out to test a specific premise — "multiclassing unions armor-type access across your three classes" — and explicitly could <b>not</b> confirm it on any primary source (no eqlwiki.com page, patch note, or official statement said this; the only place it found the claim stated outright was an uncited fan site with the hallmarks of templated content). That pass built this table as a heuristic "if restrictions are removed, here's your shopping list" pool instead.<br/><br/>
+    The trio finding above narrows this: there's no multiclass-wide "union" mechanic at all — access is just each item's own <code>Class:</code> tag, same as it's always been. So the original premise this table was built to test doesn't quite describe the real mechanic. What the table <i>does</i> still show accurately: which items already carry multiple class tags today, which is directly useful now that we know that's the actual (and only) mechanism. Verified first-hand for two Chest items above; the rest of this table is carried over from the original pass and not independently re-verified item-by-item.<br/><br/>
+    There's a purpose-built community tool for a precise, numeric answer: <a href="https://eqlegendstools.com/bis-gear/" target="_blank" rel="noopener">eqlegendstools.com/bis-gear/</a> — searchable/filterable by tri-class, slot, stats, and mote upgrade scale, maintained by a player (FlammHammer) with a proper stat-based Item Score algorithm. It renders gear only after picking a real tri-class combo interactively, so it couldn't be scraped for this pass.
+  </div>
+
+  <p style="font-size:13px; color:var(--bone-dim);">Weapons/offhand are excluded — swapping a caster's wand for a Warrior's 2H axe isn't a stat upgrade even if wearable; weapon choice stays governed by playstyle. See the <a href="bis-gear.html">BIS Gear Guide</a> for weapon BIS per class.</p>
+
+  <table class="pool-table">
+    <thead><tr><th>Slot</th><th>Item</th><th>Currently BIS for</th></tr></thead>
+    <tbody>
+      <tr><td>Head</td><td>White Dragon Helm</td><td>Ranger, Rogue, Bard, Paladin (alt), Shadow Knight (alt), Shaman (alt)</td></tr>
+      <tr><td>Head</td><td>Crown of the Kromzek Kings</td><td>Paladin, Shadow Knight (alt), Shaman, Bard (alt)</td></tr>
+      <tr><td>Chest</td><td>Breastplate of Eradication</td><td>Warrior, Paladin, Shadow Knight <span style="color:var(--green)">(verified)</span></td></tr>
+      <tr><td>Chest</td><td>Chestplate of Vindication</td><td>Paladin (alt), Bard, Shaman <span style="color:var(--green)">(verified)</span></td></tr>
+      <tr><td>Hands</td><td>Do'Vassir's Gauntlets of Might</td><td>Warrior, Paladin, Shadow Knight, Ranger, Bard, Rogue, Cleric, Druid, Shaman</td></tr>
+      <tr><td>Legs</td><td>Greaves of Twilight</td><td>Bard</td></tr>
+      <tr><td>Legs</td><td>Blood Lord's Greaves / Noctivagant Greaves</td><td>Shadow Knight</td></tr>
+      <tr><td>Legs</td><td>Woven Grass Greaves</td><td>Druid</td></tr>
+      <tr><td>Feet</td><td>Boots of the Storm</td><td>Warrior, Shadow Knight, Bard (alt)</td></tr>
+      <tr><td>Feet</td><td>Mithril Boots</td><td>Ranger, Rogue, Bard (alt), Paladin (alt), Shadow Knight (alt)</td></tr>
+      <tr><td>Back</td><td>Cloak of the Fire Storm</td><td>Paladin, Shadow Knight, Ranger (alt)</td></tr>
+      <tr><td>Back</td><td>Cloak of the Falling Stars</td><td>Bard, Rogue</td></tr>
+      <tr><td>Waist</td><td>Belt of Dwarf Slaying</td><td>Warrior, Paladin (alt), Ranger, Bard, Rogue, Shaman (alt), Druid (alt)</td></tr>
+      <tr><td>Waist</td><td>Feeliux's Cord of Velocity</td><td>Shadow Knight, Ranger (alt)</td></tr>
+      <tr><td>Shoulders</td><td>Pauldrons of the Deep Flame</td><td>Warrior, Paladin, Ranger, Bard (alt), Rogue (alt)</td></tr>
+      <tr><td>Shoulders</td><td>Spirit Wracked Cord</td><td>Shadow Knight (arms slot elsewhere too), Shaman — dual-purpose item, worth double-checking its actual slot on an item page</td></tr>
+      <tr><td>Shoulders</td><td>Shawl of Perception</td><td>Druid, Cleric (alt)</td></tr>
+      <tr><td>Wrists</td><td>Silver Charm of Tranquility</td><td>Paladin, Shadow Knight, Ranger, Bard, Cleric, Druid, Shaman — extremely widely shared already</td></tr>
+      <tr><td>Neck</td><td>Valtron's Necklace of Wonder</td><td>Warrior, Paladin, Ranger, Bard, Rogue, Shadow Knight (alt)</td></tr>
+      <tr><td>Neck</td><td>Amulet of the Dreadgazer</td><td>Shadow Knight (alt), Cleric, Druid, Shaman</td></tr>
+      <tr><td>Range</td><td>Brain of Cazic Thule</td><td>Dominant pick for melee/hybrid/priest classes — passive AC/stats, not a weapon, so "one of the more plausible actual upgrades" if cross-class access is ever confirmed</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:12.5px; color:var(--bone-dim);">Ears (x2) and Rings (x2) are extremely cross-shared already across nearly every class in the pool (e.g. Vyrinn's Earring of Insanity across Warrior/Shadow Knight/Ranger/Rogue/Bard; Ring of Dain Frostreaver IV and Ring of Destruction across nearly every melee/hybrid class) — omitted here since the overlap is already near-total. See the <a href="bis-gear.html">BIS Gear Guide</a> per-class tables for full lists.</p>
+</section>
+
+<section class="block" id="leveling">
+  <h2>Leveling Path</h2>
+
+  <h3>Race and Primary Class</h3>
+  <p>Only your <b>Primary</b> class slot is race-restricted (and it locks at level 11 along with race/deity); Secondary and Tertiary slots take any class regardless of race. Eligible Primary races for this trio:</p>
+  <table>
+    <thead><tr><th>Class</th><th>Eligible Primary Races</th></tr></thead>
+    <tbody>
+      <tr><td>Bard</td><td>Human, Half-Elf, Wood Elf, Kerran</td></tr>
+      <tr><td>Druid</td><td>Human, Half-Elf, Halfling, Wood Elf, Kerran</td></tr>
+      <tr><td>Shadow Knight</td><td>Dark Elf, Erudite, Froglok, Gnome, Human, Iksar, Ogre, Troll</td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><b>Human is the only race eligible as Primary for all three</b> — no other race overlaps all three lists. In practice: pick whichever class you want as your Primary identity, then pick that class's race, and slot the other two freely.</div>
+  <ol>
+    <li><b>Human Primary</b> (any of the three) — safe, neutral-aligned, Freeport or Qeynos start, keeps every good/evil-aligned zone and vendor accessible.</li>
+    <li><b>Race-optimized Primary</b> — e.g. a Dark Elf Shadow Knight as Primary (Neriak start, evil-aligned, good stat/faction fit for a tank identity) with Bard and Druid slotted freely as Secondary/Tertiary. Trade-off: evil-aligned races face hostility in good-aligned zones and vendors, which can complicate later Druid-centric content (bind points, faction-gated ports). This is a genuine preference call, not something the research resolves — decide based on whether you want SK to be your "main" identity or whether faction-neutral flexibility matters more.</li>
+  </ol>
+  <p>Shadow Knight requires a deity (can't be agnostic) — Innoruuk is the thematic default, with Cazic-Thule, Bertoxxulous, or Rallos Zek as less common alternatives.</p>
+
+  <h3>Leveling Zones <span style="font-weight:400; color:var(--bone-dim); font-size:12px; text-transform:none; letter-spacing:normal;">— working hypothesis, not yet fully confirmed</span></h3>
+  <div class="callout warn">No confirmed, trio-specific eqlwiki.com route exists yet. The closest available analog is a published <b>Warrior/Bard/Druid</b> community build (same shape: melee tank + support + healer), which suggests:</div>
+  <p style="font-family:'JetBrains Mono',monospace; font-size:13px; background:var(--stone); border:1px solid var(--border); border-radius:4px; padding:14px 16px;">
+    <b>Crushbone</b> (early, ~levels 4-16) → <b>Befallen</b> (~16-30, watch for fear effects on the lower floor) → <b>Unrest</b> or <b>Blackburrow</b> (~25-43, reachable via Druid ports) → <b>Lower Guk</b> (~43-50)
+  </p>
+  <p>Swap that build's Warrior AoE-pull tactics for Shadow Knight's tank/lifetap approach — the overall trio shape (melee tank + Bard buff songs + Druid heal/root/port) transfers conceptually even though the tanking class differs. <b>This route has not been directly verified against eqlwiki.com's zone data for this specific trio and should be treated as a starting hypothesis</b>, not a confirmed path — cross-reference against the zone research already compiled in the <a href="loot-codex.html">Loot Codex</a> for named-mob/loot context on Befallen, Blackburrow, Crushbone, Unrest, and Lower Guk, all of which were independently researched earlier in this project.</p>
+  <p>Levels 1-10, all 16 of your classes level together regardless of what's slotted — no rush needed to lock in the trio early. From level 10 on, only your three active classes gain XP, each at full rate (no split penalty), so once you commit to this trio you can level all three simultaneously without any efficiency loss.</p>
+</section>
+
+<section class="block" id="gaps">
+  <h2>Open Gaps for a Future Research Pass</h2>
+  <div class="gap-item">Bard, Shadow Knight, and Druid class-specific armor/epic-adjacent quest content (the "[Class]-Specific Quests" wiki sections exist but weren't captured this pass).</div>
+  <div class="gap-item">Exact numeric damage/mana values for Druid spells above level 20, and verification of whether Spirit of Wolf is single- or group-target.</div>
+  <div class="gap-item">Direct EQL confirmation of Bard song effects from level 18 onward (currently inferred from classic-EQ naming conventions).</div>
+  <div class="gap-item">A full slot-by-slot (not just Chest) check of which items carry multi-class tags across this trio, to firm up the gearing guidance beyond the general heuristic above.</div>
+  <div class="gap-item">Direct verification of a level-by-level zone route against eqlwiki.com/Zones rather than the Warrior/Bard/Druid analog build used here.</div>
+  <div class="gap-item">Confirmation of the multiclass armor-union premise the cross-class item pool above was originally built to test — if you can point to a patch note, wiki page, or in-game screenshot confirming it, that unlocks a real head-to-head stat comparison instead of the naming-based heuristic.</div>
+</section>
+
+<footer>
+  Source: eqlwiki.com, class/race pages, and item data, per the 2026-08-07 and 2026-08-05 research-drop files (<code>eql/_data/research-drops/2026-08-07-*.md</code>, <code>2026-08-05-*-bis-gear.md</code>) · Original synthesis, not a transcription of an existing guide · Built for Bryan's EQL prep. No affiliation with the EQL dev team — verify anything time-sensitive in-game.<br/>
+  <a href="index.html">← Back to EQL Prep</a>
+</footer>
+
+</div>
+</body>
+</html>

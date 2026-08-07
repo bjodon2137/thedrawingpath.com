@@ -31,3 +31,15 @@ Source: eqlwiki.com, per the underlying 2026-08-05 research-drop files.
 - Linked from eql/index.html as a fourth card; card grid adjusted to a clean 2x2 layout.
 
 Source: eqlwiki.com, per the underlying 2026-08-05 research-drop files.
+
+## 2026-08-07 — Bard/Shadow Knight/Druid trio guide
+
+**Applied by:** Integration Agent, from two docs handed off directly in chat: `eql-trio-bard-shadowknight-druid.md` (2026-08-07 pass, original synthesis) and `eql-bis-no-restrictions.md` (2026-08-05 pass, explicitly unconfirmed premise).
+
+**New page — eql/trio-bard-shadowknight-druid.html:**
+- Trio overview, full Stances/Invocations tables + definitions + role-based loadout recommendations, per-class ability kits (Bard/Shadow Knight/Druid), gear guidance, race/Primary-class eligibility + leveling zone hypothesis, and an open-gaps section.
+- This doc is explicitly labeled by its own source as "original synthesis... not a transcription of an existing authoritative guide" — published as a build guide, not folded into the Confirmed-only reference pages (loot-codex, planes-of-power, bis-gear). All inline hedges (classic-EQ-analogy flags, "working hypothesis, not yet fully confirmed" on the leveling route) preserved verbatim.
+- **Handled a cross-pass conflict:** the 2026-08-07 trio doc reports the armor-restriction question as "now resolved" (item access is just a per-item Class: tag, verified on 2 Chest items) — this narrows/supersedes the premise the older 2026-08-05 `eql-bis-no-restrictions.md` explicitly flagged as unconfirmable. Rather than silently picking one, the page presents the resolved finding first, then carries the older doc's pooled cross-class item table forward as reference material with an explicit note reframing it in light of the newer finding, plus the original doc's own caveats (uncited fan-site source, recommendation to use eqlegendstools.com/bis-gear/ for a real numeric answer) preserved.
+- Linked from eql/index.html as a 5th card; grid moved to a 3-column layout that wraps cleanly.
+
+Source: eqlwiki.com, class/race pages, item data — per the 2026-08-07 and 2026-08-05 research-drop files.
