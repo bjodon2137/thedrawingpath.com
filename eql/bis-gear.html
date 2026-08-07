@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BIS Gear Guide — All Classes</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root{
+  --void:#F7F8FA;
+  --stone:#FFFFFF;
+  --stone-2:#F0F2F5;
+  --bone:#1A1D23;
+  --bone-dim:#5B6270;
+  --accent:#2B5B8C;
+  --border:#E2E5EA;
+  --green:#3A7D5C;
+  --amber:#B5883A;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px 90px;}
+
+.hero{padding:56px 24px 32px; border-bottom:1px solid var(--border); background:var(--stone);}
+.hero-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:16px;}
+h1{font-weight:800; font-size:clamp(28px,4.4vw,42px); line-height:1.1; margin:0 0 14px; letter-spacing:-0.01em;}
+.sub{font-size:15px; color:var(--bone-dim); max-width:760px; line-height:1.65;}
+.meta-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:22px;}
+.meta-chip{font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--bone-dim); border:1px solid var(--border); background:var(--void); padding:6px 12px; border-radius:4px;}
+
+.class-nav{
+  display:flex; flex-wrap:wrap; gap:6px; padding:16px 24px; border-bottom:1px solid var(--border);
+  background:var(--stone); position:sticky; top:0; z-index:10;
+}
+.class-nav a{
+  text-decoration:none; font-size:12.5px; font-weight:600; color:var(--bone-dim);
+  border:1px solid var(--border); border-radius:20px; padding:6px 13px; transition:all .15s;
+}
+.class-nav a:hover{color:var(--accent); border-color:var(--accent);}
+
+.klass{padding:40px 0; border-bottom:1px solid var(--border);}
+.klass:last-of-type{border-bottom:none;}
+.klass h2{font-size:22px; font-weight:800; margin:0 0 14px; display:flex; align-items:center; gap:10px;}
+.tag{font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:3px 9px; border-radius:20px;}
+.tag.gap{color:var(--amber); border:1px solid var(--amber);}
+.tag.unranked{color:var(--accent); border:1px solid var(--accent);}
+
+.callout{border:1px solid var(--border); border-left:3px solid var(--accent); background:var(--stone-2); border-radius:4px; padding:12px 16px; font-size:13.5px; line-height:1.6; margin-bottom:18px;}
+.callout.warn{border-left-color:var(--amber);}
+
+table{width:100%; border-collapse:collapse; font-size:13.5px;}
+thead th{text-align:left; font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--bone-dim); font-weight:600; padding:9px 10px; border-bottom:1px solid var(--border); background:var(--stone-2);}
+tbody td{padding:9px 10px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.55;}
+tbody tr:hover td{background:var(--stone-2);}
+td.slot{font-weight:600; white-space:nowrap; width:150px;}
+td.bis{color:var(--bone);}
+td.alt{color:var(--bone-dim);}
+td.src{color:var(--bone-dim); white-space:nowrap;}
+
+.note{font-size:13px; color:var(--bone-dim); line-height:1.65; margin:14px 0 0;}
+
+.notes-section{padding:44px 0;}
+.notes-section h2{font-size:18px; margin:0 0 14px;}
+.notes-section ul{margin:0; padding-left:20px;}
+.notes-section li{font-size:13.5px; line-height:1.7; margin-bottom:10px; color:var(--bone);}
+
+footer{padding-top:24px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); line-height:1.8;}
+footer a{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">EQL Prep · Raid-Tier Reference</div>
+    <h1>Best-in-Slot Gear Guide</h1>
+    <p class="sub">Current raid-tier ("Velious Raiding" / "Planar") BIS for all 16 classes, as documented on eqlwiki.com. Where the wiki lists multiple viable items, the first is the wiki's intended BIS pick; where the wiki explicitly disclaims strict ranking (Necromancer, Enchanter, and generally the caster classes), that's called out per class rather than forcing a ranking that isn't there.</p>
+    <div class="meta-row">
+      <div class="meta-chip">Berserker &amp; Beastlord <b style="color:var(--bone)">content gap</b> — flagged, not backfilled</div>
+      <div class="meta-chip">+10 / Exaltation upgrades <b style="color:var(--bone)">not yet tied to BIS rankings</b></div>
+    </div>
+  </div>
+</div>
+
+<div class="class-nav"><a href="#warrior">Warrior</a><a href="#paladin">Paladin</a><a href="#shadow-knight">Shadow Knight</a><a href="#ranger">Ranger</a><a href="#bard">Bard</a><a href="#rogue">Rogue</a><a href="#monk">Monk</a><a href="#beastlord">Beastlord</a><a href="#berserker">Berserker</a><a href="#cleric">Cleric</a><a href="#druid">Druid</a><a href="#shaman">Shaman</a><a href="#necromancer">Necromancer</a><a href="#wizard">Wizard</a><a href="#magician">Magician</a><a href="#enchanter">Enchanter</a></div>
+
+<div class="wrap">
+
+<section class="klass" id="warrior">
+  <h2>Warrior</h2>
+  
+  <table>
+    <thead><tr><th>Slot</th><th>BIS</th><th>Alternates</th></tr></thead>
+    <tbody><tr><td class="slot">Primary</td><td class="bis">Blade of Strategy</td><td class="alt">Jaelen's Katana</td></tr><tr><td class="slot">Secondary</td><td class="bis">Trident of the Deep Sea</td><td class="alt">Blade of Carnage</td></tr><tr><td class="slot">Range</td><td class="bis">War Bow of Rallos Zek</td><td class="alt">Brain of Cazic Thule</td></tr><tr><td class="slot">Head</td><td class="bis">Helmet of Rallos Zek</td><td class="alt">—</td></tr><tr><td class="slot">Face</td><td class="bis">Akkirus' Mask of Warfare</td><td class="alt">—</td></tr><tr><td class="slot">Chest</td><td class="bis">Breastplate of Eradication</td><td class="alt">—</td></tr><tr><td class="slot">Arms</td><td class="bis">Spirit Wracked Cord</td><td class="alt">Beldron's Vambraces of Impiety</td></tr><tr><td class="slot">Back</td><td class="bis">Cloak of Thorns</td><td class="alt">—</td></tr><tr><td class="slot">Waist</td><td class="bis">Belt of Dwarf Slaying</td><td class="alt">Girdle of Living Thorns</td></tr><tr><td class="slot">Shoulders</td><td class="bis">Pauldrons of the Deep Flame</td><td class="alt">—</td></tr><tr><td class="slot">Wrists</td><td class="bis">Silver Bracelet of Speed</td><td class="alt">Silver Charm of Tranquility</td></tr><tr><td class="slot">Legs</td><td class="bis">Greaves of the Deep Sea</td><td class="alt">Ancient Wurm Hide Greaves</td></tr><tr><td class="slot">Hands</td><td class="bis">Do'Vassir's Gauntlets of Might</td><td class="alt">—</td></tr><tr><td class="slot">Feet</td><td class="bis">Boots of the Storm</td><td class="alt">—</td></tr><tr><td class="slot">Neck</td><td class="bis">Valtron's Necklace of Wonder</td><td class="alt">—</td></tr><tr><td class="slot">Ears</td><td class="bis">Vyrinn's Earring of Insanity</td><td class="alt">Essence Pearl, Hammered Golden Loop</td></tr><tr><td class="slot">Rings</td><td class="bis">Crystasia's Crystal Ring</td><td class="alt">Ring of Destruction, Ring of Dain Frostreaver IV</td></tr></tbody>
+  </table>
+  
+</section>
+<section class="klass" id="paladin">
+  <h2>Paladin</h2>
+  <div class="callout">eqlwiki.com explicitly states: "First item listed is intended to be Best-In-Slot, but there is always room for debate."</div>
+  <table>
+    <thead><tr><th>Slot</th><th>BIS</th><th>Alternates</th></tr></thead>
+    <tbody><tr><td class="slot">Primary (2H)</td><td class="bis">Palladius' Axe of Slaughter</td><td class="alt">Petrified Heartwood Flamberge</td></tr><tr><td class="slot">Primary (1H)</td><td class="bis">Emerald Bastardsword of Purity</td><td class="alt">Cekenar's Claw, Frostwrath, Dawncaller Blade of the Morning, Essence Blade, Primal Velium Knight's Sword</td></tr><tr><td class="slot">Secondary/Shield</td><td class="bis">Whitestone Shield</td><td class="alt">Shield of the Dawn, Buckler of Insight</td></tr><tr><td class="slot">Range</td><td class="bis">Brain of Cazic Thule</td><td class="alt">Essence Lens, Vyemm's Left Eye, resist-stones (situational)</td></tr><tr><td class="slot">Head</td><td class="bis">Crown of the Kromzek Kings</td><td class="alt">White Dragon Helm, Crown of Narandi</td></tr><tr><td class="slot">Face</td><td class="bis">Silver Mask of the Slayer</td><td class="alt">Akkirus' Mask of Warfare, Ssra's Bloodstone Eyepatch</td></tr><tr><td class="slot">Chest</td><td class="bis">Breastplate of Eradication</td><td class="alt">Chestplate of Vindication</td></tr><tr><td class="slot">Arms</td><td class="bis">Spirit Wracked Cord</td><td class="alt">Beldron's Vambraces of Impiety, Onyx Chain Sleeves</td></tr><tr><td class="slot">Back</td><td class="bis">Cloak of the Fire Storm</td><td class="alt">Cloak of Silver Eyes, Shroud of Veeshan</td></tr><tr><td class="slot">Waist</td><td class="bis">Belt of Dwarf Slaying</td><td class="alt">Girdle of Living Thorns</td></tr><tr><td class="slot">Shoulders</td><td class="bis">Pauldrons of the Deep Flame</td><td class="alt">—</td></tr><tr><td class="slot">Wrists</td><td class="bis">Silver Bracelet of Speed</td><td class="alt">Silver Charm of Tranquility, Camii's Bracer of Vigor</td></tr><tr><td class="slot">Legs</td><td class="bis">Shining Greaves</td><td class="alt">Scaled Knight's Greaves</td></tr><tr><td class="slot">Hands</td><td class="bis">Do'Vassir's Gauntlets of Might</td><td class="alt">Gauntlets of Dragon Slaying</td></tr><tr><td class="slot">Feet</td><td class="bis">Boots of the Storm</td><td class="alt">Mithril Boots</td></tr><tr><td class="slot">Neck</td><td class="bis">Valtron's Necklace of Wonder</td><td class="alt">Bile Etched Obsidian Choker, Silver Charm of Tranquility</td></tr><tr><td class="slot">Ears</td><td class="bis">Essence Pearl</td><td class="alt">Hammered Golden Loop, Yunnb's Earring</td></tr><tr><td class="slot">Rings</td><td class="bis">Ring of Dain Frostreaver IV</td><td class="alt">Ring of Destruction, Crystasia's Crystal Ring</td></tr></tbody>
+  </table>
+  
+</section>
+<section class="klass" id="shadow-knight">
+  <h2>Shadow Knight</h2>
+  
+  <table>
+    <thead><tr><th>Slot</th><th>BIS</th><th>Alternates</th></tr></thead>
+    <tbody><tr><td class="slot">Primary</td><td class="bis">Palladius' Axe of Slaughter</td><td class="alt">Petrified Heartwood Flamberge, Innoruuk's Curse, Eye of the Rigtorgn, Essence Blade, Soul Defiler, Frostwrath</td></tr><tr><td class="slot">Secondary/Shield</td><td class="bis">Shield of Fury</td><td class="alt">Shield of the Clawed Guardian, Net of the Deep Sea, Shield of Midnight, Silver Disk, Vyemm's Left Eye, Whitestone Shield, Buckler of Insight (wiki-flagged very low priority)</td></tr><tr><td class="slot">Range</td><td class="bis">Vyemm's Left Eye</td><td class="alt">Hand of the Master, Primal Velium Reinforced Bow, Vyemm's Fang, Unopenable Box</td></tr><tr><td class="slot">Head</td><td class="bis">Hobart's War Helmet</td><td class="alt">Crown of the Kromzek Kings, White Dragon Helm</td></tr><tr><td class="slot">Face</td><td class="bis">Akkirus' Mask of Warfare</td><td class="alt">Silver Mask of the Slayer, Mask of the Sky</td></tr><tr><td class="slot">Chest</td><td class="bis">Breastplate of Eradication</td><td class="alt">Blood Lord's Breastplate, Chestplate of Vindication</td></tr><tr><td class="slot">Arms</td><td class="bis">Spirit Wracked Cord</td><td class="alt">Onyx Chain Sleeves, Blood Lord's Vambraces</td></tr><tr><td class="slot">Back</td><td class="bis">Cloak of the Fire Storm</td><td class="alt">Net of the Deep Sea, Cloak of Venom</td></tr><tr><td class="slot">Waist</td><td class="bis">Feeliux's Cord of Velocity</td><td class="alt">Belt of Dwarf Slaying, Girdle of Dark Power</td></tr><tr><td class="slot">Shoulders</td><td class="bis">Pauldrons of the Deep Flame</td><td class="alt">Viik's Pauldrons of Pain, Strength of the Elements</td></tr><tr><td class="slot">Wrists</td><td class="bis">Silver Charm of Tranquility</td><td class="alt">Silver Bracelet of Speed</td></tr><tr><td class="slot">Legs</td><td class="bis">Blood Lord's Greaves</td><td class="alt">Ancient Wurm Hide Greaves, Noctivagant Greaves</td></tr><tr><td class="slot">Hands</td><td class="bis">Do'Vassir's Gauntlets of Might</td><td class="alt">Velium Encrusted Gauntlets, Gauntlets of Dragon Slaying, Gloves of Stability, Onyx Gauntlets</td></tr><tr><td class="slot">Feet</td><td class="bis">Boots of the Storm</td><td class="alt">Boots of the Vindicator, Mithril Boots</td></tr><tr><td class="slot">Neck</td><td class="bis">Silver Charm of Tranquility</td><td class="alt">Valtron's Necklace of Wonder, Amulet of the Dreadgazer</td></tr><tr><td class="slot">Ears</td><td class="bis">Vyrinn's Earring of Insanity</td><td class="alt">Essence Pearl</td></tr><tr><td class="slot">Rings</td><td class="bis">Ring of Destruction</td><td class="alt">Crystasia's Crystal Ring, Ring of Dain Frostreaver IV</td></tr></tbody>
+  </table>
+  
+</section>
+<section class="klass" id="ranger">
+  <h2>Ranger</h2>
+  
+  <table>
+    <thead><tr><th>Slot</th><th>BIS</th><th>Alternates</th></tr></thead>
+    <tbody><tr><td class="slot">Primary</td><td class="bis">Baton of Flame</td><td class="alt">—</td></tr><tr><td class="slot">Secondary</td><td class="bis">Tolan's Longsword of the Glade</td><td class="alt">Claw of Lightning</td></tr><tr><td class="slot">Range (bow)</td><td class="bis">War Bow of Rallos Zek</td><td class="alt">Primal Velium Reinforced Bow</td></tr><tr><td class="slot">Ammo</td><td class="bis">*Not found on eqlwiki.com*</td><td class="alt">flagged gap despite Ranger likely valuing this slot most</td></tr><tr><td class="slot">Head</td><td class="bis">White Dragon Helm</td><td class="alt">Crown of the Kromzek Kings, Crown of Rile</td></tr><tr><td class="slot">Face</td><td class="bis">Silver Mask of the Slayer</td><td class="alt">Akkirus' Mask of Warfare</td></tr><tr><td class="slot">Chest</td><td class="bis">Golden Leaf Breastplate</td><td class="alt">Matchless Dragonhide Breastplate</td></tr><tr><td class="slot">Arms</td><td class="bis">Spirit Wracked Cord (Chardok 2.0)</td><td class="alt">—</td></tr><tr><td class="slot">Back</td><td class="bis">Cloak of Thorns</td><td class="alt">Cloak of the Fire Storm</td></tr><tr><td class="slot">Waist</td><td class="bis">Belt of Dwarf Slaying</td><td class="alt">Girdle of Living Thorns, Feeliux's Cord of Velocity</td></tr><tr><td class="slot">Shoulders</td><td class="bis">Pauldrons of the Deep Flame</td><td class="alt">Viik's Pauldrons of Pain</td></tr><tr><td class="slot">Wrists</td><td class="bis">Silver Charm of Tranquility</td><td class="alt">Silver Bracelet of Speed, Camii's Bracer of Vigor</td></tr><tr><td class="slot">Legs</td><td class="bis">Golden Leaf Greaves</td><td class="alt">Ancient Wurm Hide Greaves</td></tr><tr><td class="slot">Hands</td><td class="bis">Do'Vassir's Gauntlets of Might</td><td class="alt">—</td></tr><tr><td class="slot">Feet</td><td class="bis">Mithril Boots</td><td class="alt">Maclaer's Boots of Silence</td></tr><tr><td class="slot">Neck</td><td class="bis">Valtron's Necklace of Wonder</td><td class="alt">Amulet of the Dreadgazer, Bile Etched Obsidian Choker</td></tr><tr><td class="slot">Ears</td><td class="bis">Vyrinn's Earring of Insanity</td><td class="alt">Yunnb's Earring, Earring of Essence</td></tr><tr><td class="slot">Rings</td><td class="bis">Ring of Destruction</td><td class="alt">Ring of Dain Frostreaver IV, Crystasia's Crystal Ring</td></tr></tbody>
+  </table>
+  
+</section>
+<section class="klass" id="bard">
+  <h2>Bard</h2>
+  <div class="callout">Bard gearing is explicitly situational per the wiki: raid = resist-stacking, group = STR/DEX/HP/AC, solo/kiting = magic resist or STR/DEX/HP/AC — instrument and secondary-weapon choice should follow the same logic.</div>
+  <table>
+    <thead><tr><th>Slot</th><th>BIS</th><th>Alternates</th></tr></thead>
+    <tbody><tr><td class="slot">Primary</td><td class="bis">Singing Short Sword</td><td class="alt">—</td></tr><tr><td class="slot">Secondary</td><td class="bis">Nature's Melody</td><td class="alt">Primal Velium Warsword, Siren Song (Dagger of the Sea), Blade of Carnage</td></tr><tr><td class="slot">Range</td><td class="bis">Hand of the Master</td><td class="alt">Vyemm's Left Eye</td></tr><tr><td class="slot">Instruments</td><td class="bis">Drums of the Beast, Lyran's Mystical Lute, Denon's Horn of Disaster, Flute of the Sacred Glade</td><td class="alt">situational by category (Percussion/Stringed/Wind/Brass)</td></tr><tr><td class="slot">Head</td><td class="bis">White Dragon Helm</td><td class="alt">Crown of the Kromzek Kings</td></tr><tr><td class="slot">Face</td><td class="bis">Flayed Barbarian Hide Mask</td><td class="alt">Akkirus' Mask of Warfare</td></tr><tr><td class="slot">Chest</td><td class="bis">Chestplate of Vindication</td><td class="alt">Breastplate of Eradication</td></tr><tr><td class="slot">Arms</td><td class="bis">Onyx Chain Sleeves</td><td class="alt">Kelsiferous' Armband of Artistry</td></tr><tr><td class="slot">Back</td><td class="bis">Cloak of the Falling Stars</td><td class="alt">Cloak of the Fire Storm</td></tr><tr><td class="slot">Waist</td><td class="bis">Belt of Dwarf Slaying</td><td class="alt">Girdle of Living Thorns</td></tr><tr><td class="slot">Shoulders</td><td class="bis">Pauldrons of the Deep Flame</td><td class="alt">Shawl of Protection</td></tr><tr><td class="slot">Wrists</td><td class="bis">Silver Charm of Tranquility</td><td class="alt">Silver Bracelet of Speed</td></tr><tr><td class="slot">Legs</td><td class="bis">Greaves of Twilight</td><td class="alt">—</td></tr><tr><td class="slot">Hands</td><td class="bis">Do'Vassir's Gauntlets of Might</td><td class="alt">—</td></tr><tr><td class="slot">Feet</td><td class="bis">Maclaer's Boots of Silence</td><td class="alt">—</td></tr><tr><td class="slot">Neck</td><td class="bis">Valtron's Necklace of Wonder</td><td class="alt">—</td></tr><tr><td class="slot">Ears</td><td class="bis">Vyrinn's Earring of Insanity</td><td class="alt">Essence Pearl, Earring of Essence, Yunnb's Earring</td></tr><tr><td class="slot">Rings</td><td class="bis">Ring of Dain Frostreaver IV</td><td class="alt">Crystasia's Crystal Ring, Ring of Destruction</td></tr></tbody>
+  </table>
+  <p class="note">*Bard gearing is explicitly situational per the wiki: raid = resist-stacking, group = STR/DEX/HP/AC, solo/kiting = magic resist or STR/DEX/HP/AC — instrument and secondary-weapon choice should follow the same logic.*</p>
+</section>
+<section class="klass" id="rogue">
+  <h2>Rogue</h2>
+  
+  <table>
+    <thead><tr><th>Slot</th><th>BIS</th><th>Alternates</th></tr></thead>
+    <tbody><tr><td class="slot">Primary</td><td class="bis">Mrylokar's Dagger of Vengeance</td><td class="alt">Vyemm's Fang</td></tr><tr><td class="slot">Secondary</td><td class="bis">Claw of Lightning</td><td class="alt">Primal Velium Spear, Massive Heartwood Thorn</td></tr><tr><td class="slot">Range</td><td class="bis">White Resistance Stone</td><td class="alt">Brain of Cazic Thule</td></tr><tr><td class="slot">Head</td><td class="bis">White Dragon Helm</td><td class="alt">Crown of the Kromzek Kings</td></tr><tr><td class="slot">Face</td><td class="bis">Silver Mask of the Slayer</td><td class="alt">Flayed Barbarian Hide Mask</td></tr><tr><td class="slot">Chest</td><td class="bis">Shadow Chestguard</td><td class="alt">Fungus Covered Scale Tunic, Matchless Dragonhide Breastplate</td></tr><tr><td class="slot">Arms</td><td class="bis">Spirit Wracked Cord</td><td class="alt">Onyx Chain Sleeves, Silver Chains</td></tr><tr><td class="slot">Back</td><td class="bis">Cloak of the Falling Stars</td><td class="alt">Cloak of the Fire Storm, Cloak of Confusion</td></tr><tr><td class="slot">Waist</td><td class="bis">Belt of Dwarf Slaying</td><td class="alt">Belt of the Great Turtle</td></tr><tr><td class="slot">Shoulders</td><td class="bis">Pauldrons of the Deep Flame</td><td class="alt">Shawl of Protection, Strength of the Elements</td></tr><tr><td class="slot">Wrists</td><td class="bis">Silver Bracelet of Speed</td><td class="alt">Silver Charm of Tranquility, Bracer of Benevolence</td></tr><tr><td class="slot">Legs</td><td class="bis">Shadow Greaves</td><td class="alt">Ancient Wurm Hide Greaves</td></tr><tr><td class="slot">Hands</td><td class="bis">Do'Vassir's Gauntlets of Might</td><td class="alt">Gauntlets of Dragon Slaying, Velium Encrusted Gauntlets, Gloves of Stability</td></tr><tr><td class="slot">Feet</td><td class="bis">Mithril Boots</td><td class="alt">Maclaer's Boots of Silence, Tribal War Boots</td></tr><tr><td class="slot">Neck</td><td class="bis">Valtron's Necklace of Wonder</td><td class="alt">Amulet of the Dreadgazer, Bile Etched Obsidian Choker</td></tr><tr><td class="slot">Ears</td><td class="bis">Vyrinn's Earring of Insanity</td><td class="alt">Hammered Golden Loop, Living Thunder Earring, Earring of Essence</td></tr><tr><td class="slot">Rings</td><td class="bis">Ring of Dain Frostreaver IV</td><td class="alt">Ring of Destruction, Crystasia's Crystal Ring</td></tr></tbody>
+  </table>
+  
+</section>
+<section class="klass" id="monk">
+  <h2>Monk</h2>
+  <div class="callout">No single dedicated "Monk BIS guide" exists on eqlwiki.com — the table below blends confirmed Plane of Sky quest rewards (endgame-tier) with Pre-Planar/Planar gearing options. Kunark-tier and raid-tier BIS is a documented gap.</div>
+  <table>
+    <thead><tr><th>Slot</th><th>Item</th><th>Source</th></tr></thead>
+    <tbody><tr><td class="slot">Primary/Secondary (H2H)</td><td>Wu's Fist of Mastery</td><td class="src">Plane of Sky, Test of Fists reward</td></tr><tr><td class="slot">Waist</td><td>Golden Sash of Tranquility</td><td class="src">Plane of Sky, Test of Tranquility reward</td></tr><tr><td class="slot">Shoulders</td><td>Ton Po's Shoulder Wraps</td><td class="src">Plane of Sky, Test of Tears reward</td></tr><tr><td class="slot">Face</td><td>Ton Po's Eye Patch</td><td class="src">Plane of Sky, Test of Sight reward</td></tr><tr><td class="slot">Feet</td><td>Sandals of Alacrity</td><td class="src">Plane of Sky, Test of Speed reward</td></tr><tr><td class="slot">Back/Wrist</td><td>Back Straps of Mastery</td><td class="src">Plane of Sky, Test of Strength reward</td></tr><tr><td class="slot">Wrist (quest track)</td><td>Shackle of Dust → Clay → Stone → Rock → Copper → Bronze → Steel</td><td class="src">Monk Quests progression</td></tr><tr><td class="slot">Waist (quest track)</td><td>White → Yellow Sash of Order (+ further tiers)</td><td class="src">Monk Quests progression</td></tr><tr><td class="slot">Head (quest track)</td><td>White → Yellow → Orange → Red → Purple → Blue → Black Headband</td><td class="src">Monk Quests progression</td></tr><tr><td class="slot">Chest (Planar)</td><td>Robe of the Whistling Fists</td><td class="src">Planar era</td></tr></tbody>
+  </table>
+  <p class="note">Pre-Planar options (multiple competitive, unranked): Ears — Sapphire Electrum Earring, Diamondine Earring, Black Sapphire Electrum Earring; Rings — Adamantite Band, Platinum Fire Wedding Ring, Djarns Amethyst Ring; Neck — Collar of Undead Protection, Collar of Neshika, Runed Lava Pendant; Head — Fine Silk Turban, Executioners Hood, Crown of King Tranix; Face — Carved Ivory Mask, Dented Brass Mask, Pearlescent Mask; Chest — Foreman's Tunic, Lockjaw Hide Vest, Syythrak Hide Vest, Robe of the Lost Circle; Arms — Drake-hide Sleeves, Azure Sleeves; Back — Werewolf Skin Cloak, White Wolf-hide Cloak, Cloak of Shadows.</p>
+</section>
+<section class="klass" id="beastlord">
+  <h2>Beastlord <span class="tag gap">Content Gap</span></h2>
+  <div class="callout warn"><b>No BIS data exists.</b> eqlwiki.com's Beastlord "Gearing" section has the expected tier subheadings (Pre-Planar/Planar/Kunark/Velious Pre-Raid/Velious Raiding) but every underlying shared gear-reference page is unpopulated for this class — every other class checked has data there, Beastlord does not. The "Equipping a Beastlord" page is empty, and `Category:Beastlord_Equipment` is an unranked, unfiltered ~84-item catalog explicitly marked "WIP." Pet-focus items also don't exist yet in EQL. <b>Do not backfill this from classic EQ or by analogy to Shaman/Ranger</b> — flagged for a follow-up pass, ideally via interactive (non-static) access to eqlegendstools.com's BIS tool.</div>
+</section>
+<section class="klass" id="berserker">
+  <h2>Berserker <span class="tag gap">Content Gap</span></h2>
+  <div class="callout warn"><b>No BIS data exists.</b> Unlike every other of the 16 classes, none of eqlwiki.com's five gear-reference pages (Pre-Planar/Planar/Kunark/Velious Pre-Raid/Velious Raiding) contain a Berserker section at all — confirmed by checking each page directly via the MediaWiki API. This is a genuine wiki content gap as of 2026-08-05, not a research miss. <b>Do not backfill from classic EQ/P99.</b> Flagged for a follow-up pass.</div>
+</section>
+<section class="klass" id="cleric">
+  <h2>Cleric</h2>
+  <div class="callout">eqlwiki.com explicitly labels this section "CLERIC BEST IN SLOT END GAME VELIOUS RAIDING GEAR," ranked 1st/2nd/3rd.</div>
+  <table>
+    <thead><tr><th>Slot</th><th>BIS</th><th>Alternates</th></tr></thead>
+    <tbody><tr><td class="slot">Primary</td><td class="bis">Blackstar, Mace of Night</td><td class="alt">Water Sprinkler of Nem Ankh, Sacrifice, Primal Velium Battlehammer</td></tr><tr><td class="slot">Secondary/Shield</td><td class="bis">Yakatizma's Shield of Crafting</td><td class="alt">Buckler of Insight, Shield of Dragonkind, Orb of the Infinite Void, Orb of the Crimson Bull</td></tr><tr><td class="slot">Range</td><td class="bis">Brain of Cazic Thule</td><td class="alt">White Dragon Idol, Essence Lens, Vyemm's Right Eye</td></tr><tr><td class="slot">Head</td><td class="bis">Halo of the Enlightened</td><td class="alt">Hobart's War Helmet, Crown of Rile, White Dragon Helm</td></tr><tr><td class="slot">Face</td><td class="bis">Akkirus' Mask of Warfare</td><td class="alt">Eye of Cazic Thule, Ssra's Bloodstone Eyepatch</td></tr><tr><td class="slot">Chest</td><td class="bis">Sal'Varae's Robe of Darkness</td><td class="alt">Akkirus' Chestplate of the Risen, Robe of the Azure Sky, Matchless Dragonhide Breastplate</td></tr><tr><td class="slot">Arms</td><td class="bis">Onyx Chain Sleeves</td><td class="alt">Silver Chains</td></tr><tr><td class="slot">Back</td><td class="bis">Shroud of Veeshan</td><td class="alt">Cloak of the Sky</td></tr><tr><td class="slot">Waist</td><td class="bis">White Dragon Scale Sash</td><td class="alt">Belt of Dwarf Slaying, Grotesque Girdle</td></tr><tr><td class="slot">Shoulders</td><td class="bis">Matchless Dragonwing Mantle</td><td class="alt">Shawl of Perception, Runed Coldain Prayer Shawl, Weight of the Gods</td></tr><tr><td class="slot">Wrists</td><td class="bis">Silver Charm of Tranquility, Camii's Bracer of Vigor</td><td class="alt">High Elf only: Symbol of Tunarian Worship; also Akkirus' Bracelet of the Risen</td></tr><tr><td class="slot">Legs</td><td class="bis">Akkirus' Greaves of the Risen</td><td class="alt">Onyx Chain Leggings, Templar's Leggings</td></tr><tr><td class="slot">Hands</td><td class="bis">Do'Vassir's Gauntlets of Might</td><td class="alt">Gauntlets of Dragon Slaying, Vibrating Gauntlets of Infuse</td></tr><tr><td class="slot">Feet</td><td class="bis">White Dragonscale Boots</td><td class="alt">Sirran's Boots of Insanity</td></tr><tr><td class="slot">Neck</td><td class="bis">Amulet of the Dreadgazer</td><td class="alt">Silver Charm of Tranquility</td></tr><tr><td class="slot">Ears</td><td class="bis">Golden Leaf Earring</td><td class="alt">Sanctum Guardian's Earring, Yunnb's Earring</td></tr><tr><td class="slot">Rings</td><td class="bis">Crystasia's Crystal Ring</td><td class="alt">Ring of Destruction</td></tr></tbody>
+  </table>
+  
+</section>
+<section class="klass" id="druid">
+  <h2>Druid</h2>
+  
+  <table>
+    <thead><tr><th>Slot</th><th>BIS</th><th>Alternates</th></tr></thead>
+    <tbody><tr><td class="slot">Primary</td><td class="bis">Sprinkler of the Spirits</td><td class="alt">Nature Walkers Scimitar</td></tr><tr><td class="slot">Secondary</td><td class="bis">Buckler of Insight</td><td class="alt">Orb of the Crimson Bull</td></tr><tr><td class="slot">Range</td><td class="bis">Brain of Cazic Thule</td><td class="alt">White Dragon Idol</td></tr><tr><td class="slot">Head</td><td class="bis">Crown of Rile</td><td class="alt">Crown of the Kromzek Kings</td></tr><tr><td class="slot">Face</td><td class="bis">Akkirus' Mask of Warfare</td><td class="alt">Eye of Cazic Thule</td></tr><tr><td class="slot">Chest</td><td class="bis">Twisted Nature Chestguard</td><td class="alt">Robe of the Azure Sky</td></tr><tr><td class="slot">Arms</td><td class="bis">Rowyl's Metal Armguards</td><td class="alt">—</td></tr><tr><td class="slot">Back</td><td class="bis">Shroud of Veeshan</td><td class="alt">Cloak of the Sky</td></tr><tr><td class="slot">Waist</td><td class="bis">Belt of Dwarf Slaying</td><td class="alt">White Dragon Scale Sash</td></tr><tr><td class="slot">Shoulders</td><td class="bis">Shawl of Perception</td><td class="alt">—</td></tr><tr><td class="slot">Wrists</td><td class="bis">Silver Charm of Tranquility</td><td class="alt">Camii's Bracer of Vigor</td></tr><tr><td class="slot">Legs</td><td class="bis">Woven Grass Greaves</td><td class="alt">—</td></tr><tr><td class="slot">Hands</td><td class="bis">Do'Vassir's Gauntlets of Might</td><td class="alt">Gauntlets of Dragon Slaying</td></tr><tr><td class="slot">Feet</td><td class="bis">White Dragonscale Boots</td><td class="alt">—</td></tr><tr><td class="slot">Neck</td><td class="bis">Amulet of the Dreadgazer</td><td class="alt">—</td></tr><tr><td class="slot">Ears</td><td class="bis">Golden Leaf Earring</td><td class="alt">Sanctum Guardian's Earring, Yunnb's Earring, Earring of the Frozen Skull</td></tr><tr><td class="slot">Rings</td><td class="bis">Ring of Destruction</td><td class="alt">Crystasia's Crystal Ring</td></tr></tbody>
+  </table>
+  <p class="note">Notable clickies/utility: Woven Grass Chestguard, Robe of the Spring, Woven Grass Boots, Woven Grass Bracelet, Dragon Spine Staff, Ring of Dain Frostreaver IV, Tri-Plated Golden Hackle Hammer.</p>
+</section>
+<section class="klass" id="shaman">
+  <h2>Shaman</h2>
+  
+  <table>
+    <thead><tr><th>Slot</th><th>BIS</th><th>Alternates</th></tr></thead>
+    <tbody><tr><td class="slot">Primary</td><td class="bis">Sprinkler of the Spirits</td><td class="alt">Spear of Fate, Spear of Constriction</td></tr><tr><td class="slot">Secondary/Shield</td><td class="bis">Yakatizma's Shield of Crafting</td><td class="alt">Buckler of Insight, Shield of the Wurms</td></tr><tr><td class="slot">Range</td><td class="bis">Brain of Cazic Thule</td><td class="alt">White Dragon Idol, Essence Lens, Orb of the Crimson Bull</td></tr><tr><td class="slot">Head</td><td class="bis">Crown of the Kromzek Kings</td><td class="alt">White Dragon Helm, Crown of Rile</td></tr><tr><td class="slot">Face</td><td class="bis">Akkirus' Mask of Warfare</td><td class="alt">Eye of Cazic Thule, Ssra's Bloodstone Eyepatch</td></tr><tr><td class="slot">Chest</td><td class="bis">Chestplate of Vindication</td><td class="alt">Wolf Caller's Breastplate, Robe of the Azure Sky</td></tr><tr><td class="slot">Arms</td><td class="bis">Spirit Wracked Cord</td><td class="alt">Onyx Chain Sleeves, Silver Chains</td></tr><tr><td class="slot">Back</td><td class="bis">Cloak of the Sky</td><td class="alt">Shroud of Veeshan, Net of the Deep Sea</td></tr><tr><td class="slot">Waist</td><td class="bis">Belt of Dwarf Slaying</td><td class="alt">White Dragon Scale Sash, Grotesque Girdle</td></tr><tr><td class="slot">Shoulders</td><td class="bis">Spirit Wracked Cord</td><td class="alt">Strength of the Elements, Shawl of Perception, Matchless Dragonwing Mantle</td></tr><tr><td class="slot">Wrists</td><td class="bis">Silver Charm of Tranquility, Camii's Bracer of Vigor</td><td class="alt">Spirit Wracked Cord, Silver Bracelet of Speed</td></tr><tr><td class="slot">Legs</td><td class="bis">Onyx Chain Leggings</td><td class="alt">Wolf Caller's Greaves, Ancient Wurm Hide Greaves</td></tr><tr><td class="slot">Hands</td><td class="bis">Do'Vassir's Gauntlets of Might</td><td class="alt">Gauntlets of Dragon Slaying, Onyx Gauntlets</td></tr><tr><td class="slot">Feet</td><td class="bis">White Dragonscale Boots</td><td class="alt">Boots of the Vindicator, Sirran's Boots of Insanity, Shamanistic Shenannigan Boots</td></tr><tr><td class="slot">Neck</td><td class="bis">Amulet of the Dreadgazer</td><td class="alt">Silver Charm of Tranquility, Valtron's Necklace of Wonder</td></tr><tr><td class="slot">Ears</td><td class="bis">Golden Leaf Earring</td><td class="alt">Sanctum Guardian's Earring, Yunnb's Earring, Vyrinn's Earring of Insanity, Essence Pearl</td></tr><tr><td class="slot">Rings</td><td class="bis">Ring of Dain Frostreaver IV</td><td class="alt">Ring of Destruction, Crystasia's Crystal Ring</td></tr></tbody>
+  </table>
+  
+</section>
+<section class="klass" id="necromancer">
+  <h2>Necromancer <span class="tag unranked">Unranked options</span></h2>
+  <div class="callout">eqlwiki.com explicitly disclaims strict BIS: "Gear listed here is not listed as 'Best In Slot'... Pre-Planar gear is not necessarily less useful than an item that is Planar." Treat multi-option slots as HP/Mana-balance build choices. Stat math per the wiki: 1 INT ≈ 10 mana (softcaps past 200 INT), 1 STA = 2 HP.</div>
+  <table>
+    <thead><tr><th>Slot</th><th>Options</th></tr></thead>
+    <tbody><tr><td class="slot">Primary</td><td>Glowing Black Stone, Encyclopedia Necrotheurgia</td></tr><tr><td class="slot">Secondary</td><td>Rokyls Channeling Crystal, Cryosilk Webshield</td></tr><tr><td class="slot">Range</td><td>Dagger of Marnek</td></tr><tr><td class="slot">Head</td><td>Blighted Skullcap, Platinum Tiara</td></tr><tr><td class="slot">Face</td><td>Tobrin's Mystical Eyepatch, Polished Mithril Mask</td></tr><tr><td class="slot">Chest</td><td>Blighted Robe, Crimson Robe of Alendine</td></tr><tr><td class="slot">Arms</td><td>Blighted Sleeves, Cryosilk Sleeves</td></tr><tr><td class="slot">Back</td><td>Mystic Cloak, Cloak of Spiroc Feathers</td></tr><tr><td class="slot">Waist</td><td>Bone-Clasped Girdle</td></tr><tr><td class="slot">Shoulders</td><td>Bloodsoaked Raiment</td></tr><tr><td class="slot">Wrists</td><td>Bracelet of Cessation, Rotted Griffon-Hide Wrist Guard</td></tr><tr><td class="slot">Legs</td><td>Blighted Trousers, Cryosilk Pantaloons</td></tr><tr><td class="slot">Hands</td><td>Blighted Gloves, Cryosilk Gloves</td></tr><tr><td class="slot">Feet</td><td>Blighted Boots, Golden Efreeti Boots</td></tr><tr><td class="slot">Neck</td><td>Black Sapphire Platinum Necklace</td></tr><tr><td class="slot">Ears</td><td>Black Sapphire Electrum Earring</td></tr><tr><td class="slot">Rings</td><td>Djarn's Amethyst Ring, Platinum Fire Wedding Ring</td></tr></tbody>
+  </table>
+  
+</section>
+<section class="klass" id="wizard">
+  <h2>Wizard <span class="tag unranked">Unranked options</span></h2>
+  <div class="callout">The wiki states wizards "don't benefit from gear as much as melee dps classes" — priority is (1) mana-free nuke clickies, (2) total mana, (3) HP/survivability, (4) resists, (5) FT/mana-regen items, well before raw stat-stacking.</div>
+  <table>
+    <thead><tr><th>Slot</th><th>Options</th></tr></thead>
+    <tbody><tr><td class="slot">Primary</td><td>Staff of the Wheel, Blue Crystal Staff</td></tr><tr><td class="slot">Secondary</td><td>Rokyls Channeling Crystal, Cryosilk Webshield</td></tr><tr><td class="slot">Range</td><td>Dragoon Dirk</td></tr><tr><td class="slot">Head</td><td>Platinum Tiara, Carmine Turban, Al'Kabor's Cap of Binding</td></tr><tr><td class="slot">Face</td><td>Polished Mithril Mask, Cryosilk Veil, Augmentor's Mask, Tobrin's Mystical Eyepatch</td></tr><tr><td class="slot">Chest</td><td>Carmine Robe</td></tr><tr><td class="slot">Arms</td><td>Carmine Sleeves</td></tr><tr><td class="slot">Back</td><td>Cryosilk Cloak, White Dragonscale Cloak</td></tr><tr><td class="slot">Waist</td><td>Bone-Clasped Girdle</td></tr><tr><td class="slot">Shoulders</td><td>Squallsurge Shawl, Raiment of Thunder</td></tr><tr><td class="slot">Wrists</td><td>Bracelet of Distortion, Carmine Trinket</td></tr><tr><td class="slot">Legs</td><td>Carmine Pants, Tishan's Kilt</td></tr><tr><td class="slot">Hands</td><td>Carmine Gloves</td></tr><tr><td class="slot">Feet</td><td>Carmine Boots, Golden Efreeti Boots</td></tr><tr><td class="slot">Neck</td><td>Black Sapphire Platinum Necklace, Cryosilk Choker</td></tr><tr><td class="slot">Ears</td><td>Golden Black Sapphire Earring, Ivandyr's Hoop</td></tr><tr><td class="slot">Rings</td><td>Djarn's Amethyst Ring, Solidate Mithril Ring</td></tr></tbody>
+  </table>
+  <p class="note"><b>Priority clicky items:</b> Tier 1 mana-free nukes — Solist's Robe of Invocation, Vermilion Robe of Torrefaction, Shissar Elementalist's Staff. Tier 2 — Sage's Robe (Velious armor quest), Vermilion Orb of Torrefaction. Tier 3 (leveling) — Solist's Icy Wand. Epic weapon Staff of the Four carries an 800 HP rune plus a stacking +3 mana regen clicky.</p>
+</section>
+<section class="klass" id="magician">
+  <h2>Magician <span class="tag unranked">Unranked options</span></h2>
+  
+  <table>
+    <thead><tr><th>Slot</th><th>Options</th></tr></thead>
+    <tbody><tr><td class="slot">Primary</td><td>Torch of Alna</td></tr><tr><td class="slot">Secondary</td><td>Rokyls Channeling Crystal, Cryosilk Webshield</td></tr><tr><td class="slot">Range</td><td>Preserved Split Paw Eye</td></tr><tr><td class="slot">Head</td><td>Apothic Crown</td></tr><tr><td class="slot">Face</td><td>Polished Mithril Mask, Mask of Empowerment</td></tr><tr><td class="slot">Chest</td><td>Apothic Robe</td></tr><tr><td class="slot">Arms</td><td>Apothic Sleeves</td></tr><tr><td class="slot">Back</td><td>Mystic Cloak</td></tr><tr><td class="slot">Waist</td><td>Braided Cinch Cord</td></tr><tr><td class="slot">Shoulders</td><td>Embroidered Black Cape</td></tr><tr><td class="slot">Wrists</td><td>Bracelet of Exertion, Bracelet of Clarification</td></tr><tr><td class="slot">Legs</td><td>Apothic Kilt</td></tr><tr><td class="slot">Hands</td><td>Apothic Gloves</td></tr><tr><td class="slot">Feet</td><td>Apothic Boots, Golden Efreeti Boots</td></tr><tr><td class="slot">Neck</td><td>Black Sapphire Platinum Necklace, Gold White Pendant</td></tr><tr><td class="slot">Ears</td><td>Ivandyr's Hoop, Black Sapphire Electrum Earring</td></tr><tr><td class="slot">Rings</td><td>Platinum Skull Ring</td></tr></tbody>
+  </table>
+  <p class="note">A separate "Velious Quest Armor" comparison (Thurgadin/Kael/Skyshrine/Mischief sets) exists on the class page but wasn't itemized this pass — flagged as a follow-up. Pet focus items and elemental pet choice are a core, separate BIS category not covered here.</p>
+</section>
+<section class="klass" id="enchanter">
+  <h2>Enchanter <span class="tag unranked">Unranked options</span></h2>
+  <div class="callout">Widest spread of "acceptable" items per slot among the casters (up to 4 competitive Chest options) — consistent with the caster classes' general "not strict BIS" framing.</div>
+  <table>
+    <thead><tr><th>Slot</th><th>Options</th></tr></thead>
+    <tbody><tr><td class="slot">Primary</td><td>Rod of Insidious Glamour, Wand of Allure</td></tr><tr><td class="slot">Secondary</td><td>Rokyls Channeling Crystal, Stein of Moggok, Crude Stein</td></tr><tr><td class="slot">Range</td><td>Dragoon Dirk, Thex Dagger</td></tr><tr><td class="slot">Head</td><td>Insidious Halo, Crown of King Tranix, Siryn Hair Hood</td></tr><tr><td class="slot">Face</td><td>Ivory Mask, Incandescent Mask</td></tr><tr><td class="slot">Chest</td><td>Crimson Robe of Alendine, Shiny Robe of the Underfoot, Insidious Robe, Robe of the Ishva</td></tr><tr><td class="slot">Arms</td><td>Insidious Sleeves, Gatorscale Sleeves</td></tr><tr><td class="slot">Back</td><td>White Dragonscale Cloak, Mystic Cloak, Hooded Black Cloak</td></tr><tr><td class="slot">Waist</td><td>Grotesque Girdle, Sphinx Hair Cord, Braided Cinch Cord</td></tr><tr><td class="slot">Shoulders</td><td>Wind Walker's Mantle, Embroidered Black Cape</td></tr><tr><td class="slot">Wrists</td><td>Zombie Flesh Bracer, Bracelet of Woven Grass, Insidious Manacle</td></tr><tr><td class="slot">Legs</td><td>Insidious Pantaloons, Drake-hide Leggings</td></tr><tr><td class="slot">Hands</td><td>Insidious Gloves, Impskin Gloves</td></tr><tr><td class="slot">Feet</td><td>Golden Efreeti Boots, Insidious Slippers</td></tr><tr><td class="slot">Neck</td><td>Necklace of Whispering Winds, Black Sapphire Platinum Necklace</td></tr><tr><td class="slot">Ears</td><td>Earring of Displacement, Black Sapphire Electrum Earring</td></tr><tr><td class="slot">Rings</td><td>Djarn's Amethyst Ring, Platinum Fire Wedding Ring</td></tr></tbody>
+  </table>
+  
+</section>
+
+<section class="notes-section">
+  <h2>Cross-Class Notes</h2>
+  <ul><li><b>Shared caster itemization:</b> Golden Efreeti Boots, Mystic Cloak, Djarn's Amethyst Ring, Black Sapphire Platinum Necklace, and Rokyls Channeling Crystal recur across Necromancer, Wizard, Magician, and Enchanter — these look like shared INT/WIS-caster pieces rather than class-exclusive drops, useful when gearing a multi-caster group.</li><li><b>"First item = BIS" convention:</b> explicitly confirmed on the Paladin and Cleric source pages; extended here to the other melee/hybrid classes' Velious Raiding lists on the same assumption. The four pure-caster classes (Necromancer, Wizard, Magician, Enchanter) do <b>not</b> get this treatment — their pages either explicitly disclaim strict ranking or simply list unranked options.</li><li><b>Ammo slot:</b> not itemized as BIS for any class checked, including Ranger where it's likely to matter most.</li><li><b>+10 / Exaltation upgrades:</b> no class page ties its BIS list to a specific upgrade level. Treat everything above as base-item guidance until a follow-up pass can confirm how upgrades shift rankings.</li><li><b>Content gaps:</b> Berserker and Beastlord have no BIS data on eqlwiki.com at all — this is the wiki's gap, not this research pass's. Monk's raid-tier gearing is only partially documented (Plane of Sky quest rewards are solid, Kunark/Velious-raid tiers are missing).</li></ul>
+</section>
+
+<footer>
+  Source: eqlwiki.com, per the 2026-08-05 research-drop files (<code>eql/_data/research-drops/2026-08-05-*-bis-gear.md</code>) · Built for Bryan's EQL prep. No affiliation with the EQL dev team — verify anything time-sensitive in-game.<br/>
+  <a href="index.html">← Back to EQL Prep</a>
+</footer>
+</div>
+</body>
+</html>

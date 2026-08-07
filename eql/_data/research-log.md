@@ -20,3 +20,14 @@ corresponds to a file processed from `eql/_data/research-drops/`.
 - Open follow-ups from the source doc (unitemized Innoruuk/Maestro loot, unconfirmed epic-quest components in Fear, unresearched Sky random-drop table) carried forward as a flagged section rather than guessed at.
 
 Source: eqlwiki.com, per the underlying 2026-08-05 research-drop files.
+
+## 2026-08-05 — BIS gear guide
+
+**Applied by:** Integration Agent, from `eql-bis-gear-guide.md` handed off directly in chat, sourced from the 2026-08-05 research pass.
+
+**New page — eql/bis-gear.html:**
+- Best-in-slot gear reference for all 16 classes, by slot: standard BIS/Alternates tables for Warrior, Paladin, Shadow Knight, Ranger, Bard, Rogue, Cleric, Druid, Shaman; unranked Options tables for the four pure casters (Necromancer, Wizard, Magician, Enchanter) per the wiki's own "not strict BIS" disclaimers; Monk's blended Plane-of-Sky-reward + quest-track table (raid-tier is a documented gap); explicit content-gap callouts for Berserker and Beastlord (no data exists on eqlwiki.com — not backfilled from classic EQ/P99 per source instructions).
+- Cross-class notes carried over verbatim (shared caster itemization, the "first item = BIS" convention and which classes it applies to, ammo-slot gap, +10/Exaltation caveat).
+- Linked from eql/index.html as a fourth card; card grid adjusted to a clean 2x2 layout.
+
+Source: eqlwiki.com, per the underlying 2026-08-05 research-drop files.
