@@ -54,3 +54,18 @@ Source: eqlwiki.com, class/race pages, item data — per the 2026-08-07 and 2026
 - **Site structure change:** repointed the homepage's trio card from linking directly to the Bard/Shadow Knight/Druid guide to linking to this new roadmap hub instead, since more trio guides are coming — avoids a card-per-trio homepage as the roadmap fills in. The hub itself links out to trio 1's guide.
 
 Source: original design synthesis from confirmed Stances & Invocations mechanics, not a wiki transcription.
+
+## 2026-08-08 — Hunting grounds by class
+
+**Applied by:** Integration Agent, from Bryan's direct chat request ("hunting grounds for each class... leveling path to maximize those efficiencies... Lower Guk is undead for Clerics as well as Befallen. The Hole has lots of summoned") — no research-drop file for this one, researched live via two delegated subagent passes against eqlwiki.com class/spell/zone pages.
+
+**New page — eql/hunting-grounds.html:**
+- Mechanic explainer for eqlwiki.com's Target Type field on damage spells; two confirmed restricted categories found: Undead and Construct/Elemental ("Summoned").
+- Undead specialists with full spell chains: Necromancer (Ward Undead L6 → Expulse Undead L19 → Dismiss Undead L28 → Expel Undead L38 → Banish Undead L46), Paladin (Ward Undead L1 autogranted → Expulse Undead L30), Cleric (Ward Undead L4 → Expulse Undead L13), Shadow Knight (Ward Undead L18 → Expulse Undead L39). Zone table: Befallen, Estate of Unrest, Kithicor Forest, Lower Guk (ghoul side), Butcherblock Chessboard, The Hole (Undead Tower), Plane of Hate, Plane of Fear.
+- Summoned specialists: Druid (Ward Summoned L2 → Expulse Summoned L13), Cleric (Ward Summoned L17 — only class confirmed with both categories), Magician (Ward Summoned L9), Ranger (Ward Summoned L16 → Dismiss Summoned L33). Zone table: The Hole (Golem Tower — directly confirms Bryan's own claim via a near-verbatim wiki quote), Solusek's Eye, Plane of Fear raid targets, Plane of Hate. Nagafen's Lair explicitly ruled out (insufficient type confirmation despite existing site flavor text).
+- Explicit no-bonus list for the other 9 classes checked and cleared: Warrior, Rogue, Monk, Berserker, Beastlord, Shaman, Wizard, Enchanter, Bard — including notes on near-misses that don't count (Rogue's Assassinate is unimplemented, Wizard has no Giant/Dragon nuke, Shaman's Animal spells are non-damage).
+- **Flagged, not presented as fact:** Necromancer's class-page claim of unique Animal/Plant-attacking spells — no matching spell found in its spell tables, likely flavor text. Mistmoore Castle's undead typing — strong vampire flavor but no confirmed Undead Creature Type tag found on NPC pages, unlike Hate/Fear which do carry that tagging.
+- **Content gaps called out:** The Hole and Kithicor Forest are referenced with sourced level ranges/named mobs but are not yet in the Loot Codex's full 32-zone itemization — flagged for a future research pass.
+- Linked from eql/index.html as a 6th card (`.card.hunt`, new `--violet` accent); 3-column grid wraps cleanly at 6 cards.
+
+Source: eqlwiki.com spell pages (Ward Undead, Expulse Undead, Ward Summoned, Expulse Summoned, Dismiss Summoned, full class spell lists for all 16 classes) and zone pages (Estate of Unrest, Befallen, Lower Guk, Kithicor Woods, Butcherblock Mountains, The Hole, Solusek's Eye, Plane of Hate, Plane of Fear, Mistmoore Castle, Nagafen's Lair).

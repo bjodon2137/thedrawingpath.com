@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hunting Grounds by Class — Type-Restricted Damage</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root{
+  --void:#F7F8FA;
+  --stone:#FFFFFF;
+  --stone-2:#F0F2F5;
+  --bone:#1A1D23;
+  --bone-dim:#5B6270;
+  --accent:#2B5B8C;
+  --border:#E2E5EA;
+  --green:#3A7D5C;
+  --amber:#B5883A;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px 90px;}
+
+.hero{padding:56px 24px 32px; border-bottom:1px solid var(--border); background:var(--stone);}
+.hero-inner{max-width:1060px;margin:0 auto;}
+.eyebrow{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:16px;}
+h1{font-weight:800; font-size:clamp(28px,4.4vw,42px); line-height:1.1; margin:0 0 14px; letter-spacing:-0.01em;}
+.sub{font-size:15px; color:var(--bone-dim); max-width:760px; line-height:1.65;}
+.meta-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:22px;}
+.meta-chip{font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--bone-dim); border:1px solid var(--border); background:var(--void); padding:6px 12px; border-radius:4px;}
+
+.section-nav{display:flex; flex-wrap:wrap; gap:0; border-bottom:1px solid var(--border); background:var(--stone); position:sticky; top:0; z-index:10;}
+.section-nav a{flex:1; text-align:center; padding:14px 8px; text-decoration:none; color:var(--bone-dim); font-weight:600; font-size:12px; border-bottom:3px solid transparent; transition:all .15s; white-space:nowrap;}
+.section-nav a:hover{color:var(--bone); background:var(--stone-2);}
+
+.block{padding:44px 0; border-bottom:1px solid var(--border);}
+.block:last-of-type{border-bottom:none;}
+.block h2{font-size:22px; font-weight:800; margin:0 0 6px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.block h3{font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); margin:26px 0 10px; padding-bottom:8px; border-bottom:1px solid var(--border);}
+.block h3:first-of-type{margin-top:18px;}
+.block p, .block li{font-size:14px; line-height:1.75; color:var(--bone);}
+.block ul, .block ol{margin:0; padding-left:20px;}
+.block li{margin-bottom:8px;}
+
+.tag{font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:3px 9px; border-radius:20px;}
+.tag.undead{color:#6B5B95; border:1px solid #6B5B95;}
+.tag.summoned{color:var(--accent); border:1px solid var(--accent);}
+.tag.unconfirmed{color:var(--amber); border:1px solid var(--amber);}
+
+.callout{border:1px solid var(--border); border-left:3px solid var(--accent); background:var(--stone); border-radius:4px; padding:14px 16px; font-size:13.5px; line-height:1.65; color:var(--bone); margin:14px 0;}
+.callout.warn{border-left-color:var(--amber);}
+
+table{width:100%; border-collapse:collapse; font-size:13px; margin:10px 0 18px;}
+thead th{text-align:left; font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--bone-dim); font-weight:600; padding:9px 10px; border-bottom:1px solid var(--border); background:var(--stone-2);}
+tbody td{padding:9px 10px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.55;}
+tbody tr:hover td{background:var(--stone-2);}
+td.lvl{font-family:'JetBrains Mono',monospace; color:var(--bone-dim); white-space:nowrap;}
+td.zone{font-weight:600; white-space:nowrap;}
+
+.class-card{border:1px solid var(--border); border-radius:6px; background:var(--stone); padding:18px 20px; margin-bottom:14px;}
+.class-card h4{margin:0 0 8px; font-size:16px; font-weight:700; display:flex; align-items:center; gap:8px;}
+.class-card .chain{font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--accent); margin-bottom:10px; line-height:1.6;}
+.class-card p{margin:0; font-size:13.5px; color:var(--bone-dim); line-height:1.6;}
+
+.no-bonus-grid{display:flex; flex-wrap:wrap; gap:8px;}
+.no-bonus-chip{font-size:12.5px; border:1px solid var(--border); border-radius:20px; padding:6px 13px; color:var(--bone-dim); background:var(--stone);}
+
+footer{padding-top:24px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); line-height:1.8;}
+footer a{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">EQL Prep · Leveling Reference</div>
+    <h1>Hunting Grounds by Class</h1>
+    <p class="sub">Some classes get direct-damage spells that only work against a specific creature category — Undead or Construct/Elemental ("Summoned"). Parking one of those classes in a zone dominated by its bonus-damage type turns every fight into a mana-efficient, fast-killing loop. This page maps which classes get which type, and which zones actually have the concentration of that type to make it worth leveling there.</p>
+    <div class="meta-row">
+      <div class="meta-chip">2 confirmed type-restricted categories: <b style="color:var(--bone)">Undead</b>, <b style="color:var(--bone)">Construct/Elemental</b></div>
+      <div class="meta-chip">6 of 16 classes get a bonus (Cleric gets both)</div>
+      <div class="meta-chip">10 classes checked, no bonus found</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-nav">
+  <a href="#mechanic">The Mechanic</a>
+  <a href="#undead">Undead</a>
+  <a href="#summoned">Summoned</a>
+  <a href="#no-bonus">No Bonus</a>
+  <a href="#caveats">Caveats</a>
+</div>
+
+<div class="wrap">
+
+<section class="block" id="mechanic">
+  <h2>The Mechanic</h2>
+  <p>eqlwiki.com's spell pages carry an explicit <b>Target Type</b> field. Most direct-damage spells are Target Type: Single (works on anything). A handful are restricted to a specific creature category — cast them on the wrong target and they simply don't land. Two such categories are confirmed and itemized below: <b>Undead</b> and <b>Construct/Elemental</b> (the community and even the wiki itself casually call the second one "Summoned" — see the callout on The Hole below for a direct quote using that exact term).</p>
+  <p>Both confirmed lines follow the same shape: a low-level "Ward" spell, then one or more higher-level upgrades that do more damage for more mana, learned at different levels by different classes. Because these spells cost the same mana as a generic nuke but hit harder against their target type, camping a zone that's actually dominated by that type turns your class's normal kill speed into something meaningfully faster — this is the "hunting ground" effect.</p>
+</section>
+
+<section class="block" id="undead">
+  <h2>Undead Specialists <span class="tag undead">Target Type: Undead</span></h2>
+
+  <h3>Who Gets It</h3>
+  <div class="class-card">
+    <h4>Necromancer</h4>
+    <div class="chain">Ward Undead (L6) → Expulse Undead (L19) → Dismiss Undead (L28) → Expel Undead (L38) → Banish Undead (L46)</div>
+    <p>The longest confirmed Undead chain in the game — five tiers spanning the whole leveling curve. The top three tiers (Dismiss/Expel/Banish Undead) are read off the Necromancer class page directly; unlike Ward Undead and Expulse Undead they don't yet have independently-confirmed standalone spell pages, so treat those three as "sourced, not double-verified."</p>
+  </div>
+  <div class="class-card">
+    <h4>Paladin</h4>
+    <div class="chain">Ward Undead (L1, autogranted) → Expulse Undead (L30)</div>
+    <p>Starts with Ward Undead for free at level 1 — no other class gets it this early. A long gap to the L30 upgrade, but the early access makes Undead zones a strong low-level Paladin option.</p>
+  </div>
+  <div class="class-card">
+    <h4>Cleric</h4>
+    <div class="chain">Ward Undead (L4) → Expulse Undead (L13)</div>
+    <p>Both tiers land early, well ahead of Paladin's upgrade and well ahead of Shadow Knight's whole line. Also the only class with dual specialization — see the Summoned section below.</p>
+  </div>
+  <div class="class-card">
+    <h4>Shadow Knight</h4>
+    <div class="chain">Ward Undead (L18) → Expulse Undead (L39)</div>
+    <p>Latest-arriving of the four Undead classes. Thematically odd (Shadow Knights lean undead-aligned) but mechanically it's the weakest access window of the group.</p>
+  </div>
+
+  <h3>Where to Go</h3>
+  <table>
+    <thead><tr><th>Zone</th><th>Level Range</th><th>What's There</th></tr></thead>
+    <tbody>
+      <tr><td class="zone">Befallen</td><td class="lvl">7–25+</td><td>Nearly the entire monster list is undead: Decaying/Dread Bone/Putrid/Large/Greater/Ice Bone Skeletons, Lesser Mummies, Ghouls, plus the Necromancer Apprentice/Neophyte/Acolyte/Theurgist key-holders. About as pure an Undead zone as exists at this level.</td></tr>
+      <tr><td class="zone">Estate of Unrest</td><td class="lvl">10–35</td><td>Same story — Tormented Dead, Greater/Dark Boned/Dry Bones/Barbed Bone Skeletons, Ghouls, Carrion Ghouls, Skeletal Monks, Lurking Mummies, plus named undead gating each floor.</td></tr>
+      <tr><td class="zone">Kithicor Forest <span class="tag unconfirmed">not yet on this site</span></td><td class="lvl">35–50+, night only (8PM–6AM game time)</td><td>Flips into a massive undead invasion at night: Zombie Troopers/Commanders, Decaying Officers/Footmen/Swordsmen/Healers, Skeleton Infantry through Squad Leader, Undead Cleric/Mendicant, Rotting Knight/Priest. Not in the Loot Codex yet — flagged for a future research pass.</td></tr>
+      <tr><td class="zone">Lower Guk — Ghoul side</td><td class="lvl">30–50+</td><td>Half the zone (the Ghoul Lord's faction) is undead: ghoul lord, ghoul executioner/assassin/cavalier/ritualist/sage/savant/scribe/sentinel/supplier, frenzied ghoul, a reanimated hand. Already fully itemized in the Loot Codex.</td></tr>
+      <tr><td class="zone">Butcherblock Mountains — The Chessboard</td><td class="lvl">~35 (rest of zone is 1–15)</td><td>A distinct high-danger pocket inside an otherwise low-level zone: Undead Pawns/Rooks/Bishops/Knights and an Undead King. The wiki explicitly warns about pulling one too close to another.</td></tr>
+      <tr><td class="zone">The Hole — Undead Tower</td><td class="lvl">~50 (zone is 39–56)</td><td>A tightly-packed vertical tower, no elementals here — "filled with undead... many are necromancers and shadow knights." Named: Ghost of Kindle, Ghost of Glohnor, Keeper of the Tombs, Niltoth the Unholy.</td></tr>
+      <tr><td class="zone">Plane of Hate</td><td class="lvl">48+</td><td>Secondary pocket, not the dominant type: Skeleton (ashenbone drake / Ashenbone Broodmaster), Ghoul (ire ghast / Lord of Ire), Mummy (kiraikuei), Spectre (loathling lich), Zombie (scorn banshee) mixed among Dark Elf/Vampire/Gargoyle types.</td></tr>
+      <tr><td class="zone">Plane of Fear</td><td class="lvl">48–51 (common), 51/55 (named)</td><td>Roughly a third of the common-mob roster: Ghoul (boogeyman), Zombie (fetid fiend), Skeleton (Irak Altil), Spectre (phantasm), Scarecrow (samhain) — mixed with Denizen/Evil Eye/Gargoyle/Gorgon types, so treat as secondary, not primary.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="block" id="summoned">
+  <h2>Summoned Specialists <span class="tag summoned">Target Type: Construct/Elemental</span></h2>
+
+  <h3>Who Gets It</h3>
+  <div class="class-card">
+    <h4>Druid</h4>
+    <div class="chain">Ward Summoned (L2) → Expulse Summoned (L13)</div>
+    <p>Earliest access of any class — Ward Summoned lands at level 2. Matches the framing in the Bard/Shadow Knight/Druid trio guide: Druid's kit front-loads utility, and this is one more piece of it.</p>
+  </div>
+  <div class="class-card">
+    <h4>Cleric</h4>
+    <div class="chain">Ward Summoned (L17)</div>
+    <p>No confirmed upgrade tier yet — just the base spell. Combined with the Undead line above, Cleric is the only class confirmed to have <b>both</b> type-restricted damage categories, making it the most zone-flexible of the six specialist classes.</p>
+  </div>
+  <div class="class-card">
+    <h4>Magician</h4>
+    <div class="chain">Ward Summoned (L9)</div>
+    <p>Thematically fitting — Magicians summon their own pets — though the base spell is all that's confirmed so far, no upgrade tier found.</p>
+  </div>
+  <div class="class-card">
+    <h4>Ranger</h4>
+    <div class="chain">Ward Summoned (L16) → Dismiss Summoned (L33)</div>
+    <p>Second-longest confirmed Summoned chain after Druid's.</p>
+  </div>
+
+  <h3>Where to Go</h3>
+  <div class="callout">
+    <b>The Hole is the single best answer here</b> — confirmed almost word-for-word on eqlwiki.com: <i>"Many of the monsters in the Hole fit the category of 'summoned' creatures... classes that get the line of spells that affect summoned creatures... will be significantly more effective."</i> This directly validates it as the top pick, not just a flavor guess.
+  </div>
+  <table>
+    <thead><tr><th>Zone</th><th>Level Range</th><th>What's There</th></tr></thead>
+    <tbody>
+      <tr><td class="zone">The Hole — Golem Tower / city-castle area <span class="tag unconfirmed">not yet on this site</span></td><td class="lvl">~50 (zone is 39–56)</td><td>Elementals (many are casters) mixed with rock golems and ratman warriors; a separate "Golem Tower" camp. Named: Bejeweled Elemental, Stonesoul the Unmoving, Rocksoul, Stonegrinder Minion. Master Yael (raid boss) leads the elementals at the zone's deepest point. Not in the Loot Codex yet — flagged for a future research pass, same as the zone's Undead Tower above.</td></tr>
+      <tr><td class="zone">Solusek's Eye</td><td class="lvl">20–40 (zone); CWG Model CX confirmed lvl 31</td><td>Three separate pockets: the Efreeti Pits (Blazing Elementals + Reckless Efreeti), the Lava Elemental Room, and a large Clockwork Gnome (CWG) construct population — Models CA/CB/CC, MA/MB/MC, XA/XB/XC, CWG Spider — explicitly described as "clockwork constructs... made of metal and mechanical parts and powered by magic and steam." Already itemized in the Loot Codex.</td></tr>
+      <tr><td class="zone">Plane of Fear — raid targets</td><td class="lvl">48–51+ (raid)</td><td>Fright, Dread, and Terror are all tagged Creature Type: Golem, alongside a non-undead Dragon Skeleton and Cazic Thule himself. Raid-only, not a leveling pocket, but worth knowing if you're doing planar content with a Summoned specialist.</td></tr>
+      <tr><td class="zone">Plane of Hate — Master of Spite pocket</td><td class="lvl">48+</td><td>The common mob "a spite golem" and its named miniboss Master of Spite are tagged Creature Type: Golem — a small pocket relative to the zone's mostly Dark Elf/Undead population.</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn">
+    <b>Ruled out:</b> Nagafen's Lair (Sol B) has "Efreeti's lava chamber" flavor text on this site already, but only one named Efreeti (Efreeti Lord Djarn) and ambiguously-typed "Lava Guardians" — the bulk of the zone is Kobolds and Fire Giants, neither confirmed Construct/Elemental. Don't route a Summoned specialist here expecting Hole- or Solusek's-Eye-level density.
+  </div>
+</section>
+
+<section class="block" id="no-bonus">
+  <h2>Classes With No Type-Restricted Bonus</h2>
+  <p>Checked directly against eqlwiki.com class and spell pages — these ten classes have no confirmed Undead- or Construct/Elemental-restricted damage spell. For these classes, zone choice should follow normal leveling-efficiency logic (loot, XP rate, group availability) rather than chasing a mob-type bonus that doesn't exist.</p>
+  <div class="no-bonus-grid">
+    <span class="no-bonus-chip">Warrior</span>
+    <span class="no-bonus-chip">Rogue</span>
+    <span class="no-bonus-chip">Monk</span>
+    <span class="no-bonus-chip">Berserker</span>
+    <span class="no-bonus-chip">Beastlord</span>
+    <span class="no-bonus-chip">Shaman</span>
+    <span class="no-bonus-chip">Wizard</span>
+    <span class="no-bonus-chip">Enchanter</span>
+    <span class="no-bonus-chip">Bard</span>
+  </div>
+  <p style="margin-top:14px; font-size:13px; color:var(--bone-dim);">Notes on a few near-misses that don't count: Rogue's Assassinate has a Humanoid-only restriction on eqlwiki.com but is explicitly labeled "Not currently implemented in EQ Legends." Wizard has no Giant/Dragon-restricted nuke despite the lore fit — checked the full L1–50 spell list directly. Shaman's only Animal-tagged spells are non-damage utility (Sense Animals, Charm Animals) — no restricted nuke.</p>
+</section>
+
+<section class="block" id="caveats">
+  <h2>Caveats</h2>
+  <div class="callout warn">
+    <b>Necromancer's "Animal/Plant" claim is flagged, not confirmed.</b> The Necromancer class page on eqlwiki.com states the class is "classified as anti-natural" with "unique spells to attack animals and plant based mobs" — but no direct-damage spell with an Animal or Plant Target Type was found anywhere in the Necromancer's spell tables during this research pass. This looks like it may be lore/flavor text not (yet) backed by an actual implemented spell, or the spell exists under a name not yet located. Don't route a Necromancer to an Animal- or Plant-heavy zone expecting a confirmed bonus — only the five-tier Undead chain above is verified for this class.
+  </div>
+  <div class="callout warn">
+    <b>Mistmoore Castle's undead typing is unconfirmed.</b> Mayong Mistmoore's vampire stronghold is dominated by "Ancille," Gargoyle, Gypsy, and Familiar-named mobs — no explicit Undead Creature Type tag was found on eqlwiki.com for these, unlike the Plane of Hate/Fear tables which do carry that tagging. The vampire flavor is strong, but flavor text isn't the same as a confirmed mob type — treat this zone as unconfirmed for Undead-specialist leveling until someone checks the individual NPC pages directly.
+  </div>
+  <div class="callout">
+    <b>The Hole and Kithicor Forest aren't in the Loot Codex yet.</b> Both are referenced above with real, sourced level ranges and named mobs, but neither has full named-mob/loot itemization on this site the way the other 32 zones do. Worth a dedicated research pass if you plan to actually camp either one.
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap" style="padding:0;">
+  Source: eqlwiki.com — spell pages (Ward Undead, Expulse Undead, Ward Summoned, Expulse Summoned, Dismiss Summoned, class spell lists) and zone pages (Estate of Unrest, Befallen, Lower Guk, Kithicor Woods, Butcherblock Mountains, The Hole, Solusek's Eye, Plane of Hate, Plane of Fear, Mistmoore Castle). Built for Bryan's EQL prep. No affiliation with the EQL dev team — verify anything time-sensitive in-game.<br/>
+  <a href="index.html">← Back to EQL Prep</a>
+  </div>
+</footer>
+
+</body>
+</html>
