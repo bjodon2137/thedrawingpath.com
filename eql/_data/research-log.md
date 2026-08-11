@@ -69,3 +69,18 @@ Source: original design synthesis from confirmed Stances & Invocations mechanics
 - Linked from eql/index.html as a 6th card (`.card.hunt`, new `--violet` accent); 3-column grid wraps cleanly at 6 cards.
 
 Source: eqlwiki.com spell pages (Ward Undead, Expulse Undead, Ward Summoned, Expulse Summoned, Dismiss Summoned, full class spell lists for all 16 classes) and zone pages (Estate of Unrest, Befallen, Lower Guk, Kithicor Woods, Butcherblock Mountains, The Hole, Solusek's Eye, Plane of Hate, Plane of Fear, Mistmoore Castle, Nagafen's Lair).
+
+## 2026-08-11 — Spell lists for all 12 spellcasting classes
+
+**Applied by:** Integration Agent, from Bryan's direct chat request ("research the latest information on spells. What spell lists do we have available now") — researched live via three delegated subagent passes against eqlwiki.com's per-class spell-table pages and main class pages (raw wikitext, to avoid fetch truncation on large tables).
+
+**New page — eql/spell-lists.html:**
+- Full level-by-level spell tables for all 12 spellcasting classes: Cleric, Paladin, Shaman, Druid, Necromancer, Magician, Wizard, Enchanter, Bard, Beastlord, Ranger, Shadow Knight — roughly 1,450 spells/songs itemized. Warrior, Rogue, Monk, and Berserker have no dedicated spell list on the wiki and are not included, matching the "no bonus" class list from the hunting-grounds page.
+- Type-restricted damage spells (Undead / Construct-Elemental "Summoned") are tagged inline on each row and summarized per-class at the top of each section, cross-linked to the Hunting Grounds page.
+- **Two corrections to the original hunting-grounds research pass, surfaced by this deeper spell-list research:** Druid's type-restricted line is Summoned-only, not both Undead and Summoned as originally implied — Cleric is the only class confirmed with both. Magician's Summoned line is a full 5-tier chain (Ward Summoned through Banish Summoned), not just the single base spell originally noted. Both corrections are called out explicitly on the new page; hunting-grounds.html itself was not rewritten this pass but should be read alongside this correction.
+- **Known gap:** Enchanter is missing levels 46-50 — the source page exceeded fetch limits past level 45 on every attempt (current revision, two older revisions, and rendered HTML all truncated at the same point). Flagged on-page rather than guessed at.
+- Condensed rather than itemized (for page usability): Cleric/Shaman/Druid's per-deity "Imbue [Gem]" spell families, Druid's ~75 zone-specific teleport spells, Wizard's ~65 travel spells (Gate/Portal/Translocate/Evacuate), and Enchanter's ~174 Level-1 cosmetic "Illusion: [race]" spells — all mechanically identical aside from destination/disguise.
+- Data schema varies by source page: Cleric/Paladin/Shaman/Druid come from flat "All Spells" tables with no Skill or Location columns; the other 8 classes come from richer level-tiered tables that do carry Location (shown in Notes where not a plain Vendor purchase).
+- Linked from eql/index.html as a 7th card (`.card.spelllists`, new `--teal` accent).
+
+Source: eqlwiki.com — Cleric_Spells, Paladin_Spells, Shaman_Spells, Druid_Spells (flat tables), and the main class pages (action=raw wikitext) for Necromancer, Magician, Wizard, Enchanter, Bard, Beastlord, Ranger, Shadow Knight.
