@@ -84,3 +84,15 @@ Source: eqlwiki.com spell pages (Ward Undead, Expulse Undead, Ward Summoned, Exp
 - Linked from eql/index.html as a 7th card (`.card.spelllists`, new `--teal` accent).
 
 Source: eqlwiki.com — Cleric_Spells, Paladin_Spells, Shaman_Spells, Druid_Spells (flat tables), and the main class pages (action=raw wikitext) for Necromancer, Magician, Wizard, Enchanter, Bard, Beastlord, Ranger, Shadow Knight.
+
+## 2026-09-11 — Dungeon crawl guide by level
+
+**Applied by:** Integration Agent, from Bryan's direct chat request ("best dungeons to crawl by level range... XP, loot, named mobs, group size") — researched live by pulling eqlwiki.com's own "Per-Level Hunting Guide" page in full (rendered HTML truncated partway through, so the raw wikitext was fetched instead — both as a full page fetch and, for the two brackets still cut off, via the MediaWiki API's per-section raw endpoint to guarantee completeness).
+
+**New page — eql/dungeon-crawl-guide.html:**
+- All 316 hunting spots from eqlwiki.com's guide, transcribed across all 12 level brackets it defines (1-4 through 55-59) — zone, area/location, mob group, and the guide's own free-text notes (class-suitability tags, named-mob callouts, faction/quest hints, hazards).
+- Preserved the source's own framing rather than imposing new structure: it's written as a solo-hunting guide by default ("Characters on this server generally perform like characters three or more levels higher..."), with group/CC needs surfaced only where the source calls them out in prose (e.g. "need some form of CC to break camp"), not as a fabricated column.
+- The 55-59 bracket is confirmed as the de facto top of the guide — it folds in level-60 "buffer" camps (Plane of Fear, Skyshrine, Icewell Keep, Great Divide, etc.) rather than adding a separate 60+ section; no raid-tier bracket exists on this page.
+- Linked from eql/index.html as an 8th card (`.card.dcg`, new `--rust` accent).
+
+Source: eqlwiki.com/Per-Level_Hunting_Guide — Instructions, Legend, Hunting Spots 1-4 through 55-59, and Credits, pulled via full-page fetch plus targeted per-section raw wikitext fetches (sections 10 and 11, "Hunting Spots 30-34" and "35-39") to recover content lost to fetch-size truncation.
