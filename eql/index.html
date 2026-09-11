@@ -21,6 +21,7 @@
   --violet:#6B5B95;
   --teal:#2B7A78;
   --rust:#9C5B3A;
+  --crimson:#8B3A3A;
 }
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;}
@@ -78,6 +79,7 @@ h1{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; f
 .card.hunt{border-left:3px solid var(--violet);}
 .card.spelllists{border-left:3px solid var(--teal);}
 .card.dcg{border-left:3px solid var(--rust);}
+.card.rares{border-left:3px solid var(--crimson);}
 
 footer{margin-top:20px; padding-top:24px; border-top:1px solid rgba(43,91,140,0.1); font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); line-height:1.8;}
 footer a{color:var(--arcane);}
@@ -142,6 +144,12 @@ footer a{color:var(--arcane);}
       <h2>Dungeon Crawl Guide</h2>
       <p>316 hunting spots across 12 level brackets (1-59) — every zone, area, mob group, and class-fit callout from eqlwiki.com's own Per-Level Hunting Guide.</p>
       <div class="go">Open the Guide</div>
+    </a>
+    <a class="card rares" href="dungeon-crawl-rares.html">
+      <div class="card-icon">Reference · New Feature</div>
+      <h2>Dungeon Crawl: Required Rares</h2>
+      <p>The 9/9/26 patch's new Dungeon Crawl instance mechanic — every rare/named creature you need to clear per zone, sourced from the wiki and cross-checked against community reports, with confidence flags on every entry.</p>
+      <div class="go">Open the Reference</div>
     </a>
   </div>
 

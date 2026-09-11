@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dungeon Crawl Required Rares — EQL Prep</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root{
+  --void:#F7F8FA;
+  --stone:#FFFFFF;
+  --stone-2:#F0F2F5;
+  --bone:#1A1D23;
+  --bone-dim:#5B6270;
+  --accent:#2B5B8C;
+  --border:#E2E5EA;
+  --green:#3A7D5C;
+  --amber:#B5883A;
+  --teal:#2B7A78;
+  --violet:#6B5B95;
+  --rose:#A34D4D;
+  --crimson:#8B3A3A;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px 90px;}
+
+.hero{padding:56px 24px 32px; border-bottom:1px solid var(--border); background:var(--stone);}
+.hero-inner{max-width:1200px;margin:0 auto;}
+.eyebrow{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:16px;}
+h1{font-weight:800; font-size:clamp(28px,4.4vw,42px); line-height:1.1; margin:0 0 14px; letter-spacing:-0.01em;}
+.sub{font-size:15px; color:var(--bone-dim); max-width:860px; line-height:1.65;}
+.meta-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:22px;}
+.meta-chip{font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--bone-dim); border:1px solid var(--border); background:var(--void); padding:6px 12px; border-radius:4px;}
+
+.callout{border:1px solid var(--border); border-left:3px solid var(--accent); background:var(--stone-2); border-radius:4px; padding:14px 16px; font-size:13.5px; line-height:1.65; margin:18px 0;}
+.callout.warn{border-left-color:var(--amber);}
+.callout.crit{border-left-color:var(--crimson); background:#FBF2F2;}
+
+.mechanic{padding:32px 24px 8px;}
+.mechanic h2{font-size:19px; font-weight:800; margin:0 0 10px;}
+.mechanic p{font-size:14px; color:var(--bone-dim); line-height:1.7; max-width:900px;}
+.mechanic ul{font-size:14px; color:var(--bone-dim); line-height:1.8; max-width:900px; padding-left:20px;}
+.discord-quote{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--bone-dim); background:var(--stone-2); border:1px solid var(--border); border-radius:4px; padding:14px 16px; margin:14px 0; line-height:1.8;}
+.discord-quote b{color:var(--bone);}
+
+.legend{display:flex; gap:10px; flex-wrap:wrap; padding:18px 24px 6px;}
+.legend .tier{font-size:11px;}
+
+.zone-nav{
+  display:flex; flex-wrap:wrap; gap:6px; padding:16px 24px; border-bottom:1px solid var(--border);
+  background:var(--stone); position:sticky; top:0; z-index:10;
+}
+.zone-nav a{
+  text-decoration:none; font-size:12px; font-weight:600; color:var(--bone-dim);
+  border:1px solid var(--border); border-radius:20px; padding:5px 12px; transition:all .15s;
+}
+.zone-nav a:hover{color:var(--accent); border-color:var(--accent);}
+
+.zone-block{padding:36px 0; border-bottom:1px solid var(--border);}
+.zone-block:last-of-type{border-bottom:none;}
+.zone-block.excluded{background:#FBF2F2; padding:36px 24px; border-radius:6px; border:1px solid var(--crimson);}
+.zone-eyebrow{font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;}
+.zone-block h2{font-size:21px; font-weight:800; margin:0 0 12px; display:flex; align-items:center; gap:10px;}
+.zone-block .tag{font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:3px 9px; border-radius:20px; color:var(--teal); border:1px solid var(--teal);}
+
+table{width:100%; border-collapse:collapse; font-size:13px;}
+thead th{text-align:left; font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.05em; color:var(--bone-dim); font-weight:600; padding:7px 8px; border-bottom:1px solid var(--border); background:var(--stone-2);}
+tbody td{padding:7px 8px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5;}
+tbody tr:hover td{background:var(--stone-2);}
+td.mob{font-weight:600; white-space:nowrap;}
+td.notes{color:var(--bone-dim); font-size:12px;}
+
+.tier{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; letter-spacing:.03em; padding:3px 8px; border-radius:20px; white-space:nowrap;}
+.t-wiki{color:var(--accent); border:1px solid var(--accent); background:rgba(43,91,140,.06);}
+.t-raretag{color:var(--green); border:1px solid var(--green); background:rgba(58,125,92,.06);}
+.t-community{color:var(--violet); border:1px solid var(--violet); background:rgba(107,91,149,.06);}
+.t-disputed{color:var(--amber); border:1px solid var(--amber); background:rgba(181,136,58,.08);}
+.t-confirmed{color:var(--crimson); border:1px solid var(--crimson); background:rgba(139,58,58,.06);}
+
+footer{padding:24px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bone-dim); line-height:1.8;}
+footer a{color:var(--accent);}
+.backlink{padding:20px 24px 0; font-family:'JetBrains Mono',monospace; font-size:12px;}
+.backlink a{color:var(--accent); text-decoration:none;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="backlink"><a href="index.html">&larr; EQL Prep</a></div>
+    <div class="eyebrow">Reference · Brand-New Feature (9/9/26 Patch)</div>
+    <h1>Dungeon Crawl: Required Rares by Zone</h1>
+    <p class="sub">The 9/9/26 patch replaced Non-Respawning Zones with <b>Dungeon Crawl</b> instances, available in indoor dungeons and all 3 planes. To finish one, you must slay every rare creature in the zone plus enough of the general population. This page compiles, zone by zone, the named/rare creatures that count — sourced from eqlwiki.com, cross-checked against EQLForge and community blogs, since this feature is only 2 days old and no source exposes the game's literal internal flag.</p>
+    <div class="meta-row">
+      <div class="meta-chip">21 zones covered</div>
+      <div class="meta-chip">2 zones flagged as likely invalid crawl targets</div>
+      <div class="meta-chip">Research pass: 2026-09-11</div>
+    </div>
+  </div>
+</div>
+
+<div class="mechanic">
+  <h2>How Dungeon Crawl actually works</h2>
+  <p>Straight from eqlwiki.com/Dungeon_Crawl, quoting the game's own tooltip: nothing you kill respawns naturally; to finish, you must slay every rare creature and enough of the zone's original population; you earn motes and experience, and everything you killed may add loot/coin to a reward chest; the easier the zone is for you, the smaller the payout; finishing refunds your instance charge; and rare creatures show up on your map while a crawl is active (but only if you can see them — some are invisible).</p>
+  <div class="discord-quote">
+<b>Secrets [EQL] (dev), official Discord, 9/9/26:</b><br/>
+"Rare named chances are not increased in Dungeon Crawls. They just appear on the map. We've mostly de-PH'd zones... the whole rare spawn chance thing doesn't really apply anymore."<br/>
+"[Plane of Fear] There are not [any labeled rares]. And that's a bonus and detriment... can continue to run them over and over."<br/>
+"All of the Plane of Sky mobs are also considered rare creatures now, too."<br/>
+"[Groups] You need to be there for a majority of kills to qualify... There are solo and multiplayer crawls... [XP] Personalized."
+  </div>
+  <p><b>The one fully-documented run:</b> a community blogger (chasingdings.com) completed a Nagafen's Lair (Sol B) crawl needing exactly 10 named kills — Kobold Noble, Kobold Champion, Kobold Priest, Kobold King, Stone Spider, Noxious Spider, Death Beetle, Efreeti Lord Djarn, Targin the Rock, and an invisible goblin (Guano Harvester) that doesn't show on the map without See Invisible. Three other well-known Sol B named mobs — King Tranix, Warlord Skarlon, Magus Rokyl — were <i>not</i> required, confirming that not every proper-named NPC in a zone counts.</p>
+  <p><b>Read this with real caution.</b> Nothing below carries that same first-hand certainty except Sol B (not included in the tables below since it's already fully documented in the quote above). Every other zone's list is a proxy — either eqlwiki's Notable/Rare NPC field, or a fan site's rare tag — validated only indirectly against the dev's statement that rares are each zone's pre-existing named/rare-flagged NPCs.</p>
+</div>
+
+<div class="legend">
+  <span class="tier t-wiki">Wiki-confirmed</span>
+  <span class="tier t-raretag">Explicit rare tag</span>
+  <span class="tier t-community">Community-only</span>
+  <span class="tier t-disputed">Disputed</span>
+  <span class="tier t-confirmed">Confirmed (dev/first-hand)</span>
+</div>
+
+<div class="zone-nav">
+<a href="#befallen">Befallen</a>
+<a href="#blackburrow">Blackburrow</a>
+<a href="#gorge-of-king-xorbb">Gorge of King Xorbb (Beholder’s Maze)</a>
+<a href="#upper-guk">Upper Guk</a>
+<a href="#lower-guk">Lower Guk</a>
+<a href="#highpass-hold">Highpass Hold</a>
+<a href="#high-keep">High Keep</a>
+<a href="#qeynos-aqueducts">Qeynos Aqueducts</a>
+<a href="#cazic-thule">Cazic Thule (dungeon)</a>
+<a href="#najena">Najena</a>
+<a href="#runnyeye-citadel">Runnyeye Citadel</a>
+<a href="#splitpaw-lair">Splitpaw Lair</a>
+<a href="#crushbone">Crushbone</a>
+<a href="#kedge-keep">Kedge Keep</a>
+<a href="#mistmoore-castle">Mistmoore Castle</a>
+<a href="#estate-of-unrest">Estate of Unrest</a>
+<a href="#the-hole">The Hole</a>
+<a href="#the-warrens">The Warrens</a>
+<a href="#plane-of-fear">Plane of Fear</a>
+<a href="#plane-of-hate">Plane of Hate</a>
+<a href="#plane-of-sky">Plane of Sky</a></div>
+
+<div class="wrap">
+<section class="zone-block excluded">
+<div class="zone-eyebrow">Not Valid Crawl Targets (probable)</div>
+<h2>Zones excluded from this list</h2>
+<div class="callout warn">These two zones are commonly listed as "indoor dungeons" but neither source found a killable population for them. Flagging here rather than guessing at a rares list.</div>
+<table>
+<thead><tr><th>Zone</th><th>Why it's excluded</th></tr></thead>
+<tbody>
+<tr><td class="mob">The Arena</td><td class="notes">No monster population exists in this zone — wiki and EQLForge both confirm it's purely a duel/tournament venue (Soulbinder Gendal is a non-hostile bind-point NPC, Training Dummy is non-hostile). Almost certainly has no valid Dungeon Crawl content.</td></tr><tr><td class="mob">Temple of Solusek Ro</td><td class="notes">Wiki explicitly lists this zone as “Quest Only” for both Level and Type of Monsters — it's a quest-giver hub with no described killable population. May not support the Dungeon Crawl mechanic (“kill rares + population”) at all.</td></tr>
+</tbody>
+</table>
+</section><section class="zone-block" id="befallen">
+<div class="zone-eyebrow">Antonica — Indoor Dungeons</div>
+<h2>Befallen <span class="tag">10 entries</span></h2>
+<div class="callout warn">The shadowknight key-holders (Dark Elf/Human/Ogre/Troll) look like guaranteed spawns tied to key progression rather than percentage rares — unconfirmed whether Dungeon Crawl counts them.</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">Gynok Moltor</td>
+<td><span class="tier t-raretag">Explicit rare tag</span></td>
+<td class="notes">EQLForge explicitly flags this as the zone's rare (~3% spawn); everything else below is a guaranteed named.</td>
+</tr><tr>
+<td class="mob">Boondin Babbinsbort</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Baron Telyx V’Zher</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Deep in the “Baron room” per a pre-patch clearing account — packed pocket with Soldier/Footman/Knight of V’Zher.</td>
+</tr><tr>
+<td class="mob">Korven Nisere</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Rogue corridor, same deep pocket as the Baron room.</td>
+</tr><tr>
+<td class="mob">Priest Amiaz</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Skeleton L’rodd</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">The Thaumaturgist / Arisen Thaumaturgist</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Kahaptra Z’Taj</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Asaka L’Rei</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Cmdr. Windstream</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="blackburrow">
+<div class="zone-eyebrow">Antonica — Indoor Dungeons</div>
+<h2>Blackburrow <span class="tag">8 entries</span></h2>
+<div class="callout warn">No mob here is flagged “rare” anywhere — all named spawns found look guaranteed rather than percentage-chance.</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">Lord Elgnub</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Zone boss.</td>
+</tr><tr>
+<td class="mob">Tranixx Darkpaw</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Sabertooth Overseer / Mannan of the Sabertooth</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Master Brewer</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Splitpaw Commander / Splitpaw Sharpshooter</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Socho Darkpaw</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">The Gnoll High Shaman</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Sabertooth Clan Necromancer</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="gorge-of-king-xorbb">
+<div class="zone-eyebrow">Antonica — Indoor Dungeons</div>
+<h2>Gorge of King Xorbb (Beholder’s Maze) <span class="tag">9 entries</span></h2>
+<div class="callout warn">The Lord Syrkl / Lord Sviir / Lord Soptyvr evil-eye trio look like a placeholder-style rare pool — EQLForge only corroborates 4 of the wiki's 9 names.</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">King Xorbb</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Zone boss.</td>
+</tr><tr>
+<td class="mob">Lord Soptyvr</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Cross-confirmed on EQLForge.</td>
+</tr><tr>
+<td class="mob">Lord Syrkl</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Wiki-only.</td>
+</tr><tr>
+<td class="mob">Lord Sviir</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Wiki-only.</td>
+</tr><tr>
+<td class="mob">Brahhm</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Cross-confirmed on EQLForge.</td>
+</tr><tr>
+<td class="mob">Yymp the Infernal</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Cross-confirmed on EQLForge.</td>
+</tr><tr>
+<td class="mob">SpinFlint</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Wiki-only.</td>
+</tr><tr>
+<td class="mob">Qlei</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Wiki-only.</td>
+</tr><tr>
+<td class="mob">Goblin Alchemist</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Wiki-only.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="upper-guk">
+<div class="zone-eyebrow">Antonica — Indoor Dungeons</div>
+<h2>Upper Guk <span class="tag">10 entries</span></h2>
+
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">The Froglok Shin Lord</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Zone boss, drops Ghoulbane.</td>
+</tr><tr>
+<td class="mob">Ancient Crocodile</td>
+<td><span class="tier t-raretag">Explicit rare tag</span></td>
+<td class="notes">EQLForge: true rare with an odd spawn pattern / PH.</td>
+</tr><tr>
+<td class="mob">A Giant Heart Spider</td>
+<td><span class="tier t-raretag">Explicit rare tag</span></td>
+<td class="notes">EQLForge: rare named, lvl 15–21.</td>
+</tr><tr>
+<td class="mob">A Fungus Ancient</td>
+<td><span class="tier t-raretag">Explicit rare tag</span></td>
+<td class="notes">EQLForge: rare named.</td>
+</tr><tr>
+<td class="mob">Tempus</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">A Froglok Scryer / Shin Knight / Tonta Knight / Tsu Shaman / Shinta Warrior</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Named caste guards, guaranteed-looking.</td>
+</tr><tr>
+<td class="mob">A Froglok Idealist / Realist / Priest / Summoner / Necromancer</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">A Froglok Nokta Shaman / Gaz Squire / Warden</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">A Fungus Breeder</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Skeletal Monk</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="lower-guk">
+<div class="zone-eyebrow">Antonica — Indoor Dungeons</div>
+<h2>Lower Guk <span class="tag">13 entries</span></h2>
+<div class="callout warn">Confirmed 100% completion took 124 kills incl. 25 rare kills (per eqlwiki's own Dungeon Crawl tracker log) — the highest-density crawl of any zone researched.</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">The Ghoul Lord</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Zone boss.</td>
+</tr><tr>
+<td class="mob">The Froglok King</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Zone boss.</td>
+</tr><tr>
+<td class="mob">Raster of Guk</td>
+<td><span class="tier t-raretag">Explicit rare tag</span></td>
+<td class="notes">EQLForge: “always up in Legends, no placeholder to camp” — likely guaranteed, not percentage-chance, in EQL.</td>
+</tr><tr>
+<td class="mob">An Evil Eye</td>
+<td><span class="tier t-raretag">Explicit rare tag</span></td>
+<td class="notes">EQLForge rare tag; noted as see-invis and dangerous.</td>
+</tr><tr>
+<td class="mob">A Frenzied Ghoul</td>
+<td><span class="tier t-raretag">Explicit rare tag</span></td>
+<td class="notes">EQLForge rare tag.</td>
+</tr><tr>
+<td class="mob">Ghoul Assassin</td>
+<td><span class="tier t-raretag">Explicit rare tag</span></td>
+<td class="notes">EQLForge rare tag.</td>
+</tr><tr>
+<td class="mob">The Ghoul Arch Magus</td>
+<td><span class="tier t-raretag">Explicit rare tag</span></td>
+<td class="notes">EQLForge rare tag.</td>
+</tr><tr>
+<td class="mob">Slaythe the Slayer</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">A Minotaur Patriarch / Elder</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">A Huge Water Elemental</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">A Ghoul Cavalier / Executioner / Savant / Sage / Scribe / Ritualist / Sentinel / Supplier</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">A Froglok Tactician / Herbalist / Crusader / Yun Priest / Noble</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">A Reanimated Hand / A Basalt Gargoyle</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="highpass-hold">
+<div class="zone-eyebrow">Antonica — Indoor Dungeons</div>
+<h2>Highpass Hold <span class="tag">6 entries</span></h2>
+<div class="callout warn">EQLForge tags this zone “Outdoor,” which conflicts with the “indoor dungeons only” premise — verify in-game whether this zone is Dungeon-Crawl-eligible at all before relying on this list.</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">Recfek Shralok</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Cross-confirmed on EQLForge.</td>
+</tr><tr>
+<td class="mob">Hagnis Shralok</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Cross-confirmed on EQLForge.</td>
+</tr><tr>
+<td class="mob">Vexven Mucktail / Grenix Mucktail</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Cross-confirmed on EQLForge.</td>
+</tr><tr>
+<td class="mob">Vopuk Shralok</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Wiki-only.</td>
+</tr><tr>
+<td class="mob">Barn Bloodstone</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Wiki-only.</td>
+</tr><tr>
+<td class="mob">Cyrla Shadowstepper / Dyllin Starsine</td>
+<td><span class="tier t-disputed">Disputed</span></td>
+<td class="notes">Listed on the wiki as Notable NPCs but read as a Rogue trainer / smuggler-area NPC on EQLForge — may not be killable.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="high-keep">
+<div class="zone-eyebrow">Antonica — Indoor Dungeons</div>
+<h2>High Keep <span class="tag">6 entries</span></h2>
+<div class="callout warn">Messiest zone in the set — eqlwiki and EQLForge list almost entirely different names. The dozens of individually-named Guards are almost certainly unique-spawn trash, not Dungeon Crawl rares (same pattern as Sol B's non-required named mobs).</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">Princess Lenia</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Cross-confirmed on EQLForge.</td>
+</tr><tr>
+<td class="mob">Carson McCabe</td>
+<td><span class="tier t-disputed">Disputed</span></td>
+<td class="notes">EQLForge-only, not on the wiki at all — possible post-wiki-update addition.</td>
+</tr><tr>
+<td class="mob">A Pickclaw Goblin Cabalist</td>
+<td><span class="tier t-community">Community-only</span></td>
+<td class="notes">EQLForge only.</td>
+</tr><tr>
+<td class="mob">Mistress Anna / Osargen</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Wiki-only.</td>
+</tr><tr>
+<td class="mob">Tyrana Slil / Dulcyna Blackhand / Isabelle Cellus / Lislia Goldtune</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Wiki-only.</td>
+</tr><tr>
+<td class="mob">~30 individually-named Guards (Blayle, Lancel, Folton, etc.)</td>
+<td><span class="tier t-disputed">Disputed</span></td>
+<td class="notes">Likely unique-spawn trash rather than true rares — not corroborated as Dungeon Crawl targets.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="qeynos-aqueducts">
+<div class="zone-eyebrow">Antonica — Indoor Dungeons</div>
+<h2>Qeynos Aqueducts <span class="tag">6 entries</span></h2>
+<div class="callout warn">Least-settled roster of any zone researched — EQLForge names two mobs (The Sewer King, Azibelle Spavin) that don't appear on the wiki at all.</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">The Sewer King</td>
+<td><span class="tier t-disputed">Disputed</span></td>
+<td class="notes">EQLForge-only: “the oversized rat boss the sewers are named for.” Not on the wiki.</td>
+</tr><tr>
+<td class="mob">Azibelle Spavin</td>
+<td><span class="tier t-disputed">Disputed</span></td>
+<td class="notes">EQLForge-only, lvl 45 shadow knight. Not on the wiki.</td>
+</tr><tr>
+<td class="mob">Cuburt</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Cross-confirmed on EQLForge.</td>
+</tr><tr>
+<td class="mob">Krynta Darkdagger / Ronn Castekin / Mon’Sarna</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Wiki-only.</td>
+</tr><tr>
+<td class="mob">Argyn Shieldstan / Bait Masterson / Drosco</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Wiki-only.</td>
+</tr><tr>
+<td class="mob">Bloated Alligator / An Undead Knight</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Wiki-only.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="cazic-thule">
+<div class="zone-eyebrow">Antonica — Indoor Dungeons</div>
+<h2>Cazic Thule (dungeon) <span class="tag">5 entries</span></h2>
+<div class="callout warn">Wiki text itself calls this exact roster “the rare spawns everyone camps.”</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">Avatar of Fear</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Zone boss.</td>
+</tr><tr>
+<td class="mob">Cazic Cenobite</td>
+<td><span class="tier t-raretag">Explicit rare tag</span></td>
+<td class="notes">EQLForge rare tag.</td>
+</tr><tr>
+<td class="mob">A Stone Golem / Steel Golem / Clay Golem</td>
+<td><span class="tier t-raretag">Explicit rare tag</span></td>
+<td class="notes">EQLForge: all three golem types tagged rare.</td>
+</tr><tr>
+<td class="mob">Tae Ew Archon / Templar / Diviner</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Radiant</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="najena">
+<div class="zone-eyebrow">Antonica — Indoor Dungeons</div>
+<h2>Najena <span class="tag">8 entries</span></h2>
+
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">Najena</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Zone boss.</td>
+</tr><tr>
+<td class="mob">Drelzna</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Trazdon / Rathyl / Rathyl reincarnate</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">The Widowmistress / The Blood Artist / The Tenderizer</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Unbound Flame</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">EQLForge notes it as an easy-to-farm front-wall named.</td>
+</tr><tr>
+<td class="mob">Akksstaff / BoneCracker / Ekeros / Moosh</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Officer Grush / Lost Crusader / The guard captain</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Linara Parlone / A visiting priestess</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="runnyeye-citadel">
+<div class="zone-eyebrow">Antonica — Indoor Dungeons</div>
+<h2>Runnyeye Citadel <span class="tag">7 entries</span></h2>
+<div class="callout warn">Post-Revamp roster (current era) used, not the old Pre-Revamp list. Pickclaw / Unak / Paluk have no fixed spawn point — could be easy to miss on the crawl map.</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">The Goblin King</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Zone boss.</td>
+</tr><tr>
+<td class="mob">Lord Pickclaw</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">No fixed spawn point on Level 4.</td>
+</tr><tr>
+<td class="mob">Battlewizard Unak / Battlelord Paluk</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">No fixed spawn point on Level 4.</td>
+</tr><tr>
+<td class="mob">The Sporali Moldmaster</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Borxx / Sludge Dankmire</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">A Goblin Captain / Goblin Warlord (Clan Runnyeye)</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">An Evil Eye prisoner</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="splitpaw-lair">
+<div class="zone-eyebrow">Faydwer — Indoor Dungeons</div>
+<h2>Splitpaw Lair <span class="tag">8 entries</span></h2>
+<div class="callout warn">A pre-patch clearing account independently confirms The Ishva Mal's chamber packs ~13 mobs, reached via an easy-to-miss underwater secret tunnel.</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">The Ishva Mal</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Zone boss.</td>
+</tr><tr>
+<td class="mob">Kurrpok Splitpaw</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Nisch Val Torash Mashk / Rosch Val L’Vlor</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Tesch Val Kadvem / Tesch Val Deval’Nmak / a Tesch Val Brute</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">A one-eyed gnoll / A Lteth Val Scribe</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">The Mender / The Deviant / The Butcher</td>
+<td><span class="tier t-community">Community-only</span></td>
+<td class="notes">EQLForge only, expands beyond the wiki's structured table.</td>
+</tr><tr>
+<td class="mob">Kerak Splitpaw</td>
+<td><span class="tier t-community">Community-only</span></td>
+<td class="notes">EQLForge only.</td>
+</tr><tr>
+<td class="mob">Verishe Mal Judge / Executioner</td>
+<td><span class="tier t-community">Community-only</span></td>
+<td class="notes">EQLForge only.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="crushbone">
+<div class="zone-eyebrow">Faydwer — Indoor Dungeons</div>
+<h2>Crushbone <span class="tag">7 entries</span></h2>
+<div class="callout warn">Strongest cross-source agreement of any zone — eqlwiki and EQLForge match on names and drops almost exactly.</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">Emperor Crush</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Zone boss.</td>
+</tr><tr>
+<td class="mob">Ambassador DVinn</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Boss tier.</td>
+</tr><tr>
+<td class="mob">Lord Darish</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Chokehold / Bonefire / Marrowbane</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Cross-confirmed drops on both sources.</td>
+</tr><tr>
+<td class="mob">Bloodgurgler / Retlon Brenclog / Rondo Dunfire</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">The Prophet / Orc Trainer / Orc Warden / Orc Warlord / Orc Oracle</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Taskmaster / Orc Slaver</td>
+<td><span class="tier t-community">Community-only</span></td>
+<td class="notes">EQLForge only.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="kedge-keep">
+<div class="zone-eyebrow">Faydwer — Indoor Dungeons</div>
+<h2>Kedge Keep <span class="tag">9 entries</span></h2>
+<div class="callout warn">Fully underwater — water breathing is mandatory to attempt this crawl. Estrella of Gloomwater sees through invisibility.</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">Estrella of Gloomwater</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Sees through invisibility — one of the harder non-boss rares in the game per the wiki.</td>
+</tr><tr>
+<td class="mob">Cauldronboil / Cauldronbubble</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Coralyn Kelpmaiden / Shellara Ebbhunter</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Seahorse Patriarch / Seahorse Matriarch</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Fierce Impaler / Undertow / Swirlspine Guardian</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">A Ferocious Cauldron Shark / Frenzied Cauldron Shark</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Golden Haired Mermaid / Stiletto Fang Piranha</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">A Frenzied Bull Shark / A Ferocious Hammerhead</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Phinigel Autropos</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Raid Instance Only — almost certainly NOT part of the standard-zone crawl.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="mistmoore-castle">
+<div class="zone-eyebrow">Faydwer — Indoor Dungeons</div>
+<h2>Mistmoore Castle <span class="tag">7 entries</span></h2>
+<div class="callout warn">EQLForge explicitly confirms (Aug 18, 2026 patch note) that Mistmoore's named NPCs are now “flagged as rare creatures.” Day/night cycle swaps which named are up (vampires/werewolves at night, nobles/musicians by day) — a full clear may need waiting through a cycle flip.</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">Butler Syncall / Maid Issis</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Cross-confirmed on EQLForge.</td>
+</tr><tr>
+<td class="mob">Garton Viswin / Lasna Cheroon</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Cross-confirmed on EQLForge.</td>
+</tr><tr>
+<td class="mob">Princess Cherista / Mynthi Davissi / Xicotl / Enynti</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Cross-confirmed on EQLForge.</td>
+</tr><tr>
+<td class="mob">An avenging caitiff</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Cross-confirmed on EQLForge.</td>
+</tr><tr>
+<td class="mob">A cloaked dhampyre</td>
+<td><span class="tier t-disputed">Disputed</span></td>
+<td class="notes">Wiki lists as Rare NPC; EQLForge treats as a common mob with confirmed drops.</td>
+</tr><tr>
+<td class="mob">A dark librarian / A hemo enologist / A glyphed ghoul / A fallen noble / An imp familiar</td>
+<td><span class="tier t-disputed">Disputed</span></td>
+<td class="notes">Same discrepancy — wiki says rare, EQLForge says common. Treat as uncertain-tier pending in-game confirmation.</td>
+</tr><tr>
+<td class="mob">Black Dire</td>
+<td><span class="tier t-community">Community-only</span></td>
+<td class="notes">EQLForge only — a rare wolf that spawns when “An Advisor” dies. Not on the wiki's Rare NPC line at all.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="estate-of-unrest">
+<div class="zone-eyebrow">Faydwer — Indoor Dungeons</div>
+<h2>Estate of Unrest <span class="tag">7 entries</span></h2>
+<div class="callout warn">Several rares drop basement/tower/room keys — a full clear may be gated by killing them in a specific order to unlock later areas.</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">Torklar Battlemaster</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Khrix Fritchoff</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Can summon “Khrix Abomination” mid-quest-chain — unclear if the summoned add counts as a separate rare.</td>
+</tr><tr>
+<td class="mob">Garanel Rucksif</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Lesser Blade Fiend / Reclusive Ghoul Magus</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">A priest of Najena / A gnomish spelunker</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">An undead barkeep / An undead brewer / An undead knight of Unrest</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">A reanimated hand (Unrest) / A zombie of an Unrest noble</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="the-hole">
+<div class="zone-eyebrow">Odus — Indoor Dungeons</div>
+<h2>The Hole <span class="tag">10 entries</span></h2>
+<div class="callout warn">Several names (Commander Yarik, Initiate Sirlis, Irslak the Wretched, Niltoth the Unholy, Ulrik the Devout) explicitly substitute randomly for a revenant/wanderer — no fixed placeholder, matching the dev's “de-PH'd” comment. Caradon, Kyrenna, and Mummy of Glohnor are quest-triggered spawns, not roamers — crawl eligibility unconfirmed. Master Yael is a separate Raid Boss encounter.</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">Kejar the Mighty</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">No placeholder — spawns/despawns on a 20-min cycle.</td>
+</tr><tr>
+<td class="mob">Slizik the Mighty / Stonesoul the Unmoving / Rocksoul</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">High Scale Kirn / Nortlav the Scalekeeper</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Dartain the Lost / Jaeil the Insane / Jaeil the Wretched</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Ghost of Glohnor / The Ghost of Kindle / Keeper of the Tombs</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Gibartik / Polzin Mrid / The Stone Caller</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Retseth Tretse</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Behind a lockpick-gated door.</td>
+</tr><tr>
+<td class="mob">Commander Yarik / Initiate Sirlis / Irslak the Wretched / Niltoth the Unholy / Ulrik the Devout</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Random substitute spawns — no fixed placeholder.</td>
+</tr><tr>
+<td class="mob">Caradon</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Quest NPC — wiki explicitly notes this one does NOT need to be killed.</td>
+</tr><tr>
+<td class="mob">Master Yael</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Separate Raid Boss encounter, sees through invis — may sit outside normal-group crawl scope.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="the-warrens">
+<div class="zone-eyebrow">Odus — Indoor Dungeons</div>
+<h2>The Warrens <span class="tag">9 entries</span></h2>
+<div class="callout warn">No invisible-mob warnings found. A high-level necromancer patrols a passage and aggros good-aligned characters per community notes — unclear if it's one of the named below.</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">King Gragnar</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Zone boss.</td>
+</tr><tr>
+<td class="mob">Prince Bragnar</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Prince's Room — drops several Rare-tagged items.</td>
+</tr><tr>
+<td class="mob">Warlord Drrig / Jailer Mkrarrg</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">High Shaman Drogik / Lorekeeper Roggik</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr><tr>
+<td class="mob">Huntmaster Furgrl / Krode the Diviner</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Both drop Rare-tagged items.</td>
+</tr><tr>
+<td class="mob">Packmaster Dledsh</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Rat Room — drops Rare-tagged items.</td>
+</tr><tr>
+<td class="mob">Foodmaster Rargnar / Smithy Rrarrgin</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Kitchen.</td>
+</tr><tr>
+<td class="mob">The Mighty Bear Paw</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Drops a Rare-tagged item.</td>
+</tr><tr>
+<td class="mob">Aderius Rhenar / Grodl Ripclaw / Koajin / The Muglwump / Trainer Daxgrr / Cave Bat Lord</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes"></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="plane-of-fear">
+<div class="zone-eyebrow">The Three Planes</div>
+<h2>Plane of Fear <span class="tag">2 entries</span></h2>
+<div class="callout warn">CONFIRMED NO RARES — direct from the dev on Discord: “Are there any labeled rare creatures there? There are not.” Independently corroborated by the zone's own wiki page (“no rare/named mobs with placeholders”). Completion runs on the general-population kill threshold alone; you lose the bonus mote/loot roll that killing a “named” gives elsewhere, but you can re-run it repeatedly since nothing gates you on a rare spawn.</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">No rare-flagged creatures exist in this zone.</td>
+<td><span class="tier t-confirmed">Confirmed (dev/first-hand)</span></td>
+<td class="notes">Fixed named uniques exist (Irak Altil, Wraith of a Shissir, Phoboplasm) but none are flagged rare — they're part of the ordinary population.</td>
+</tr><tr>
+<td class="mob">Multiple common mobs see through invisibility at the entrance and throughout</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Spinechiller spider, scareling, shiverback, boogeyman, phantasm, samhain, fetid fiend, Wraith of a Shissir all always see invis.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="plane-of-hate">
+<div class="zone-eyebrow">The Three Planes</div>
+<h2>Plane of Hate <span class="tag">11 entries</span></h2>
+<div class="callout warn">The cleanest data of any zone researched — the wiki has an explicit “Minibosses” section, the closest structured match to the game's actual rare flag found anywhere. 7 of 10 minibosses require See Invisible to pull safely. Innoruuk (the deity) is likely outside normal-group crawl scope, same as Master Yael in The Hole.</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">Ashenbone Broodmaster</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Skeleton Necromancer — Knockback, See Invis.</td>
+</tr><tr>
+<td class="mob">Avatar of Abhorrence</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Gargoyle Rogue — See Invis.</td>
+</tr><tr>
+<td class="mob">Coercer T’vala</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Vampire Enchanter — See Invis.</td>
+</tr><tr>
+<td class="mob">Grandmaster R’Tal</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Zombie Monk — Strong Disease, See Invis.</td>
+</tr><tr>
+<td class="mob">High Priest M’kari</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Dark Elf Guard Cleric.</td>
+</tr><tr>
+<td class="mob">Lord of Ire</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Ghoul Shadow Knight — See Invis.</td>
+</tr><tr>
+<td class="mob">Lord of Loathing</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Spectre Wizard — melee stun proc.</td>
+</tr><tr>
+<td class="mob">Magi P’Tasa</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Vampire Magician — See Invis.</td>
+</tr><tr>
+<td class="mob">Master of Spite</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Golem Shaman — very high magic resist.</td>
+</tr><tr>
+<td class="mob">Mistress of Scorn</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Zombie Warrior — Strong Disease, See Invis.</td>
+</tr><tr>
+<td class="mob">Innoruuk (God)</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Deity / raid target — likely outside normal Dungeon Crawl scope.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="zone-block" id="plane-of-sky">
+<div class="zone-eyebrow">The Three Planes</div>
+<h2>Plane of Sky <span class="tag">11 entries</span></h2>
+<div class="callout warn">UNIQUE MECHANIC: per the dev on Discord, “All of the Plane of Sky mobs are also considered rare creatures now, too... Bosses. They weren't flagged before.” That means every mob in the zone — not just island bosses — counts as rare here; the rare pool and general population are effectively the same set. Key-gated: you clear island by island and can't skip ahead. Boss NPCs no longer have a deathtouch mechanic (confirmed EQL-specific change).</div>
+<table>
+<thead><tr><th>Creature</th><th>Source confidence</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td class="mob">Thunder Spirit Princess</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Island 1 — Fairy Island.</td>
+</tr><tr>
+<td class="mob">Noble Dojorn</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Island 1.5 — Noble Island. Killing him spawns Overseer of Air.</td>
+</tr><tr>
+<td class="mob">Protector of Sky</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Island 2 — Azarack Island. Aggros immediately.</td>
+</tr><tr>
+<td class="mob">Gorgalosk</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Island 3 — Harpy Island. Stone Breath stun, watch for knockback near edges.</td>
+</tr><tr>
+<td class="mob">Keeper of Souls</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Island 4 — Pegasus Island. Mobs aggro after first kill.</td>
+</tr><tr>
+<td class="mob">The Spiroc Lord</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Island 5 — Spiroc Island. Aggros immediately.</td>
+</tr><tr>
+<td class="mob">Bazzt Zzzt (Queen Bee)</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Island 6 — Bee Island. Split-spawn chain (Bazzzazzt → Bizazzt); only certain splits yield the boss. Aggros immediately.</td>
+</tr><tr>
+<td class="mob">Sister of the Spire</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Island 7 — Drake Island.</td>
+</tr><tr>
+<td class="mob">Eye of Veeshan</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Island 8 — Veeshan Island, final boss (~32,000 HP at base difficulty).</td>
+</tr><tr>
+<td class="mob">Hand of Veeshan</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Spawns after Overseer of Air is killed.</td>
+</tr><tr>
+<td class="mob">Every other mob in the zone</td>
+<td><span class="tier t-wiki">Wiki-confirmed</span></td>
+<td class="notes">Per the dev, all Sky trash is now rare-flagged too — there is no separate “general population” here.</td>
+</tr>
+</tbody>
+</table>
+</section>  <footer>
+    Named/rare rosters sourced from eqlwiki.com's per-zone Notable/Rare NPC data (raw wikitext), cross-checked against eqlforge.com and chasingdings.com where available. Dungeon Crawl mechanic text and Discord dev quotes sourced from eqlwiki.com/Dungeon_Crawl.<br/>
+    This is a 2-day-old feature — treat every list as a best-available proxy, not a guaranteed in-game roster. No affiliation with the EQL dev team; verify anything time-sensitive in-game before committing to a crawl.<br/>
+    Built for Bryan's EQL prep. See also: <a href="dungeon-crawl-guide.html">Dungeon Crawl Guide</a> (per-level hunting spots — a different, older reference; unrelated to this instance feature despite the shared name).
+  </footer>
+</div>
+
+</body>
+</html>
