@@ -124,3 +124,11 @@ Source: eqlwiki.com/Dungeon_Crawl (mechanic + Discord transcript), eqlwiki.com p
 - All 8 named entries upgraded to the "Confirmed (dev/first-hand)" tier; the missing 9th is tagged "Disputed" pending identification.
 
 Source: Bryan's own in-game Dungeon Crawl completion of Cazic Thule, 2026-09-12.
+
+## 2026-09-12 — Cazic Thule correction: Avatar of Fear is required
+
+**Applied by:** Integration Agent, from Bryan's direct correction ("Avatar of Fear is required") to the same-day Cazic Thule update, which had wrongly carried Avatar of Fear over as a confirmed exclusion.
+
+**Updated — eql/dungeon-crawl-rares.html, Cazic Thule section:** Avatar of Fear now fills the 9th (previously unidentified) rare slot, tagged "Confirmed (dev/first-hand)." Radiant remains confirmed excluded — that part of the earlier correction stands. The zone's confirmed 9-rare roster is now complete: A Lizard Ritualist, A Clay Golem, Tae Ew Archon, Cazic Cenobite, Tae Ew Diviner, Tae Ew Templar, Steel Golem, Stone Golem, Avatar of Fear.
+
+Source: Bryan's own in-game verification, 2026-09-12.
