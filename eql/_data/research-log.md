@@ -140,3 +140,15 @@ Source: Bryan's own in-game verification, 2026-09-12.
 **Correction — eql/dungeon-crawl-rares.html, Cazic Thule section:** the 9th rare is **Avatar of Fear pet** (a pet/add that spawns during the Avatar of Fear encounter), not the Avatar of Fear boss itself as the previous same-day update stated. This is now log-verified rather than recalled from memory — the highest-confidence source available for this zone.
 
 Source: Bryan's own EverQuest Legends combat log, connected folder D:\Everquest\Logs, entries timestamped 2026-09-11 08:11:59–09:13:23.
+
+## 2026-09-12 — Lower Guk required rares, log-verified
+
+**Applied by:** Integration Agent, from Bryan's own Lower Guk Dungeon Crawl tally ("Total Rares: 25," 24 listed, "I'm missing 1 kill") cross-referenced against his connected EverQuest Legends combat log (D:\Everquest\Logs\eqlog_Catseye_qeynos.txt), covering his Sat Sep 12, 00:30–02:45 run.
+
+**Updated — eql/dungeon-crawl-rares.html, Lower Guk section:** replaced the previous 13-entry wiki/EQLForge-sourced proxy list (several rows were grouped slashes, e.g. "A Ghoul Cavalier / Executioner / Savant...") with the full 25-entry log-verified roster, each tagged with Dead Side/Live Side location. All 24 of Bryan's listed rares check out in the log — several were credited to his pet ("X has been slain by Catseye`s warder") rather than to him directly, likely why they were easy to miss from memory. One naming correction: the Ghoul Lord's actual in-game name is **Hoptor Thaggelum**, not "Hopptor" — he has his own pet (Hoptor Thaggelum pet) that also dies in the fight.
+
+**25th rare — narrowed, not yet confirmed:** cross-checking every "slain" line in the run for singleton kills (died exactly once, vs. population trash which died many times) surfaced exactly two candidates not on Bryan's list: a froglok nok shaman and a froglok yun shaman (both Live Side). Everything else that died once is already one of the 24; everything that died multiple times (wan/zol/dar/vis ghoul knights, ghoul wizards of various castes, greater minotaurs, greater ice bones, basalt gargoyle, vampire bat) is population trash, not a rare. Flagged "Disputed" pending Bryan's confirmation of which one.
+
+**Note:** Slaythe the Slayer and A Basalt Gargoyle, both carried over from the original wiki-sourced list, did NOT appear as singleton/rare-pattern kills in this run's log (gargoyle died 3 times = trash; Slaythe didn't appear at all) — removed from the required-rares table. They may still exist as zone NPCs, just not part of this crawl's required set, matching the Cazic Thule precedent (not every named NPC counts).
+
+Source: Bryan's own EverQuest Legends combat log, connected folder D:\Everquest\Logs, entries timestamped 2026-09-12 00:30:xx–02:45:45, cross-referenced against Bryan's manually reported 24-item list.
