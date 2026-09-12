@@ -111,3 +111,16 @@ Source: eqlwiki.com/Per-Level_Hunting_Guide — Instructions, Legend, Hunting Sp
 - **Standing caveat:** this is bleeding-edge content. Every list here should be treated as a best-available proxy pending in-game confirmation, not a guaranteed roster — re-verify anything time-sensitive before relying on it for a crawl.
 
 Source: eqlwiki.com/Dungeon_Crawl (mechanic + Discord transcript), eqlwiki.com per-zone pages (raw wikitext, Notable/Rare NPC fields) for all 21 zones, cross-checked against eqlforge.com zone pages and chasingdings.com ("EverQuest Legends: The New Dungeon Crawl," 9/9/26, and "EverQuest Legends: Clearing Dungeons," 8/13/26).
+
+## 2026-09-12 — Cazic Thule required rares, in-game verified
+
+**Applied by:** Integration Agent, from Bryan's direct in-game verification ("I verified this myself") of the Cazic Thule Dungeon Crawl rares list, superseding the wiki/EQLForge-sourced proxy list from the 2026-09-11 pass.
+
+**Updated — eql/dungeon-crawl-rares.html, Cazic Thule section:**
+- Confirmed total is exactly 9 rares, up from the previous 5-entry proxy list.
+- 8 of 9 confirmed by name with location and level: A Lizard Ritualist (Maze, 30), A Clay Golem (Maze, 25), Tae Ew Archon (Pyramid, 34), Cazic Cenobite (Avatar of Fear orb room), Tae Ew Diviner (Throne Room, 28), Tae Ew Templar (Throne Room, 28), Steel Golem (Alligator Pit, 37), Stone Golem (Off Throne Room, 29).
+- 9th rare not identified — Bryan confirmed it exists (to reach the total of 9) but couldn't recall the name. Explicitly confirmed **not** Radiant.
+- Radiant and Avatar of Fear, both carried over from the original wiki-sourced list, are now confirmed **excluded** from the required set — first real case in this dataset of the "not every named NPC counts" pattern (matching the Sol B precedent) being independently confirmed by a second source.
+- All 8 named entries upgraded to the "Confirmed (dev/first-hand)" tier; the missing 9th is tagged "Disputed" pending identification.
+
+Source: Bryan's own in-game Dungeon Crawl completion of Cazic Thule, 2026-09-12.
