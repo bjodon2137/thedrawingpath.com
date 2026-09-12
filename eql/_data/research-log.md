@@ -132,3 +132,11 @@ Source: Bryan's own in-game Dungeon Crawl completion of Cazic Thule, 2026-09-12.
 **Updated — eql/dungeon-crawl-rares.html, Cazic Thule section:** Avatar of Fear now fills the 9th (previously unidentified) rare slot, tagged "Confirmed (dev/first-hand)." Radiant remains confirmed excluded — that part of the earlier correction stands. The zone's confirmed 9-rare roster is now complete: A Lizard Ritualist, A Clay Golem, Tae Ew Archon, Cazic Cenobite, Tae Ew Diviner, Tae Ew Templar, Steel Golem, Stone Golem, Avatar of Fear.
 
 Source: Bryan's own in-game verification, 2026-09-12.
+
+## 2026-09-12 — Cazic Thule 9th rare identified via combat log
+
+**Applied by:** Integration Agent, cross-referencing Bryan's connected EverQuest Legends install (D:\Everquest\Logs\eqlog_Catseye_qeynos.txt) after his verbal correction that Avatar of Fear is required. The full combat log for his Fri Sep 11 08:11–09:13 Cazic Thule Dungeon Crawl shows exactly 9 distinct named/rare "You have slain" lines, matching his reported total precisely: Tae Ew Archon, Cazic Cenobite, Tae Ew Templar, Tae Ew Diviner, a lizard ritualist, a clay golem, a steel golem, a stone golem, and Avatar of Fear pet.
+
+**Correction — eql/dungeon-crawl-rares.html, Cazic Thule section:** the 9th rare is **Avatar of Fear pet** (a pet/add that spawns during the Avatar of Fear encounter), not the Avatar of Fear boss itself as the previous same-day update stated. This is now log-verified rather than recalled from memory — the highest-confidence source available for this zone.
+
+Source: Bryan's own EverQuest Legends combat log, connected folder D:\Everquest\Logs, entries timestamped 2026-09-11 08:11:59–09:13:23.
