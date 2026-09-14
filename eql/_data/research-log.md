@@ -152,3 +152,13 @@ Source: Bryan's own EverQuest Legends combat log, connected folder D:\Everquest\
 **Note:** Slaythe the Slayer and A Basalt Gargoyle, both carried over from the original wiki-sourced list, did NOT appear as singleton/rare-pattern kills in this run's log (gargoyle died 3 times = trash; Slaythe didn't appear at all) — removed from the required-rares table. They may still exist as zone NPCs, just not part of this crawl's required set, matching the Cazic Thule precedent (not every named NPC counts).
 
 Source: Bryan's own EverQuest Legends combat log, connected folder D:\Everquest\Logs, entries timestamped 2026-09-12 00:30:xx–02:45:45, cross-referenced against Bryan's manually reported 24-item list.
+
+## 2026-09-14 — The Warrens required rares, log-verified and confirmed
+
+**Applied by:** Integration Agent, from Bryan's own Warrens Dungeon Crawl tally cross-referenced against his connected EverQuest Legends combat log (D:\Everquest\Logs\eqlog_Catseye_qeynos.txt), covering his Mon Sep 14, 08:48–11:13 run — then reconciled against his final confirmed 18-item list.
+
+**Updated — eql/dungeon-crawl-rares.html, The Warrens section:** replaced the previous 9-entry wiki-sourced proxy list (several grouped slash-rows) with the full 18-entry confirmed roster, each tagged with level where Bryan supplied it. Log analysis of the run initially surfaced 21 candidate named kills; Bryan's own review of his tracker pared this to the correct 18. Four names killed during the run were confirmed **not** part of the required set: A Kobold Master Blacksmith, Koajin, Kujanko, and Owakanji — matching the established pattern that not every named/proper-noun NPC a player kills counts toward a zone's Dungeon Crawl requirement (see Cazic Thule's Radiant exclusion and Nagafen's Lair's King Tranix/Warlord Skarlon/Magus Rokyl exclusions).
+
+**Notable log detail:** The Mighty Bear Paw (confirmed required, level 24) was mid-fight in the log — a long, dangerous encounter (healing pet, Chaos Flux nuke, killed Bryan twice) — right up to the exact second the crawl registered complete, with no explicit "has been slain" line captured in the window. Included per Bryan's confirmation despite the ambiguous log ending.
+
+Source: Bryan's own EverQuest Legends combat log, connected folder D:\Everquest\Logs, entries timestamped 2026-09-14 08:48–11:13, reconciled against Bryan's manually reported and corrected 18-item list.
