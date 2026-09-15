@@ -162,3 +162,13 @@ Source: Bryan's own EverQuest Legends combat log, connected folder D:\Everquest\
 **Notable log detail:** The Mighty Bear Paw (confirmed required, level 24) was mid-fight in the log — a long, dangerous encounter (healing pet, Chaos Flux nuke, killed Bryan twice) — right up to the exact second the crawl registered complete, with no explicit "has been slain" line captured in the window. Included per Bryan's confirmation despite the ambiguous log ending.
 
 Source: Bryan's own EverQuest Legends combat log, connected folder D:\Everquest\Logs, entries timestamped 2026-09-14 08:48–11:13, reconciled against Bryan's manually reported and corrected 18-item list.
+
+## 2026-09-15 — Plane of Hate/Fear armor sets, converted to per-class table
+
+**Applied by:** Integration Agent, from Bryan's request to identify which Plane of Hate/Fear armor set belongs to each class, then turn the answer into a proper table on the site.
+
+**Updated — eql/planes-of-power.html, Loot Groups sections (Hate and Fear):** the existing prose bullet lists (from the original research pass) already had this data but buried in parenthetical class-code shorthand — converted both into a shared 18-row table (16 classes + the two class-unrestricted bonus sets, Lustrous Russet and Midnight Clad Armor) with a Group 1/Group 2 pool column. Confirmed via the existing research that Hate and Fear drop identical set names/class assignments — the Fear section now states this explicitly instead of repeating the full list, with its own table for scannability.
+
+No new research was needed — this was a presentation upgrade of already-sourced data (originally from eqlwiki.com per the 2026-08 planes-of-power.html build).
+
+Source: eql/planes-of-power.html's existing Loot Groups content (unchanged data, restructured presentation).
